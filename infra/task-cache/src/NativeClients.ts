@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { developerIdentity } from "./developerAuth.ts";
 
-export const routePrefix = "/projects/t3code/native-clients/";
+export const routePrefix = "/projects/jcode/native-clients/";
 
 export class NativeClientsError extends Schema.TaggedError<NativeClientsError>()(
   "NativeClientsError",
@@ -56,7 +56,7 @@ const make = Effect.gen(function* () {
   const limit = Effect.fn("NativeClients.limit")(function* (writing: boolean) {
     const allowed = yield* r2(() =>
       (writing ? bindings.storeLimit : bindings.readLimit).limit({
-        key: writing ? "t3code:native-store" : "t3code:native-read",
+        key: writing ? "jcode:native-store" : "jcode:native-read",
       }),
     );
     if (!allowed.success)

@@ -226,7 +226,7 @@ describe("buildThreadActionItems", () => {
       icon: null,
       run: async () => undefined,
     });
-    const projects = [action("new-thread-in:t3code", "t3code"), action("new-thread-in:web", "web")];
+    const projects = [action("new-thread-in:jcode", "jcode"), action("new-thread-in:web", "web")];
     const newThreadIn = {
       kind: "submenu" as const,
       value: "action:new-thread-in",
@@ -250,7 +250,7 @@ describe("buildThreadActionItems", () => {
         projectSearchItems: [],
         threadSearchItems: [
           ...buildThreadActionItems({
-            threads: [makeThread({ title: "Thread about t3code" })],
+            threads: [makeThread({ title: "Thread about jcode" })],
             projectByKey: new Map(),
             icon: null,
             runThread: async () => undefined,
@@ -258,12 +258,12 @@ describe("buildThreadActionItems", () => {
         ],
       }).map((group) => [group.label, group.items.map((item) => item.title)]);
 
-    expect(search("new thread in t3code", false)[0]).toEqual([
+    expect(search("new thread in jcode", false)[0]).toEqual([
       "Suggestions",
-      ["New thread in t3code"],
+      ["New thread in jcode"],
     ]);
     expect(search("new thread", false).map(([label]) => label)).not.toContain("Suggestions");
-    expect(search("t3", true)).toEqual([["Projects", ["t3code"]]]);
+    expect(search("t3", true)).toEqual([["Projects", ["jcode"]]]);
     expect(search("add project", true)).toEqual([["Actions", ["Add project"]]]);
   });
 
@@ -422,8 +422,8 @@ describe("buildThreadActionItems", () => {
             {
               kind: "action",
               value: "action:new-thread",
-              searchTerms: ["New thread in t3code"],
-              title: "New thread in t3code",
+              searchTerms: ["New thread in jcode"],
+              title: "New thread in jcode",
               icon: null,
               run: async () => undefined,
             },
@@ -557,15 +557,15 @@ describe("buildThreadActionItems", () => {
               value: "action:new-thread",
               searchTerms: ["new thread", "chat"],
               // Styled: not a string, so only `searchTitle` holds its words.
-              title: ["New thread in ", "t3code"],
-              searchTitle: "New thread in t3code",
+              title: ["New thread in ", "jcode"],
+              searchTitle: "New thread in jcode",
               icon: null,
               run: async () => undefined,
             },
           ],
         },
       ],
-      query: "> new t3code",
+      query: "> new jcode",
       isInSubmenu: false,
       projectSearchItems: [],
       threadSearchItems: [],
@@ -644,7 +644,7 @@ describe("buildThreadActionItems", () => {
     });
     const items = buildThreadActionItems({
       threads: [idThread, titleThread],
-      projectByKey: new Map([[`${LOCAL_ENVIRONMENT_ID}:${PROJECT_ID}`, { title: "T3 Code" }]]),
+      projectByKey: new Map([[`${LOCAL_ENVIRONMENT_ID}:${PROJECT_ID}`, { title: "JCode" }]]),
       icon: null,
       runThread: async (_thread) => undefined,
     });

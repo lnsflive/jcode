@@ -115,7 +115,7 @@ it.effect("lists the fetch and push URLs of a partial clone remote", () =>
       "set-url",
       "--push",
       "origin",
-      "git@github.com:octocat/t3code.git",
+      "git@github.com:octocat/jcode.git",
     ]);
     yield* runGit(cwd, ["config", "remote.origin.promisor", "true"]);
     yield* runGit(cwd, ["config", "remote.origin.partialclonefilter", "blob:none"]);
@@ -125,7 +125,7 @@ it.effect("lists the fetch and push URLs of a partial clone remote", () =>
       {
         name: "origin",
         url: "https://github.com/lnsflive/jcode.git",
-        pushUrl: Option.some("git@github.com:octocat/t3code.git"),
+        pushUrl: Option.some("git@github.com:octocat/jcode.git"),
         isPrimary: true,
       },
     ]);

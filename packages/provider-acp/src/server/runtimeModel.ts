@@ -1111,7 +1111,7 @@ export function extractMcpToolCallIdentity(
           boundary >= 0 &&
           !/[A-Za-z0-9]/.test(metaToolName.charAt(boundary)))
       ) {
-        return { server: "t3-code", tool: knownTool };
+        return { server: "jcode", tool: knownTool };
       }
     }
   }
@@ -1146,7 +1146,7 @@ export function extractMcpToolCallIdentity(
       T3_MCP_BARE_TITLE_CALL.exec(trimmed);
     const candidateTool = match?.groups?.tool;
     if (candidateTool !== undefined && T3_MCP_TOOL_NAMES.has(candidateTool)) {
-      return { server: "t3-code", tool: candidateTool };
+      return { server: "jcode", tool: candidateTool };
     }
   }
   const commands = [
@@ -1159,7 +1159,7 @@ export function extractMcpToolCallIdentity(
     const match = ACP_MCP_FALLBACK_CALL.exec(command);
     if (match?.[1] !== undefined) {
       const input = acpMcpFallbackInput(match[2]);
-      return { server: "t3-code", tool: match[1], ...(input === undefined ? {} : { input }) };
+      return { server: "jcode", tool: match[1], ...(input === undefined ? {} : { input }) };
     }
   }
   return undefined;

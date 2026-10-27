@@ -21,17 +21,17 @@ describe("findProjectForChangeRequest", () => {
   it("matches a nested GitLab group by the whole path below the host", () => {
     const projects = [
       project({
-        canonicalKey: "gitlab.com/t3tools/platform/t3code",
+        canonicalKey: "gitlab.com/t3tools/platform/jcode",
         provider: SourceControlProviderKind.make("gitlab"),
-        displayName: "t3tools/platform/t3code",
+        displayName: "t3tools/platform/jcode",
         owner: "t3tools",
-        name: "t3code",
+        name: "jcode",
       }),
     ];
     expect(
       findProjectForChangeRequest(projects, {
         host: "gitlab.com",
-        repository: "t3tools/platform/t3code",
+        repository: "t3tools/platform/jcode",
         number: 42,
       }),
     ).toBe(projects[0]);
@@ -42,8 +42,8 @@ describe("findProjectForChangeRequest", () => {
       project({
         canonicalKey: "github.com/lnsflive/jcode",
         provider: SourceControlProviderKind.make("github"),
-        owner: "pingdotgg",
-        name: "t3code",
+        owner: "lnsflive",
+        name: "jcode",
       }),
     ];
     expect(

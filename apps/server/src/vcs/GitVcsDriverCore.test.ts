@@ -3692,7 +3692,7 @@ it.layer(layerTest)("GitVcsDriver core integration", (it) => {
         const added = yield* driver.ensureRemote({
           cwd,
           preferredName: "origin",
-          url: "https://github.com/another-owner/t3code.git",
+          url: "https://github.com/another-owner/jcode.git",
         });
         assert.equal(added, "origin-1");
       }),
@@ -3757,35 +3757,35 @@ it.layer(layerTest)("GitVcsDriver core integration", (it) => {
 
         const reusedForSsh = yield* driver.ensureRemote({
           cwd,
-          preferredName: "pingdotgg",
+          preferredName: "lnsflive",
           url: "git@github.com:lnsflive/jcode.git",
         });
         assert.equal(reusedForSsh, "origin");
 
         const reusedForSshScheme = yield* driver.ensureRemote({
           cwd,
-          preferredName: "pingdotgg",
+          preferredName: "lnsflive",
           url: "ssh://git@github.com/lnsflive/jcode",
         });
         assert.equal(reusedForSshScheme, "origin");
 
         const reusedForBareSshScheme = yield* driver.ensureRemote({
           cwd,
-          preferredName: "pingdotgg",
+          preferredName: "lnsflive",
           url: "ssh://github.com/lnsflive/jcode",
         });
         assert.equal(reusedForBareSshScheme, "origin");
 
         const reusedForSshPort = yield* driver.ensureRemote({
           cwd,
-          preferredName: "pingdotgg",
+          preferredName: "lnsflive",
           url: "ssh://git@github.com:22/lnsflive/jcode",
         });
         assert.equal(reusedForSshPort, "origin");
 
         const reusedForSshWithPort = yield* driver.ensureRemote({
           cwd,
-          preferredName: "pingdotgg",
+          preferredName: "lnsflive",
           url: "ssh://git@github.com:22/lnsflive/jcode.git",
         });
         assert.equal(reusedForSshWithPort, "origin");
@@ -3793,7 +3793,7 @@ it.layer(layerTest)("GitVcsDriver core integration", (it) => {
         const addedForFork = yield* driver.ensureRemote({
           cwd,
           preferredName: "octocat",
-          url: "git@github.com:octocat/t3code.git",
+          url: "git@github.com:octocat/jcode.git",
         });
         assert.equal(addedForFork, "octocat");
         assert.equal(yield* git(cwd, ["remote"]), "octocat\norigin");
@@ -4028,7 +4028,7 @@ it.layer(layerTest)("GitVcsDriver core integration", (it) => {
           cwd,
           path: worktreePath,
           refName: resolvedBase.commitSha,
-          newRefName: "t3code/fetched-origin",
+          newRefName: "jcode/fetched-origin",
           baseRefName: resolvedBase.remoteRefName,
         });
 
@@ -4042,7 +4042,7 @@ it.layer(layerTest)("GitVcsDriver core integration", (it) => {
           remoteHead,
         );
         assert.equal(
-          yield* driver.readConfigValue(worktreePath, "branch.t3code/fetched-origin.remote"),
+          yield* driver.readConfigValue(worktreePath, "branch.jcode/fetched-origin.remote"),
           null,
         );
         const status = yield* driver.statusDetails(worktreePath);

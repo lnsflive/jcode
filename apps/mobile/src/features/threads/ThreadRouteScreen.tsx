@@ -211,7 +211,7 @@ function UnavailableThreadDraftRedirect(props: { readonly environmentId: Environ
       }),
     );
   });
-  // oxlint-disable-next-line t3code/react-effect-budget -- replaces this route in the navigator
+  // oxlint-disable-next-line jcode/react-effect-budget -- replaces this route in the navigator
   useEffect(() => {
     openDraft();
   }, []);

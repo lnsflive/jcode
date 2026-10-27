@@ -394,9 +394,9 @@ function assertReinjectedInstructions(
   request: string,
 ) {
   const text = blocks[0]?.text ?? "";
-  assert.include(text, "T3 Code interaction mode: Default");
-  assert.include(text, "## T3 Code browser");
-  assert.include(text, "T3 Code orchestration");
+  assert.include(text, "JCode interaction mode: Default");
+  assert.include(text, "## JCode browser");
+  assert.include(text, "JCode orchestration");
   assert.include(text, `<user_request>\n${request}\n</user_request>`);
 }
 
@@ -973,17 +973,17 @@ describe("AcpAdapterV2", () => {
 
       const command = yield* runTurn(0, defaultPolicy, "/compact");
       assert.isTrue(command.prompt.startsWith("/compact"));
-      assert.notInclude(command.prompt, "<t3_code_instructions>");
+      assert.notInclude(command.prompt, "<jcode_instructions>");
       assert.equal(command.textBlockCount, 1);
       const whitespaceCommand = yield* runTurn(1, defaultPolicy, "  /repro-skill");
       assert.equal(whitespaceCommand.prompt, "  /repro-skill");
       assert.equal(whitespaceCommand.textBlockCount, 1);
-      assert.notInclude(whitespaceCommand.prompt, "<t3_code_instructions>");
+      assert.notInclude(whitespaceCommand.prompt, "<jcode_instructions>");
       const firstDefault = yield* runTurn(2, defaultPolicy, "First default request.");
       assert.equal(firstDefault.textBlockCount, 2);
-      assert.include(firstDefault.prompt, "T3 Code interaction mode: Default");
-      assert.include(firstDefault.prompt, "## T3 Code browser");
-      assert.include(firstDefault.prompt, "T3 Code orchestration");
+      assert.include(firstDefault.prompt, "JCode interaction mode: Default");
+      assert.include(firstDefault.prompt, "## JCode browser");
+      assert.include(firstDefault.prompt, "JCode orchestration");
       assert.notInclude(
         firstDefault.methods,
         "session/set_config_option",
@@ -996,14 +996,14 @@ describe("AcpAdapterV2", () => {
 
       const planPolicy = policy("plan");
       const firstPlan = yield* runTurn(4, planPolicy, "Plan this change.");
-      assert.include(firstPlan.prompt, "T3 Code interaction mode: Plan");
+      assert.include(firstPlan.prompt, "JCode interaction mode: Plan");
       assert.include(firstPlan.methods, "session/set_config_option");
       assert.include(
         (yield* runTurn(5, planPolicy, "Continue planning.")).prompt,
         "Continue planning.",
       );
       const restoredBuild = yield* runTurn(6, defaultPolicy, "Implement the change.");
-      assert.include(restoredBuild.prompt, "T3 Code interaction mode: Default");
+      assert.include(restoredBuild.prompt, "JCode interaction mode: Default");
       assert.include(
         restoredBuild.methods,
         "session/set_config_option",
@@ -1187,7 +1187,7 @@ describe("AcpAdapterV2", () => {
                         title: "Wait for the child",
                         status: "in_progress",
                         rawInput: {
-                          server: "t3-code",
+                          server: "jcode",
                           tool: "t3_thread_wait",
                           arguments: { threadId: "child" },
                         },
@@ -1806,7 +1806,7 @@ describe("AcpAdapterV2", () => {
           (item) =>
             item.threadId === task?.childThreadId &&
             item.type === "dynamic_tool" &&
-            item.toolName === "t3-code.task_status",
+            item.toolName === "jcode.task_status",
         ),
       );
       const childMcp = items.find(
@@ -2285,12 +2285,12 @@ describe("AcpAdapterV2", () => {
         results: undefined,
       });
       assert.deepEqual(webItem("grok-web-search", "completed"), {
-        title: "Web search: t3 code",
-        patterns: ["t3 code"],
+        title: "Web search: jcode",
+        patterns: ["jcode"],
         results: [{ url: "https://t3.codes" }, { url: "https://github.com/lnsflive/jcode" }],
       });
       assert.deepEqual(webItem("grok-web-fetch", "completed")?.results, [
-        { url: "https://t3.codes", snippet: "T3 Code page" },
+        { url: "https://t3.codes", snippet: "JCode page" },
       ]);
       const completedCompaction = items.find(
         (item) =>
@@ -2701,7 +2701,7 @@ describe("AcpAdapterV2", () => {
         mcpServers: [
           {
             type: "stdio",
-            name: "t3-code",
+            name: "jcode",
             command: process.execPath,
             args: [
               process.argv[1] === undefined ? "t3" : NodePath.resolve(process.argv[1]),

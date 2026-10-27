@@ -13,7 +13,7 @@ const project = (environmentId: string, id: string, canonicalKey: string) =>
 
 const projects = [
   project("laptop", "t3", "github.com/lnsflive/jcode"),
-  project("desktop", "other", "github.com/pingdotgg/other"),
+  project("desktop", "other", "github.com/lnsflive/other"),
   project("server", "t3-copy", "github.com/lnsflive/jcode"),
 ];
 const target = {

@@ -21,7 +21,7 @@ Install bootstrap.js and replay.js as identical pre-module scripts in the served
 HTML only for capture. Remove both before committing or switching checkouts.
 Use a fresh navigation, never document.write over an evaluated module graph.
 Configure `sessionStorage['sidebar-capture-config']` with `{storage, replay}`.
-Clear only projection caches (shell/thread/vcs-refs in t3code:connection-runtime)
+Clear only projection caches (shell/thread/vcs-refs in jcode:connection-runtime)
 from a same-origin inert document before navigating to the app. Preserve auth.
 Timers and performance.now remain native; only Date is frozen. Record the exact
 injection externally with the artifacts.

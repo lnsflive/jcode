@@ -16,10 +16,10 @@ cp .env.example .env
 For another deployment, set these values in the repository-root `.env` or `.env.local`:
 
 ```dotenv
-T3CODE_CLERK_PUBLISHABLE_KEY=<publishable key>
-T3CODE_CLERK_JWT_TEMPLATE=<JWT template name>
-T3CODE_CLERK_CLI_OAUTH_CLIENT_ID=<public OAuth application client ID>
-T3CODE_RELAY_URL=https://relay.example.com
+JCODE_CLERK_PUBLISHABLE_KEY=<publishable key>
+JCODE_CLERK_JWT_TEMPLATE=<JWT template name>
+JCODE_CLERK_CLI_OAUTH_CLIENT_ID=<public OAuth application client ID>
+JCODE_RELAY_URL=https://relay.example.com
 ```
 
 Process variables take precedence over `.env.local`, then `.env`. Use these canonical names;
@@ -44,7 +44,7 @@ In Clerk's OAuth applications settings:
 4. Enable **Device authorization grant** on the application. Headless and SSH authorization use
    it, and Clerk only advertises the device endpoint once it is on. The feature is in beta and
    Clerk enables it per account on request.
-5. Set `T3CODE_CLERK_CLI_OAUTH_CLIENT_ID` to the generated public client ID in local and release
+5. Set `JCODE_CLERK_CLI_OAUTH_CLIENT_ID` to the generated public client ID in local and release
    build environments.
 
 ## JWT template
@@ -52,11 +52,11 @@ In Clerk's OAuth applications settings:
 Create a Clerk JWT template named `t3-relay` with claims:
 
 ```json
-{ "aud": "t3-code-relay" }
+{ "aud": "jcode-relay" }
 ```
 
-Set `T3CODE_CLERK_JWT_TEMPLATE=t3-relay` for clients and
-`CLERK_JWT_AUDIENCE=t3-code-relay` for the relay. The production relay deployment environment
+Set `JCODE_CLERK_JWT_TEMPLATE=t3-relay` for clients and
+`CLERK_JWT_AUDIENCE=jcode-relay` for the relay. The production relay deployment environment
 also defines `CLERK_JWT_TEMPLATE`. The audience stays the same across relay stages; the relay
 URL selects the deployment.
 
@@ -65,12 +65,12 @@ URL selects the deployment.
 Enable Clerk's Native API and add the desktop redirects to its SSO redirect allowlist:
 
 ```text
-t3code-dev://app/
-t3code://app/
+jcode-dev://app/
+jcode://app/
 ```
 
 Add the corresponding origin to the Clerk instance's Backend API `allowed_origins` array.
-Development uses `t3code-dev://app`; production uses `t3code://app`. Update the array with
+Development uses `jcode-dev://app`; production uses `jcode://app`. Update the array with
 `PATCH https://api.clerk.com/v1/instance` using the Clerk secret key, preserving existing entries.
 The Clerk Electron integration handles token
 persistence and system-browser callback delivery.
@@ -81,31 +81,31 @@ Clerk's native Android SDK uses `clerk://<applicationId>.callback`. In the Clerk
 
 | Variant     | Callback                                      |
 | ----------- | --------------------------------------------- |
-| Development | `clerk://com.t3tools.t3code.dev.callback`     |
-| Preview     | `clerk://com.t3tools.t3code.preview.callback` |
-| Production  | `clerk://com.t3tools.t3code.callback`         |
+| Development | `clerk://com.t3tools.jcode.dev.callback`     |
+| Preview     | `clerk://com.t3tools.jcode.preview.callback` |
+| Production  | `clerk://com.t3tools.jcode.callback`         |
 
-Preserve existing entries. These callbacks are separate from the `t3code-dev` / `t3code-preview` / `t3code` navigation schemes. A private development build using the production Clerk key still needs its development callback allowed by that instance's administrator; rebuilding the same package does not change the allowlist.
+Preserve existing entries. These callbacks are separate from the `jcode-dev` / `jcode-preview` / `jcode` navigation schemes. A private development build using the production Clerk key still needs its development callback allowed by that instance's administrator; rebuilding the same package does not change the allowlist.
 
 ## Desktop passkeys
 
-For a production macOS app with bundle ID `com.t3tools.t3code`:
+For a production macOS app with bundle ID `com.t3tools.jcode`:
 
 1. Create an explicit macOS App ID in the Apple Developer portal with **Associated Domains**.
 2. Create a provisioning profile for that App ID and the distribution signing certificate.
 3. In Clerk's Native API settings, add an iOS app with the same Apple Team ID and bundle ID.
    This setting also configures Electron/macOS passkeys.
 4. Check `https://<frontend-api>/.well-known/apple-app-site-association`. Its
-   `webcredentials.apps` must include `<TEAM_ID>.com.t3tools.t3code`.
+   `webcredentials.apps` must include `<TEAM_ID>.com.t3tools.jcode`.
 5. Configure signing as described in the [release runbook](./release.md#2-apple-signing--notarization-setup-macos).
 
 Local signed builds additionally use:
 
 ```dotenv
-T3CODE_APPLE_TEAM_ID=ABC1234567
-T3CODE_MACOS_PROVISIONING_PROFILE=/absolute/path/to/t3code.provisionprofile
+JCODE_APPLE_TEAM_ID=ABC1234567
+JCODE_MACOS_PROVISIONING_PROFILE=/absolute/path/to/jcode.provisionprofile
 # Override only when the RP domain differs from the Clerk Frontend API hostname.
-T3CODE_CLERK_PASSKEY_RP_DOMAINS=example.clerk.accounts.dev,clerk.example.com
+JCODE_CLERK_PASSKEY_RP_DOMAINS=example.clerk.accounts.dev,clerk.example.com
 ```
 
 Without the override, the build derives the RP domain from the Clerk publishable key.
@@ -118,16 +118,16 @@ actual web and server ports. For example, with the default ports:
 
 ```sh
 VITE_DEV_SERVER_URL=http://127.0.0.1:5733 \
-T3CODE_PORT=13773 \
-  "/Applications/T3 Code (Alpha).app/Contents/MacOS/T3 Code (Alpha)"
+JCODE_PORT=13773 \
+  "/Applications/JCode (Alpha).app/Contents/MacOS/JCode (Alpha)"
 ```
 
 Rebuild the signed app after native dependency, main-process, preload, entitlement, provisioning,
 or signing changes. Renderer edits can reuse it. Verify the installed bundle before testing:
 
 ```sh
-codesign --verify --deep --strict "/Applications/T3 Code (Alpha).app"
-codesign -d --entitlements :- "/Applications/T3 Code (Alpha).app"
+codesign --verify --deep --strict "/Applications/JCode (Alpha).app"
+codesign -d --entitlements :- "/Applications/JCode (Alpha).app"
 ```
 
 ## Restricting sign-ups

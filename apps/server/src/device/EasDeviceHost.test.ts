@@ -121,7 +121,7 @@ const fakeExpo = (
               app: {
                 byId: {
                   ownerAccount: {
-                    name: "pingdotgg",
+                    name: "lnsflive",
                     accountFeatureGates: { "device-run-sessions": true },
                   },
                 },
@@ -142,7 +142,7 @@ const fakeExpo = (
                             node: {
                               id: "someone-else",
                               status: "IN_PROGRESS",
-                              name: "T3 Code · EAS Simulator · 000000",
+                              name: "JCode · EAS Simulator · 000000",
                             },
                           },
                           ...(options.active ?? []).map((node) => ({ node })),

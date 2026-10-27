@@ -21,7 +21,7 @@ describe("promptLinkSearchFromParams", () => {
       value: {
         kind: "new",
         prompt: { text: "Fix the bug & add tests = done?", hiddenCharacters: 0 },
-        repository: { owner: "pingdotgg", name: "t3code" },
+        repository: { owner: "lnsflive", name: "jcode" },
         provider: "codex",
         model: null,
       },
@@ -30,7 +30,7 @@ describe("promptLinkSearchFromParams", () => {
 });
 
 describe("stepPendingPromptLink", () => {
-  const waiting = "repo=t3tools%2Ft3code";
+  const waiting = "repo=t3tools%2Fjcode";
 
   it("drops a link whose screen is missing from the first state after it was parsed", () => {
     expect(stepPendingPromptLink(waiting, { screenOnStack: false, ready: true })).toEqual({

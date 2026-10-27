@@ -51,7 +51,7 @@ function entry(
     provider: SourceControlProviderKind.make("github"),
     host: "github.com",
     projectId: "project-1",
-    projectTitle: "t3code",
+    projectTitle: "jcode",
     repository: "lnsflive/jcode",
     title: "Add the pull requests page",
     url: `https://github.com/lnsflive/jcode/pull/${overrides.number}`,
@@ -670,7 +670,7 @@ describe("refresh page size", () => {
         entry({
           number: index + 1,
           provider: SourceControlProviderKind.make(provider),
-          repository: `pingdotgg/${name}`,
+          repository: `lnsflive/${name}`,
         }),
       ),
     );

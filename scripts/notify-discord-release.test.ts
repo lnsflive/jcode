@@ -21,7 +21,7 @@ import {
 const latestAnnouncement = {
   target: "latest",
   roleId: "222222222222222222",
-  releaseName: "T3 Code v1.2.3",
+  releaseName: "JCode v1.2.3",
   version: "1.2.3",
   tag: "v1.2.3",
   releaseUrl: new URL("https://github.com/lnsflive/jcode/releases/tag/v1.2.3"),
@@ -29,7 +29,7 @@ const latestAnnouncement = {
 } as const;
 const nightlyAnnouncement = { ...latestAnnouncement, target: "prerelease" } as const;
 const webhookUrl = new URL("https://discord.com/api/webhooks/123456/test-secret-token");
-const intro = "A new T3 Code prerelease is available for nightly testers.";
+const intro = "A new JCode prerelease is available for nightly testers.";
 const notes = `## What's Changed\n* Fix remote reconnection by @contributor in https://github.com/lnsflive/jcode/pull/10\n* Improve thread search in https://github.com/lnsflive/jcode/pull/11\n\n**Full Changelog**: https://github.com/lnsflive/jcode/compare/v1.2.2...v1.2.3`;
 const formattedNotes = `## What's Changed\n* [Fix remote reconnection](https://github.com/lnsflive/jcode/pull/10) by [@contributor](https://github.com/contributor)\n* [Improve thread search](https://github.com/lnsflive/jcode/pull/11)\n\n[Full Changelog](https://github.com/lnsflive/jcode/compare/v1.2.2...v1.2.3)`;
 const runCli = Command.runWith(notifyDiscordReleaseCommand, { version: "0.0.0" });

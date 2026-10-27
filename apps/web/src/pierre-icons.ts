@@ -11,7 +11,7 @@ export interface PierreIconResolution {
   token?: string;
 }
 
-const PIERRE_ICON_SPRITE_ID = "t3code-pierre-file-icon-sprite";
+const PIERRE_ICON_SPRITE_ID = "jcode-pierre-file-icon-sprite";
 
 const DOCUMENT_ICON_COLORS: Readonly<Record<string, string>> = {
   "t3-file-icon-pdf": "light-dark(#d52c36, #ff6762)",

@@ -35,7 +35,7 @@ const LIST_RESULT: PullRequestListResult = {
       provider: SourceControlProviderKind.make("github"),
       host: "github.com",
       projectId: "project-1" as PullRequestListResult["entries"][number]["projectId"],
-      projectTitle: "t3code",
+      projectTitle: "jcode",
       repository: "lnsflive/jcode",
       number: 1,
       title: "Add a pull requests page",
@@ -93,7 +93,7 @@ describe("PullRequestCapabilities", () => {
     };
     const detail = {
       ...LIST_RESULT.entries[0],
-      workspaceRoot: "/workspace/t3code",
+      workspaceRoot: "/workspace/jcode",
       body: "",
       changedFiles: 1,
       mergedAt: null,

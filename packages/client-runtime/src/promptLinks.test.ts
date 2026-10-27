@@ -27,16 +27,16 @@ describe("findPromptLinkProjects", () => {
     const projects = [
       {
         id: "fork",
-        repositoryIdentity: identity("github.com/lnsflive/jcode", "github.com/me/t3code"),
+        repositoryIdentity: identity("github.com/lnsflive/jcode", "github.com/me/jcode"),
       },
       { id: "none", repositoryIdentity: null },
-      { id: "recent", repositoryIdentity: identity("github.com/PingDotGG/T3Code") },
+      { id: "recent", repositoryIdentity: identity("github.com/lnsflive/JCode") },
       { id: "older", repositoryIdentity: identity("github.com/lnsflive/jcode") },
     ];
     const ids = (owner: string, name: string) =>
       findPromptLinkProjects(projects, { owner, name }).map((project) => project.id);
-    expect(ids("pingdotgg", "t3code")).toEqual(["recent", "older"]);
-    expect(ids("me", "t3code")).toEqual(["fork"]);
+    expect(ids("lnsflive", "jcode")).toEqual(["recent", "older"]);
+    expect(ids("me", "jcode")).toEqual(["fork"]);
     expect(ids("gitlab", "x")).toEqual([]);
   });
 });
