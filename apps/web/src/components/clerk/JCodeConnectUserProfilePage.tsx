@@ -241,7 +241,7 @@ export function JCodeConnectUserProfilePage() {
               <EmptyHeader>
                 <EmptyTitle>No JCode Connect environments</EmptyTitle>
                 <EmptyDescription>
-                  Link an environment from its local Settings to make it available through T3
+                  Link an environment from its local Settings to make it available through JCode
                   Connect.
                 </EmptyDescription>
               </EmptyHeader>

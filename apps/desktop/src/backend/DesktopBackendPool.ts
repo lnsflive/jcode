@@ -177,7 +177,7 @@ export const layer = Layer.effect(
         electronDialog
           .showErrorBox(
             "This JCode home is unavailable",
-            "Another JCode server, such as the background service, is using this data directory, or an older background service is set up for it. Stop that server or try `jcode update`. If the older launcher cannot update, run `jcode service uninstall` and optionally reinstall with `jcode service install` from a current CLI. Use `npx @lnsflive/jcode@latest` if `t3` is missing or outdated, and pass `--base-dir` with the service's JCode home to each command. Then reopen JCode. You can also set a separate JCODE_HOME and pair with the running server.",
+            "Another JCode server, such as the background service, is using this data directory, or an older background service is set up for it. Stop that server or try `jcode update`. If the older launcher cannot update, run `jcode service uninstall` and optionally reinstall with `jcode service install` from a current CLI. Use `npx @lnsflive/jcode@latest` if the bundled CLI is missing or outdated, and pass `--base-dir` with the service's JCode home to each command. Then reopen JCode. You can also set a separate JCODE_HOME and pair with the running server.",
           )
           .pipe(Effect.andThen(electronApp.quit)),
     });
