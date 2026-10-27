@@ -109,7 +109,7 @@ it.effect("lists the fetch and push URLs of a partial clone remote", () =>
     });
     const driver = yield* GitVcsDriver.makeVcsDriverShape();
     yield* runGit(cwd, ["init"]);
-    yield* runGit(cwd, ["remote", "add", "origin", "https://github.com/pingdotgg/t3code.git"]);
+    yield* runGit(cwd, ["remote", "add", "origin", "https://github.com/lnsflive/jcode.git"]);
     yield* runGit(cwd, [
       "remote",
       "set-url",
@@ -124,7 +124,7 @@ it.effect("lists the fetch and push URLs of a partial clone remote", () =>
     assert.deepEqual(result.remotes, [
       {
         name: "origin",
-        url: "https://github.com/pingdotgg/t3code.git",
+        url: "https://github.com/lnsflive/jcode.git",
         pushUrl: Option.some("git@github.com:octocat/t3code.git"),
         isPrimary: true,
       },

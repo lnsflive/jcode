@@ -1341,7 +1341,7 @@ const program = Effect.gen(function* () {
                 sources: [
                   { type: "url", url: "https://t3.codes" },
                   { type: "url", url: "https://t3.codes" },
-                  { type: "url", url: "https://github.com/pingdotgg/t3code" },
+                  { type: "url", url: "https://github.com/lnsflive/jcode" },
                 ],
               },
               id: "grok-web-search",

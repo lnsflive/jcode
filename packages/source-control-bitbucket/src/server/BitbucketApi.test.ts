@@ -31,7 +31,7 @@ const bitbucketPullRequest = {
   updated_on: "2026-01-02T00:00:00.000Z",
   links: {
     html: {
-      href: "https://bitbucket.org/pingdotgg/t3code/pull-requests/42",
+      href: "https://bitbucket.org/lnsflive/jcode/pull-requests/42",
     },
   },
   source: {
@@ -44,19 +44,19 @@ const bitbucketPullRequest = {
   destination: {
     branch: { name: "main" },
     repository: {
-      full_name: "pingdotgg/t3code",
+      full_name: "lnsflive/jcode",
       workspace: { slug: "pingdotgg" },
     },
   },
 };
 
 const repositoryJson = {
-  full_name: "pingdotgg/t3code",
+  full_name: "lnsflive/jcode",
   links: {
-    html: { href: "https://bitbucket.org/pingdotgg/t3code" },
+    html: { href: "https://bitbucket.org/lnsflive/jcode" },
     clone: [
-      { name: "https", href: "https://bitbucket.org/pingdotgg/t3code.git" },
-      { name: "ssh", href: "git@bitbucket.org:pingdotgg/t3code.git" },
+      { name: "https", href: "https://bitbucket.org/lnsflive/jcode.git" },
+      { name: "ssh", href: "git@bitbucket.org:lnsflive/jcode.git" },
     ],
   },
   mainbranch: { name: "main" },
@@ -84,7 +84,7 @@ function makeLayer(input: {
   );
   const gitMock = {
     readConfigValue: vi.fn<HostGit["readConfigValue"]>(() =>
-      Effect.succeed<string | null>("git@bitbucket.org:pingdotgg/t3code.git"),
+      Effect.succeed<string | null>("git@bitbucket.org:lnsflive/jcode.git"),
     ),
     resolvePrimaryRemoteName: vi.fn<HostGit["resolvePrimaryRemoteName"]>(() =>
       Effect.succeed("origin"),
@@ -108,7 +108,7 @@ function makeLayer(input: {
       remotes: [
         {
           name: "origin",
-          url: "git@bitbucket.org:pingdotgg/t3code.git",
+          url: "git@bitbucket.org:lnsflive/jcode.git",
           pushUrl: Option.none(),
           isPrimary: true,
         },
@@ -167,7 +167,7 @@ it.effect("parses pull request responses from the Bitbucket REST API", () => {
     assert.deepStrictEqual(result, {
       number: 42,
       title: "Add Bitbucket provider",
-      url: "https://bitbucket.org/pingdotgg/t3code/pull-requests/42",
+      url: "https://bitbucket.org/lnsflive/jcode/pull-requests/42",
       baseRefName: "main",
       headRefName: "feature/source-control",
       state: "open",
@@ -178,7 +178,7 @@ it.effect("parses pull request responses from the Bitbucket REST API", () => {
     });
     assert.strictEqual(
       execute.mock.calls[0]?.[0].url,
-      "https://api.test.local/2.0/repositories/pingdotgg/t3code/pullrequests/42",
+      "https://api.test.local/2.0/repositories/lnsflive/jcode/pullrequests/42",
     );
   }).pipe(Effect.provide(layer));
 });
@@ -194,7 +194,7 @@ it.effect("lists pull requests with Bitbucket state and source branch query para
             state: "MERGED",
             source: {
               branch: { name: "feature/merged" },
-              repository: { full_name: "pingdotgg/t3code" },
+              repository: { full_name: "lnsflive/jcode" },
             },
           },
         ],
@@ -214,7 +214,7 @@ it.effect("lists pull requests with Bitbucket state and source branch query para
     const request = execute.mock.calls[0]?.[0];
     assert.strictEqual(
       request?.url,
-      "https://api.test.local/2.0/repositories/pingdotgg/t3code/pullrequests",
+      "https://api.test.local/2.0/repositories/lnsflive/jcode/pullrequests",
     );
     assert.deepStrictEqual(request?.urlParams.params, [
       ["pagelen", "10"],
@@ -245,14 +245,14 @@ it.effect("reads repository clone URLs and default branch", () => {
     const bitbucket = yield* BitbucketApi.BitbucketApi;
     const cloneUrls = yield* bitbucket.getRepositoryCloneUrls({
       cwd: "/repo",
-      repository: "pingdotgg/t3code",
+      repository: "lnsflive/jcode",
     });
     const defaultBranch = yield* bitbucket.getDefaultBranch({ cwd: "/repo" });
 
     assert.deepStrictEqual(cloneUrls, {
-      nameWithOwner: "pingdotgg/t3code",
-      url: "https://bitbucket.org/pingdotgg/t3code.git",
-      sshUrl: "git@bitbucket.org:pingdotgg/t3code.git",
+      nameWithOwner: "lnsflive/jcode",
+      url: "https://bitbucket.org/lnsflive/jcode.git",
+      sshUrl: "git@bitbucket.org:lnsflive/jcode.git",
     });
     assert.strictEqual(defaultBranch, "main");
   }).pipe(Effect.provide(layer));
@@ -281,7 +281,7 @@ it.effect.each([false, true])(
                       baseUrl: "https://bitbucket.org",
                     },
                     remoteName: "origin",
-                    remoteUrl: "git@bitbucket.org:pingdotgg/t3code.git",
+                    remoteUrl: "git@bitbucket.org:lnsflive/jcode.git",
                   },
                 }
               : {}),
@@ -318,7 +318,7 @@ it.effect("prefers an explicit repository and uses context when the repository i
       remoteName: "origin",
       remoteUrl: "git@bitbucket.org:another/context.git",
     };
-    for (const repository of ["pingdotgg/t3code", "https://bitbucket.org/pingdotgg/t3code.git"]) {
+    for (const repository of ["lnsflive/jcode", "https://bitbucket.org/lnsflive/jcode.git"]) {
       yield* bitbucket.getRepositoryCloneUrls({ cwd: "/repo", context, repository });
     }
     yield* bitbucket.getDefaultBranch({ cwd: "/repo", context });
@@ -326,8 +326,8 @@ it.effect("prefers an explicit repository and uses context when the repository i
     assert.deepStrictEqual(
       execute.mock.calls.map(([request]) => request.url).toSorted(),
       [
-        "https://api.test.local/2.0/repositories/pingdotgg/t3code",
-        "https://api.test.local/2.0/repositories/pingdotgg/t3code",
+        "https://api.test.local/2.0/repositories/lnsflive/jcode",
+        "https://api.test.local/2.0/repositories/lnsflive/jcode",
         "https://api.test.local/2.0/repositories/another/context",
         "https://api.test.local/2.0/repositories/another/context/branching-model",
       ].toSorted(),
@@ -363,8 +363,8 @@ it.effect(
       assert.deepStrictEqual(
         execute.mock.calls.map((call) => call[0].url).toSorted(),
         [
-          "https://api.test.local/2.0/repositories/pingdotgg/t3code",
-          "https://api.test.local/2.0/repositories/pingdotgg/t3code/branching-model",
+          "https://api.test.local/2.0/repositories/lnsflive/jcode",
+          "https://api.test.local/2.0/repositories/lnsflive/jcode/branching-model",
         ].toSorted(),
       );
     }).pipe(Effect.provide(layer));
@@ -420,7 +420,7 @@ it.effect("creates pull requests using the official REST payload shape", () => {
     const request = execute.mock.calls[0]?.[0];
     assert.strictEqual(
       request?.url,
-      "https://api.test.local/2.0/repositories/pingdotgg/t3code/pullrequests",
+      "https://api.test.local/2.0/repositories/lnsflive/jcode/pullrequests",
     );
     assert.strictEqual(request?.method, "POST");
     assert.ok(request);
