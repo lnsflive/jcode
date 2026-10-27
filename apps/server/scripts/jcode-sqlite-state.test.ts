@@ -6,7 +6,7 @@ import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
-import { runSqliteState } from "./t3-sqlite-state.ts";
+import { runSqliteState } from "./jcode-sqlite-state.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 
@@ -25,11 +25,11 @@ const createFixtureDatabase = Effect.fn("createSqliteStateFixtureDatabase")(func
   }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: databasePath })));
 });
 
-it.layer(NodeServices.layer)("t3-sqlite-state", (it) => {
+it.layer(NodeServices.layer)("jcode-sqlite-state", (it) => {
   it.effect("enables checkpoint_fullfsync on its direct connection", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
-      const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-sqlite-state-fsync-" });
+      const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-sqlite-state-fsync-" });
       yield* createFixtureDatabase(baseDir);
 
       const result = yield* runSqliteState({
@@ -51,7 +51,7 @@ it.layer(NodeServices.layer)("t3-sqlite-state", (it) => {
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
-        const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-sqlite-state-exec-" });
+        const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-sqlite-state-exec-" });
         yield* createFixtureDatabase(baseDir);
 
         const mutation = yield* runSqliteState({
@@ -75,7 +75,7 @@ it.layer(NodeServices.layer)("t3-sqlite-state", (it) => {
         assert.equal(error._tag, "SqliteStateSharedHomeMutationError");
 
         const aliasParent = yield* fs.makeTempDirectoryScoped({
-          prefix: "t3-sqlite-state-alias-",
+          prefix: "jcode-sqlite-state-alias-",
         });
         const aliasBaseDir = path.join(aliasParent, "shared-home-alias");
         yield* fs.symlink(baseDir, aliasBaseDir);

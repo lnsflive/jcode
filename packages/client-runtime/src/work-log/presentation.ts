@@ -24,10 +24,10 @@ import { classifyToolActivity } from "@t3tools/shared/toolActivity";
 import { toolOutputIndicatesFailure } from "@t3tools/shared/toolOutput";
 
 import {
-  summarizeT3ToolCalls,
-  t3ToolResultIndicatesFailure,
-  type T3ToolSummaryCall,
-} from "@t3tools/client-runtime/t3ToolSummary";
+  summarizeJCodeToolCalls,
+  jcodeToolResultIndicatesFailure,
+  type JCodeToolSummaryCall,
+} from "@t3tools/client-runtime/jcodeToolSummary";
 
 export type WorkLogToolLifecycleStatus = RuntimeItemStatus | "stopped" | "idle";
 
@@ -234,7 +234,7 @@ export function resolveWorkEntryToolPresentation(
   const status = entry.toolLifecycleStatus ?? fallbackStatus;
   return resolveJMcpToolPresentation(
     definition,
-    definition && t3ToolResultIndicatesFailure(workEntryToolOutput(entry)) ? "failed" : status,
+    definition && jcodeToolResultIndicatesFailure(workEntryToolOutput(entry)) ? "failed" : status,
     entry.toolData,
   );
 }
@@ -269,7 +269,7 @@ function workEntryIndicatesToolFailureFromOutput(
   if (!workLogEntryIsToolLike(entry) || entry.itemType === "reasoning") return false;
   if (
     resolveJMcpToolDefinition(workEntryToolName(entry)) &&
-    t3ToolResultIndicatesFailure(workEntryToolOutput(entry))
+    jcodeToolResultIndicatesFailure(workEntryToolOutput(entry))
   ) {
     return true;
   }
@@ -464,7 +464,7 @@ function toolGroupActionLabel(action: ToolGroupAction, count: number): string {
   }
 }
 
-function t3ToolSummaryCall(entry: WorkLogPresentationEntry): T3ToolSummaryCall {
+function jcodeToolSummaryCall(entry: WorkLogPresentationEntry): JCodeToolSummaryCall {
   return {
     input: workEntryToolInput(entry),
     output: workEntryToolOutput(entry),
@@ -546,7 +546,7 @@ export function summarizeToolGroup(entries: ReadonlyArray<WorkLogPresentationEnt
   for (const entry of entries) {
     const t3Action = resolveJMcpSummaryAction(
       workEntryToolName(entry),
-      t3ToolSummaryCall(entry).input,
+      jcodeToolSummaryCall(entry).input,
     );
     if (entry.toolSource && t3Action === null) {
       sources.set(entry.toolSource.key, entry.toolSource);
@@ -563,7 +563,7 @@ export function summarizeToolGroup(entries: ReadonlyArray<WorkLogPresentationEnt
     count: group.entries.length,
     priority: summaryActionPriority(action),
     ...(group.t3Action
-      ? summarizeT3ToolCalls(group.t3Action, group.entries.map(t3ToolSummaryCall))
+      ? summarizeJCodeToolCalls(group.t3Action, group.entries.map(jcodeToolSummaryCall))
       : {
           label: toolGroupActionLabel(
             group.action,

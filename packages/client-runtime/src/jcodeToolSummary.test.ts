@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { summarizeT3ToolCalls, type T3ToolSummaryCall } from "./t3ToolSummary.ts";
+import { summarizeJCodeToolCalls, type JCodeToolSummaryCall } from "./jcodeToolSummary.ts";
 
-function completed(input: unknown, output?: unknown): T3ToolSummaryCall {
+function completed(input: unknown, output?: unknown): JCodeToolSummaryCall {
   return { input, output, outcome: "completed" };
 }
 
-describe("summarizeT3ToolCalls", () => {
+describe("summarizeJCodeToolCalls", () => {
   it("reads provider result envelopes without treating JSON in the message as result data", () => {
     const result = { messageId: "message-1", threadId: "actual-thread" };
     const json = JSON.stringify(result);
@@ -26,9 +26,9 @@ describe("summarizeT3ToolCalls", () => {
         output,
       ),
     );
-    expect(summarizeT3ToolCalls("thread-send", calls).label).toBe("Sent 1 message to 1 thread");
+    expect(summarizeJCodeToolCalls("thread-send", calls).label).toBe("Sent 1 message to 1 thread");
     expect(
-      summarizeT3ToolCalls("thread-send", [
+      summarizeJCodeToolCalls("thread-send", [
         completed({ toolName: "t3_thread_send", args: { threadId: "input-thread" } }),
         completed({ threadId: "input-thread" }),
       ]).label,
@@ -36,7 +36,7 @@ describe("summarizeT3ToolCalls", () => {
   });
 
   it("excludes failed and unfinished sends even if the provider reports completed", () => {
-    const calls: T3ToolSummaryCall[] = [
+    const calls: JCodeToolSummaryCall[] = [
       completed({ threadId: "success" }, { messageId: "ok", threadId: "success" }),
       completed(
         { threadId: "failed" },
@@ -47,11 +47,11 @@ describe("summarizeT3ToolCalls", () => {
       ]),
       { input: { threadId: "cancelled" }, output: undefined, outcome: "unfinished" },
     ];
-    expect(summarizeT3ToolCalls("thread-send", calls)).toEqual({
+    expect(summarizeJCodeToolCalls("thread-send", calls)).toEqual({
       label: "Sent 1 message to 1 thread",
       failedCount: 2,
     });
-    expect(summarizeT3ToolCalls("thread-send", [calls[1]!])).toEqual({
+    expect(summarizeJCodeToolCalls("thread-send", [calls[1]!])).toEqual({
       label: "Tried to send 1 message to 1 thread",
       failedCount: 1,
     });
@@ -60,19 +60,19 @@ describe("summarizeT3ToolCalls", () => {
   it("does not confuse a child's failure or wait timeout with failure of the orchestration call", () => {
     const failedChild = { taskId: "task-1", status: "failed", summary: "command not found" };
     expect(
-      summarizeT3ToolCalls("delegate", [completed({}, failedChild), completed({}, failedChild)]),
+      summarizeJCodeToolCalls("delegate", [completed({}, failedChild), completed({}, failedChild)]),
     ).toEqual({
       label: "Delegated 1 task",
       failedCount: 0,
     });
     expect(
-      summarizeT3ToolCalls(
+      summarizeJCodeToolCalls(
         "task-status",
         Array.from({ length: 4 }, () => completed({ taskId: "task-1" }, failedChild)),
       ).label,
     ).toBe("Checked task status 4 times");
     expect(
-      summarizeT3ToolCalls("thread-wait", [
+      summarizeJCodeToolCalls("thread-wait", [
         completed({ threadId: "thread-1" }, { threadId: "thread-1", timedOut: true }),
       ]),
     ).toEqual({

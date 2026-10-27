@@ -247,8 +247,8 @@ export const runSqliteState = Effect.fn("runSqliteState")(function* (
   );
 });
 
-const t3SqliteStateCommand = Command.make(
-  "t3-sqlite-state",
+const jcodeSqliteStateCommand = Command.make(
+  "jcode-sqlite-state",
   {
     operation: Argument.Literals("operation", SqliteStateOperation.literals).pipe(
       Argument.withDescription("Run a read-only query or a backed-up fixture mutation."),
@@ -279,7 +279,7 @@ const t3SqliteStateCommand = Command.make(
 );
 
 if (import.meta.main) {
-  Command.run(t3SqliteStateCommand, { version: "0.0.0" }).pipe(
+  Command.run(jcodeSqliteStateCommand, { version: "0.0.0" }).pipe(
     Effect.provide(NodeServices.layer),
     NodeRuntime.runMain,
   );
