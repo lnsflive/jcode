@@ -1,0 +1,77 @@
+name: Release Linux CLI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Stable version to publish (for example 0.1.4)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-linux-cli
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish Linux x64 CLI
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+      JCODE_TELEMETRY_CHANNEL: stable
+    steps:
+      - name: Validate release version
+        shell: bash
+        run: |
+          [[ "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Use a stable version such as 0.1.4.' >&2; exit 1; }
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/v$RELEASE_VERSION" >/dev/null 2>&1; then
+            echo "Tag v$RELEASE_VERSION already exists." >&2
+            exit 1
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /*
+            !/.repos/
+          sparse-checkout-cone-mode: false
+
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: false
+
+      - name: Install dependencies
+        run: vp install --filter=t3... --filter=@t3tools/web... --filter=@t3tools/scripts...
+
+      - name: Build web client and server
+        run: |
+          node scripts/update-release-package-versions.ts "$RELEASE_VERSION"
+          vp run --filter t3 build
+          node scripts/apply-web-brand-assets.ts production apps/server/dist/client
+          node apps/server/scripts/cli.ts build-exe --verbose
+
+      - name: Build resource monitor
+        run: |
+          cargo build --locked --release --manifest-path native/resource-monitor/Cargo.toml --target x86_64-unknown-linux-gnu
+          mkdir -p "$RUNNER_TEMP/cli-resource-monitor/linux-x64"
+          cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/t3-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
+
+      - name: Build and verify CLI archive
+        run: |
+          node scripts/build-cli-archive.ts --platform linux --arch x64 --version "$RELEASE_VERSION" --resource-monitor-dir "$RUNNER_TEMP/cli-resource-monitor" --output-dir release-cli
+          node scripts/smoke-cli-archive.ts --archive "release-cli/t3-$RELEASE_VERSION-linux-x64.tar.gz" --expect-version "$RELEASE_VERSION"
+          (cd release-cli && sha256sum "t3-$RELEASE_VERSION-linux-x64.tar.gz" > SHA256SUMS)
+
+      - name: Publish Linux CLI release
+        run: |
+          gh release create "v$RELEASE_VERSION" "release-cli/t3-$RELEASE_VERSION-linux-x64.tar.gz" release-cli/SHA256SUMS \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --latest \
+            --title "JCode v$RELEASE_VERSION" \
+            --notes 'This release contains the Linux x64 command-line server. Desktop and other platform builds are not included. JCode Connect requires a separately configured relay.'

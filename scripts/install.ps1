@@ -98,20 +98,8 @@ function Fetch([string] $uri, [string] $destination, [switch] $progress) {
   }
 }
 if ($interactive) {
-  # Block characters are constructed so this file also loads correctly in PowerShell 5.1.
-  $mark = @(
-    "########## ######## ",
-    "    ###       _##^  ",
-    "    ###       ####_ ",
-    "    ###    _     ###",
-    "    ###    #######^ "
-  )
   [Console]::Error.WriteLine()
-  for ($i = 0; $i -lt $mark.Length; $i++) {
-    $row = $mark[$i].Replace('#', [char]0x2588).Replace('^', [char]0x2580).Replace('_', [char]0x2584)
-    $label = if ($i -eq 1) { "     ${bold}JCode$reset" } elseif ($i -eq 2) { "     ${muted}CLI installer$reset" } else { "" }
-    [Console]::Error.WriteLine("  $bold$row$reset$label")
-  }
+  [Console]::Error.WriteLine("  ${bold}JCode$reset  ${muted}CLI installer$reset")
   [Console]::Error.WriteLine()
 }
 Step "Finding your release..."
@@ -145,12 +133,12 @@ if (-not $version) {
   } else {
     $tag = $null
     for ($page = 1; -not $tag -and $page -le 10; $page++) {
-      $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases?per_page=100&page=$page" -Headers @{ "User-Agent" = "t3-install" }
+      $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases?per_page=100&page=$page" -Headers @{ "User-Agent" = "JCode-CLI-Installer" }
       $tag = ($releases | Where-Object { -not $_.draft -and $_.tag_name -match $tagPattern } | Select-Object -First 1).tag_name
       if (-not $releases) { break }
     }
   }
-  if (-not $tag) { Fail "could not find a $channel release; set JCODE_VERSION" }
+  if (-not $tag) { Fail "no $channel release has been published at https://github.com/$repo/releases" }
   $version = $tag.Substring(1)
 }
 if ($version -match '-preview\.') {
@@ -181,7 +169,7 @@ if ((Test-Path $marker) -and ((Get-Content $marker -Raw).Trim() -eq $version)) {
     } catch {
       $status = $_.Exception.Response.StatusCode.value__
       if ($status -eq 404) {
-        Fail "t3 $version has no release archive for win32-$arch; releases before the self-contained CLI can only be installed with 'npm install -g @lnsflive/jcode@$version'"
+        Fail "JCode $version has no release archive for win32-$arch"
       }
       throw
     }

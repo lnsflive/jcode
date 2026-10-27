@@ -40,13 +40,7 @@ step() {
   else printf '  %s\n' "$1" >&2; fi
 }
 if "$interactive"; then
-  printf '\n%s' "$bold" >&2
-  printf '  %s\n' '██████████ ████████ ' >&2
-  printf '  %s\n' '    ███       ▄██▀       JCode' >&2
-  printf '  %s%s     %sCLI installer%s\n' '    ███       ████▄ ' "$reset" "$muted" "$reset$bold" >&2
-  printf '  %s\n' '    ███    ▄     ███' >&2
-  printf '  %s\n' '    ███    ███████▀ ' >&2
-  printf '%s\n' "$reset" >&2
+  printf '\n  %sJCode%s  %sCLI installer%s\n\n' "$bold" "$reset" "$muted" "$reset" >&2
 fi
 step "Finding your release..."
 
@@ -167,7 +161,7 @@ if [ -z "$version" ]; then
     done
   fi
   rm -f "$tmp_index"
-  [ -n "$version" ] || fail "could not find a ${channel} release; set JCODE_VERSION"
+  [ -n "$version" ] || fail "no ${channel} release has been published at https://github.com/${repo}/releases"
 fi
 case "$version" in
   *-preview.*)
@@ -203,7 +197,7 @@ else
   fetch_status=0
   fetch "${base_url}/v${version}/SHA256SUMS" "${staging}/SHA256SUMS" || fetch_status=$?
   if [ "$fetch_status" -eq 44 ]; then
-    fail "t3 ${version} has no release archive for ${platform}-${arch}; releases before the self-contained CLI can only be installed with \`npm install -g @lnsflive/jcode@${version}\`"
+    fail "JCode ${version} has no release archive for ${platform}-${arch}"
   elif [ "$fetch_status" -ne 0 ]; then
     fail "could not download the release checksums"
   fi
