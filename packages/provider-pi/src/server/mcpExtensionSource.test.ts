@@ -33,7 +33,7 @@ async function loadHooks(commands: ReadonlyArray<SkillCommand> = []) {
       "async function",
     ),
   );
-  await NodeVM.runInNewContext(`${source}\nt3McpExtension(pi)`, {
+  await NodeVM.runInNewContext(`${source}\njcodeMcpExtension(pi)`, {
     process: { env: {} },
     NodeFSP,
     NodePath,
@@ -331,7 +331,7 @@ describe("Pi tool discovery permissions", () => {
         "async function",
       ),
     );
-    await NodeVM.runInNewContext(`${source}\nt3McpExtension(pi)`, {
+    await NodeVM.runInNewContext(`${source}\njcodeMcpExtension(pi)`, {
       process: { env: { JCODE_PI_RUNTIME_MODE: "approval-required" } },
       pi: {
         on: (name: string, handler: ToolCallHook) => {
@@ -376,7 +376,7 @@ async function loadRequestHook(): Promise<RequestHook> {
       "async function",
     ),
   );
-  await NodeVM.runInNewContext(`${source}\nt3McpExtension(pi)`, {
+  await NodeVM.runInNewContext(`${source}\njcodeMcpExtension(pi)`, {
     process: { env: {} },
     pi: { on: (name: string, handler: RequestHook) => handlers.set(name, handler) },
   });
