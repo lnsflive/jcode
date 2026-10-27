@@ -105,7 +105,7 @@ The relay is a shared control plane versioned separately from client releases. S
 client builds must point at the same relay so users see the same linked environments when switching
 release channels.
 
-`.github/workflows/deploy-relay.yml` deploys Alchemy stage `prod` on every push to `main`. The
+`.github/workflows/deploy-relay.yml` deploys Alchemy stage `prod` when manually dispatched. The
 release workflow reads the relay URL and Clerk client configuration from the existing `production`
 GitHub Actions environment before building desktop, CLI, or hosted web artifacts.
 

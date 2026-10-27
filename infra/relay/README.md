@@ -118,7 +118,7 @@ one of those outputs changed, and `JCODE_RELAY_CLIENT_CONFIG_ENV` redirects it t
 ### Deployment CI
 
 The relay is versioned separately from client releases. `.github/workflows/deploy-relay.yml` deploys
-the shared Alchemy `prod` stage on every push to `main`. Stable and nightly release builds both
+the shared Alchemy `prod` stage when manually dispatched. Stable and nightly release builds both
 resolve their static public config from the same
 `production` GitHub environment. Labeling a same-repository PR `relay:preview` deploys a `pr-<number>`
 stage, and the cleanup workflow tears it down; see

@@ -6,15 +6,11 @@ name: Mobile EAS Production
 # fingerprint (platform-specific deps + pnpm version) and errors. On this Linux
 # runner, with corepack pinning pnpm 10.24 in eas.json, local == build.
 #
-# Every merge reconciles native fingerprints and publishes matching OTAs.
 # iOS prereleases use the testflight profile (3.0.0); App Store binaries use
-# production and the committed app version, built manually. Both receive OTAs
-# for their own major version. Android continues using production automatically.
+# production and the committed app version. Both receive OTAs for their own
+# major version.
 # TestFlight beta review may still be required for subsequent builds.
-# Hold native-change PRs (the "📱 Native Change" label) and merge them as a
-# batch to avoid a store build per PR.
-# workflow_dispatch remains as a manual override for both modes (e.g. to
-# retry an errored build or force an OTA).
+# Start builds and OTA updates manually through workflow_dispatch.
 on:
   workflow_dispatch:
     inputs:
@@ -51,23 +47,8 @@ on:
         description: "OTA update message (mode=update only)"
         required: false
         type: string
-  push:
-    branches: [main]
-    paths:
-      - apps/mobile/**
-      - packages/client-runtime/**
-      - packages/contracts/**
-      - packages/shared/**
-      - assets/**
-      - scripts/**
-      - patches/**
-      - pnpm-lock.yaml
-      - pnpm-workspace.yaml
-      - .github/workflows/mobile-eas-production.yml
 
-# Serialize runs so OTAs publish in merge order. GitHub keeps at most one
-# queued run per group, so a burst of merges collapses into one run of the
-# newest commit — intermediate commits don't need their own OTA.
+# Serialize production builds and updates.
 concurrency:
   group: mobile-eas-production
   cancel-in-progress: false
