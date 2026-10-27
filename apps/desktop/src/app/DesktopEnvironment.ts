@@ -229,7 +229,7 @@ const make = Effect.fn("desktop.environment.make")(function* (
     branding,
     displayName,
     appUserModelId: Option.getOrElse(config.appUserModelIdOverride, () =>
-      isDevelopment ? "com.t3tools.jcode.dev" : "com.t3tools.jcode",
+      isDevelopment ? "com.lnsflive.jcode.dev" : "com.lnsflive.jcode",
     ),
     linuxDesktopEntryName: resolveLinuxDesktopEntryName(isDevelopment),
     linuxWmClass: isDevelopment ? "jcode-dev" : "jcode",

@@ -8,7 +8,7 @@ import android.content.Context
 import org.json.JSONObject
 import org.json.JSONArray
 
-internal object T3ComposerClipboard {
+internal object JComposerClipboard {
   fun write(context: Context, text: String, fragment: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val payload = try {
@@ -66,7 +66,7 @@ class JComposerEditorModule : Module() {
     Name("JComposerEditor")
 
     AsyncFunction("writeContextClipboard") { text: String, fragment: String ->
-      T3ComposerClipboard.write(requireNotNull(appContext.reactContext), text, fragment)
+      JComposerClipboard.write(requireNotNull(appContext.reactContext), text, fragment)
     }
 
     View(JComposerEditorView::class) {

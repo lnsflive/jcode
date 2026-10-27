@@ -1,6 +1,6 @@
 export const CLIENT_NAMES = [
-  "com.t3tools.JCode.SnapShot",
-  "com.t3tools.JCode.Development.SnapShot",
+  "com.lnsflive.jcode.SnapShot",
+  "com.lnsflive.jcode.Development.SnapShot",
 ];
 
 export function isWaylandSession(meta) {

@@ -1,5 +1,5 @@
-import { type EnvironmentId, T3_PROJECT_FILE_NAME, type T3ProjectFile } from "@t3tools/contracts";
-import { parseT3ProjectFile } from "@t3tools/shared/t3ProjectFile";
+import { type EnvironmentId, J_PROJECT_FILE_NAME, type JProjectFile } from "@t3tools/contracts";
+import { parseJProjectFile } from "@t3tools/shared/jProjectFile";
 import { useAtomValue } from "@effect/atom-react";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
@@ -21,20 +21,20 @@ type ProjectFileMember = readonly [
 const memberProjectFilesAtom = Atom.family((membersKey: string) => {
   const members = JSON.parse(membersKey) as ReadonlyArray<ProjectFileMember>;
   return Atom.make((get) => {
-    const files = new Map<string, T3ProjectFile | null>();
+    const files = new Map<string, JProjectFile | null>();
     for (const [environmentId, workspaceRoot, physicalProjectKey] of members) {
       const result = get(
-        getProjectFileQueryAtom(environmentId, workspaceRoot, T3_PROJECT_FILE_NAME),
+        getProjectFileQueryAtom(environmentId, workspaceRoot, J_PROJECT_FILE_NAME),
       );
       if (result.waiting) continue;
       const data =
-        get(optimisticFileAtom(environmentId, workspaceRoot, T3_PROJECT_FILE_NAME))?.data ??
+        get(optimisticFileAtom(environmentId, workspaceRoot, J_PROJECT_FILE_NAME))?.data ??
         Option.getOrNull(AsyncResult.value(result));
       files.set(
         physicalProjectKey,
         data === null || data.exists === false || data.truncated
           ? null
-          : parseT3ProjectFile(data.contents),
+          : parseJProjectFile(data.contents),
       );
     }
     return files;

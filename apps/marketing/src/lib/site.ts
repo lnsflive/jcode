@@ -4,7 +4,7 @@ export const IOS_APP_STORE_URL =
   "https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824";
 
 export const ANDROID_PLAY_STORE_URL =
-  "https://play.google.com/store/apps/details?id=com.t3tools.jcode";
+  "https://play.google.com/store/apps/details?id=com.lnsflive.jcode";
 
 export const MARKETING_STATS = {
   githubStars: "24k+",

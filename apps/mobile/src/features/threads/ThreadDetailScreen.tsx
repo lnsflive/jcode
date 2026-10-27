@@ -44,7 +44,7 @@ import type {
   ProviderInteractionMode,
   RuntimeRequestId,
   ScopedThreadRef,
-  ServerConfig as T3ServerConfig,
+  ServerConfig as JServerConfig,
   UsageLimitsReport,
 } from "@t3tools/contracts";
 import {
@@ -262,7 +262,7 @@ export interface ThreadDetailScreenProps {
   readonly selectedThreadQueueCount: number;
   readonly queuedMessages: ReadonlyArray<QueuedThreadMessage>;
   readonly dispatchingMessageId: MessageId | null;
-  readonly serverConfig: T3ServerConfig | null;
+  readonly serverConfig: JServerConfig | null;
   readonly layoutVariant?: LayoutVariant;
   readonly usesAutomaticContentInsets?: boolean;
   readonly onHeaderMaterialVisibilityChange?: (visible: boolean) => void;

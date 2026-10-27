@@ -200,7 +200,7 @@ private final class ComposerTextView: UITextView {
       return
     }
     let pasteboard = UIPasteboard.general
-    let context = T3ComposerClipboard.read()
+    let context = JComposerClipboard.read()
     if !context["fragment", default: ""].isEmpty || context["html", default: ""].contains("data-t3-context-fragment=") {
       onPasteContext?(context)
       return
@@ -304,7 +304,7 @@ private final class ComposerTextView: UITextView {
     guard selectedRange.length > 0 else {
       return super.copy(sender)
     }
-    T3ComposerClipboard.write(text: serializedText(in: selectedRange), fragment: clipboardFragment)
+    JComposerClipboard.write(text: serializedText(in: selectedRange), fragment: clipboardFragment)
   }
 
   override func cut(_ sender: Any?) {

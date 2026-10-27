@@ -1,15 +1,15 @@
 included:
   - ios/JCode
   - modules/jcode-composer-editor/ios
-  - modules/t3-highlights/ios
-  - modules/t3-native-controls/ios
-  - modules/t3-terminal/ios
-  - modules/t3-review-diff/ios
+  - modules/jcode-highlights/ios
+  - modules/jcode-native-controls/ios
+  - modules/jcode-terminal/ios
+  - modules/jcode-review-diff/ios
 
 excluded:
   - ios/Pods
   - ios/build
-  - modules/t3-terminal/Vendor
+  - modules/jcode-terminal/Vendor
 
 reporter: xcode
 

@@ -7,7 +7,7 @@ const SECTIONS = [
   {
     title: "Connections",
     rows: [
-      { id: "account", label: "T3 Account" },
+      { id: "account", label: "J Account" },
       { id: "SettingsEnvironments", label: "Environments" },
     ],
   },

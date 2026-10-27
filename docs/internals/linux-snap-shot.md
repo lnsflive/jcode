@@ -95,7 +95,7 @@ Source in `apps/desktop/gnome-extension`, UUID `snap-shot@jaimegonzalezjr.com`. 
 installed extension at login, so setup distinguishes "installed, needs logout" from "discovered but
 disabled" and compares loaded and installed versions.
 
-The extension trusts callers that own `com.t3tools.JCode.SnapShot` (or the `.Development`
+The extension trusts callers that own `com.lnsflive.jcode.SnapShot` (or the `.Development`
 variant) on the same connection. This is GNOME's trusted-session-client pattern, not authentication
 against a hostile process on the user's bus.
 

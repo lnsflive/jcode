@@ -35,7 +35,7 @@ import {
   resolveNewThreadModelSelectionOverride,
 } from "../lib/chatThreadActions";
 import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
-import { readT3ProjectFile } from "../lib/t3ProjectFileDefaults";
+import { readJProjectFile } from "../lib/jProjectFileDefaults";
 import { appAtomRegistry } from "../rpc/atomRegistry";
 import { environmentSummaries } from "../state/presentation";
 import { environmentServerConfigsAtom } from "../state/server";
@@ -155,7 +155,7 @@ export function createNewThreadHandler(router: AnyRouter) {
           .get(environmentSummaries.connectedEnvironmentIdsAtom)
           .includes(project.environmentId);
       const projectFile = consultProjectFile
-        ? await readT3ProjectFile(project.environmentId, project.workspaceRoot)
+        ? await readJProjectFile(project.environmentId, project.workspaceRoot)
         : null;
       return resolveNewThreadEnvMode({
         projectSettings: resolveProjectSettings(

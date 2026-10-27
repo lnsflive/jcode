@@ -32,11 +32,11 @@ import {
   type WorkLogToolLifecycleStatus,
 } from "@t3tools/client-runtime/work-log/presentation";
 import {
-  resolveT3McpToolDefinition,
-  resolveT3McpToolPresentation,
-  type T3McpToolLogo,
-  type T3McpToolPresentation,
-} from "@t3tools/shared/t3McpToolPresentation";
+  resolveJMcpToolDefinition,
+  resolveJMcpToolPresentation,
+  type JMcpToolLogo,
+  type JMcpToolPresentation,
+} from "@t3tools/shared/jMcpToolPresentation";
 import type {
   ChatAttachment,
   MessageId,
@@ -118,7 +118,7 @@ export interface ThreadFeedActivity {
     | "warning"
     | "wrench"
     | "zap";
-  readonly logo: T3McpToolLogo | null;
+  readonly logo: JMcpToolLogo | null;
   readonly toolLike: boolean;
   readonly prominent: boolean;
   readonly status: "success" | "failure" | "neutral" | null;
@@ -641,19 +641,19 @@ function itemIcon(item: OrchestrationV2TurnItem): ThreadFeedActivity["icon"] {
   }
 }
 
-function itemToolPresentation(item: OrchestrationV2TurnItem): T3McpToolPresentation | null {
+function itemToolPresentation(item: OrchestrationV2TurnItem): JMcpToolPresentation | null {
   if (item.type !== "dynamic_tool") {
     return null;
   }
   return (
-    resolveT3McpToolPresentation(item.toolName, item.input) ??
-    resolveT3McpToolPresentation(item.title, item.input)
+    resolveJMcpToolPresentation(item.toolName, item.input) ??
+    resolveJMcpToolPresentation(item.title, item.input)
   );
 }
 
 function itemSummary(
   item: OrchestrationV2TurnItem,
-  toolPresentation: T3McpToolPresentation | null = null,
+  toolPresentation: JMcpToolPresentation | null = null,
 ): string {
   if (item.type === "notification") return item.summary;
   if (item.type === "system_notice") return item.message;
@@ -988,7 +988,7 @@ function groupAdjacentActivities(
         item.type === "dynamic_tool" &&
         item.runId !== null &&
         (item.status === "running" || item.status === "completed") &&
-        resolveT3McpToolDefinition(item.toolName)?.summaryAction === "delegate" &&
+        resolveJMcpToolDefinition(item.toolName)?.summaryAction === "delegate" &&
         !workEntryDisplayIndicatesToolFailure(entry.activity.workEntry)
       ) {
         const output = compactDynamicToolOutput(item.output);

@@ -113,7 +113,7 @@
         "@t3tools/mobile-terminal-native",
       ],
     },
-    "apps/mobile/modules/t3-source-text": {
+    "apps/mobile/modules/jcode-source-text": {
       // React Native codegen discovers component specifications by filename.
       "entry": ["src/*NativeComponent.ts!"],
     },

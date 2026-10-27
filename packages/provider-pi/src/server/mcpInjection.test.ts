@@ -2,8 +2,8 @@ import { assert, describe, it } from "@effect/vitest";
 import { EnvironmentId, ProviderInstanceId, ThreadId } from "@t3tools/contracts";
 
 import {
-  T3_MCP_BEARER_ENV,
-  T3_MCP_URL_ENV,
+  J_MCP_BEARER_ENV,
+  J_MCP_URL_ENV,
   T3_PI_RUNTIME_MODE_ENV,
   T3_PI_MCP_EXTENSION_PATH_ENV,
 } from "./mcpExtensionSource.ts";
@@ -55,16 +55,16 @@ describe("pi JCode MCP injection", () => {
       "/tmp/cache/pi-t3-mcp-extension.ts",
     ]);
     assert.notInclude(launch.args, "--no-extensions");
-    assert.equal(launch.env[T3_MCP_URL_ENV], "http://127.0.0.1:43123/mcp");
-    assert.equal(launch.env[T3_MCP_BEARER_ENV], "secret-pi-token");
+    assert.equal(launch.env[J_MCP_URL_ENV], "http://127.0.0.1:43123/mcp");
+    assert.equal(launch.env[J_MCP_BEARER_ENV], "secret-pi-token");
     assert.equal(launch.env[T3_PI_RUNTIME_MODE_ENV], "approval-required");
     assert.equal(launch.env[T3_PI_MCP_EXTENSION_PATH_ENV], "/tmp/cache/pi-t3-mcp-extension.ts");
 
     const permissionOnly = buildPiRpcLaunch({
       launchArgs: [],
       environment: {
-        [T3_MCP_URL_ENV]: "http://127.0.0.1:9999/stale",
-        [T3_MCP_BEARER_ENV]: "stale-token",
+        [J_MCP_URL_ENV]: "http://127.0.0.1:9999/stale",
+        [J_MCP_BEARER_ENV]: "stale-token",
         [T3_PI_MCP_EXTENSION_PATH_ENV]: "/stale/extension.ts",
       },
       mcpSession: undefined,
@@ -77,9 +77,9 @@ describe("pi JCode MCP injection", () => {
       "--extension",
       "/tmp/cache/pi-t3-mcp-extension.ts",
     ]);
-    assert.isFalse(permissionOnly.hasT3Mcp);
-    assert.isUndefined(permissionOnly.env[T3_MCP_URL_ENV]);
-    assert.isUndefined(permissionOnly.env[T3_MCP_BEARER_ENV]);
+    assert.isFalse(permissionOnly.hasJMcp);
+    assert.isUndefined(permissionOnly.env[J_MCP_URL_ENV]);
+    assert.isUndefined(permissionOnly.env[J_MCP_BEARER_ENV]);
     assert.equal(permissionOnly.env[T3_PI_RUNTIME_MODE_ENV], "auto-accept-edits");
     assert.equal(
       permissionOnly.env[T3_PI_MCP_EXTENSION_PATH_ENV],
@@ -115,7 +115,7 @@ describe("pi JCode MCP injection", () => {
       "--no-extensions",
       "--no-tools",
     ]);
-    assert.isFalse(launch.hasT3Mcp);
+    assert.isFalse(launch.hasJMcp);
     assert.deepInclude(resolvePiLaunchArgs("--mode text"), {
       ok: false,
       message: "Pi launch argument '--mode' is controlled by JCode and cannot be overridden.",

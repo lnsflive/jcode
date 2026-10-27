@@ -26,7 +26,7 @@ interface NativeShowcaseControls {
 }
 
 function nativeShowcaseControls(): NativeShowcaseControls | null {
-  return requireOptionalNativeModule<NativeShowcaseControls>("T3NativeControls");
+  return requireOptionalNativeModule<NativeShowcaseControls>("JNativeControls");
 }
 
 export function getNativeShowcasePairingUrls(): ReadonlyArray<string> {

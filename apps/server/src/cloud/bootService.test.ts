@@ -403,7 +403,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
           platform === "linux"
             ? ["systemctl --user stop jcode.service", "systemctl --user restart jcode.service"]
             : [
-                "launchctl bootout --wait gui/501/com.t3tools.jcode.service",
+                "launchctl bootout --wait gui/501/com.lnsflive.jcode.service",
                 `launchctl bootstrap gui/501 ${plan.unitPath}`,
               ],
         );
@@ -748,7 +748,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
 
       expect(
         plan.unitPath.endsWith(
-          path.join("Library", "LaunchAgents", "com.t3tools.jcode.service.plist"),
+          path.join("Library", "LaunchAgents", "com.lnsflive.jcode.service.plist"),
         ),
       ).toBe(true);
       expect(yield* fs.readFileString(plan.unitPath)).toContain(
@@ -769,7 +769,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
       expect((yield* service.status).installed).toBe(false);
       expect(commands.some((command) => command.startsWith("systemctl "))).toBe(false);
       // launchd can take 90s to bootout; the runner's 60s default could let bootstrap race it.
-      expect(timeouts.get("launchctl bootout --wait gui/501/com.t3tools.jcode.service")).toEqual(
+      expect(timeouts.get("launchctl bootout --wait gui/501/com.lnsflive.jcode.service")).toEqual(
         Duration.seconds(120),
       );
     }),
@@ -831,7 +831,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
     Effect.gen(function* () {
       const { service, control } = yield* makeHarness("darwin");
       yield* service.install();
-      control.failCommand = "launchctl bootout --wait gui/501/com.t3tools.jcode.service";
+      control.failCommand = "launchctl bootout --wait gui/501/com.lnsflive.jcode.service";
 
       yield* service.install();
       expect((yield* service.status).current).toBe(true);

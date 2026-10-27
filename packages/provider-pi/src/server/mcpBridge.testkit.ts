@@ -2,7 +2,7 @@
 import * as NodeModule from "node:module";
 import * as NodePath from "node:path";
 import * as NodeVM from "node:vm";
-import { PI_T3_MCP_EXTENSION_SOURCE } from "./mcpExtensionSource.ts";
+import { PI_J_MCP_EXTENSION_SOURCE } from "./mcpExtensionSource.ts";
 
 interface RegisteredTool {
   readonly name: string;
@@ -80,7 +80,7 @@ export async function loadMcpBridge(
     outputSchema: { type: "object", properties: { count: { type: "number" } } },
   }));
   const source = NodeModule.stripTypeScriptTypes(
-    PI_T3_MCP_EXTENSION_SOURCE.replace(/^import .*;$/gm, "").replace(
+    PI_J_MCP_EXTENSION_SOURCE.replace(/^import .*;$/gm, "").replace(
       "export default async function",
       "async function",
     ),
@@ -88,8 +88,8 @@ export async function loadMcpBridge(
   await NodeVM.runInNewContext(`${source}\nt3McpExtension(pi)`, {
     process: {
       env: {
-        T3_MCP_URL: "http://fixture.invalid/mcp",
-        T3_MCP_BEARER_TOKEN: "fixture-token",
+        J_MCP_URL: "http://fixture.invalid/mcp",
+        J_MCP_BEARER_TOKEN: "fixture-token",
         T3_PI_MCP_EXTENSION_PATH: "/fixture/pi-t3-extension.ts",
         T3_PI_RUNTIME_MODE: options.runtimeMode,
       },

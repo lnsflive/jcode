@@ -135,8 +135,8 @@ describe("CodexAdapterV2 assistant message streaming", () => {
 
 describe("CodexAdapterV2 runtime policy", () => {
   it.effect.each([undefined, false, true])(
-    "selects native collaboration modes without prompt overrides with hasT3Mcp=%s",
-    (hasT3Mcp) =>
+    "selects native collaboration modes without prompt overrides with hasJMcp=%s",
+    (hasJMcp) =>
       Effect.gen(function* () {
         for (const interactionMode of ["plan", "default"] as const) {
           for (const reasoningEffort of [undefined, "high"] as const) {
@@ -151,7 +151,7 @@ describe("CodexAdapterV2 runtime policy", () => {
                   ? {}
                   : { options: [{ id: "reasoningEffort", value: reasoningEffort }] }),
               },
-              ...(hasT3Mcp === undefined ? {} : { hasT3Mcp }),
+              ...(hasJMcp === undefined ? {} : { hasJMcp }),
             });
 
             assert.deepEqual(params.collaborationMode, {
@@ -162,7 +162,7 @@ describe("CodexAdapterV2 runtime policy", () => {
               },
             });
             assert.equal(params.effort, reasoningEffort);
-            assert.equal(params.additionalContext !== undefined, hasT3Mcp === true);
+            assert.equal(params.additionalContext !== undefined, hasJMcp === true);
           }
         }
       }),
@@ -227,7 +227,7 @@ describe("CodexAdapterV2 runtime policy", () => {
         codexInput: [{ type: "text", text: "what's on my list?" }],
         runtimePolicy: policy,
         modelSelection,
-        hasT3Mcp: true,
+        hasJMcp: true,
         appContext,
       });
       assert.deepEqual(withT3.additionalContext?.["mcp_app_todos_list_todos_item-1"], {
@@ -1729,7 +1729,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           codexInput: [{ type: "text", text: "work" }],
           runtimePolicy: CODEX_TEST_RUNTIME_POLICY,
           modelSelection: CODEX_TEST_MODEL_SELECTION,
-          hasT3Mcp: true,
+          hasJMcp: true,
         });
         assert.include(
           params.additionalContext?.jcode_orchestration_01?.value ?? "",

@@ -275,7 +275,7 @@ describe("PreviewPasskeys", () => {
         Effect.provide(
           layerFor({
             jcodeWebAuthn: {
-              touchIdKeychainAccessGroup: "ABC1234567.com.t3tools.jcode.webauthn",
+              touchIdKeychainAccessGroup: "ABC1234567.com.lnsflive.jcode.webauthn",
               browserPasskeys: false,
             },
           }),
@@ -283,7 +283,7 @@ describe("PreviewPasskeys", () => {
       );
       yield* entitled.configure;
       assert.deepStrictEqual(electron.configureWebAuthn.mock.calls, [
-        [{ touchID: { keychainAccessGroup: "ABC1234567.com.t3tools.jcode.webauthn" } }],
+        [{ touchID: { keychainAccessGroup: "ABC1234567.com.lnsflive.jcode.webauthn" } }],
       ]);
       assert.isFalse(entitled.bridgeEnabled);
       const { guest, handlers } = makeGuest();

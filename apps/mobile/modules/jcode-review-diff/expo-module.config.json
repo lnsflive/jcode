@@ -1,0 +1,10 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["JReviewDiffModule"],
+    "podspecPath": "JReviewDiffNative.podspec"
+  },
+  "android": {
+    "modules": ["expo.modules.jreviewdiff.JReviewDiffModule"]
+  }
+}

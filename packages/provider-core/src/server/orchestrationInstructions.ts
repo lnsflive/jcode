@@ -48,7 +48,7 @@ Investigate with read-only actions and do not edit files or otherwise execute th
 
 export interface T3AcpInstructionState {
   readonly interactionMode: ProviderInteractionMode;
-  readonly hasT3Mcp: boolean;
+  readonly hasJMcp: boolean;
 }
 
 /** ACP lacks system/developer fields; inject context on first prompt and tool/mode changes. */
@@ -61,7 +61,7 @@ export function t3AcpPromptWithInstructions(input: {
   if (input.prompt.trimStart().startsWith("/")) return input.prompt;
   if (
     input.previousState?.interactionMode === input.state.interactionMode &&
-    input.previousState.hasT3Mcp === input.state.hasT3Mcp
+    input.previousState.hasJMcp === input.state.hasJMcp
   ) {
     return input.prompt;
   }
@@ -69,7 +69,7 @@ export function t3AcpPromptWithInstructions(input: {
     input.state.interactionMode === "plan"
       ? JCODE_ACP_PLAN_MODE_INSTRUCTIONS
       : JCODE_ACP_DEFAULT_MODE_INSTRUCTIONS,
-    ...(input.state.hasT3Mcp
+    ...(input.state.hasJMcp
       ? [
           JCODE_BROWSER_TOOL_INSTRUCTIONS.trim(),
           JCODE_ORCHESTRATION_INSTRUCTIONS.trim(),
@@ -87,13 +87,13 @@ function prependT3OrchestrationInstructions(prompt: string): string {
 export function t3OrchestrationPromptForFirstRun(input: {
   readonly prompt: string;
   readonly runOrdinal: number;
-  readonly hasT3Mcp: boolean;
+  readonly hasJMcp: boolean;
 }): string {
-  return input.runOrdinal === 1 && input.hasT3Mcp
+  return input.runOrdinal === 1 && input.hasJMcp
     ? prependT3OrchestrationInstructions(input.prompt)
     : input.prompt;
 }
 
-export function t3OrchestrationSystemPrompt(hasT3Mcp: boolean): string | undefined {
-  return hasT3Mcp ? JCODE_ORCHESTRATION_INSTRUCTIONS : undefined;
+export function t3OrchestrationSystemPrompt(hasJMcp: boolean): string | undefined {
+  return hasJMcp ? JCODE_ORCHESTRATION_INSTRUCTIONS : undefined;
 }

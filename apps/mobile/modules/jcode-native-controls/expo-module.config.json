@@ -1,0 +1,15 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["JNativeControlsModule", "JKeyboardCommandsModule"],
+    "appDelegateSubscribers": ["JWorkspaceOrientationSubscriber", "JMenuDismissTouchGateSubscriber"]
+  },
+  "android": {
+    "modules": [
+      "expo.modules.jnativecontrols.JNativeControlsModule",
+      "expo.modules.jnativecontrols.JWorkspaceNavigationModule",
+      "expo.modules.jnativecontrols.JKeyboardCommandsModule",
+      "expo.modules.jnativecontrols.JFoldPostureModule"
+    ]
+  }
+}

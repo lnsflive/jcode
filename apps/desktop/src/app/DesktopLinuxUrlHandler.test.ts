@@ -28,7 +28,7 @@ const makeEnvironment = (path: Path.Path, overrides: Record<string, unknown> = {
     isPackaged: true,
     isDevelopment: false,
     displayName: "JCode (Alpha)",
-    linuxDesktopEntryName: "com.t3tools.JCode.desktop",
+    linuxDesktopEntryName: "com.lnsflive.jcode.desktop",
     linuxWmClass: "jcode",
     linuxApplicationsDir: "/home/alice/.local/share/applications",
     desktopLauncherPath: Option.none(),
@@ -190,7 +190,7 @@ describe("DesktopLinuxUrlHandler", () => {
         assert.equal(recorded.files.length, 1);
         assert.equal(
           recorded.files[0]?.path,
-          "/home/alice/.local/share/applications/com.t3tools.JCode.desktop",
+          "/home/alice/.local/share/applications/com.lnsflive.jcode.desktop",
         );
         assert.include(
           recorded.files[0]?.content,
@@ -204,7 +204,7 @@ describe("DesktopLinuxUrlHandler", () => {
           },
           {
             command: "xdg-mime",
-            args: ["default", "com.t3tools.JCode.desktop", "x-scheme-handler/jcode"],
+            args: ["default", "com.lnsflive.jcode.desktop", "x-scheme-handler/jcode"],
           },
         ]);
       });
@@ -223,7 +223,7 @@ describe("DesktopLinuxUrlHandler", () => {
           displayName: "JCode (Alpha)",
           execTarget: process.execPath,
           scheme: "jcode",
-          iconPath: "/home/alice/.local/share/icons/com.t3tools.JCode.desktop.png",
+          iconPath: "/home/alice/.local/share/icons/com.lnsflive.jcode.desktop.png",
         }),
       );
     });
@@ -237,7 +237,7 @@ describe("DesktopLinuxUrlHandler", () => {
         environment: { desktopLauncherPath: Option.some("/opt/JCode/jcode") },
       });
 
-      assert.include(recorded.files[0]?.content, 'Exec="/opt/JCode/jcode" %U');
+      assert.include(recorded.files[0]?.content, "Exec=/opt/JCode/jcode %U");
     });
   });
 
@@ -250,7 +250,7 @@ describe("DesktopLinuxUrlHandler", () => {
           displayName: "JCode (Alpha)",
           execTarget: "/home/alice/Applications/JCode.AppImage",
           scheme: "jcode",
-          iconPath: "/home/alice/.local/share/icons/com.t3tools.JCode.desktop.png",
+          iconPath: "/home/alice/.local/share/icons/com.lnsflive.jcode.desktop.png",
         }),
       });
 
@@ -263,7 +263,7 @@ describe("DesktopLinuxUrlHandler", () => {
         },
         {
           command: "xdg-mime",
-          args: ["default", "com.t3tools.JCode.desktop", "x-scheme-handler/jcode"],
+          args: ["default", "com.lnsflive.jcode.desktop", "x-scheme-handler/jcode"],
         },
       ]);
     });
@@ -271,7 +271,7 @@ describe("DesktopLinuxUrlHandler", () => {
 
   it.effect("installs a persistent icon even when the desktop entry is already current", () => {
     const recorded = emptyRecording();
-    const iconPath = "/home/alice/.local/share/icons/com.t3tools.JCode.desktop.png";
+    const iconPath = "/home/alice/.local/share/icons/com.lnsflive.jcode.desktop.png";
     return Effect.gen(function* () {
       yield* runRegister(recorded, {
         iconSource: "/tmp/.mount_T3/resources/icon.png",
@@ -319,14 +319,14 @@ describe("DesktopLinuxUrlHandler", () => {
       yield* runRegister(unpackaged, {
         environment: {
           isPackaged: false,
-          linuxDesktopEntryName: "com.t3tools.JCode.Development.desktop",
+          linuxDesktopEntryName: "com.lnsflive.jcode.Development.desktop",
         },
       });
 
       assert.deepEqual(nonLinux.files, []);
       assert.equal(
         unpackaged.files[0]?.path,
-        "/home/alice/.local/share/applications/com.t3tools.JCode.Development.desktop",
+        "/home/alice/.local/share/applications/com.lnsflive.jcode.Development.desktop",
       );
       assert.deepEqual(unpackaged.commands, []);
     });
@@ -346,7 +346,7 @@ describe("DesktopLinuxUrlHandler", () => {
           module: "FileSystem",
           method: "writeFileString",
           description: "read-only filesystem",
-          pathOrDescriptor: "/home/alice/.local/share/applications/com.t3tools.JCode.desktop",
+          pathOrDescriptor: "/home/alice/.local/share/applications/com.lnsflive.jcode.desktop",
         }),
       });
 
@@ -486,7 +486,7 @@ const iconCacheRuns = (run: ThemeIconRun) =>
   run.commands.filter(({ command }) => command === "gtk-update-icon-cache").length;
 
 it.layer(NodeServices.layer)("DesktopLinuxUrlHandler theme icons", (it) => {
-  it.effect("installs both app id spellings without creating an icon cache", () =>
+  it.effect("installs the app icon without creating an icon cache", () =>
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
@@ -495,18 +495,18 @@ it.layer(NodeServices.layer)("DesktopLinuxUrlHandler theme icons", (it) => {
       const run: ThemeIconRun = { root: fixture.root, commands: [] };
 
       yield* registerWithRealFileSystem(run);
-      assert.deepEqual([...(yield* fileSystem.readDirectory(fixture.appsDir))].sort(), [
-        "com.t3tools.JCode.png",
-        "com.t3tools.jcode.png",
-      ]);
-      for (const name of ["com.t3tools.jcode", "com.t3tools.JCode"]) {
+      assert.deepEqual(
+        [...(yield* fileSystem.readDirectory(fixture.appsDir))],
+        ["com.lnsflive.jcode.png"],
+      );
+      for (const name of ["com.lnsflive.jcode"]) {
         const target = path.join(fixture.appsDir, `${name}.png`);
         assert.deepEqual([...(yield* fileSystem.readFile(target))], [...icon]);
         yield* fileSystem.utimes(target, fixture.pastSeconds, fixture.pastSeconds);
       }
 
       yield* registerWithRealFileSystem(run);
-      for (const name of ["com.t3tools.jcode", "com.t3tools.JCode"]) {
+      for (const name of ["com.lnsflive.jcode"]) {
         const info = yield* fileSystem.stat(path.join(fixture.appsDir, `${name}.png`));
         assert.equal(Option.getOrThrow(info.mtime).getTime(), fixture.pastSeconds * 1000);
       }
@@ -521,8 +521,8 @@ it.layer(NodeServices.layer)("DesktopLinuxUrlHandler theme icons", (it) => {
       const path = yield* Path.Path;
       const fixture = yield* themeIconFixture(new Uint8Array([1, 2, 3]));
       yield* fixture.seedCache;
-      const lower = path.join(fixture.appsDir, "com.t3tools.jcode.png");
-      const upper = path.join(fixture.appsDir, "com.t3tools.JCode.png");
+      const lower = path.join(fixture.appsDir, "com.lnsflive.jcode.png");
+      const upper = path.join(fixture.appsDir, "com.lnsflive.jcode-legacy.png");
       yield* fileSystem.writeFile(lower, new Uint8Array([3, 2, 1]));
       yield* fileSystem.writeFile(upper, new Uint8Array([1, 2, 3]));
       for (const target of [lower, upper]) {
@@ -563,7 +563,7 @@ it.layer(NodeServices.layer)("DesktopLinuxUrlHandler theme icons", (it) => {
 
       yield* registerWithRealFileSystem(run);
 
-      assert.isTrue(yield* fileSystem.exists(path.join(fixture.appsDir, "com.t3tools.JCode.png")));
+      assert.isTrue(yield* fileSystem.exists(path.join(fixture.appsDir, "com.lnsflive.jcode.png")));
       assert.equal(iconCacheRuns(run), 1);
     }).pipe(Effect.scoped),
   );

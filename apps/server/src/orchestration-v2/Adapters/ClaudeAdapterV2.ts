@@ -1579,10 +1579,10 @@ const readClaudeAppendSystemPromptFile = Effect.fnUntraced(function* (input: {
     );
 });
 
-export const CLAUDE_T3_MCP_TOOL_WILDCARD = "mcp__jcode__*";
+export const CLAUDE_J_MCP_TOOL_WILDCARD = "mcp__jcode__*";
 
 // Keep in sync with OrchestratorToolkit Tool.Readonly annotations; ClaudeAdapterV2.test.ts checks this.
-export const CLAUDE_READ_ONLY_T3_MCP_ALLOWED_TOOLS: ReadonlyArray<string> = [
+export const CLAUDE_READ_ONLY_J_MCP_ALLOWED_TOOLS: ReadonlyArray<string> = [
   "mcp__jcode__orchestrator_capabilities",
   "mcp__jcode__list_scheduled_tasks",
   "mcp__jcode__t3_thread_list",
@@ -1599,7 +1599,7 @@ export const CLAUDE_READ_ONLY_T3_MCP_ALLOWED_TOOLS: ReadonlyArray<string> = [
 ];
 
 // JCode waits can block for an hour; exceed Claude's default 60 s timeout.
-export const CLAUDE_T3_MCP_TOOL_TIMEOUT_MS = 65 * 60 * 1_000;
+export const CLAUDE_J_MCP_TOOL_TIMEOUT_MS = 65 * 60 * 1_000;
 
 // allowedTools pre-approves calls; tools controls availability. Pre-approve JCode tools for headless modes,
 // limited to annotated read-only tools in read-only sandboxes.
@@ -1617,8 +1617,8 @@ export function claudeMcpQueryOverrides(input: {
     return input.allowedTools === undefined ? {} : { allowedTools: input.allowedTools };
   }
   const mcpAllowedTools = input.readOnlySandbox
-    ? CLAUDE_READ_ONLY_T3_MCP_ALLOWED_TOOLS
-    : [CLAUDE_T3_MCP_TOOL_WILDCARD];
+    ? CLAUDE_READ_ONLY_J_MCP_ALLOWED_TOOLS
+    : [CLAUDE_J_MCP_TOOL_WILDCARD];
   return {
     allowedTools: Array.from(new Set([...(input.allowedTools ?? []), ...mcpAllowedTools])),
     mcpServers: {
@@ -1628,7 +1628,7 @@ export function claudeMcpQueryOverrides(input: {
         headers: {
           Authorization: session.authorizationHeader,
         },
-        timeout: CLAUDE_T3_MCP_TOOL_TIMEOUT_MS,
+        timeout: CLAUDE_J_MCP_TOOL_TIMEOUT_MS,
       },
     },
   };

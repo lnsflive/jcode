@@ -15,7 +15,7 @@ const stores = [
   {
     label: "Android",
     store: "Google Play",
-    url: "https://play.google.com/store/apps/details?id=com.t3tools.jcode",
+    url: "https://play.google.com/store/apps/details?id=com.lnsflive.jcode",
     Icon: AndroidIcon,
   },
 ];

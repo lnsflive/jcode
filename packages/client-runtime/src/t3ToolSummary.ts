@@ -1,4 +1,4 @@
-import type { T3McpToolSummaryAction } from "@t3tools/shared/t3McpToolPresentation";
+import type { JMcpToolSummaryAction } from "@t3tools/shared/jMcpToolPresentation";
 
 export interface T3ToolSummaryCall {
   readonly input: unknown;
@@ -80,7 +80,7 @@ function quantity(count: number, noun: string, plural = `${noun}s`): string {
 }
 
 export function summarizeT3ToolCalls(
-  action: T3McpToolSummaryAction,
+  action: JMcpToolSummaryAction,
   calls: ReadonlyArray<T3ToolSummaryCall>,
 ): { label: string; failedCount: number } {
   const results = calls.map((call) => {

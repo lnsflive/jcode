@@ -1,24 +1,24 @@
 // No JCode imports inside the string; resolve Pi and typebox from the user's Pi install.
 import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";
 
-export const PI_T3_MCP_EXTENSION_FILENAME = "pi-t3-mcp-extension.ts";
+export const PI_J_MCP_EXTENSION_FILENAME = "pi-t3-mcp-extension.ts";
 
-export const T3_MCP_URL_ENV = "T3_MCP_URL";
-export const T3_MCP_BEARER_ENV = "T3_MCP_BEARER_TOKEN";
+export const J_MCP_URL_ENV = "J_MCP_URL";
+export const J_MCP_BEARER_ENV = "J_MCP_BEARER_TOKEN";
 export const T3_PI_RUNTIME_MODE_ENV = "T3_PI_RUNTIME_MODE";
 export const T3_PI_MCP_EXTENSION_PATH_ENV = "T3_PI_MCP_EXTENSION_PATH";
 
 // These tools trigger file-change approvals, bypassed by Auto-accept edits.
 export const PI_FILE_CHANGE_TOOLS = ["edit", "write"] as const;
 
-export const PI_T3_MCP_EXTENSION_SOURCE = `\
+export const PI_J_MCP_EXTENSION_SOURCE = `\
 import { stripFrontmatter, type ExtensionAPI, type ExtensionContext } from "@earendil-works/pi-coding-agent";
 import * as NodeFSP from "node:fs/promises";
 import * as NodePath from "node:path";
 import { Type } from "typebox";
 
-const URL_ENV = ${JSON.stringify(T3_MCP_URL_ENV)};
-const TOKEN_ENV = ${JSON.stringify(T3_MCP_BEARER_ENV)};
+const URL_ENV = ${JSON.stringify(J_MCP_URL_ENV)};
+const TOKEN_ENV = ${JSON.stringify(J_MCP_BEARER_ENV)};
 const RUNTIME_MODE_ENV = ${JSON.stringify(T3_PI_RUNTIME_MODE_ENV)};
 const EXTENSION_PATH_ENV = ${JSON.stringify(T3_PI_MCP_EXTENSION_PATH_ENV)};
 const ORCHESTRATION_INSTRUCTIONS = ${JSON.stringify(JCODE_ORCHESTRATION_INSTRUCTIONS.trim())};
@@ -338,7 +338,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
   if (endpoint === undefined || token === undefined) {
     pi.on("session_start", async (_event, ctx) => {
       ctx.ui.notify(
-        "jcode MCP unavailable: T3_MCP_URL or T3_MCP_BEARER_TOKEN is missing.",
+        "jcode MCP unavailable: J_MCP_URL or J_MCP_BEARER_TOKEN is missing.",
         "warning",
       );
     });

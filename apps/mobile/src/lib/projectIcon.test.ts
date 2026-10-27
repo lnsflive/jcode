@@ -61,7 +61,7 @@ describe("resolveProjectChipIcon", () => {
 describe("projectAutoMonogram", () => {
   it("matches desktop's deriveProjectIdentity", () => {
     const desktop = [
-      ["jcode", "T3", "teal"],
+      ["jcode", "JE", "red"],
       ["Auto Monogram", "AM", "lime"],
       ["blitzdiff", "BF", "pink"],
       ["uoalbumdotclub", "UB", "gray"],

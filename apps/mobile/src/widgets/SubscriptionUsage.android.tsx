@@ -101,7 +101,7 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
               })}
               {hidden > 0 ? (
                 <Text color={muted} maxLines={1} style={{ fontSize: 10 }}>
-                  {`${hidden} more in T3`}
+                  {`${hidden} more in J`}
                 </Text>
               ) : null}
             </Column>
@@ -115,7 +115,7 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
         >
           {props.checkedAt
             ? `As of ${new Date(props.checkedAt).toLocaleString(undefined, { hour: "numeric", minute: "2-digit", month: "short", day: "numeric" })}`
-            : "Tap to connect in T3"}
+            : "Tap to connect in J"}
         </Text>
       </Column>
     </Button>

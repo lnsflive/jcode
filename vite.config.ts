@@ -173,8 +173,8 @@ export default defineConfig({
       "apps/mobile/ios/**",
       "apps/mobile/uniwind-types.d.ts",
       // Vendored and generated C.
-      "apps/mobile/modules/t3-highlights/Vendor/**",
-      "apps/mobile/modules/t3-highlights/cpp/generated/**",
+      "apps/mobile/modules/jcode-highlights/Vendor/**",
+      "apps/mobile/modules/jcode-highlights/cpp/generated/**",
       "*.icon/**",
     ],
     sortPackageJson: {},

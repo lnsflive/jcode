@@ -67,7 +67,7 @@ const startBesideBootService = Effect.fn("test.startBesideBootService")(function
   const [unitPath, unit] =
     input.platform === "darwin"
       ? [
-          path.join(root, "Library", "LaunchAgents", "com.t3tools.jcode.service.plist"),
+          path.join(root, "Library", "LaunchAgents", "com.lnsflive.jcode.service.plist"),
           renderBootServicePlist(plan, { homeDir: root, environmentPath: "" }),
         ]
       : [
@@ -247,7 +247,7 @@ describe("server ownership", () => {
               "launchctl print": { code: 113 },
               "launchctl print-disabled": {
                 code: 0,
-                stdout: '"com.t3tools.jcode.service" => false',
+                stdout: '"com.lnsflive.jcode.service" => false',
               },
             },
           },
@@ -360,7 +360,7 @@ describe("server ownership", () => {
               "launchctl print": { code: 113 },
               "launchctl print-disabled": {
                 code: 0,
-                stdout: '"com.t3tools.jcode.service" => disabled',
+                stdout: '"com.lnsflive.jcode.service" => disabled',
               },
             },
           },

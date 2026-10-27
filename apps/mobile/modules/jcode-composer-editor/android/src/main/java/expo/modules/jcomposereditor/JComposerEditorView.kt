@@ -454,18 +454,18 @@ class JComposerEditorView(context: Context, appContext: AppContext) : ExpoView(
       if (token.start < 0 || token.end <= token.start || token.end > editable.length) return@forEach
       val expectedSource = editable.substring(token.start, token.end)
       if (expectedSource != token.source) return@forEach
-      T3ChipIcons.load(context, token.iconUri, redrawChipsWithIcon)
+      JChipIcons.load(context, token.iconUri, redrawChipsWithIcon)
       editable.setSpan(
         ComposerChipSpan(
-          T3ContextChip(
-            content = T3ContextChip.Content(
+          JContextChip(
+            content = JContextChip.Content(
               label = token.label,
               detail = token.detail,
               iconUri = token.iconUri,
               tintsIcon = token.tintsIcon
             ),
             fontSize = editor.textSize,
-            color = T3ContextChip.color(token.accent, editor.currentTextColor),
+            color = JContextChip.color(token.accent, editor.currentTextColor),
             maximumWidth = (
               editor.width.takeIf {
                 it > 0
@@ -515,7 +515,7 @@ private data class ComposerToken(
 )
 
 private class ComposerChipSpan(
-  private val chip: T3ContextChip
+  private val chip: JContextChip
 ) : ReplacementSpan() {
   val iconUri get() = chip.iconUri
 
@@ -690,13 +690,13 @@ internal class SelectionAwareEditText(context: Context) : EditText(context) {
     val start = minOf(selectionStart, selectionEnd).coerceAtLeast(0)
     val end = maxOf(selectionStart, selectionEnd).coerceAtMost(length())
     if (end <= start || clipboardFragment.isEmpty()) return false
-    T3ComposerClipboard.write(context, text.substring(start, end), clipboardFragment)
+    JComposerClipboard.write(context, text.substring(start, end), clipboardFragment)
     if (cut) text.delete(start, end)
     return true
   }
 
   private fun pasteContextOrImages(): Boolean {
-    val payload = T3ComposerClipboard.read(context)
+    val payload = JComposerClipboard.read(context)
     if (payload["html"]?.contains("data-t3-context-fragment=") == true) {
       pasteContextListener?.invoke(payload)
       return true

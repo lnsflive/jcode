@@ -21,7 +21,7 @@ jobs:
     permissions:
       contents: write
     env:
-      PACKAGE_NAME: com.t3tools.jcode
+      PACKAGE_NAME: com.lnsflive.jcode
     steps:
       - id: credentials
         name: Check for Play credentials

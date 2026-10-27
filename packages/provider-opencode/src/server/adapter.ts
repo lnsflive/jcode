@@ -939,9 +939,9 @@ export const makeOpenCodeAdapterV2 = Effect.fn("makeOpenCodeAdapterV2")(function
         });
 
         const mcpSession = yield* mcpSessions.read(input.threadId);
-        const hasT3Mcp = mcpSession !== undefined && !connection.external;
-        const orchestrationSystemPrompt = t3OrchestrationSystemPrompt(hasT3Mcp);
-        if (hasT3Mcp) {
+        const hasJMcp = mcpSession !== undefined && !connection.external;
+        const orchestrationSystemPrompt = t3OrchestrationSystemPrompt(hasJMcp);
+        if (hasJMcp) {
           yield* OpenCodeRuntime.runOpenCodeSdk("mcp.add", () =>
             client.mcp.add({
               name: "jcode",

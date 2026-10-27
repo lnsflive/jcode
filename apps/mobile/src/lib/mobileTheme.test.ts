@@ -2,7 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
   BUILT_IN_THEME_IDS,
   BUILT_IN_THEMES,
-  T3_CHAT_THEME,
+  J_CHAT_THEME,
   JCODE_LIGHT_THEME_COLORS,
   JCODE_DARK_THEME_COLORS,
   MOBILE_THEME_IDS,
@@ -58,7 +58,7 @@ function compositeOver(overlay: string, background: string): string {
 
 describe("mobile themes", () => {
   it("declares every runtime theme variable in the static stylesheet", () => {
-    const generatedVariables = createMobileThemeVariables(T3_CHAT_THEME.colors, "light");
+    const generatedVariables = createMobileThemeVariables(J_CHAT_THEME.colors, "light");
     expect(Object.keys(readDefaultMobileThemeVariables("light")).sort()).toEqual(
       Object.keys(generatedVariables).sort(),
     );

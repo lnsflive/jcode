@@ -25,7 +25,7 @@ export function createDebugLogger(
     if (options.legacyGlobalFlag !== undefined && globalValue(options.legacyGlobalFlag) === true) {
       return true;
     }
-    const filter = globalValue("__T3_DEBUG__");
+    const filter = globalValue("__J_DEBUG__");
     return filter === true || (Array.isArray(filter) && filter.includes(namespace));
   };
   const log = (event: string, data?: Record<string, unknown>) => {

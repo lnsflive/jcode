@@ -21,7 +21,7 @@ import {
   type MessageId,
   type ModelSelection,
   type ProviderInteractionMode,
-  type ServerConfig as T3ServerConfig,
+  type ServerConfig as JServerConfig,
   type UsageLimitsReport,
 } from "@t3tools/contracts";
 import {
@@ -202,7 +202,7 @@ export interface ThreadComposerProps {
   readonly selectedThread: EnvironmentThreadShell;
   readonly reportedModelSelection?: ModelSelection | null;
   readonly hasCompactableConversation: boolean;
-  readonly serverConfig: T3ServerConfig | null;
+  readonly serverConfig: JServerConfig | null;
   readonly queueCount: number;
   readonly activeThreadBusy: boolean;
   readonly canStopThread: boolean;

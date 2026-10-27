@@ -131,13 +131,13 @@ describe("DesktopPreReadyPlatform", () => {
     let desktopEntry = previousEntry;
     let iconInstalled = false;
     copyFileSyncMock.mockImplementation((_source: string, destination: string) => {
-      iconInstalled = destination === "/xdg/icons/com.t3tools.JCode.desktop.png";
+      iconInstalled = destination === "/xdg/icons/com.lnsflive.jcode.desktop.png";
     });
     setDesktopNameMock.mockImplementation((name: string) => {
       desktopName = name;
     });
     writeFileSyncMock.mockImplementation((path: string, contents: string) => {
-      if (path === "/xdg/applications/com.t3tools.JCode.desktop") desktopEntry = contents;
+      if (path === "/xdg/applications/com.lnsflive.jcode.desktop") desktopEntry = contents;
     });
 
     return Effect.scoped(
@@ -153,13 +153,13 @@ describe("DesktopPreReadyPlatform", () => {
           ),
         );
         const identity = yield* Effect.promise(() => portalIdentity);
-        assert.equal(identity.desktopName, "com.t3tools.JCode.desktop");
+        assert.equal(identity.desktopName, "com.lnsflive.jcode.desktop");
         assert.include(identity.desktopEntry ?? "", "Exec=/Applications/current.AppImage %U");
         assert.include(identity.desktopEntry ?? "", "Name=JCode (Beta)");
         assert.include(identity.desktopEntry ?? "", "MimeType=x-scheme-handler/jcode;");
         assert.include(
           identity.desktopEntry ?? "",
-          "Icon=/xdg/icons/com.t3tools.JCode.desktop.png",
+          "Icon=/xdg/icons/com.lnsflive.jcode.desktop.png",
         );
         assert.isTrue(identity.iconInstalled);
       }),
@@ -181,9 +181,9 @@ describe("DesktopPreReadyPlatform", () => {
           ),
         );
         const entry = writeFileSyncMock.mock.calls.find(
-          ([path]) => path === "/xdg/applications/com.t3tools.JCode.desktop",
+          ([path]) => path === "/xdg/applications/com.lnsflive.jcode.desktop",
         )?.[1];
-        assert.include(entry, 'Exec="/opt/JCode/jcode" %U');
+        assert.include(entry, "Exec=/opt/JCode/jcode %U");
       }),
     ).pipe(Effect.ensuring(Effect.sync(() => vi.unstubAllEnvs())));
   });

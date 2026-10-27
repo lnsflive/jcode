@@ -1,6 +1,6 @@
 # JCode
 
-JCode is an "agent harness control surface". It enables control of the agents on your machine with a best-in-class mobile app ([iOS](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824), [Android](https://play.google.com/store/apps/details?id=com.t3tools.jcode)), [web app](https://app.jaimegonzalezjr.com) and [Electron-based desktop app](https://jaimegonzalezjr.com).
+JCode is an "agent harness control surface". It enables control of the agents on your machine with a best-in-class mobile app ([iOS](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824), [Android](https://play.google.com/store/apps/details?id=com.lnsflive.jcode)), [web app](https://app.jaimegonzalezjr.com) and [Electron-based desktop app](https://jaimegonzalezjr.com).
 
 Works with your subscriptions on Claude Code, Codex, Cursor, Grok Build, OpenCode, and Google Antigravity. If they're set up on your computer, JCode can control them.
 

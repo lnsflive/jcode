@@ -1,7 +1,7 @@
 import ExpoModulesCore
 import UIKit
 
-enum T3ComposerClipboard {
+enum JComposerClipboard {
   static let fragmentType = "app.t3.context-fragment"
 
   static func write(text: String, fragment: String) {
@@ -42,7 +42,7 @@ public class JComposerEditorModule: Module {
   @JS
   @MainActor
   func writeContextClipboard(text: String, fragment: String) async {
-    T3ComposerClipboard.write(text: text, fragment: fragment)
+    JComposerClipboard.write(text: text, fragment: fragment)
   }
 
   public func definition() -> ModuleDefinition {

@@ -1,0 +1,10 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["JHighlightsModule"],
+    "podspecPath": "JHighlightsNative.podspec"
+  },
+  "android": {
+    "modules": ["expo.modules.jhighlights.JHighlightsModule"]
+  }
+}

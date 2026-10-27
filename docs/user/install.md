@@ -110,7 +110,7 @@ command cannot reach the app, start or update the desktop app and try again.
 
 Install JCode from the
 [App Store](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824) or
-[Google Play](https://play.google.com/store/apps/details?id=com.t3tools.jcode).
+[Google Play](https://play.google.com/store/apps/details?id=com.lnsflive.jcode).
 The phone connects to a server on another machine. Follow
 [remote access](./remote-access.md) to link it through JCode Connect or a pairing URL.
 
