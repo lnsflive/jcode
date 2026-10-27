@@ -29,7 +29,7 @@ the version.
   - Pushing a `vX.Y.Z` tag by hand still works and builds exactly the tagged commit. Use it when
     the commit to ship is not the latest nightly, such as a cherry-picked fix on a release branch.
 - Runs lint, typecheck, and tests alongside artifact builds. Publishing waits for every check.
-- Reads the shared production JCode Connect relay URL and Clerk client configuration before packaging clients.
+- Includes the production JCode Connect relay and Clerk configuration when available; direct connections work without it.
 - Builds the platform-independent JS (server bundle, web client, Electron main) once in the `build_bundle` job and hands it to every platform job as the `js-bundle` artifact; the platform jobs only package it, so no runner rebuilds it.
 - Builds six desktop artifacts in parallel for both channels, each as its own job (`desktop_<platform>_<arch>`, one call of `release-desktop.yml`), gated only on the bundle. macOS and Linux targets build on hardware of their own architecture. Both Windows targets build and sign (with jsign) on a Linux runner, which packages faster than Windows runners, and a Windows job of the target's architecture (`windows-2025` or `windows-11-arm`, the `verify_runner`) runs the packaged natives and the CLI archive. The Windows jobs embed the same-arch Linux CLI archive as the WSL runtime and wait for that artifact partway through, not for the whole Linux job:
   - macOS `arm64` DMG
@@ -101,13 +101,13 @@ independent from the shared Release App installation.
 
 ## JCode Connect relay deployment
 
-The relay is a shared control plane versioned separately from client releases. Stable and nightly
-client builds must point at the same relay so users see the same linked environments when switching
-release channels.
+The relay is a shared control plane versioned separately from client releases. When configured, stable
+and nightly client builds use the same relay so linked environments remain available across channels.
 
 `.github/workflows/deploy-relay.yml` deploys Alchemy stage `prod` when manually dispatched. The
 release workflow reads the relay URL and Clerk client configuration from the existing `production`
-GitHub Actions environment before building desktop, CLI, or hosted web artifacts.
+GitHub Actions environment before building desktop, CLI, or hosted web artifacts. If no relay is
+configured, the builds support direct connections without JCode Connect.
 
 Required repository variables shared by relay deployments:
 

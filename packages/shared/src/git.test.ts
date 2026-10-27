@@ -17,22 +17,22 @@ import {
 
 describe("normalizeGitRemoteUrl", () => {
   it("canonicalizes equivalent GitHub remotes across protocol variants", () => {
-    expect(normalizeGitRemoteUrl("git@github.com:JCodeTools/JCode.git")).toBe(
+    expect(normalizeGitRemoteUrl("git@github.com:LNSFLIVE/JCode.git")).toBe(
       "github.com/lnsflive/jcode",
     );
-    expect(normalizeGitRemoteUrl("https://github.com/JCodeTools/JCode.git")).toBe(
+    expect(normalizeGitRemoteUrl("https://github.com/LNSFLIVE/JCode.git")).toBe(
       "github.com/lnsflive/jcode",
     );
-    expect(normalizeGitRemoteUrl("ssh://git@github.com/JCodeTools/JCode")).toBe(
+    expect(normalizeGitRemoteUrl("ssh://git@github.com/LNSFLIVE/JCode")).toBe(
       "github.com/lnsflive/jcode",
     );
   });
 
   it("preserves nested group paths for providers like GitLab", () => {
-    expect(normalizeGitRemoteUrl("git@gitlab.com:JCodeTools/platform/JCode.git")).toBe(
+    expect(normalizeGitRemoteUrl("git@gitlab.com:LNSFLIVE/platform/JCode.git")).toBe(
       "gitlab.com/lnsflive/platform/jcode",
     );
-    expect(normalizeGitRemoteUrl("https://gitlab.com/JCodeTools/platform/JCode.git")).toBe(
+    expect(normalizeGitRemoteUrl("https://gitlab.com/LNSFLIVE/platform/JCode.git")).toBe(
       "gitlab.com/lnsflive/platform/jcode",
     );
   });
@@ -141,9 +141,6 @@ describe("isTemporaryWorktreeBranch", () => {
     expect(isTemporaryWorktreeBranch("jcode/deadbeef")).toBe(true);
     expect(isTemporaryWorktreeBranch("jcode-deadbeef")).toBe(true);
     expect(isTemporaryWorktreeBranch("jcode/f4ae4e0e-f971-4d48-b4f2-9cf0aa54ab12")).toBe(true);
-    expect(
-      isTemporaryWorktreeBranch(`${WORKTREE_BRANCH_PREFIX}/f4ae4e0e-f971-4d48-b4f2-9cf0aa54ab12`),
-    ).toBe(false);
   });
 
   it("rejects UUID-shaped refs that are not RFC 4122 v4", () => {

@@ -320,7 +320,7 @@ describe("filterComposerPullRequestMatches", () => {
     {
       number: 8987,
       projectId: "project-1",
-      repository: "JCodeTools/JCode",
+      repository: "LNSFLIVE/JCode",
       updatedAt: "2026-09-03T12:00:00.000Z",
     },
     {

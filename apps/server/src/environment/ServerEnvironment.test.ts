@@ -79,13 +79,15 @@ it.layer(NodeServices.layer)("ServerEnvironmentLive", (it) => {
       const fs = yield* FileSystem.FileSystem;
       const baseDir = yield* fs.makeTempDirectoryScoped();
       const prefix = `${baseDir}/node`;
-      const entry = `${prefix}/lib/node_modules/jcode/dist/bin.mjs`;
-      yield* fs.makeDirectory(`${prefix}/lib/node_modules/jcode/dist`, { recursive: true });
+      const entry = `${prefix}/lib/node_modules/@lnsflive/jcode/dist/bin.mjs`;
+      yield* fs.makeDirectory(`${prefix}/lib/node_modules/@lnsflive/jcode/dist`, {
+        recursive: true,
+      });
       yield* fs.makeDirectory(`${prefix}/bin`, { recursive: true });
       yield* fs.writeFileString(entry, "");
       yield* fs.writeFileString(
-        `${prefix}/lib/node_modules/jcode/package.json`,
-        '{"name":"jcode","version":"0.0.45","bin":{"jcode":"./dist/bin.mjs"}}',
+        `${prefix}/lib/node_modules/@lnsflive/jcode/package.json`,
+        '{"name":"@lnsflive/jcode","version":"0.0.45","bin":{"jcode":"./dist/bin.mjs"}}',
       );
       yield* fs.symlink(entry, `${prefix}/bin/jcode`);
       const config = yield* makeServerConfig(baseDir);

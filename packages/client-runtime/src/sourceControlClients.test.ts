@@ -14,7 +14,7 @@ const kindOf = (url: string) => sourceControlClients.parseChangeRequestUrl(url)?
 
 describe("sourceControlClients.parseChangeRequestUrl", () => {
   it("reads a GitHub pull request, lower-casing the repository", () => {
-    expect(parse("https://github.com/JCodeTools/JCode/pull/123")).toEqual({
+    expect(parse("https://github.com/LNSFLIVE/JCode/pull/123")).toEqual({
       host: "github.com",
       repository: "lnsflive/jcode",
       number: 123,
@@ -273,18 +273,18 @@ describe("sourceControlClients.recognizeRemote", () => {
 describe("sourceControlClients repository keys", () => {
   // Persisted as `repositoryIdentity.canonicalKey` and in thread pull request keys.
   it.each([
-    ["git@github.com:JCodeTools/JCode.git", "github.com/lnsflive/jcode"],
+    ["git@github.com:LNSFLIVE/JCode.git", "github.com/lnsflive/jcode"],
     ["ssh://git@gitlab.company.com:2222/team/project.git", "gitlab.company.com/team/project"],
     [
-      "git@ssh.dev.azure.com:v3/JCodeTools/Platform/JCode",
+      "git@ssh.dev.azure.com:v3/LNSFLIVE/Platform/JCode",
       "dev.azure.com/lnsflive/platform/_git/jcode",
     ],
     [
-      "JCodeTools@vs-ssh.visualstudio.com:v3/JCodeTools/Platform/JCode",
+      "LNSFLIVE@vs-ssh.visualstudio.com:v3/LNSFLIVE/Platform/JCode",
       "lnsflive.visualstudio.com/platform/_git/jcode",
     ],
     [
-      "https://JCodeTools.visualstudio.com/DefaultCollection/Platform/_git/JCode",
+      "https://LNSFLIVE.visualstudio.com/DefaultCollection/Platform/_git/JCode",
       "lnsflive.visualstudio.com/defaultcollection/platform/_git/jcode",
     ],
     ["git@ssh.dev.azure.com:v3/o/p", "ssh.dev.azure.com/v3/o/p"],

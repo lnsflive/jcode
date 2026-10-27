@@ -31,7 +31,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       });
 
       yield* git(cwd, ["init"]);
-      yield* git(cwd, ["remote", "add", "origin", "git@github.com:JCodeTools/jcode.git"]);
+      yield* git(cwd, ["remote", "add", "origin", "git@github.com:LNSFLIVE/jcode.git"]);
 
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       const identity = yield* resolver.resolve(cwd);
@@ -43,9 +43,9 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       expect(identity).not.toBeNull();
       expect(identity?.canonicalKey).toBe("github.com/lnsflive/jcode");
       expect(normalizeResolvedPath(resolvedIdentityRoot)).toBe(normalizeResolvedPath(resolvedCwd));
-      expect(identity?.displayName).toBe("JCodeTools/jcode");
+      expect(identity?.displayName).toBe("LNSFLIVE/jcode");
       expect(identity?.provider).toBe("github");
-      expect(identity?.owner).toBe("JCodeTools");
+      expect(identity?.owner).toBe("LNSFLIVE");
       expect(identity?.name).toBe("jcode");
       expect(yield* resolver.resolve(path.join(cwd, ".git"))).toBeNull();
     }).pipe(Effect.provide(RepositoryIdentityResolver.layer)),
@@ -59,13 +59,13 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       });
 
       yield* git(cwd, ["init"]);
-      yield* git(cwd, ["remote", "add", "origin", "git@github.com:JCodeTools/jcode.git"]);
+      yield* git(cwd, ["remote", "add", "origin", "git@github.com:LNSFLIVE/jcode.git"]);
       yield* git(cwd, [
         "remote",
         "set-url",
         "--push",
         "origin",
-        "git@github.com:JCodeTools/push.git",
+        "git@github.com:LNSFLIVE/push.git",
       ]);
       yield* git(cwd, ["config", "remote.origin.promisor", "true"]);
       yield* git(cwd, ["config", "remote.origin.partialclonefilter", "blob:none"]);
@@ -76,7 +76,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       const identity = yield* resolver.resolve(cwd);
       expect(identity?.canonicalKey).toBe("github.com/lnsflive/jcode");
-      expect(identity?.locator.remoteUrl).toBe("git@github.com:JCodeTools/jcode.git");
+      expect(identity?.locator.remoteUrl).toBe("git@github.com:LNSFLIVE/jcode.git");
       expect(identity?.locator.remoteName).toBe("origin");
     }).pipe(Effect.provide(RepositoryIdentityResolver.layer)),
   );
@@ -92,7 +92,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
 
       yield* fileSystem.makeDirectory(nestedWorkspace, { recursive: true });
       yield* git(repoRoot, ["init"]);
-      yield* git(repoRoot, ["remote", "add", "origin", "git@github.com:JCodeTools/jcode.git"]);
+      yield* git(repoRoot, ["remote", "add", "origin", "git@github.com:LNSFLIVE/jcode.git"]);
 
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       const identity = yield* resolver.resolve(nestedWorkspace);
@@ -123,7 +123,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
         const bareGitDir = layout === "dot-bare" ? path.join(root, ".bare") : root;
 
         yield* git(checkout, ["init"]);
-        yield* git(checkout, ["remote", "add", "origin", "git@github.com:JCodeTools/jcode.git"]);
+        yield* git(checkout, ["remote", "add", "origin", "git@github.com:LNSFLIVE/jcode.git"]);
         yield* git(root, ["init", "--bare", bareGitDir]);
         if (layout === "dot-bare") {
           yield* fileSystem.writeFileString(path.join(root, ".git"), "gitdir: ./.bare\n");
@@ -134,7 +134,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
           "remote",
           "add",
           "origin",
-          "https://github.com/JCodeTools/jcode.git",
+          "https://github.com/LNSFLIVE/jcode.git",
         ]);
 
         const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
@@ -199,7 +199,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       yield* git(localOnlyDir, ["remote", "add", "archive", "file:///srv/git/repo.git"]);
       yield* git(mixedDir, ["init"]);
       yield* git(mixedDir, ["remote", "add", "gb-local", "."]);
-      yield* git(mixedDir, ["remote", "add", "mirror", "git@github.com:JCodeTools/jcode.git"]);
+      yield* git(mixedDir, ["remote", "add", "mirror", "git@github.com:LNSFLIVE/jcode.git"]);
 
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       expect(yield* resolver.resolve(localOnlyDir)).toBeNull();
@@ -222,7 +222,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
         yield* git(cwd, ["init"]);
         yield* git(cwd, ["remote", "add", "origin", "git@github.com:julius/jcode.git"]);
         if (change === "replace") {
-          yield* git(cwd, ["remote", "add", "upstream", "git@github.com:JCodeTools/previous.git"]);
+          yield* git(cwd, ["remote", "add", "upstream", "git@github.com:LNSFLIVE/previous.git"]);
         }
 
         const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
@@ -235,7 +235,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
           "remote",
           change === "add" ? "add" : "set-url",
           "upstream",
-          "git@github.com:JCodeTools/jcode.git",
+          "git@github.com:LNSFLIVE/jcode.git",
         ]);
         expect(yield* resolver.resolve(cwd)).toEqual(initialIdentity);
         const identity = yield* resolver.resolve(cwd, { refresh: true });
@@ -243,7 +243,7 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
         expect(identity).not.toBeNull();
         expect(identity?.locator.remoteName).toBe("upstream");
         expect(identity?.canonicalKey).toBe("github.com/lnsflive/jcode");
-        expect(identity?.displayName).toBe("JCodeTools/jcode");
+        expect(identity?.displayName).toBe("LNSFLIVE/jcode");
         expect(yield* resolver.resolve(cwd)).toEqual(identity);
       }).pipe(Effect.provide(RepositoryIdentityResolver.layer)),
   );
@@ -257,13 +257,13 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
 
       yield* git(cwd, ["init"]);
       yield* git(cwd, ["remote", "add", "origin", "git@github.com:julius/jcode-fork.git"]);
-      yield* git(cwd, ["remote", "add", "upstream", "git@github.com:JCodeTools/jcode.git"]);
+      yield* git(cwd, ["remote", "add", "upstream", "git@github.com:LNSFLIVE/jcode.git"]);
 
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       const identity = yield* resolver.resolve(cwd);
 
       expect(identity?.canonicalKey).toBe("github.com/lnsflive/jcode");
-      expect(identity?.displayName).toBe("JCodeTools/jcode");
+      expect(identity?.displayName).toBe("LNSFLIVE/jcode");
       expect(identity?.origin).toEqual({
         canonicalKey: "github.com/julius/jcode-fork",
         remoteUrl: "git@github.com:julius/jcode-fork.git",
@@ -280,15 +280,15 @@ it.layer(NodeServices.layer)("RepositoryIdentityResolverLive", (it) => {
       });
 
       yield* git(cwd, ["init"]);
-      yield* git(cwd, ["remote", "add", "origin", "git@gitlab.com:JCodeTools/platform/jcode.git"]);
+      yield* git(cwd, ["remote", "add", "origin", "git@gitlab.com:LNSFLIVE/platform/jcode.git"]);
 
       const resolver = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
       const identity = yield* resolver.resolve(cwd);
 
       expect(identity).not.toBeNull();
       expect(identity?.canonicalKey).toBe("gitlab.com/lnsflive/platform/jcode");
-      expect(identity?.displayName).toBe("JCodeTools/platform/jcode");
-      expect(identity?.owner).toBe("JCodeTools");
+      expect(identity?.displayName).toBe("LNSFLIVE/platform/jcode");
+      expect(identity?.owner).toBe("LNSFLIVE");
       expect(identity?.name).toBe("jcode");
     }).pipe(Effect.provide(RepositoryIdentityResolver.layer)),
   );

@@ -63,11 +63,11 @@ function makeProject(
     locator: {
       source: "git-remote",
       remoteName: "origin",
-      remoteUrl: "git@github.com:JCodeTools/JCode.git",
+      remoteUrl: "git@github.com:LNSFLIVE/JCode.git",
     },
     provider: SourceControlProviderKind.make("github"),
-    displayName: "JCodeTools/JCode",
-    owner: "JCodeTools",
+    displayName: "LNSFLIVE/JCode",
+    owner: "LNSFLIVE",
     name: "JCode",
   },
 ): OrchestrationProjectShell {
@@ -244,13 +244,13 @@ describe("pull request toolkit handlers", () => {
     Effect.gen(function* () {
       const harness = yield* makeHarness();
       const result = yield* harness.call("link_pull_request", {
-        url: "https://github.com/JCodeTools/JCode/pull/123/files",
+        url: "https://github.com/LNSFLIVE/JCode/pull/123/files",
       });
       expect(result).toEqual({
         host: "github.com",
         repository: "lnsflive/jcode",
         number: 123,
-        url: "https://github.com/JCodeTools/JCode/pull/123/files",
+        url: "https://github.com/LNSFLIVE/JCode/pull/123/files",
         alreadyLinked: false,
       });
       expect(yield* Ref.get(harness.commands)).toMatchObject([

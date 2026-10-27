@@ -127,9 +127,9 @@ describe("Azure DevOps repository keys", () => {
 
   it("gives a repository the same key over SSH as over HTTPS", () => {
     for (const remote of [
-      "git@ssh.dev.azure.com:v3/JCodeTools/Platform/JCode",
-      "ssh://git@ssh.dev.azure.com:22/v3/JCodeTools/Platform/JCode",
-      "https://JCodeTools@dev.azure.com/JCodeTools/Platform/_git/JCode",
+      "git@ssh.dev.azure.com:v3/LNSFLIVE/Platform/JCode",
+      "ssh://git@ssh.dev.azure.com:22/v3/LNSFLIVE/Platform/JCode",
+      "https://LNSFLIVE@dev.azure.com/LNSFLIVE/Platform/_git/JCode",
     ]) {
       expect(registry.repositoryKeyFromRemote(remote), remote).toBe(
         "dev.azure.com/lnsflive/platform/_git/jcode",
@@ -139,8 +139,8 @@ describe("Azure DevOps repository keys", () => {
 
   it("keeps the organization in the host for the legacy visualstudio.com remotes", () => {
     for (const remote of [
-      "JCodeTools@vs-ssh.visualstudio.com:v3/JCodeTools/Platform/JCode",
-      "https://JCodeTools.visualstudio.com/Platform/_git/JCode",
+      "LNSFLIVE@vs-ssh.visualstudio.com:v3/LNSFLIVE/Platform/JCode",
+      "https://LNSFLIVE.visualstudio.com/Platform/_git/JCode",
     ]) {
       expect(registry.repositoryKeyFromRemote(remote), remote).toBe(
         "lnsflive.visualstudio.com/platform/_git/jcode",
