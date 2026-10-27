@@ -1600,7 +1600,7 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
   it("parses Windows bsdtar member listings with CRLF line endings", () => {
     assert.deepStrictEqual(
       parseWslRuntimeArchiveMembers(
-        "./jcode-1.2.3-linux-x64/jcode\r\nt3-1.2.3-linux-x64/client/\r\n",
+        "./jcode-1.2.3-linux-x64/jcode\r\njcode-1.2.3-linux-x64/client/\r\n",
       ),
       ["jcode-1.2.3-linux-x64/jcode", "jcode-1.2.3-linux-x64/client"],
     );
