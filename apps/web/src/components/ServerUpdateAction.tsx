@@ -109,7 +109,7 @@ export function useServerUpdate() {
         description:
           selfUpdate === "desktop-managed"
             ? `Desktop app relaunched on ${result.value.targetVersion}.`
-            : `Reconnected on t3@${result.value.targetVersion}.`,
+            : `Reconnected on jcode@${result.value.targetVersion}.`,
       });
     }
     return { status: "updated" };
@@ -230,8 +230,8 @@ export function ServerUpdateAction({
           installation?.kind === "npm-global" ? "Update command copied" : "Relaunch command copied",
         description:
           installation?.kind === "npm-global"
-            ? `Run \`${command}\` on ${serverLabel}, then restart t3 with your usual options.`
-            : `Stop t3 on ${serverLabel}, then relaunch with \`${command}\` using the same subcommand and options. This does not update an installed t3 command.`,
+            ? `Run \`${command}\` on ${serverLabel}, then restart JCode with your usual options.`
+            : `Stop JCode on ${serverLabel}, then relaunch with \`${command}\` using the same subcommand and options. This does not update an installed JCode command.`,
       });
     },
     onError: (error) => {
@@ -363,7 +363,7 @@ export function OutdatedServerUpdateAction({
     toastManager.add({
       type: "success",
       title: `${serverLabel} updated`,
-      description: `Reconnected on t3@${result.value.targetVersion}.`,
+      description: `Reconnected on jcode@${result.value.targetVersion}.`,
     });
   };
   return (

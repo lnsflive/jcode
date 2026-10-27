@@ -22,7 +22,7 @@ $t3Home = if ($env:JCODE_HOME) { $env:JCODE_HOME } else { Join-Path $HOME ".t3" 
 $binDir = if ($env:JCODE_INSTALL_BIN_DIR) { $env:JCODE_INSTALL_BIN_DIR } else { Join-Path $HOME ".local\bin" }
 
 function Fail([string] $message) {
-  Write-Error "t3 install: $message"
+  Write-Error "jcode install: $message"
   exit 1
 }
 
@@ -134,9 +134,13 @@ if (-not $version) {
     default { Fail "JCODE_CHANNEL must be stable, nightly, or preview" }
   }
   if ($channel -eq "stable") {
-    # release.yml marks only plain stable releases latest. This is a github.com
-    # page, so it is not cut off by a page of newer nightlies or the API quota.
-    $release = Invoke-RestMethod -Uri "https://github.com/$repo/releases/latest" -Headers @{ "User-Agent" = "t3-install"; "Accept" = "application/json" }
+    try {
+      $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest" -Headers @{ "User-Agent" = "JCode-CLI-Installer"; "Accept" = "application/vnd.github+json" }
+    } catch {
+      $statusCode = [int]$_.Exception.Response.StatusCode
+      if ($statusCode -ne 404) { throw }
+      $release = $null
+    }
     $tag = ($release | Where-Object { $_.tag_name -match $tagPattern }).tag_name
   } else {
     $tag = $null
@@ -150,7 +154,7 @@ if (-not $version) {
   $version = $tag.Substring(1)
 }
 if ($version -match '-preview\.') {
-  Write-Warning "t3 $version is a preview build. Preview builds are cut by maintainers from unreleased branches to exercise the release pipeline. They can be broken, receive no fixes, and are never offered as updates. Set JCODE_CHANNEL=stable (the default) for a supported build."
+  Write-Warning "jcode $version is a preview build. Preview builds are cut by maintainers from unreleased branches to exercise the release pipeline. They can be broken, receive no fixes, and are never offered as updates. Set JCODE_CHANNEL=stable (the default) for a supported build."
   if ($channel -ne "preview" -and -not $env:JCODE_VERSION) {
     Fail "refusing a preview build that was not explicitly requested"
   }

@@ -15,7 +15,7 @@ The `opencode` driver probes the installed version and runs the 1.x or 2.x runti
 registrations are directory-scoped, while JCode's MCP connection is thread-scoped, so threads in one
 directory must not share one JCode MCP entry.
 
-- **1.x** uses one T3-managed chat server per thread, so threads cannot replace each other's
+- **1.x** uses one JCode-managed chat server per thread, so threads cannot replace each other's
   connection. Catalog and text-generation work can share the
   [instance-owned helper](../../packages/provider-opencode/src/server/OpenCodeServerOwner.ts), which closes
   after an idle period. See the [1.x adapter](../../packages/provider-opencode/src/server/adapter.ts).

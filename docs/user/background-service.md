@@ -123,7 +123,7 @@ that session open.
 
 On macOS, check **System Settings → General → Login Items** if the service no
 longer starts at login. If agent work cannot access Desktop, Documents, or
-Downloads, it may need Full Disk Access for the `t3` executable listed in
+Downloads, it may need Full Disk Access for the JCode executable listed in
 `ProgramArguments` in
 `~/Library/LaunchAgents/com.lnsflive.jcode.service.plist`.
 

@@ -26,7 +26,7 @@ export function CliCommandSettingsRow() {
         toastManager.add(
           stackedThreadToast({
             type: "error",
-            title: action === "install" ? "Could not install t3" : "Could not remove t3",
+            title: action === "install" ? "Could not install JCode" : "Could not remove JCode",
             description: error instanceof Error ? error.message : "Something went wrong.",
           }),
         );
@@ -37,7 +37,7 @@ export function CliCommandSettingsRow() {
   if (!bridge || !state?.supported) return null;
   const installed = state.installedPath !== null;
   const description = state.shadowedBy
-    ? `Another t3 at ${state.shadowedBy} runs first in a new terminal. Remove it to use JCode's.`
+    ? `Another command at ${state.shadowedBy} runs first in a new terminal. Remove it to use JCode's CLI.`
     : !installed
       ? "Run JCode's CLI as `t3` from any terminal."
       : state.onPath

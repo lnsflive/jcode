@@ -23,7 +23,7 @@ t3_home="${JCODE_HOME:-$HOME/.t3}"
 bin_dir="${JCODE_INSTALL_BIN_DIR:-$HOME/.local/bin}"
 
 fail() {
-  printf '\nt3 install: %s\n' "$1" >&2
+  printf '\njcode install: %s\n' "$1" >&2
   exit 1
 }
 
@@ -53,7 +53,7 @@ step "Finding your release..."
 # Exit 44 on a 404 so callers can tell "no such asset" from a network failure.
 fetch() {
   if command -v curl >/dev/null 2>&1; then
-    status="$(curl -sSL -H "Accept: ${3:-*/*}" -w '%{http_code}' "$1" -o "$2")" || return 1
+    status="$(curl -sSL -H 'User-Agent: JCode-CLI-Installer' -H "Accept: ${3:-*/*}" -w '%{http_code}' "$1" -o "$2")" || return 1
     case "$status" in
       2??) return 0 ;;
       404) return 44 ;;
@@ -152,9 +152,10 @@ if [ -z "$version" ]; then
   esac
   tmp_index="$(mktemp)"
   if [ "$channel" = stable ]; then
-    # release.yml marks only plain stable releases latest. This is a github.com
-    # page, so it is not cut off by a page of newer nightlies or the API quota.
-    fetch "https://github.com/${repo}/releases/latest" "$tmp_index" application/json
+    fetch "https://api.github.com/repos/${repo}/releases/latest" "$tmp_index" application/vnd.github+json || {
+      fetch_status=$?
+      [ "$fetch_status" -eq 44 ] || fail "could not check for a stable release"
+    }
     version="$(sed -n "s/.*\"tag_name\": *\"${tag_pattern}\".*/\1/p" "$tmp_index" | head -n 1)"
   else
     page=1
@@ -171,7 +172,7 @@ fi
 case "$version" in
   *-preview.*)
     printf '%s\n' \
-      "t3 ${version} is a preview build." \
+      "jcode ${version} is a preview build." \
       "  Preview builds are cut by maintainers from unreleased branches to exercise the release" \
       "  pipeline. They can be broken, receive no fixes, and are never offered as updates." \
       "  Set JCODE_CHANNEL=stable (the default) for a supported build." >&2

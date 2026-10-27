@@ -89,7 +89,7 @@ Fix:
 
 1. Check this device's internet connection. On a captive or dead Wi-Fi network,
    the device can look online but cannot reach anything.
-2. A VPN, firewall, ad blocker, or DNS filter on this device can block T3
+2. A VPN, firewall, ad blocker, or DNS filter on this device can block JCode
    Connect. Turn it off for a moment to test.
 3. On iPhone, Connectivity Assist in the Wi-Fi settings can break JCode Connect.
    Turn it off to test.

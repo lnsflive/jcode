@@ -232,8 +232,8 @@ sudo jcode browser setup
 
 The server shows the exact line for how you started it, such as
 `sudo npx @lnsflive/jcode browser setup`, and keeps your `PATH` when Node is installed only
-for your user. Where `t3` is not on your `PATH`, such as with only the
-desktop app installed, it names the full path of the app's own `t3` instead. It allows Chrome's sandbox with an AppArmor profile and installs
+for your user. Where the `t3` compatibility command is not on your `PATH`, such as with only the
+desktop app installed, it names the full path of the app's own JCode launcher instead. It allows Chrome's sandbox with an AppArmor profile and installs
 any missing libraries and system fonts with apt; pages that load without text
 can mean the host has no fonts. It is safe to run again. Without `sudo`, it only
 reports what it would change.

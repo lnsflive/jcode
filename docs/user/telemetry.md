@@ -16,7 +16,7 @@ JCode also sends relay connection traces to Axiom to diagnose JCode Connect conn
 To disable product events and relay tracing, set `JCODE_TELEMETRY_ENABLED=false` in the server's
 environment before starting it. Relay tracing also stops when `JCODE_OTEL_SDK_DISABLED` or
 `OTEL_SDK_DISABLED` turns OpenTelemetry export off. The web app in a browser, including one the
-`t3` CLI opens, does not read these variables.
+`jcode` CLI opens, does not read these variables.
 
 The desktop app reads `JCODE_TELEMETRY_ENABLED` from your shell profile (for example `~/.zshrc`) on macOS and
 Linux, so export it there and restart the app. On Windows, set it as a user environment variable.
