@@ -230,7 +230,7 @@ const childCase: McpToolUseCase = {
   expect: { calls: [{ tool: "link_pull_request" }], notCalls: ["watch_pull_request"] },
 };
 
-it("rebuilds the template from this checkout and sends a child T3's task prompt", () => {
+it("rebuilds the template from this checkout and sends a child JCode's task prompt", () => {
   const base = buildBase(template, { model: "claude-sonnet-5-5", keepUserInstructions: false });
   const system = base.system.map((block) => String(block.text));
   assert.deepEqual(system.slice(0, 2), [
@@ -242,7 +242,7 @@ it("rebuilds the template from this checkout and sends a child T3's task prompt"
   const deferred = system[2]?.split("Load them first:\n")[1]?.split("\n\n")[0]?.split("\n") ?? [];
   assert.includeMembers(deferred, ["Monitor", "mcp__jcode__delegate_task"]);
   assert.notInclude(deferred, "mcp__jcode__retired_tool");
-  // A delegated child is never offered the tools T3 hides from subagents.
+  // A delegated child is never offered the tools JCode hides from subagents.
   assert.include(deferred, "mcp__jcode__watch_pull_request");
   const child = buildBase(template, {
     model: "claude-sonnet-5-5",
@@ -324,7 +324,7 @@ it("answers simple mocked commands itself and gives the simulator the sample's h
   );
 });
 
-it("links a PR a shell command created, as T3 does, but not one it only read", () => {
+it("links a PR a shell command created, as JCode does, but not one it only read", () => {
   const base = buildBase(template, { model: "claude-sonnet-5-5", keepUserInstructions: false });
   const bash = (command: string, result: string) => ({ tool: "Bash", input: { command }, result });
   const sample = makeSample(

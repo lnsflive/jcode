@@ -75,7 +75,7 @@ const VARIANT_CONFIG = {
     scheme: "jcode-dev",
     iosBundleIdentifier: "com.t3tools.jcode.dev",
     androidPackage: "com.t3tools.jcode.dev",
-    relyingParty: "clerk.t3.codes",
+    relyingParty: "clerk.jaimegonzalezjr.com",
     assets: DEVELOPMENT_ASSETS,
   },
   preview: {
@@ -83,7 +83,7 @@ const VARIANT_CONFIG = {
     scheme: "jcode-preview",
     iosBundleIdentifier: "com.t3tools.jcode.preview",
     androidPackage: "com.t3tools.jcode.preview",
-    relyingParty: "clerk.t3.codes",
+    relyingParty: "clerk.jaimegonzalezjr.com",
     assets: PREVIEW_ASSETS,
   },
   production: {
@@ -91,7 +91,7 @@ const VARIANT_CONFIG = {
     scheme: "jcode",
     iosBundleIdentifier: "com.t3tools.jcode",
     androidPackage: "com.t3tools.jcode",
-    relyingParty: "clerk.t3.codes",
+    relyingParty: "clerk.jaimegonzalezjr.com",
     assets: RELEASE_ASSETS,
   },
 } as const;

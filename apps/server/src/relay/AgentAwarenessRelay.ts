@@ -752,7 +752,7 @@ export const make = Effect.gen(function* () {
   });
 
   // Many environments never link, so while unlinked the retry backs off from 5
-  // s to 60 s. A linked environment keeps the 5 s retry, because `t3 connect
+  // s to 60 s. A linked environment keeps the 5 s retry, because `jcode connect
   // publish` can turn publishing on from another process. Keep this untraced:
   // an unlinked environment can retry for the lifetime of the process.
   const publishActiveThreadsOnceWhenConfigured = Effect.fnUntraced(function* (
@@ -808,11 +808,13 @@ export const make = Effect.gen(function* () {
       switch (startupState) {
         case "waiting-for-link":
           yield* Effect.logInfo(
-            "agent activity publishing standby; waiting for T3 Connect link reconciliation",
+            "agent activity publishing standby; waiting for JCode Connect link reconciliation",
           );
           break;
         case "disabled":
-          yield* Effect.logInfo("agent activity publishing disabled by T3 Connect configuration");
+          yield* Effect.logInfo(
+            "agent activity publishing disabled by JCode Connect configuration",
+          );
           break;
         case "enabled":
           yield* Effect.logInfo("agent activity publishing enabled", {

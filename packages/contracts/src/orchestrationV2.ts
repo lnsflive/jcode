@@ -470,7 +470,7 @@ export const OrchestrationV2AppThread = Schema.Struct({
 });
 export type OrchestrationV2AppThread = typeof OrchestrationV2AppThread.Type;
 
-/** Provider-native children cannot receive messages; T3 delegate_task children can. */
+/** Provider-native children cannot receive messages; JCode delegate_task children can. */
 export function isProviderNativeSubagentThread(
   thread: Pick<OrchestrationV2AppThread, "lineage" | "creationSource">,
 ): boolean {
@@ -3218,7 +3218,7 @@ export type OrchestrationV2Command = typeof OrchestrationV2Command.Type;
 
 // Excluded from dispatchCommand so only the server can send these.
 const OrchestrationV2InternalCommand = Schema.Union([
-  // Guest share commands the server issues after checking T3 Connect and the guest token.
+  // Guest share commands the server issues after checking JCode Connect and the guest token.
   Schema.Struct({
     type: Schema.Literal("thread.guest-share.open"),
     commandId: CommandId,

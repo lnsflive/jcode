@@ -254,7 +254,7 @@ function PairingForm({
             </Text>
           </View>
 
-          {hasCloudPublicConfig() ? <T3ConnectSection /> : null}
+          {hasCloudPublicConfig() ? <JCodeConnectSection /> : null}
         </View>
       </ScrollView>
     </SettingsScreen>
@@ -346,14 +346,14 @@ function PairingScanCard(props: {
           )}
         </View>
         <Text className={cn("text-center text-sm", light ? "text-black/70" : "text-white/80")}>
-          Scan the code from t3 pair or desktop Connections settings
+          Scan the code from jcode pair or desktop Connections settings
         </Text>
       </View>
     </Pressable>
   );
 }
 
-function T3ConnectSection() {
+function JCodeConnectSection() {
   const { isLoaded, isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
   const navigation = useNavigation();
   const { connectedEnvironments, onSetEnvironmentEnabled, onRemoveEnvironmentPress } =
@@ -377,7 +377,7 @@ function T3ConnectSection() {
         />
       ) : (
         <ListRow
-          label="Sign in to T3 Connect"
+          label="Sign in to JCode Connect"
           description="Reach your machines from anywhere, no network setup."
           disabled={!isLoaded}
           onPress={() => navigation.navigate("SettingsAuth")}

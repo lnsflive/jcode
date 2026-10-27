@@ -69,8 +69,8 @@ export function RelayClientInstallDialog() {
           </DialogTitle>
           <DialogDescription>
             {isInstalling
-              ? "JCode is preparing this environment for secure access through T3 Connect."
-              : "JCode needs the relay client to make this environment available through T3 Connect."}
+              ? "JCode is preparing this environment for secure access through JCode Connect."
+              : "JCode needs the relay client to make this environment available through JCode Connect."}
           </DialogDescription>
         </DialogHeader>
         <DialogPanel scrollFade={false}>

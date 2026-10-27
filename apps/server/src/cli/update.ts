@@ -325,7 +325,7 @@ const runUpdate = Effect.fn("cli.update.run")(function* (input: {
         `t3@${targetVersion} is a preview build.`,
         "  Preview builds are cut by maintainers from unreleased branches to exercise the release",
         "  pipeline. They can be broken, receive no fixes, and are never offered as updates; you",
-        `  will have to switch back to ${currentChannel} yourself with \`t3 update --channel ${currentChannel} --allow-downgrade\`.`,
+        `  will have to switch back to ${currentChannel} yourself with \`jcode update --channel ${currentChannel} --allow-downgrade\`.`,
       ].join("\n"),
     );
     if (!(process.stdin.isTTY && process.stdout.isTTY)) {
@@ -401,7 +401,7 @@ const runUpdate = Effect.fn("cli.update.run")(function* (input: {
   let restartService = false;
   if (serviceInstalled && !serviceCurrent) {
     yield* Console.log(
-      "  A background service is installed for this T3 home. Restarting it interrupts anything running in it: agent turns, terminals, remote clients.",
+      "  A background service is installed for this JCode home. Restarting it interrupts anything running in it: agent turns, terminals, remote clients.",
     );
     if (input.assumeYes) {
       restartService = true;
@@ -414,7 +414,7 @@ const runUpdate = Effect.fn("cli.update.run")(function* (input: {
       ).pipe(Effect.catchTags({ QuitError: () => Effect.succeed(false) }));
     } else {
       yield* Console.log(
-        "  Not a terminal, so the service keeps running its current version. Rerun with --yes to restart it now, or run `t3 service restart` later.",
+        "  Not a terminal, so the service keeps running its current version. Rerun with --yes to restart it now, or run `jcode service restart` later.",
       );
     }
   }
@@ -532,11 +532,11 @@ const runUpdate = Effect.fn("cli.update.run")(function* (input: {
     yield* Console.log(`  Background service already on ${targetVersion}`);
   } else if (serviceInstalled) {
     yield* Console.log(
-      `  Background service still running ${serviceVersion ?? "an unknown version"}. Run \`t3 service restart\` when you are ready to switch it to ${targetVersion}.`,
+      `  Background service still running ${serviceVersion ?? "an unknown version"}. Run \`jcode service restart\` when you are ready to switch it to ${targetVersion}.`,
     );
   } else if (status.installed && !servesThisHome) {
     yield* Console.log(
-      `  The background service serves ${status.installedBaseDir ?? "another T3 home"} and was left unchanged.`,
+      `  The background service serves ${status.installedBaseDir ?? "another JCode home"} and was left unchanged.`,
     );
   }
   if (foreground !== undefined) {

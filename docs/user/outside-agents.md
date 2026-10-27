@@ -27,7 +27,7 @@ same device can reach it.
   `http://100.x.y.z:3773`, lets an agent find the environment but not finish
   signing in.
 - **A hosted agent**, such as ChatGPT or a bot running in the cloud, must reach
-  the environment from the internet. Use the T3 Connect address. A Tailscale
+  the environment from the internet. Use the JCode Connect address. A Tailscale
   address only works from your own tailnet.
 
 ## Approve a sign-in
@@ -41,7 +41,7 @@ The page names the agent and where its access goes:
   Anyone who runs that service gets the access.
 
 Only approve a sign-in you just started. To approve, enter a pairing code from
-**Settings → Sharing & access** or from `t3 auth pairing create` on the host. A
+**Settings → Sharing & access** or from `jcode auth pairing create` on the host. A
 browser already signed in to the environment with permission to manage access
 can approve without a code.
 
@@ -94,14 +94,14 @@ Agents without OAuth support cannot connect.
 
 ## Scripts on the host
 
-On the machine that runs the environment, `t3 thread` uses the same tools
+On the machine that runs the environment, `jcode thread` uses the same tools
 without a sign-in:
 
 ```sh
-id=$(t3 thread start . "Find why the tests are slow")
-t3 thread send "$id" "Now fix it" --wait
-t3 thread show "$id"
-t3 thread list
+id=$(jcode thread start . "Find why the tests are slow")
+jcode thread send "$id" "Now fix it" --wait
+jcode thread show "$id"
+jcode thread list
 ```
 
 `.` means the project that contains the current folder; a project id also

@@ -569,7 +569,7 @@ const linkedEnvironmentRecord = {
 } as const;
 
 describe("relay managed tunnel recovery", () => {
-  it.effect("binds recovery requests to the host, cloud user, and T3 service origin", () =>
+  it.effect("binds recovery requests to the host, cloud user, and JCode service origin", () =>
     Effect.gen(function* () {
       const keyPair = NodeCrypto.generateKeyPairSync("ed25519", {
         privateKeyEncoding: { format: "pem", type: "pkcs8" },
@@ -1455,7 +1455,7 @@ describe("relay routing fallback", () => {
 });
 
 describe("relay CORS", () => {
-  const origin = "https://app.t3.codes";
+  const origin = "https://app.jaimegonzalezjr.com";
 
   class HandlerFailed extends Data.TaggedError("HandlerFailed") {}
 

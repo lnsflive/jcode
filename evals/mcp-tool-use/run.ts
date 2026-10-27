@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // @effect-diagnostics nodeBuiltinImport:off
 /**
- * Replays small fake threads on a Claude or Codex model to check T3's MCP tool use. A trimmed
+ * Replays small fake threads on a Claude or Codex model to check JCode's MCP tool use. A trimmed
  * harness capture supplies the prompt and native tools; a cheap model plays the shell. See
  * README.md for how to run it and add cases.
  */
@@ -91,7 +91,7 @@ export type SampleRun = {
   readonly calls: ReadonlyArray<Call>;
   text: string;
   stopReason: string;
-  /** PRs linked to the thread when the sample ends, by the agent or by T3. */
+  /** PRs linked to the thread when the sample ends, by the agent or by JCode. */
   readonly linked?: ReadonlyArray<string>;
 };
 
@@ -169,7 +169,7 @@ export const McpToolUseCase = Schema.Struct({
     role: Schema.Literals(["top", "delegated-child", "native-subagent"]),
     /** Runs only on this harness, for cases whose right answer depends on it. */
     harness: Schema.optional(Schema.Literals(["claude", "codex"])),
-    /** delegate_task `role` for a delegated child. T3 builds the child's first message from it. */
+    /** delegate_task `role` for a delegated child. JCode builds the child's first message from it. */
     delegateRole: Schema.optional(OrchestratorMcpTaskRole),
     context: Schema.optional(Schema.String),
     priorTurns: Schema.optional(
@@ -182,7 +182,7 @@ export const McpToolUseCase = Schema.Struct({
       ),
     ),
     world: Schema.optional(McpToolUseWorld),
-    /** Canned tool results by bare name, T3 or native. `"default"` uses the runner's result. */
+    /** Canned tool results by bare name, JCode or native. `"default"` uses the runner's result. */
     mocks: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     /** Regexes on one part of a shell command. A match wins over the shell simulator. */
     shellMocks: Schema.optional(
@@ -264,7 +264,7 @@ const isT3Name = (name: string) => name.startsWith(T3_PREFIX) || name.startsWith
 const hasTool = (tools: ReadonlyArray<ApiTool>, name: string) =>
   tools.some((tool) => tool.name === name);
 
-/** Grading name: T3 tools lose their MCP prefix, native tools keep the part after the last `_`. */
+/** Grading name: JCode tools lose their MCP prefix, native tools keep the part after the last `_`. */
 const CODEX_NAMES: Readonly<Record<string, string>> = {
   exec_command: "Bash",
   shell_command: "Bash",
@@ -307,7 +307,7 @@ const t3Tools: ReadonlyArray<ApiTool> = t3SourceTools.map((tool) => ({
   description: Tool.getDescription(tool) ?? "",
   input_schema: advertisedJsonSchema(tool),
 }));
-// T3 does not offer these to a delegated child, so its harness never lists them.
+// JCode does not offer these to a delegated child, so its harness never lists them.
 const hiddenFromSubagents = new Set(
   t3SourceTools
     .filter(
@@ -320,23 +320,23 @@ const hiddenFromSubagents = new Set(
 const visibleT3Tools = (subagent: boolean) =>
   subagent ? t3Tools.filter((tool) => !hiddenFromSubagents.has(tool.name)) : t3Tools;
 
-/** Text T3 appends to Claude Code's system prompt. Delegated children get the same text. */
+/** Text JCode appends to Claude Code's system prompt. Delegated children get the same text. */
 export const t3SystemAppend = (model: Model) => {
   const { systemPrompt } = makeClaudeQueryOptions({
     modelSelection: { instanceId: ProviderInstanceId.make(CLAUDE_PROVIDER), model },
     nativeThreadId: "mcp-tool-use-eval",
     resume: false,
     cwd: null,
-    mcpServers: { "jcode": { type: "http", url: "http://127.0.0.1/mcp" } },
+    mcpServers: { jcode: { type: "http", url: "http://127.0.0.1/mcp" } },
   });
   if (isRecord(systemPrompt) && systemPrompt.type === "preset" && systemPrompt.append) {
     return systemPrompt.append;
   }
-  throw new Error("makeClaudeQueryOptions no longer appends T3 text to a preset prompt.");
+  throw new Error("makeClaudeQueryOptions no longer appends JCode text to a preset prompt.");
 };
 
 /**
- * Size of the context T3 adds: the system text every Claude thread gets, and the tool
+ * Size of the context JCode adds: the system text every Claude thread gets, and the tool
  * descriptions and schemas (loaded on demand here, sent up front by harnesses without
  * deferred tools). Tokens are estimated at 4 characters each.
  */
@@ -345,7 +345,7 @@ const t3ContextReport = (model: Model) => {
   const descriptions = t3Tools.reduce((sum, tool) => sum + valueText(tool.description).length, 0);
   const schemas = JSON.stringify(t3Tools).length;
   return [
-    `- T3 context: system text ${size((isCodex(model) ? JSON.stringify(buildCodexAdditionalContext({ model }, { browser: true, device: true })) : t3SystemAppend(model)).length)}`,
+    `- JCode context: system text ${size((isCodex(model) ? JSON.stringify(buildCodexAdditionalContext({ model }, { browser: true, device: true })) : t3SystemAppend(model)).length)}`,
     `tool descriptions ${size(descriptions)}`,
     `full tool schemas ${size(schemas)} across ${t3Tools.length} tools.`,
   ].join(", ");
@@ -408,7 +408,7 @@ export const buildBase = (
   const anonymize = (value: string) =>
     home === undefined ? value : value.replaceAll(home, home.replace(/[^/]+$/, "user"));
   const system = systemTexts.map((value) => {
-    // T3's append is the tail of its block: runtime info, PR linking, then orchestration.
+    // JCode's append is the tail of its block: runtime info, PR linking, then orchestration.
     const at = value.indexOf(RUNTIME_MARKER);
     return anonymize(at === -1 ? value : value.slice(0, at) + append)
       .replace(DEFERRED_LIST, (_, header: string) => `${header}${names}\n`)
@@ -440,7 +440,7 @@ export const buildBase = (
       date: /Today's date is ([\d-]+)/.exec(reminders.join("\n"))?.[1],
     },
     nativeTools: template.tools.filter((tool) => !isT3Name(tool.name)),
-    /** Tools ToolSearch loads: T3 tools from source, and native tools the template only names. */
+    /** Tools ToolSearch loads: JCode tools from source, and native tools the template only names. */
     t3,
     deferred: [...t3, ...nativeDeferred.map((name) => ({ name, ...nativeSchema(name) }))],
   };
@@ -465,7 +465,7 @@ const buildCodexBase = (
       : valueText(item.content);
   const joined = template.input.map(contentText).join("\n");
   if (!joined.includes("<jcode_runtime>"))
-    throw new Error("Codex template needs full T3 context.");
+    throw new Error("Codex template needs full JCode context.");
   const cwd = /<cwd>(.*?)<\/cwd>/.exec(joined)?.[1] ?? "/home/user/app";
   const home = /^\/(?:home|Users)\/[^/]+/.exec(cwd)?.[0];
   const clean = (s: string) => (home ? s.replaceAll(home, home.replace(/[^/]+$/, "user")) : s);
@@ -571,14 +571,14 @@ const codexMessages = (messages: ReadonlyArray<ApiMessage>): Array<Block> =>
   );
 /** One tool call the shell simulator has answered, or one from the case's prior turns. */
 type ShellEntry = { readonly tool: string; readonly input: unknown; readonly output: string };
-/** PRs T3 links by itself because a shell command created them, as `gh pr create` does. */
+/** PRs JCode links by itself because a shell command created them, as `gh pr create` does. */
 const createdPullRequests = ({ tool, input, output }: ShellEntry) =>
   tool === "Bash" && isRecord(input) && typeof input.command === "string"
     ? changeRequestsCreatedBy(input.command, output).map(({ url }) => url)
     : [];
 /**
  * One sample's state. ToolSearch adds loaded schemas to `tools`, like Claude Code. `shell` is the
- * history the simulator keeps consistent with; `linked` and `nextTask` do the same for T3 results.
+ * history the simulator keeps consistent with; `linked` and `nextTask` do the same for JCode results.
  */
 type Sample = {
   readonly testCase: McpToolUseCase;
@@ -697,7 +697,7 @@ export const buildMessages = (sample: Sample) => {
       if (tool === undefined) throw new Error(`${testCase.id}: unknown prior tool ${call.tool}.`);
       return { ...call, id: `toolu_prior_${nextId++}`, name: tool.name, tool };
     });
-    // Prior T3 calls load their schemas first, as in a real deferred session.
+    // Prior JCode calls load their schemas first, as in a real deferred session.
     const unloaded = [...new Set(calls.map((call) => call.tool))].filter(
       (tool) => !hasTool(tools, tool.name),
     );
@@ -725,7 +725,7 @@ export const buildMessages = (sample: Sample) => {
   return messages;
 };
 
-// Results for T3 tools a case does not mock. The model ids are public in this repo's catalog.
+// Results for JCode tools a case does not mock. The model ids are public in this repo's catalog.
 const claudeModel = (id: string) => ({ id, options: [{ id: "effort", values: EFFORTS }] });
 const codexModel = (id: string) => ({ id, options: [{ id: "reasoningEffort", values: EFFORTS }] });
 // Mirrors the real catalog's main models, so a case's named model is not missing by accident.
@@ -763,7 +763,7 @@ const DEFAULT_THREAD = {
 const HTML_RENDERED =
   "Shown to the reader above your reply. Don't mention or describe the page; reply with only what it doesn't already say.";
 
-/** Pull request identity from a `url` or `repository` plus `number` input, like T3's results. */
+/** Pull request identity from a `url` or `repository` plus `number` input, like JCode's results. */
 const pullRequest = (repo: string, input: Readonly<Record<string, unknown>>) => {
   const url = typeof input.url === "string" ? input.url : "";
   const repository =
@@ -777,7 +777,7 @@ const pullRequest = (repo: string, input: Readonly<Record<string, unknown>>) => 
   };
 };
 
-/** A believable T3 result for a tool the case does not mock. */
+/** A believable JCode result for a tool the case does not mock. */
 const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, unknown>>) => {
   const pr = () => pullRequest(sample.repo, input);
   switch (name) {
@@ -821,7 +821,7 @@ const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, 
       return { ...pr(), alreadyLinked };
     }
     case "request_secret": {
-      // T3 names both a ref and a file with 32 hex characters, and keeps files in its secrets dir.
+      // JCode names both a ref and a file with 32 hex characters, and keeps files in its secrets dir.
       const id = "5f0c9e2a7b4d4183a6e1c8d2b9f07a64";
       const home =
         /^\/(?:home|Users)\/[^/]+/.exec(sample.base.environment.cwd)?.[0] ?? "/home/user";
@@ -872,7 +872,7 @@ const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, 
   }
 };
 
-/** Fields T3 adds to real thread and task results, applied to mocks and defaults alike. */
+/** Fields JCode adds to real thread and task results, applied to mocks and defaults alike. */
 const withProductFields = (name: string, value: unknown, child: boolean): unknown => {
   if (!isRecord(value)) return value;
   const linked = (thread: unknown, idKey = "threadId") => {
@@ -1093,7 +1093,7 @@ const answerToolCall = Effect.fn("evaluateMcpToolUse.answerToolCall")(function* 
         : withProductFields(name, mock, testCase.setup.role === "delegated-child"),
     );
   if (isT3Name(call.name)) {
-    // T3 refuses a watch from a delegated child.
+    // JCode refuses a watch from a delegated child.
     if (name === "watch_pull_request" && testCase.setup.role === "delegated-child") {
       return failed(SUBAGENT_WATCH_ERROR);
     }
@@ -1659,12 +1659,12 @@ const main = Effect.gen(function* () {
       "max-steps": string,
       effort: string,
       "shell-model": { ...string, default: "claude-haiku-5-5" },
-      // T3's text must work for every user, so the captured CLAUDE.md is dropped by default.
+      // JCode's text must work for every user, so the captured CLAUDE.md is dropped by default.
       "user-instructions": { ...string, default: "drop" },
       "dry-run": { type: "boolean", default: false },
       "stop-on-regression": { type: "boolean", default: false },
       "regression-budget": string,
-      // Prints the size of T3's text and tool schemas, then exits. Needs no template or key.
+      // Prints the size of JCode's text and tool schemas, then exits. Needs no template or key.
       context: { type: "boolean", default: false },
     },
   });

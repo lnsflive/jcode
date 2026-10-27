@@ -252,8 +252,6 @@ describe("uiStateStore persistence", () => {
       localStorageStub.getItem(PERSISTED_STATE_KEY) ?? "{}",
     ) as PersistedUiState;
 
-    expect(parsePersistedState(persisted).sidebarProjectScopeKey).toBe(
-      "github.com/lnsflive/jcode",
-    );
+    expect(parsePersistedState(persisted).sidebarProjectScopeKey).toBe("github.com/lnsflive/jcode");
   });
 });

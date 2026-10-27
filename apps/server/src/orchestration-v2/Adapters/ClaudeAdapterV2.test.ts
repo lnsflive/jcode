@@ -460,7 +460,7 @@ describe("ClaudeAdapterV2 runtime query policy", () => {
 
 describe("ClaudeAdapterV2 MCP query overrides", () => {
   const T3_MCP_SERVERS = {
-    "jcode": {
+    jcode: {
       type: "http",
       url: "http://127.0.0.1:43123/mcp",
       headers: {
@@ -569,7 +569,7 @@ describe("ClaudeAdapterV2 native protocol logging", () => {
     assert.deepEqual(overrides, {
       allowedTools: ["Read", "mcp__jcode__*"],
       mcpServers: {
-        "jcode": {
+        jcode: {
           type: "http",
           url: "http://127.0.0.1:43123/mcp",
           headers: {
@@ -921,7 +921,7 @@ describe("ClaudeAdapterV2 append-system-prompt-file launch argument", () => {
   const appendSystemPrompt = (options: ClaudeAdapterV2.ClaudeAgentSdkQueryOptions | undefined) =>
     (options?.systemPrompt as { readonly append?: string } | undefined)?.append;
 
-  it.effect("sends append launch arguments to Claude after the T3 instructions", () =>
+  it.effect("sends append launch arguments to Claude after the JCode instructions", () =>
     Effect.scoped(
       Effect.gen(function* () {
         const fileSystem = yield* FileSystem.FileSystem;
@@ -2264,7 +2264,7 @@ describe("ClaudeAdapterV2 MCP credential channel", () => {
             resume: false,
             cwd: null,
             environment: { PATH: "/usr/bin" },
-            mcpServers: { "jcode": t3McpServer },
+            mcpServers: { jcode: t3McpServer },
           }),
           pathToClaudeCodeExecutable: "/opt/claude/cli.js",
           spawnClaudeCodeProcess: cli.spawn,
@@ -2313,7 +2313,7 @@ describe("ClaudeAdapterV2 MCP credential channel", () => {
 
       assert.deepInclude(cli.controlRequests, {
         subtype: "mcp_set_servers",
-        servers: { "jcode": t3McpServer },
+        servers: { jcode: t3McpServer },
       });
       const spawned = JSON.stringify(cli.spawns);
       assert.notInclude(spawned, "--mcp-config");
@@ -9029,7 +9029,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
           );
           assert.lengthOf(harness.continuationRequests, 1);
 
-          // An empty session-task lifecycle result arriving before T3 opens the
+          // An empty session-task lifecycle result arriving before JCode opens the
           // wake run must not replace the root's terminal usage-limit result.
           yield* harness.offerAndWait(wakeTurnInit);
           yield* harness.offerAndWait(

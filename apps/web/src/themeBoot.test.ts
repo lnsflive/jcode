@@ -158,7 +158,7 @@ describe("index.html boot script", () => {
       prefersDark: true,
     },
     {
-      name: "an explicit global dark mode applies to T3 Chat",
+      name: "an explicit global dark mode applies to JCode Chat",
       storage: {
         [THEME_STORAGE_KEY]: "t3-chat",
         [THEME_APPEARANCE_MODE_STORAGE_KEY]: "dark",
@@ -192,7 +192,7 @@ describe("index.html boot script", () => {
       prefersDark: true,
     },
     {
-      name: "legacy t3-chat-dark resolves to dark T3 Chat",
+      name: "legacy t3-chat-dark resolves to dark JCode Chat",
       storage: { [THEME_STORAGE_KEY]: "t3-chat-dark" },
       prefersDark: true,
     },

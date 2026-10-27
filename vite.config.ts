@@ -576,7 +576,7 @@ export default defineConfig({
         },
       },
       {
-        // The sign-in masthead is T3 brand artwork: fixed gradients, not theme surfaces.
+        // The sign-in masthead is JCode brand artwork: fixed gradients, not theme surfaces.
         files: ["apps/web/src/components/auth/AuthSurfaceShell.tsx"],
         rules: { "shadcn/no-arbitrary-values": "off" },
       },
@@ -631,8 +631,8 @@ export default defineConfig({
           "apps/mobile/src/features/threads/thread-list-items.tsx",
           "apps/mobile/src/features/threads/thread-list-v2-items.tsx",
           "apps/mobile/src/lib/useMobileNavigationTheme.ts",
-          "apps/mobile/src/native/T3ComposerEditor.ios.tsx",
-          "apps/mobile/src/native/T3ComposerEditor.native.tsx",
+          "apps/mobile/src/native/JComposerEditor.ios.tsx",
+          "apps/mobile/src/native/JComposerEditor.native.tsx",
           "apps/mobile/src/native/SelectableMarkdownText.tsx",
           "apps/mobile/src/native/useEnrichedLinkVariants.ts",
         ],

@@ -3,7 +3,7 @@ name: test-t3-mobile
 description: Test JCode's native iOS and Android app through its Device panel and returned AgentDevice command. Use for mobile verification, native-client builds, Metro launch, and mobile pairing against isolated development state.
 ---
 
-# Test T3 Mobile
+# Test JCode Mobile
 
 ## Open the device
 
@@ -12,7 +12,7 @@ T3 boots the device and shows its live stream in the Device panel. Follow its
 returned `quickStart`, using the exact `agentDevice.command` and all `targetArgs`
 on every operation. Use `device_screenshot` to inspect the screen.
 
-If T3 device tools or the selected device are unavailable, report the blocker
+If JCode device tools or the selected device are unavailable, report the blocker
 and stop verification. Do not install or switch to another automation system.
 
 ## Use an isolated backend

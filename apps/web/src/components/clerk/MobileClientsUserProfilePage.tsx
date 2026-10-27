@@ -94,8 +94,8 @@ function EmptyMobileClients() {
       <EmptyHeader>
         <EmptyTitle>No mobile clients</EmptyTitle>
         <EmptyDescription>
-          Install JCode on your phone and sign in to T3 Connect to get push notifications and Live
-          Activities.
+          Install JCode on your phone and sign in to JCode Connect to get push notifications and
+          Live Activities.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

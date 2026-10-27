@@ -1,6 +1,6 @@
 import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts";
 
-const FALLBACK_TRIAGE_COMMAND = "npx t3 triage";
+const FALLBACK_TRIAGE_COMMAND = "npx @lnsflive/jcode triage";
 const DOWNLOAD_URL = "https://github.com/lnsflive/jcode/releases";
 const ISSUE_URL = "https://github.com/lnsflive/jcode/issues/new";
 const LAST_FAILURE_KEY = "jcode:boot-failed-at";
@@ -29,7 +29,7 @@ export async function resolveTriageCommand(bridge: DesktopBridge | undefined) {
     const state = await bridge?.cliCommand?.getState();
     // Windows reports onPath from its PATH entry alone; only an existing launcher proves it runs.
     if (state?.launcherPath) {
-      return state.onPath ? "t3 triage" : `${launcherCommand(state.launcherPath)} triage`;
+      return state.onPath ? "jcode triage" : `${launcherCommand(state.launcherPath)} triage`;
     }
   } catch (error) {
     console.warn("Could not read the desktop CLI state.", error);

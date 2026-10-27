@@ -83,7 +83,7 @@ import {
   supportsServerUpdateThreadContinuation,
 } from "~/versionSkew";
 import { hasCloudPublicConfig } from "~/cloud/publicConfig";
-import { RemoveT3ConnectEnvironmentDialog } from "../clerk/RemoveT3ConnectEnvironmentDialog";
+import { RemoveJCodeConnectEnvironmentDialog } from "../clerk/RemoveJCodeConnectEnvironmentDialog";
 import { authEnvironment } from "~/state/auth";
 import { environmentCatalog } from "~/connection/catalog";
 import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
@@ -594,13 +594,13 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
     }
   };
 
-  // Removing a T3 Connect route preserves account registration; use a separate dialog pointing to
+  // Removing a JCode Connect route preserves account registration; use a separate dialog pointing to
   // deregistration.
-  const [pendingT3ConnectRemoval, setPendingT3ConnectRemoval] =
+  const [pendingJCodeConnectRemoval, setPendingJCodeConnectRemoval] =
     useState<EnvironmentPresentation | null>(null);
   const handleRemoveSavedBackend = async (environment: EnvironmentPresentation) => {
     if (environment.relayManaged && hasCloudPublicConfig()) {
-      setPendingT3ConnectRemoval(environment);
+      setPendingJCodeConnectRemoval(environment);
       return;
     }
     const confirmed = await requestConfirmDialog(
@@ -1211,7 +1211,7 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
                 <AlertDialogDescription>
                   {pendingDesktopServerExposureMode === "network-accessible"
                     ? "Let your other devices connect to JCode over the network. Pair devices to give them access. JCode will restart."
-                    : "Devices connected over your local network will disconnect. Existing tunnels, such as T3 Connect or Tailscale HTTPS, keep working. JCode will restart."}
+                    : "Devices connected over your local network will disconnect. Existing tunnels, such as JCode Connect or Tailscale HTTPS, keep working. JCode will restart."}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -1523,13 +1523,13 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
         />
       </SettingsSection>
       {hasCloudPublicConfig() ? (
-        <RemoveT3ConnectEnvironmentDialog
-          environmentLabel={pendingT3ConnectRemoval?.label ?? null}
-          onCancel={() => setPendingT3ConnectRemoval(null)}
+        <RemoveJCodeConnectEnvironmentDialog
+          environmentLabel={pendingJCodeConnectRemoval?.label ?? null}
+          onCancel={() => setPendingJCodeConnectRemoval(null)}
           onConfirm={() => {
-            if (!pendingT3ConnectRemoval) return;
-            setPendingT3ConnectRemoval(null);
-            void removeSavedBackend(pendingT3ConnectRemoval);
+            if (!pendingJCodeConnectRemoval) return;
+            setPendingJCodeConnectRemoval(null);
+            void removeSavedBackend(pendingJCodeConnectRemoval);
           }}
         />
       ) : null}

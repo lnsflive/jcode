@@ -441,7 +441,7 @@ it.layer(NodeServices.layer)("pruning runtimes on start", (it) => {
     return { removed, remaining: (yield* fs.readDirectory(versionsDir)).toSorted() };
   });
 
-  // The SSH launcher runs `t3 serve` straight from the pinned runtime, with no boot service.
+  // The SSH launcher runs `jcode serve` straight from the pinned runtime, with no boot service.
   it.effect("prunes for a server started from its home's pinned runtime", () =>
     Effect.gen(function* () {
       const { removed, remaining } = yield* pruneOnStart({ executable: "own runtime" });
@@ -450,7 +450,7 @@ it.layer(NodeServices.layer)("pruning runtimes on start", (it) => {
     }),
   );
 
-  it.effect("recognizes its runtime through a symlinked T3 home", () =>
+  it.effect("recognizes its runtime through a symlinked JCode home", () =>
     Effect.gen(function* () {
       const { removed } = yield* pruneOnStart({ executable: "own runtime", symlinkedHome: true });
       expect(removed).toEqual([staleVersion]);

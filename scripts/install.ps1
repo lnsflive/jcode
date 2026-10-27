@@ -1,18 +1,18 @@
 # Installs the JCode CLI from a GitHub Release archive on Windows. Needs
 # only PowerShell 5.1+; no Node, npm, or compiler.
 #
-#   irm https://t3.codes/install.ps1 | iex
+#   irm https://jaimegonzalezjr.com/install.ps1 | iex
 #
 # Environment:
 #   JCODE_CHANNEL           release train to follow: stable, nightly, or preview
 #                            (default: stable; preview is a maintainers' test train)
 #   JCODE_VERSION           exact version to install (overrides JCODE_CHANNEL)
-#   JCODE_HOME              T3 home directory (default: ~\.t3)
+#   JCODE_HOME              JCode home directory (default: ~\.t3)
 #   JCODE_INSTALL_BIN_DIR   where t3.exe is linked (default: ~\.local\bin)
 #   JCODE_RELEASE_BASE_URL  mirror for releases/download (default: GitHub)
 #
 # The archive is unpacked into $JCODE_HOME\runtime\versions\<version>, the
-# same layout `t3 service install` uses, so the service reuses this download.
+# same layout `jcode service install` uses, so the service reuses this download.
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
@@ -177,7 +177,7 @@ if ((Test-Path $marker) -and ((Get-Content $marker -Raw).Trim() -eq $version)) {
     } catch {
       $status = $_.Exception.Response.StatusCode.value__
       if ($status -eq 404) {
-        Fail "t3 $version has no release archive for win32-$arch; releases before the self-contained CLI can only be installed with 'npm install -g t3@$version'"
+        Fail "t3 $version has no release archive for win32-$arch; releases before the self-contained CLI can only be installed with 'npm install -g @lnsflive/jcode@$version'"
       }
       throw
     }

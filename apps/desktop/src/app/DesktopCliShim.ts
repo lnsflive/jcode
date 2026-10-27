@@ -44,10 +44,7 @@ export const renderCliShim = (input: {
       "setlocal EnableExtensions DisableDelayedExpansion",
       // Ctrl-C skips codepage restoration, so switch to UTF-8 only for non-ASCII install paths.
       ...(utf8
-        ? [
-            `for /f "tokens=2 delims=:." %%c in ('chcp') do set "jcodepage=%%c"`,
-            "chcp 65001 >nul",
-          ]
+        ? [`for /f "tokens=2 delims=:." %%c in ('chcp') do set "jcodepage=%%c"`, "chcp 65001 >nul"]
         : []),
       `set "JCODE_CLI_PATH=${cmdText(input.shimPath)}"`,
       `if not defined JCODE_HOME set "JCODE_HOME=${cmdText(input.t3Home)}"`,

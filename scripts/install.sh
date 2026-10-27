@@ -2,18 +2,18 @@
 # Installs the JCode CLI from a GitHub Release archive. Needs only sh, tar,
 # sha256sum or shasum, and curl or wget; no Node, npm, or compiler.
 #
-#   curl -fsSL https://t3.codes/install.sh | sh
+#   curl -fsSL https://jaimegonzalezjr.com/install.sh | sh
 #
 # Environment:
 #   JCODE_CHANNEL           release train to follow: stable, nightly, or preview
 #                            (default: stable; preview is a maintainers' test train)
 #   JCODE_VERSION           exact version to install (overrides JCODE_CHANNEL)
-#   JCODE_HOME              T3 home directory (default: ~/.t3)
+#   JCODE_HOME              JCode home directory (default: ~/.t3)
 #   JCODE_INSTALL_BIN_DIR   where the `t3` symlink goes (default: ~/.local/bin)
 #   JCODE_RELEASE_BASE_URL  mirror for releases/download (default: GitHub)
 #
 # The archive is unpacked into $JCODE_HOME/runtime/versions/<version>, the
-# same layout `t3 service install` uses, so the service reuses this download
+# same layout `jcode service install` uses, so the service reuses this download
 # instead of fetching the release again.
 set -eu
 
@@ -202,7 +202,7 @@ else
   fetch_status=0
   fetch "${base_url}/v${version}/SHA256SUMS" "${staging}/SHA256SUMS" || fetch_status=$?
   if [ "$fetch_status" -eq 44 ]; then
-    fail "t3 ${version} has no release archive for ${platform}-${arch}; releases before the self-contained CLI can only be installed with \`npm install -g t3@${version}\`"
+    fail "t3 ${version} has no release archive for ${platform}-${arch}; releases before the self-contained CLI can only be installed with \`npm install -g @lnsflive/jcode@${version}\`"
   elif [ "$fetch_status" -ne 0 ]; then
     fail "could not download the release checksums"
   fi

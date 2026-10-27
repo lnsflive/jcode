@@ -1,6 +1,6 @@
 included:
   - ios/JCode
-  - modules/t3-composer-editor/ios
+  - modules/jcode-composer-editor/ios
   - modules/t3-highlights/ios
   - modules/t3-native-controls/ios
   - modules/t3-terminal/ios

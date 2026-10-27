@@ -73,7 +73,7 @@ function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: 
     return "JCode service\n  Status: unavailable on this machine\n  Supported on: Linux with systemd, macOS with launchd";
   }
   if (!status.installed) {
-    return "JCode service\n  Status: not installed\n  Next: Run `t3 service install`.";
+    return "JCode service\n  Status: not installed\n  Next: Run `jcode service install`.";
   }
   const installedVersion = status.installedVersion ?? cliVersion;
   const problems = (status.problems ?? []).map(
@@ -90,7 +90,7 @@ function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: 
       `  Unit: ${status.unitPath}`,
       `  Logs: ${status.logPath}`,
       ...problems,
-      `  Next: Run \`t3 update ${installedVersion}\` to match it, or pass \`--allow-downgrade\` to \`t3 service install\` explicitly.`,
+      `  Next: Run \`jcode update ${installedVersion}\` to match it, or pass \`--allow-downgrade\` to \`jcode service install\` explicitly.`,
     ].join("\n");
   }
   return [
@@ -99,7 +99,7 @@ function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: 
     `  Unit: ${status.unitPath}`,
     `  Logs: ${status.logPath}`,
     ...problems,
-    ...(status.current ? [] : ["  Next: Run `t3 service install` to repair it."]),
+    ...(status.current ? [] : ["  Next: Run `jcode service install` to repair it."]),
   ].join("\n");
 }
 
@@ -140,14 +140,14 @@ const serviceInstallCommand = Command.make("install", serviceReconcileFlags).pip
 );
 
 const serviceUpdateCommand = Command.make("update", serviceReconcileFlags).pipe(
-  Command.withDescription("Deprecated. Run `t3 update` to move to a newer release."),
+  Command.withDescription("Deprecated. Run `jcode update` to move to a newer release."),
   Command.unlisted,
   Command.withHandler((flags) =>
     runServiceCommand(
       flags,
       Effect.gen(function* () {
         yield* Console.log(
-          "`t3 service update` is deprecated: run `t3 update` to move to a newer release, or `t3 service install` to repair the service. Repairing now.",
+          "`jcode service update` is deprecated: run `jcode update` to move to a newer release, or `jcode service install` to repair the service. Repairing now.",
         );
         const result = yield* reconcileService({ allowDowngrade: flags.allowDowngrade });
         if (!result.changed) {
@@ -164,7 +164,7 @@ const serviceUpdateCommand = Command.make("update", serviceReconcileFlags).pipe(
 
 const serviceRestartCommand = Command.make("restart", projectLocationFlags).pipe(
   Command.withDescription(
-    "Restart the background service. Picks up a version installed by `t3 update` that was not restarted at the time.",
+    "Restart the background service. Picks up a version installed by `jcode update` that was not restarted at the time.",
   ),
   Command.withHandler((flags) =>
     runServiceCommand(
@@ -249,9 +249,9 @@ export const offerServiceDuringOnboarding = Effect.gen(function* () {
         ? "The installed JCode service needs an update or repair. Update it now?"
         : platform === "darwin"
           ? "Run JCode in the background whenever you log in to this Mac? " +
-            "It stays reachable through T3 Connect while you are logged in."
+            "It stays reachable through JCode Connect while you are logged in."
           : "Run JCode in the background whenever this machine boots? " +
-            "It stays reachable through T3 Connect even after you log out.",
+            "It stays reachable through JCode Connect even after you log out.",
       initial: true,
     }),
   );

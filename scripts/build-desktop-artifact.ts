@@ -2011,9 +2011,9 @@ function windowsVswherePrerequisiteScript(arch: typeof BuildArch.Type): string {
 export const preflightWindowsDesktopBuild = Effect.fn("preflightWindowsDesktopBuild")(
   function* (input: { readonly arch: typeof BuildArch.Type; readonly bundlesWslRuntime: boolean }) {
     const rustTarget = resolveResourceMonitorRustTargets("win", input.arch)[0]!;
-    const reuseResourceMonitor = yield* Config.Boolean(
-      "JCODE_DESKTOP_REUSE_RESOURCE_MONITOR",
-    ).pipe(Config.withDefault(false));
+    const reuseResourceMonitor = yield* Config.Boolean("JCODE_DESKTOP_REUSE_RESOURCE_MONITOR").pipe(
+      Config.withDefault(false),
+    );
     const python = yield* resolvePythonForNodeGyp();
     const checks = yield* Effect.all(
       {
@@ -2895,7 +2895,7 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
       icon: "icons",
       category: "Development",
       synopsis: "Desktop GUI for coding agents",
-      maintainer: "T3 Tools <hello@t3.codes>",
+      maintainer: "LNSFLIVE <hello@jaimegonzalezjr.com>",
       protocols: [
         {
           name: "JCode",
@@ -3863,8 +3863,8 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
     description:
       "JCode is an open-source desktop app for coding agents. Work with your existing agent subscriptions, review code changes, and run commands in your projects. Connect from desktop, web, or mobile to continue working remotely.",
     license: "MIT",
-    homepage: "https://t3.codes",
-    author: "T3 Tools",
+    homepage: "https://jaimegonzalezjr.com",
+    author: "LNSFLIVE",
     main: "apps/desktop/dist-electron/boot.cjs",
     build: yield* createBuildConfig(
       options.platform,

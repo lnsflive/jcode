@@ -89,9 +89,7 @@ export const traceFileConfig = Config.String("JCODE_TRACE_FILE").pipe(
   Config.option,
   Config.map(Option.getOrUndefined),
 );
-export const traceMaxFilesConfig = Config.Int("JCODE_TRACE_MAX_FILES").pipe(
-  Config.withDefault(10),
-);
+export const traceMaxFilesConfig = Config.Int("JCODE_TRACE_MAX_FILES").pipe(Config.withDefault(10));
 
 const EnvServerConfig = Config.all({
   logLevel: Config.LogLevel("JCODE_LOG_LEVEL").pipe(Config.withDefault("Info")),
@@ -411,7 +409,7 @@ export const resolveServerConfig = Effect.fn("config.resolveServerConfig")(funct
   );
   // A background service exists to be reached from other devices, so it
   // listens on private networks unless `service.env` sets `JCODE_HOST`.
-  // Clients then learn its LAN address and prefer it over T3 Connect.
+  // Clients then learn its LAN address and prefer it over JCode Connect.
   const privateNetworkOnly =
     Option.isNone(explicitHost) &&
     mode === "web" &&

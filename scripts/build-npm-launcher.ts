@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// GitHub archives avoid npm scanning delays; output <output-dir>/t3/ and publishable t3.tgz.
+// GitHub archives avoid npm scanning delays; output <output-dir>/jcode/ and publishable jcode.tgz.
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Effect from "effect/Effect";
@@ -17,7 +17,7 @@ import serverPackageJson from "../apps/server/package.json" with { type: "json" 
 
 import { windowsSystemTar } from "./lib/windows-tar.ts";
 
-export const NPM_LAUNCHER_PACKAGE_NAME = "t3";
+export const NPM_LAUNCHER_PACKAGE_NAME = "@lnsflive/jcode";
 
 const encodePackageJson = Schema.encodeEffect(fromJsonStringPretty(Schema.Unknown));
 
@@ -39,7 +39,7 @@ export function npmLauncherPackageManifest(version: string) {
       "JCode CLI. Downloads the self-contained executable for this platform from the GitHub Release.",
     license: serverPackageJson.license,
     repository: serverPackageJson.repository,
-    bin: { t3: "./bin/t3.mjs" },
+    bin: { jcode: "./bin/jcode.mjs" },
     files: ["bin", "dist"],
     engines: { node: ">=20.11" },
   };
@@ -66,8 +66,8 @@ export const buildNpmLauncher = Effect.fn("buildNpmLauncher")(function* (input: 
     path.join(stageDir, "package.json"),
     `${yield* encodePackageJson(npmLauncherPackageManifest(input.version))}\n`,
   );
-  yield* fs.copyFile(path.join(sourceDir, "t3.mjs"), path.join(stageDir, "bin/t3.mjs"));
-  yield* fs.chmod(path.join(stageDir, "bin/t3.mjs"), 0o755);
+  yield* fs.copyFile(path.join(sourceDir, "jcode.mjs"), path.join(stageDir, "bin/jcode.mjs"));
+  yield* fs.chmod(path.join(stageDir, "bin/jcode.mjs"), 0o755);
   yield* fs.copyFile(path.join(sourceDir, "bin.mjs"), path.join(stageDir, "dist/bin.mjs"));
   const readme = yield* path.fromFileUrl(new URL("../apps/server/README.md", import.meta.url));
   if (yield* fs.exists(readme)) {
@@ -75,7 +75,8 @@ export const buildNpmLauncher = Effect.fn("buildNpmLauncher")(function* (input: 
   }
 
   const packageDir = path.join(input.outputDir, NPM_LAUNCHER_PACKAGE_NAME);
-  const tarball = path.join(input.outputDir, `${NPM_LAUNCHER_PACKAGE_NAME}.tgz`);
+  const tarball = path.join(input.outputDir, "jcode.tgz");
+  yield* fs.makeDirectory(path.dirname(packageDir), { recursive: true });
   yield* fs.remove(tarball, { force: true });
   const tar = (yield* HostProcess.Platform) === "win32" ? windowsSystemTar() : "tar";
   // npm tarballs root everything under `package/`.

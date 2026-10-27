@@ -10,7 +10,7 @@ opens the production Home, Thread, ThreadTerminal, ThreadReview, and SettingsEnv
 
 No screenshot-specific screen recreates application UI. `EXPO_PUBLIC_SHOWCASE=1` only enables the
 non-rendering pairing/readiness coordinator, disables terminal autofocus so captures do not contain
-the software keyboard, and supplies deterministic T3 Connect discovery rows to the real
+the software keyboard, and supplies deterministic JCode Connect discovery rows to the real
 Environments screen. The local environment cards always come from real paired servers.
 
 ## Capture the default matrix
@@ -21,7 +21,7 @@ From the repository root:
 
 The command:
 
-1. Creates three temporary T3 base directories and starts a local server for each on an available
+1. Creates three temporary JCode base directories and starts a local server for each on an available
    port.
 2. Creates JCode, React, and Linux Git repositories with recognizable favicons, feature branches,
    and a deterministic JCode review diff.
@@ -63,8 +63,8 @@ multiplies the run by six; only the native build is shared.
 
 The default matrix is:
 
-| Output folder                           | Capture target                 | Upload dimensions | Store slot                                |
-| --------------------------------------- | ------------------------------ | ----------------- | ----------------------------------------- |
+| Output folder                         | Capture target                 | Upload dimensions | Store slot                                |
+| ------------------------------------- | ------------------------------ | ----------------- | ----------------------------------------- |
 | `apple/iphone-6.9/dark/jcode/`        | disposable iPhone 17 Pro Max   | 1320×2868         | App Store Connect iPhone 6.9-inch         |
 | `apple/iphone-6.5/dark/jcode/`        | disposable iPhone 14 Plus      | 1284×2778         | App Store Connect iPhone 6.5-inch         |
 | `apple/iphone-duo-closed/dark/jcode/` | iPhone Duo, folded portrait    | 1398×2034         | App Store Connect iPhone Duo              |

@@ -422,7 +422,7 @@ export const EnvironmentConnectReachabilityCause = Schema.Literals([
 ]);
 export type EnvironmentConnectReachabilityCause = typeof EnvironmentConnectReachabilityCause.Type;
 
-/** Whether other devices can reach this environment through its T3 Connect tunnel. */
+/** Whether other devices can reach this environment through its JCode Connect tunnel. */
 export const EnvironmentConnectReachability = Schema.Union([
   Schema.Struct({
     status: Schema.Literal("reachable"),
@@ -455,25 +455,26 @@ export function formatConnectReachable(
 }
 
 /**
- * Sections of docs/user/t3-connect-troubleshooting.md. Each is the GitHub anchor of a
+ * Sections of docs/user/jcode-connect-troubleshooting.md. Each is the GitHub anchor of a
  * heading there; the test fails when a heading is renamed without updating this list.
  */
 export const T3_CONNECT_TROUBLESHOOTING_SECTIONS = [
   "the-hosts-tunnel-is-offline",
   "port-7844-is-blocked-on-the-host",
   "the-tunnel-works-but-jcode-does-not-answer",
-  "the-t3-connect-address-does-not-resolve-or-answer",
-  "this-device-cant-reach-t3-connect",
+  "the-jcode-connect-address-does-not-resolve-or-answer",
+  "this-device-cant-reach-jcode-connect",
   "sign-in-account-or-link-problems",
   "the-clock-is-off",
   "the-host-runs-an-older-jcode",
-  "t3-connect-returned-an-error",
+  "jcode-connect-returned-an-error",
 ] as const;
-export type T3ConnectTroubleshootingSection = (typeof T3_CONNECT_TROUBLESHOOTING_SECTIONS)[number];
+export type JCodeConnectTroubleshootingSection =
+  (typeof T3_CONNECT_TROUBLESHOOTING_SECTIONS)[number];
 
 /** Clients, the CLI, and server logs link here as "More info". */
-export function t3ConnectTroubleshootingUrl(section: T3ConnectTroubleshootingSection): string {
-  return `https://github.com/lnsflive/jcode/blob/main/docs/user/t3-connect-troubleshooting.md#${section}`;
+export function t3ConnectTroubleshootingUrl(section: JCodeConnectTroubleshootingSection): string {
+  return `https://github.com/lnsflive/jcode/blob/main/docs/user/jcode-connect-troubleshooting.md#${section}`;
 }
 
 const REACHABILITY_SECTION = {
@@ -484,9 +485,9 @@ const REACHABILITY_SECTION = {
   edge_unreachable: "port-7844-is-blocked-on-the-host",
   origin_unreachable: "the-tunnel-works-but-jcode-does-not-answer",
   unexpected_response: "the-tunnel-works-but-jcode-does-not-answer",
-  dns_failed: "the-t3-connect-address-does-not-resolve-or-answer",
-  timeout: "the-t3-connect-address-does-not-resolve-or-answer",
-} satisfies Record<EnvironmentConnectReachabilityCause, T3ConnectTroubleshootingSection>;
+  dns_failed: "the-jcode-connect-address-does-not-resolve-or-answer",
+  timeout: "the-jcode-connect-address-does-not-resolve-or-answer",
+} satisfies Record<EnvironmentConnectReachabilityCause, JCodeConnectTroubleshootingSection>;
 
 export function connectReachabilityHelpUrl(cause: EnvironmentConnectReachabilityCause): string {
   return t3ConnectTroubleshootingUrl(REACHABILITY_SECTION[cause]);

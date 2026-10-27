@@ -42,9 +42,9 @@ without expanding shell expressions.
 ## Where agents run
 
 Registry agents always run on the machine that hosts your JCode server. That stays true when you
-connect through `app.t3.codes`, T3 Connect, or a relay.
+connect through `app.jaimegonzalezjr.com`, JCode Connect, or a relay.
 
-Agents install under `tools/<agent-id>/<version>/` inside T3 home. JCode verifies SHA-256 when the Registry entry
+Agents install under `tools/<agent-id>/<version>/` inside JCode home. JCode verifies SHA-256 when the Registry entry
 provides one; entries without a checksum retain the Registry's HTTPS distribution guarantee.
 Registry `npx` and `uvx` packages use T3-owned npm prefixes and Python tool directories at the exact
 version published by the Registry. Their commands are available in a new server terminal for
@@ -94,7 +94,7 @@ running. Commands the agent names with a `$` prefix appear in JCode's `$` skill 
 ## Native sessions
 
 When an agent advertises ACP session listing and import support, expand its provider card,
-choose a project, and select **List sessions**. Importing one creates a deterministic T3 thread
+choose a project, and select **List sessions**. Importing one creates a deterministic JCode thread
 backed by that native session. Importing the same agent session again returns the existing thread,
 including when another client performs the import.
 
@@ -120,7 +120,7 @@ Devin runs its commands through JCode's terminals, and those commands follow the
 permission mode. For other agents, JCode shows the command, output, and exit status the agent
 reports but does not run or stop their terminals.
 
-Registry agents can schedule work and use T3's MCP tools. Child-task presentation depends on what
+Registry agents can schedule work and use JCode's MCP tools. Child-task presentation depends on what
 the agent exposes: ACP has no portable native subagent-lineage contract, so richer delegation views
 remain agent-specific.
 
@@ -130,7 +130,7 @@ Checkpoint rollback restores your files as usual. ACP agents cannot rewind their
 so the next turn after a rollback starts a fresh agent session that no longer remembers the
 conversation from before the checkpoint.
 
-Registry instances are not used for T3's app-owned text generation, such as thread titles, commit
+Registry instances are not used for JCode's app-owned text generation, such as thread titles, commit
 messages, branch names, or pull request descriptions. Configure a text-generation-capable provider
 for those actions.
 

@@ -214,7 +214,7 @@ export function cursorMcpServers(
     return undefined;
   }
   return {
-    "jcode": {
+    jcode: {
       type: "http",
       url: session.endpoint,
       headers: {

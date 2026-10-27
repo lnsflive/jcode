@@ -168,7 +168,7 @@ describe("CodexAdapterV2 runtime policy", () => {
       }),
   );
 
-  it.effect("derives concrete Codex turn policies from every T3 runtime mode", () =>
+  it.effect("derives concrete Codex turn policies from every JCode runtime mode", () =>
     Effect.gen(function* () {
       const build = (
         runtimeMode: "approval-required" | "auto-accept-edits" | "auto" | "full-access",
@@ -1213,7 +1213,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         "mcp_servers.extra.command": "cat",
       };
       for (const recordedMcp of [
-        { mcp_servers: { "jcode": recordedServer } },
+        { mcp_servers: { jcode: recordedServer } },
         { "mcp_servers.jcode": recordedServer, "mcp_servers.extra.command": "echo" },
       ]) {
         const entries = codexReplayPreamble({
@@ -1719,7 +1719,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     ),
   );
 
-  it.effect("preserves T3 context on the wire and restores it after compaction", () =>
+  it.effect("preserves JCode context on the wire and restores it after compaction", () =>
     Effect.scoped(
       Effect.gen(function* () {
         const nativeThreadId = "context-thread";

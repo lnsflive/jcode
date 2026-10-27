@@ -73,7 +73,7 @@ describe("renderCliShim", () => {
     );
   });
 
-  it("keeps the install's T3 home under sudo, unless one is set", () => {
+  it("keeps the install's JCode home under sudo, unless one is set", () => {
     const root = tempRoot();
     writeExecutable(NodePath.join(root, "app"), REPORTER);
     const shim = writeShim(root, {
@@ -94,10 +94,10 @@ describe("renderCliShim", () => {
     const shim = writeShim(root, {
       kind: "direct",
       executable,
-      entry: "/opt/T3's/app.asar/bin.mjs",
+      entry: "/opt/JCode's/app.asar/bin.mjs",
     });
     expect(run(shim, ["browser", "setup"]).stdout.split("\n").slice(1)).toEqual([
-      "/opt/T3's/app.asar/bin.mjs",
+      "/opt/JCode's/app.asar/bin.mjs",
       "browser",
       "setup",
       "",
@@ -114,9 +114,7 @@ describe("renderCliShim", () => {
     const lines = script.split("\r\n");
     expect(lines).toContain("setlocal EnableExtensions DisableDelayedExpansion");
     expect(lines).toContain("chcp 65001 >nul");
-    expect(lines).toContain(
-      'if exist "C:\\Apps\\R&whoami&X 100%%\\!CHANNEL!\\JCode.exe" goto run',
-    );
+    expect(lines).toContain('if exist "C:\\Apps\\R&whoami&X 100%%\\!CHANNEL!\\JCode.exe" goto run');
     const bare = lines.filter(
       (line) => line.includes("whoami") && !/"[^"]*whoami[^"]*"/.test(line),
     );

@@ -170,15 +170,15 @@ describe("scoreThreadSearch", () => {
   it("ranks a title holding the words above the app's own branch prefix and project name", () => {
     const busy = { activityAt: NOW, opens: { openedAt: NOW, score: 6, picks: [] } };
     expect(
-      rankTitles("t3 connect", [
+      rankTitles("jcode connect", [
         thread("Diagnose Connect provisioning failures", {
           ...busy,
           branch: "t3/diagnose-connect",
           projectTitle: "jcode",
         }),
-        thread("T3 Connect Tunnel Lifecycle Review", { projectTitle: "jcode" }),
+        thread("JCode Connect Tunnel Lifecycle Review", { projectTitle: "jcode" }),
       ])[0],
-    ).toBe("T3 Connect Tunnel Lifecycle Review");
+    ).toBe("JCode Connect Tunnel Lifecycle Review");
     expect(
       rankTitles("jcode", [
         thread("Fix sidebar lag", { ...busy, projectTitle: "jcode", branch: "jcode/sidebar" }),
@@ -209,8 +209,8 @@ describe("scoreThreadSearch", () => {
     expect(rankTitles("22889", [thread("Stats", { pullRequests: [{ number: 22189 }] })])).toEqual(
       [],
     );
-    // Words with digits still forgive one.
-    expect(rankTitles("t3coed", [thread("jcode perf audit"), thread("Other")])).toEqual([
+    // One typo still matches the renamed product.
+    expect(rankTitles("jcoed", [thread("jcode perf audit"), thread("Other")])).toEqual([
       "jcode perf audit",
     ]);
     expect(rankTitles("oath2", [thread("Fix oauth2 redirect")])).toEqual(["Fix oauth2 redirect"]);
@@ -323,7 +323,7 @@ describe("scoreThreadSearch beyond Latin text and titles", () => {
     // Short words before a mere prefix are a coincidence.
     expect(rankTitles("inth", [thread("Show skill names in thread overview")])).toEqual([]);
     expect(rankTitles("tos", [thread("Move Client State to Server")])).toEqual([]);
-    expect(rankTitles("t3co", [thread("JCode vs Gemini")])).toEqual(["JCode vs Gemini"]);
+    expect(rankTitles("jcod", [thread("JCode vs Gemini")])).toEqual(["JCode vs Gemini"]);
     expect(rankTitles('"sidebar lag"', [thread("Fix sidebar lag")])).toEqual(["Fix sidebar lag"]);
     // A pasted query with a separate accent mark matches the composed title.
     expect(rankTitles("cafe\u0301", [thread("Café menu")])).toEqual(["Café menu"]);

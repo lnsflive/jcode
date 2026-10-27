@@ -11,13 +11,13 @@ launch JCode and configure providers afterwards.
 ## Command line
 
 ```bash
-curl -fsSL https://t3.codes/install.sh | sh
+curl -fsSL https://jaimegonzalezjr.com/install.sh | sh
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://t3.codes/install.ps1 | iex
+irm https://jaimegonzalezjr.com/install.ps1 | iex
 ```
 
 This installs the `t3` binary to `~/.local/bin`. If your shell reports `command not found`
@@ -25,24 +25,24 @@ afterwards, that directory is not on your `PATH` yet; the installer prints the
 line to add. Set `JCODE_CHANNEL=nightly` to install the nightly train, or
 `JCODE_VERSION` to pin an exact version.
 
-| Task                                             | Command                                                                 |
-| ------------------------------------------------ | ----------------------------------------------------------------------- |
-| Start the server and open the web app            | `t3`                                                                    |
-| Start the server without a browser               | `t3 serve`                                                              |
-| Keep it running in the background (macOS, Linux) | `t3 service install` ([details](./background-service.md))               |
-| Move to the newest release                       | `t3 update`                                                             |
-| Reclaim database space                           | `t3 doctor` ([details](./background-service.md#reclaim-database-space)) |
-| Remove it again                                  | `t3 uninstall`                                                          |
+| Task                                             | Command                                                                    |
+| ------------------------------------------------ | -------------------------------------------------------------------------- |
+| Start the server and open the web app            | `t3`                                                                       |
+| Start the server without a browser               | `jcode serve`                                                              |
+| Keep it running in the background (macOS, Linux) | `jcode service install` ([details](./background-service.md))               |
+| Move to the newest release                       | `jcode update`                                                             |
+| Reclaim database space                           | `jcode doctor` ([details](./background-service.md#reclaim-database-space)) |
+| Remove it again                                  | `t3 uninstall`                                                             |
 
-Run `t3 help` or `t3 --help` for the full reference. To start in a new working
+Run `jcode help` or `t3 --help` for the full reference. To start in a new working
 directory, use an explicit path such as `t3 ./my-project`. A bare directory name
 is accepted only if it already exists.
 
-If `t3` or `t3 start` reports an already running server, connect to that server
+If `t3` or `jcode start` reports an already running server, connect to that server
 instead. Stop it before starting a replacement, or use a different `--base-dir`
 for an independent server.
 
-To try JCode once without installing it, run `npx t3@latest` instead (needs
+To try JCode once without installing it, run `npx @lnsflive/jcode@latest` instead (needs
 Node.js for `npx`).
 
 ### Intel Macs
@@ -57,7 +57,7 @@ cd jcode && vp i && vp run build:desktop
 node apps/server/dist/bin.mjs
 ```
 
-`t3 update` and the background service do not apply to a server run this way;
+`jcode update` and the background service do not apply to a server run this way;
 update it with `git pull` and a rebuild.
 
 ## Desktop app
@@ -65,13 +65,13 @@ update it with `git pull` and a rebuild.
 Download a release from [GitHub Releases](https://github.com/lnsflive/jcode/releases),
 or use a package manager:
 
-| Platform           | Install                            |
-| ------------------ | ---------------------------------- |
-| Windows            | `winget install T3Tools.JCode`    |
+| Platform           | Install                          |
+| ------------------ | -------------------------------- |
+| Windows            | `winget install T3Tools.JCode`   |
 | macOS              | `brew install --cask jcode`      |
 | Debian, Ubuntu     | `sudo apt install ./JCode-*.deb` |
-| Arch Linux         | `yay -S jcode-bin`                |
-| Arch Linux nightly | `yay -S jcode-nightly-bin`        |
+| Arch Linux         | `yay -S jcode-bin`               |
+| Arch Linux nightly | `yay -S jcode-nightly-bin`       |
 
 The `.deb` updates itself like the other desktop builds. It asks for your
 password to install each update. If your desktop has no password prompt, the
@@ -98,11 +98,11 @@ take longer.
 With the desktop app already running on the same machine:
 
 ```bash
-t3 app
+jcode app
 ```
 
 This opens a new thread for the current directory, adding the project if needed.
-Pass a path, such as `t3 app ../my-project`, to open another directory. It requires
+Pass a path, such as `jcode app ../my-project`, to open another directory. It requires
 the desktop app, so a standalone server or an SSH session is not enough. If the
 command cannot reach the app, start or update the desktop app and try again.
 
@@ -112,7 +112,7 @@ Install JCode from the
 [App Store](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824) or
 [Google Play](https://play.google.com/store/apps/details?id=com.t3tools.jcode).
 The phone connects to a server on another machine. Follow
-[remote access](./remote-access.md) to link it through T3 Connect or a pairing URL.
+[remote access](./remote-access.md) to link it through JCode Connect or a pairing URL.
 
 Store links and QR codes are also available in **Settings → About → Mobile app**
 on web and desktop. The store apps work with both stable and Nightly servers. Test builds are optional:
@@ -141,7 +141,7 @@ computer.
 | Cursor      | Install [Cursor CLI](https://cursor.com/cli), then run `agent login`.                                                                                     |
 | Grok Build  | Install [Grok Build CLI](https://x.ai/cli), then run `grok login`.                                                                                        |
 | OpenCode    | Install [OpenCode](https://opencode.ai), then run `opencode auth login`.                                                                                  |
-| Antigravity | Install and sign in with Google from JCode's provider settings.                                                                                         |
+| Antigravity | Install and sign in with Google from JCode's provider settings.                                                                                           |
 | Pi          | Install [Pi](./providers-pi.md#set-up-pi) with Node.js 22.19 or newer, then run `pi` and `/login`.                                                        |
 | Muse Code   | Install [Muse Code](https://dev.meta.ai/docs/muse-code) on the server, run `muse login`, then enable it in Settings → Providers.                          |
 | fx          | Install [fx](https://fx.sh) with `curl -fsSL https://fx.sh/setup.sh \| bash`, then run `fx login`.                                                        |

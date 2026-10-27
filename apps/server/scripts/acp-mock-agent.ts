@@ -1339,8 +1339,8 @@ const program = Effect.gen(function* () {
                 type: "search",
                 query: "jcode",
                 sources: [
-                  { type: "url", url: "https://t3.codes" },
-                  { type: "url", url: "https://t3.codes" },
+                  { type: "url", url: "https://jaimegonzalezjr.com" },
+                  { type: "url", url: "https://jaimegonzalezjr.com" },
                   { type: "url", url: "https://github.com/lnsflive/jcode" },
                 ],
               },
@@ -1351,13 +1351,13 @@ const program = Effect.gen(function* () {
           {
             sessionUpdate: "tool_call_update",
             toolCallId: "grok-web-fetch",
-            title: "Fetch: https://t3.codes",
+            title: "Fetch: https://jaimegonzalezjr.com",
             kind: "fetch",
             status: "completed",
-            rawInput: { variant: "WebFetch", url: "https://t3.codes" },
+            rawInput: { variant: "WebFetch", url: "https://jaimegonzalezjr.com" },
             rawOutput: {
               type: "WebFetch",
-              Content: { url: "https://t3.codes", content: "JCode page" },
+              Content: { url: "https://jaimegonzalezjr.com", content: "JCode page" },
             },
             content: [{ type: "content", content: { type: "text", text: "JCode page" } }],
           },
@@ -1672,7 +1672,7 @@ const program = Effect.gen(function* () {
           },
         });
         if (exitAfterRunningCommandLaunch) {
-          // The test sends `_test/exit` once T3 has recorded the published processes.
+          // The test sends `_test/exit` once JCode has recorded the published processes.
           yield* Effect.promise(() => runningCommandPublished);
           return yield* Effect.never;
         }

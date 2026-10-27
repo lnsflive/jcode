@@ -1,4 +1,4 @@
-// T3 ingest retains events and forwards to PostHog; UUIDs deduplicate retries there.
+// JCode ingest retains events and forwards to PostHog; UUIDs deduplicate retries there.
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import type { ClientOs } from "@t3tools/contracts";
 import * as Clock from "effect/Clock";
@@ -65,7 +65,7 @@ const TelemetryEnvConfig = Config.all({
     Config.withDefault("phc_XOWci4oZP4VvLiEyrFqkFjP4CZn55mjYYBMREK5Wd6m"),
   ),
   posthogHost: Config.String("JCODE_POSTHOG_HOST").pipe(
-    Config.withDefault("https://ingest.t3.codes"),
+    Config.withDefault("https://ingest.jaimegonzalezjr.com"),
   ),
   enabled: Config.Boolean("JCODE_TELEMETRY_ENABLED").pipe(Config.withDefault(true)),
   flushBatchSize: Config.Number("JCODE_TELEMETRY_FLUSH_BATCH_SIZE").pipe(Config.withDefault(20)),

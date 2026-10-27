@@ -38,7 +38,7 @@ import { TYPOGRAPHY_ADVANCED_STORAGE_KEY } from "../../appearanceFonts";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { hasCloudPublicConfig } from "../../cloud/publicConfig";
 import { PRIVACY_POLICY_URL } from "../../legalLinks";
-import { useT3ConnectAuthPrompt } from "../clerk/useT3ConnectAuthPrompt";
+import { useJCodeConnectAuthPrompt } from "../clerk/useJCodeConnectAuthPrompt";
 import { completeOnboarding } from "../../onboarding/firstRun";
 import {
   groupOnboardingProjects,
@@ -471,7 +471,7 @@ function ConnectAccountOption({
 }) {
   const { environments } = useEnvironments();
   const { isLoaded, isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
-  const { openAuthPrompt } = useT3ConnectAuthPrompt();
+  const { openAuthPrompt } = useJCodeConnectAuthPrompt();
   const [expanded, setExpanded] = useState(true);
   const [discoveryReady, setDiscoveryReady] = useState(false);
   const onDiscoveryReady = () => setDiscoveryReady(true);
@@ -493,7 +493,7 @@ function ConnectAccountOption({
           }
         >
           <CloudIcon className="size-4 text-muted-foreground" />
-          <span className="flex-1 text-left">T3 Connect</span>
+          <span className="flex-1 text-left">JCode Connect</span>
           <span className="text-xs text-muted-foreground">
             {!isLoaded
               ? "Loading sign-in…"
@@ -527,7 +527,7 @@ function ConnectAccountOption({
             <p className="text-sm text-muted-foreground">
               Run this on each computer you want to connect.
             </p>
-            <CommandBlock command="npx t3 connect" className="mt-3" />
+            <CommandBlock command="npx @lnsflive/jcode connect" className="mt-3" />
             <p className="mt-3 text-xs text-muted-foreground">
               Keep JCode running. Select the computers you want to set up above.
             </p>
@@ -636,10 +636,10 @@ function PairingForm({
             <p className="pt-3 text-sm text-muted-foreground">
               Run this on the computer with your code.
             </p>
-            <CommandBlock command="npx t3 pair" className="mt-2" />
+            <CommandBlock command="npx @lnsflive/jcode pair" className="mt-2" />
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-              Start JCode first, or run <code className="font-mono">npx t3 serve</code>. Add{" "}
-              <code className="font-mono">--tailscale</code> to use your tailnet.
+              Start JCode first, or run <code className="font-mono">npx @lnsflive/jcode serve</code>
+              . Add <code className="font-mono">--tailscale</code> to use your tailnet.
             </p>
           </CollapsiblePanel>
         </Collapsible>

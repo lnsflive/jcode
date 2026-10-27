@@ -434,10 +434,7 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
       data-user-message-attribution={folded ? "agent" : undefined}
     >
       {userMessage.attribution === "jcode" ? (
-        <p
-          className="me-1 text-2xs text-muted-foreground/70"
-          data-user-message-attribution="jcode"
-        >
+        <p className="me-1 text-2xs text-muted-foreground/70" data-user-message-attribution="jcode">
           Sent by JCode
         </p>
       ) : null}

@@ -1,8 +1,8 @@
 # Product usage data
 
-The JCode server sends product usage events to JCode's own endpoint at `ingest.t3.codes`,
+The JCode server sends product usage events to JCode's own endpoint at `ingest.jaimegonzalezjr.com`,
 associated with a hashed account or installation identifier. To count how many installations one person
-uses, the server also sends hashed account identifiers: your T3 Connect account, your OpenAI and
+uses, the server also sends hashed account identifiers: your JCode Connect account, your OpenAI and
 Claude accounts when you are signed in, and a random identifier for each device that connects. The endpoint keeps a copy of each
 event and forwards events to PostHog. Events include the provider, model, reasoning effort,
 permission mode, turn result, duration, release channel, and main-agent token totals when
@@ -11,7 +11,7 @@ available.
 Events do not include prompts, responses, file contents, authentication tokens, conversation IDs,
 raw provider events, or child-agent output. Child-agent token use is excluded from the totals.
 
-JCode also sends relay connection traces to Axiom to diagnose T3 Connect connectivity.
+JCode also sends relay connection traces to Axiom to diagnose JCode Connect connectivity.
 
 To disable product events and relay tracing, set `JCODE_TELEMETRY_ENABLED=false` in the server's
 environment before starting it. Relay tracing also stops when `JCODE_OTEL_SDK_DISABLED` or

@@ -326,7 +326,7 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
     delete output.JCODE_HOME;
   }
 
-  // Managed T3 service shells leak launcher variables that make dev servers fail version checks.
+  // Managed JCode service shells leak launcher variables that make dev servers fail version checks.
   // Dev-runner servers are never launcher-managed (serviceLauncherClient.ts resolveStartup).
   delete output.T3_SERVICE_LAUNCHER_CONTEXT;
   delete output.T3_BOOT_SERVICE_UNIT;
@@ -820,10 +820,7 @@ export const runDevRunnerWithInput = Effect.fn("dev-runner.runDevRunnerWithInput
         // The app is reached from the tailnet origin. Vite already allows
         // *.ts.net hosts; the backend needs the origin for credentialed
         // requests that bypass the proxy (desktop renderer, direct calls).
-        env.JCODE_DEV_ALLOWED_ORIGINS = [
-          env.JCODE_DEV_ALLOWED_ORIGINS,
-          new URL(shared.url).origin,
-        ]
+        env.JCODE_DEV_ALLOWED_ORIGINS = [env.JCODE_DEV_ALLOWED_ORIGINS, new URL(shared.url).origin]
           .filter((entry) => entry && entry.length > 0)
           .join(",");
         if (input.devUrl === undefined) {

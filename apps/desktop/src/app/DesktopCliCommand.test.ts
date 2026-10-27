@@ -138,7 +138,7 @@ it.layer(NodeServices.layer)("DesktopCliCommand", (it) => {
     }).pipe(Effect.scoped),
   );
 
-  it.effect("finds and removes a link left by a previous T3 home", () =>
+  it.effect("finds and removes a link left by a previous JCode home", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;

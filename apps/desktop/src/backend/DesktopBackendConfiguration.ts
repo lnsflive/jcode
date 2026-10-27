@@ -91,7 +91,7 @@ const WSL_FORWARDED_ENV_NAMES = [
   "OTEL_SDK_DISABLED",
   "JCODE_OTLP_HEADERS",
   "JCODE_OTLP_PROTOCOL",
-  // Untranslated T3 URLs must override bootstrap endpoints inside WSL, as they do on Windows.
+  // Untranslated JCode URLs must override bootstrap endpoints inside WSL, as they do on Windows.
   "JCODE_OTLP_TRACES_URL",
   "JCODE_OTLP_METRICS_URL",
   "JCODE_OTLP_LOGS_URL",

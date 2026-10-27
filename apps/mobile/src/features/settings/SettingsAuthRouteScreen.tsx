@@ -9,14 +9,14 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 
 import { hasCloudPublicConfig } from "../cloud/publicConfig";
-import { T3ConnectProfilePage } from "../cloud/T3ConnectProfilePage";
+import { JCodeConnectProfilePage } from "../cloud/JCodeConnectProfilePage";
 
 const USER_PROFILE_CUSTOM_PAGES = [
   {
     path: "t3-connect",
-    label: "T3 Connect",
+    label: "JCode Connect",
     icon: "globe",
-    content: <T3ConnectProfilePage />,
+    content: <JCodeConnectProfilePage />,
   },
 ] satisfies UserProfileCustomPage[];
 
@@ -35,7 +35,7 @@ function ConfiguredSettingsAuthRouteScreen() {
   if (isSignedIn && !hasBeenSignedIn) setHasBeenSignedIn(true);
 
   // Clerk reports sign-out only through its auth store (the native profile view
-  // and the T3 Connect page can both sign out), so this follows that store.
+  // and the JCode Connect page can both sign out), so this follows that store.
   useEffect(() => {
     if (hasBeenSignedIn && isLoaded && isSignedIn === false) {
       navigation.goBack();

@@ -128,7 +128,7 @@ const resumedMcpQueryInput = {
     tools: [],
     permissionMode: "default",
     mcpServers: {
-      "jcode": {
+      jcode: {
         type: "http",
         url: "http://localhost:3773/mcp",
         headers: { Authorization: "Bearer test-mcp-credential" },

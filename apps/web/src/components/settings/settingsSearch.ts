@@ -414,7 +414,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     title: "Guest links",
     to: "/settings/labs",
     scope: "environment",
-    searchTerms: ["beta share guest invite link teammate watch t3 connect tunnel"],
+    searchTerms: ["beta share guest invite link teammate watch jcode connect tunnel"],
   },
   {
     id: "auto-settle-inactive-threads",
@@ -1038,7 +1038,7 @@ export const SETTINGS_SEARCH_ITEMS = [
   {
     id: "t3-connect",
     localEnvironmentOnly: true,
-    title: "T3 Connect",
+    title: "JCode Connect",
     to: "/settings/access",
     targetId: "connections-environment",
     searchTerms: ["managed tunnel cloud other devices remote"],
@@ -1051,7 +1051,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     title: "Hold webhooks while offline",
     to: "/settings/access",
     targetId: "connections-environment",
-    searchTerms: ["webhook automations offline queue mailbox t3 connect"],
+    searchTerms: ["webhook automations offline queue mailbox jcode connect"],
     cloudOnly: true,
     managedTunnelOnly: true,
   },
@@ -1076,7 +1076,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     id: "remote-environments",
     title: "Environments",
     to: "/settings/connections",
-    searchTerms: ["add pair backend host code ssh config agent tunnel saved t3 connect"],
+    searchTerms: ["add pair backend host code ssh config agent tunnel saved jcode connect"],
   },
   {
     id: "load-balancing",

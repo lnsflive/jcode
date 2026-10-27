@@ -113,9 +113,9 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
         const manifest = yield* decodeManifest(
           yield* fs.readFileString(path.join(output.packageDir, "package.json")),
         );
-        assert.equal(manifest.name, "t3");
+        assert.equal(manifest.name, "@lnsflive/jcode");
         assert.equal(manifest.version, VERSION);
-        assert.deepStrictEqual(manifest.bin, { t3: "./bin/t3.mjs" });
+        assert.deepStrictEqual(manifest.bin, { jcode: "./bin/jcode.mjs" });
         assert.isUndefined(manifest.dependencies);
         assert.isUndefined(manifest.optionalDependencies);
 
@@ -135,7 +135,7 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
           JCODE_HOME: home,
           JCODE_RELEASE_BASE_URL: release.baseUrl,
         };
-        const launcher = path.join(packageDir, "bin/t3.mjs");
+        const launcher = path.join(packageDir, "bin/jcode.mjs");
         const first = yield* run(process.execPath, [launcher, "serve", "a b"], {
           cwd: root,
           env,

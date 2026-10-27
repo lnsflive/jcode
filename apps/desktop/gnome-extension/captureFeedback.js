@@ -83,7 +83,7 @@ export class CaptureFeedback {
         session.pid,
         title,
       );
-    // A command-palette capture temporarily unmaps T3. Wait for its new surface, not a sleep.
+    // A command-palette capture temporarily unmaps JCode. Wait for its new surface, not a sleep.
     const target =
       find() ??
       (await new Promise((resolve) => {

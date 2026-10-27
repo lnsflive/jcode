@@ -151,10 +151,10 @@ describe("Pi MCP tool exposure", () => {
         .filter((tool) => tool.exposure !== "hidden")
         .map((tool) => [tool.name, tool.exposure]),
       [
-        ["mcp__jcode__orchestrator_capabilities", "direct"],
-        ["mcp__jcode__delegate_task", "direct"],
-        ["mcp__jcode__task_status", "direct"],
-        ["mcp__jcode__preview_snapshot", "deferred"],
+        ["jcode__orchestrator_capabilities", "direct"],
+        ["jcode__delegate_task", "direct"],
+        ["jcode__task_status", "direct"],
+        ["jcode__preview_snapshot", "deferred"],
       ],
     );
     assert.deepEqual(
@@ -194,7 +194,7 @@ describe("Pi MCP tool exposure", () => {
     ]);
     await bridge.handlers.get("model_select")!(event, discoveryContext);
     assert.equal(
-      bridge.tools.find((tool) => tool.name === "mcp__jcode__preview_snapshot")?.exposure,
+      bridge.tools.find((tool) => tool.name === "jcode__preview_snapshot")?.exposure,
       "deferred",
     );
     assert.include(bridge.getActiveTools(), "mcp__jcode__preview_snapshot");
@@ -266,7 +266,7 @@ describe("Pi MCP tool schemas", () => {
 
 describe("Pi tool discovery permissions", () => {
   it.each(["approval-required", "auto-accept-edits", "auto"])(
-    "allows annotated T3 reads in %s while gating mutations and replacements",
+    "allows annotated JCode reads in %s while gating mutations and replacements",
     async (runtimeMode) => {
       const bridge = await loadMcpBridge({ modern: true, runtimeMode });
       const hook = bridge.handlers.get("tool_call") as unknown as (
@@ -298,8 +298,7 @@ describe("Pi tool discovery permissions", () => {
       assert.equal(confirmations.length, 4);
       bridge.setBridgeSourcePath("/user/extensions/replacement.ts");
       assert.equal(
-        (await hook({ toolName: "mcp__jcode__orchestrator_capabilities", input: {} }, ctx))
-          ?.block,
+        (await hook({ toolName: "mcp__jcode__orchestrator_capabilities", input: {} }, ctx))?.block,
         true,
       );
       assert.equal(

@@ -281,7 +281,7 @@ export function buildPiRpcLaunch(input: {
     args.push("--extension", input.extensionPath);
   }
   const environment = { ...input.environment };
-  // MCP credentials belong to this T3 session; discard inherited server/parent credentials.
+  // MCP credentials belong to this JCode session; discard inherited server/parent credentials.
   delete environment[T3_MCP_URL_ENV];
   delete environment[T3_MCP_BEARER_ENV];
   delete environment[T3_PI_MCP_EXTENSION_PATH_ENV];

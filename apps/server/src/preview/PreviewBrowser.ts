@@ -119,7 +119,7 @@ export class PreviewBrowserUnsupportedError extends Schema.TaggedError<PreviewBr
   { platform: Schema.String, arch: Schema.String },
 ) {
   override get message(): string {
-    return `T3's headless browser is not available on ${this.platform}-${this.arch}: Chrome for Testing has no headless shell for it.`;
+    return `JCode's headless browser is not available on ${this.platform}-${this.arch}: Chrome for Testing has no headless shell for it.`;
   }
 }
 
@@ -299,7 +299,7 @@ export const makePreviewBrowser = Effect.fn("PreviewBrowser.make")(function* (
     },
     Effect.scoped,
     Effect.mapError(
-      wrapFailure("Could not unpack the browser. Check free disk space in T3's home directory."),
+      wrapFailure("Could not unpack the browser. Check free disk space in JCode's home directory."),
     ),
   );
 
@@ -347,7 +347,7 @@ export const makePreviewBrowser = Effect.fn("PreviewBrowser.make")(function* (
       );
       return path.join(installRoot, release.version, executableName);
     },
-    Effect.mapError(wrapFailure("Could not save the browser in T3's home directory.")),
+    Effect.mapError(wrapFailure("Could not save the browser in JCode's home directory.")),
   );
 
   const join = (release: PreviewBrowserRelease) =>

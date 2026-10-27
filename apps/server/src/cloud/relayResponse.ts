@@ -28,7 +28,7 @@ export function relayRequestError(cause: unknown): RelayRequestError {
     ? cause
     : new RelayRequestError({
         rejection: "unavailable",
-        description: `Could not complete the T3 Connect relay request. ${isHttpClientError(cause) ? `The relay request failed (${cause.reason._tag}).` : "The relay returned an unexpected response."} Check this machine's network connection and relay availability, then retry.`,
+        description: `Could not complete the JCode Connect relay request. ${isHttpClientError(cause) ? `The relay request failed (${cause.reason._tag}).` : "The relay returned an unexpected response."} Check this machine's network connection and relay availability, then retry.`,
       });
 }
 
@@ -62,9 +62,9 @@ export function relayRetryAfterMillis(error: unknown): number | undefined {
 function recoveryHint(error: RelayProtectedError): string {
   switch (error._tag) {
     case "RelayEnvironmentLinkLimitExceededError":
-      return "Unlink an unused environment in T3 Connect, then restart JCode on this machine.";
+      return "Unlink an unused environment in JCode Connect, then restart JCode on this machine.";
     case "RelayAuthInvalidError":
-      return "Run `t3 connect login` to check this machine's authorization. If the stored credential was revoked, sign out with `t3 connect logout`, then run `t3 connect` again. Restart JCode after signing in.";
+      return "Run `jcode connect login` to check this machine's authorization. If the stored credential was revoked, sign out with `jcode connect logout`, then run `jcode connect` again. Restart JCode after signing in.";
     case "RelayEnvironmentLinkProofExpiredError":
     case "RelayEnvironmentLinkProofInvalidError":
       return "Check this machine's date and time, update JCode, then restart it.";
@@ -83,8 +83,8 @@ export const filterRelayResponse = Effect.fn("cloud.filter_relay_response")(func
   const ray = response.headers["cf-ray"];
   const requestId = ray && /^[a-zA-Z0-9-]{1,128}$/.test(ray) ? ` Cloudflare Ray ID: ${ray}.` : "";
   const description = Option.isSome(decoded)
-    ? `T3 Connect: ${decoded.value.message}. ${recoveryHint(decoded.value)} Trace ID: ${decoded.value.traceId}.`
-    : `T3 Connect relay returned HTTP ${response.status} without a recognized error response. Check relay access and any proxy or firewall restrictions, then restart JCode.${requestId}`;
+    ? `JCode Connect: ${decoded.value.message}. ${recoveryHint(decoded.value)} Trace ID: ${decoded.value.traceId}.`
+    : `JCode Connect relay returned HTTP ${response.status} without a recognized error response. Check relay access and any proxy or firewall restrictions, then restart JCode.${requestId}`;
 
   // Only a schema-decoded expired-proof 401 is retryable for clock skew; every other 401 is permanent.
   if (

@@ -20,7 +20,7 @@
 - [Product usage data](./user/telemetry.md)
 - [Remote access](./user/remote-access.md)
 - [Guest links](./user/guest-links.md)
-- [T3 Connect troubleshooting](./user/t3-connect-troubleshooting.md)
+- [JCode Connect troubleshooting](./user/jcode-connect-troubleshooting.md)
 - [Outside agents (MCP)](./user/outside-agents.md)
 - [Running in the background](./user/background-service.md)
 - [Updating JCode](./user/updating.md)
@@ -49,7 +49,7 @@ source alone does not explain. Most code changes do not need an internal documen
 - [Resource telemetry](./internals/resource-telemetry.md)
 - [Product analytics](./internals/product-analytics.md)
 - [Environment auth](./internals/environment-auth.md)
-- [T3 Connect](./internals/t3-connect.md)
+- [JCode Connect](./internals/jcode-connect.md)
 - [Assistant citations](./internals/assistant-citations.md)
 - [Mobile navigation](./internals/mobile-navigation.md)
 - [Mobile development lifecycle](./internals/mobile-development.md)
@@ -60,7 +60,7 @@ source alone does not explain. Most code changes do not need an internal documen
 ### Runbooks
 
 - [Development and local builds](./operations/development.md)
-- [T3 Connect setup](./operations/connect-setup.md)
+- [JCode Connect setup](./operations/connect-setup.md)
 - [Release](./operations/release.md)
 - [Observability](./operations/observability.md)
 - [Relay observability](./operations/relay-observability.md)

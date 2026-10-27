@@ -18,15 +18,15 @@ Lots of apps have gotten bogged down with bad tech decisions and "slop". We have
 
 ### 3. Remote ready
 
-The architecture of JCode's websocket layer (npx t3) enables a lot of awesome remote features. These have become core to the product. Whether users are connecting directly over their local network, using Tailscale, or leaning in fully with T3 Connect (our tunnel solution, also in this repo), we need to make sure new features are properly supported.
+The architecture of JCode's websocket layer (npx @lnsflive/jcode) enables a lot of awesome remote features. These have become core to the product. Whether users are connecting directly over their local network, using Tailscale, or leaning in fully with JCode Connect (our tunnel solution, also in this repo), we need to make sure new features are properly supported.
 
 ### 4. Multi-surface
 
 JCode has 3 key app surfaces: **web**, **desktop**, and **mobile**.
 
-**Web** is kind of two surfaces, as we have the public facing "app.t3.codes" as well as locally hosting the web app through the `npx t3` command. Both need to be supported by all new features where reasonable.
+**Web** is kind of two surfaces, as we have the public facing "app.jaimegonzalezjr.com" as well as locally hosting the web app through the `npx @lnsflive/jcode` command. Both need to be supported by all new features where reasonable.
 
-**Desktop** is the main surface most users install first. It's a full Electron app that bundles the server runner as well. The desktop app can also be used as the host server, allowing remote connections from app.t3.codes or the mobile app.
+**Desktop** is the main surface most users install first. It's a full Electron app that bundles the server runner as well. The desktop app can also be used as the host server, allowing remote connections from app.jaimegonzalezjr.com or the mobile app.
 
 **Mobile** is a React Native app for both iOS and Android, available on the App Store and Google Play. The mobile app allows for connecting to any JCode server to control work remotely.
 
@@ -50,11 +50,11 @@ We need to be on the same page with terminology. When communicating, use this la
 - **agent** means the coding agent a user runs inside JCode. Depending on context, that may also include you.
 - **provider** means the agent runtime or harness JCode talks to, such as Codex, Claude, Cursor, or OpenCode.
 - **client** means the web, desktop, or mobile UI.
-- **environment** means one running T3 server and the machine, filesystem, provider credentials, and state it owns.
+- **environment** means one running JCode server and the machine, filesystem, provider credentials, and state it owns.
 - **project** means an environment-local workspace record rooted at a directory.
 - **thread** means the durable conversation and work history for a project.
 - **turn** means one user-to-agent cycle, including follow-up work such as checkpointing.
-- **T3 home** means the base data directory. Runtime state normally lives below its userdata directory.
+- **JCode home** means the base data directory. Runtime state normally lives below its userdata directory.
 
 ## The three ways to hurt yourself
 

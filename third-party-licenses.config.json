@@ -164,7 +164,7 @@
       "bundles": ["mobile"],
       "license": "MIT",
       "name": "Expo text editor implementation",
-      "noticeFile": "apps/mobile/modules/t3-composer-editor/LICENSE",
+      "noticeFile": "apps/mobile/modules/jcode-composer-editor/LICENSE",
       "sourceUrl": "https://github.com/expo/expo"
     },
     {
@@ -635,11 +635,11 @@
     },
     {
       "name": "@expo/sdk-runtime-versions",
-      "noticeFile": "apps/mobile/modules/t3-composer-editor/LICENSE"
+      "noticeFile": "apps/mobile/modules/jcode-composer-editor/LICENSE"
     },
     {
       "name": "@expo/ws-tunnel",
-      "noticeFile": "apps/mobile/modules/t3-composer-editor/LICENSE"
+      "noticeFile": "apps/mobile/modules/jcode-composer-editor/LICENSE"
     },
     {
       "name": "stream-buffers",

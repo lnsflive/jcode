@@ -885,9 +885,9 @@ export interface SearchMatchHint {
 }
 
 // Most threads' branches start with the app's own worktree prefix ("t3/", and
-// "jcode/" before it), so "t3 connect" would match nearly every thread.
+// "jcode/" before it), so "jcode connect" would match nearly every thread.
 // Only before more text, so typing "t3/" does not empty the list for a keystroke.
-const WORKTREE_BRANCH_PREFIX_PATTERN = new RegExp(`^(?:${WORKTREE_BRANCH_PREFIX}|jcode)/(?=\\S)`);
+const WORKTREE_BRANCH_PREFIX_PATTERN = new RegExp(`^(?:${WORKTREE_BRANCH_PREFIX}|t3)/(?=\\S)`);
 
 function searchableBranch(branch: string | null | undefined): string | null {
   return branch ? branch.replace(WORKTREE_BRANCH_PREFIX_PATTERN, "") : null;

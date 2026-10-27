@@ -83,7 +83,7 @@ function tool(
   return { displayName, labels, icon, summaryAction };
 }
 
-const T3_MCP_SERVER_ALIASES = new Set(["jcode", "jcode", "jcode"]);
+const T3_MCP_SERVER_ALIASES = new Set(["jcode"]);
 
 const T3_MCP_TOOLS: Readonly<Record<string, T3McpToolDefinition>> = {
   link_pull_request: tool(
@@ -146,11 +146,11 @@ const T3_MCP_TOOLS: Readonly<Record<string, T3McpToolDefinition>> = {
   ),
   request_secret: tool(["Ask for", "Asking for", "Asked for", "a secret"], "secret-request"),
   create_threads: tool(["Create", "Creating", "Created", "T3 threads"], "thread-create"),
-  t3_thread_start: tool(["Start", "Starting", "Started", "a T3 thread"], "thread-create"),
+  t3_thread_start: tool(["Start", "Starting", "Started", "a JCode thread"], "thread-create"),
   t3_thread_list: tool(["List", "Listing", "Listed", "T3 threads"], "thread-list"),
-  t3_thread_read: tool(["Read", "Reading", "Read", "a T3 thread"], "thread-read"),
-  t3_thread_send: tool(["Send", "Sending", "Sent", "to a T3 thread"], "thread-send"),
-  t3_thread_wait: tool(["Wait", "Waiting", "Waited", "for a T3 thread"], "thread-wait"),
+  t3_thread_read: tool(["Read", "Reading", "Read", "a JCode thread"], "thread-read"),
+  t3_thread_send: tool(["Send", "Sending", "Sent", "to a JCode thread"], "thread-send"),
+  t3_thread_wait: tool(["Wait", "Waiting", "Waited", "for a JCode thread"], "thread-wait"),
   t3_workflow_stop: tool(
     ["Stop", "Stopping", "Requested a stop for", "a workflow"],
     "workflow-stop",
@@ -160,7 +160,7 @@ const T3_MCP_TOOLS: Readonly<Record<string, T3McpToolDefinition>> = {
     "background-wait",
   ),
   t3_thread_interrupt: tool(
-    ["Interrupt", "Interrupting", "Requested an interrupt of", "a T3 thread"],
+    ["Interrupt", "Interrupting", "Requested an interrupt of", "a JCode thread"],
     "thread-interrupt",
   ),
   t3_worktree_handoff: tool(
@@ -354,7 +354,7 @@ function normalizeT3McpToolLabel(value: string): string {
 // ACP tool prefixes vary; match loosely but require a known display-name entry.
 function resolveT3McpToolName(value: string): string | null {
   const label = normalizeT3McpToolLabel(value);
-  const mcpMatch = /^mcp__(?<server>.+?)__(?<tool>.+)$/i.exec(label);
+  const mcpMatch = /^mcp[-_]{1,2}(?<server>.+?)[-_]{1,2}(?<tool>.+)$/i.exec(label);
   if (mcpMatch?.groups) {
     const { server, tool } = mcpMatch.groups;
     return server !== undefined &&
@@ -364,18 +364,18 @@ function resolveT3McpToolName(value: string): string | null {
       : null;
   }
 
-  const namespaceMatch = /^(?<server>jcode|jcode|jcode)(?:[.:/]|\s*·\s*)(?<tool>.+)$/i.exec(
-    label,
-  );
+  const namespaceMatch = /^(?<server>jcode)(?:[.:/]|\s*·\s*)(?<tool>.+)$/i.exec(label);
   if (namespaceMatch?.groups) {
     return namespaceMatch.groups.tool ?? null;
   }
 
-  const prefixed = /^(?:mcp[-_]{1,2})?t3[-_ ]?code(?:__|[-_.:/ ])(?<tool>.+)$/i.exec(label);
+  const prefixed = /^(?:(?:mcp[-_]{1,2})?t3[-_ ]?code|jcode)(?:__|[-_.:/ ])(?<tool>.+)$/i.exec(
+    label,
+  );
   const candidate = prefixed?.groups?.tool ?? label;
   if (Object.hasOwn(T3_MCP_TOOLS, candidate)) return candidate;
   // OpenCode 2 thread prefixes can contain underscores; choose the longest known tool-name suffix.
-  if (!/^jcode-/i.test(label)) return null;
+  if (!/^jcode[-_]/i.test(label)) return null;
   let longest: string | null = null;
   for (const tool of Object.keys(T3_MCP_TOOLS)) {
     if (label.endsWith(`_${tool}`) && tool.length > (longest?.length ?? 0)) longest = tool;

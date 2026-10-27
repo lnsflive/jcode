@@ -92,7 +92,7 @@ started from then on; your own Device panel is unaffected.
 ## Remote connections
 
 The device stream goes through the environment server, so it works over the
-local network, Tailscale, and T3 Connect. Live video needs a secure page
+local network, Tailscale, and JCode Connect. Live video needs a secure page
 (HTTPS or localhost); on a plain-HTTP remote origin iOS falls back to a slower
 still-image stream and Android cannot show video.
 
@@ -116,7 +116,7 @@ not need ffmpeg.
 
 The picker identifies devices by host when several hosts are configured.
 Connections recover after interruptions. Removing a host closes its device
-sessions and stops its T3 helpers when reachable; simulators keep running.
+sessions and stops its JCode helpers when reachable; simulators keep running.
 
 T3 provides discovery, streaming, and control. Arrange app builds,
 installation, and connectivity to development servers such as Metro separately.
@@ -125,6 +125,6 @@ localhost without forwarding or another reachable address.
 
 ## Device tool updates
 
-The connected T3 server manages the device hub and agent tools on its own machine and configured SSH hosts. Required versions install automatically the next time those tools are used. Settings → Devices → Check versions reads installed versions without installing tools or starting devices.
+The connected JCode server manages the device hub and agent tools on its own machine and configured SSH hosts. Required versions install automatically the next time those tools are used. Settings → Devices → Check versions reads installed versions without installing tools or starting devices.
 
-To receive newer tool versions on a remote environment, update that environment's T3 server. Updating only the browser or mobile app does not update the remote server. An offline host keeps its installed files, but an update needs network access before device support can start; T3 does not fall back to an older version. Reconnect the host and use Retry if installation fails. Existing device and agent-access settings are preserved.
+To receive newer tool versions on a remote environment, update that environment's JCode server. Updating only the browser or mobile app does not update the remote server. An offline host keeps its installed files, but an update needs network access before device support can start; JCode does not fall back to an older version. Reconnect the host and use Retry if installation fails. Existing device and agent-access settings are preserved.

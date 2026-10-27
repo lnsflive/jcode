@@ -214,7 +214,7 @@ describe("t3 server command safety", () => {
   );
 });
 
-describe("t3 app", () => {
+describe("jcode app", () => {
   it.effect("uses JCODE_HOME or --base-dir and sends the default or explicit path", () =>
     withTempDirectory("t3-app-command-test-", (root) =>
       Effect.gen(function* () {
@@ -266,7 +266,7 @@ describe("t3 app", () => {
     ),
   );
 
-  it.effect("never searches a dev state directory for an explicit T3 home", () =>
+  it.effect("never searches a dev state directory for an explicit JCode home", () =>
     withTempDirectory("t3-app-explicit-test-", (root) =>
       Effect.gen(function* () {
         const baseDir = NodePath.join(root, ".t3");

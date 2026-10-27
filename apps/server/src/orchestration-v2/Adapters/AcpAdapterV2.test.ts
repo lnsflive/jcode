@@ -1007,7 +1007,7 @@ describe("AcpAdapterV2", () => {
       assert.include(
         restoredBuild.methods,
         "session/set_config_option",
-        "Build should restore the native mode that T3 temporarily replaced for Plan",
+        "Build should restore the native mode that JCode temporarily replaced for Plan",
       );
     }).pipe(Effect.provide(layerTest), Effect.scoped),
   );
@@ -1146,7 +1146,7 @@ describe("AcpAdapterV2", () => {
     }).pipe(Effect.provide(layerTest), Effect.scoped),
   );
 
-  // regression: #21499 turns blocked only on T3 thread waits must show as waiting
+  // regression: #21499 turns blocked only on JCode thread waits must show as waiting
   it.effect.each(["agent_message_chunk"] as const)(
     "keeps named ACP %s open while deriving thread wait execution state",
     (sessionUpdate) =>
@@ -2287,10 +2287,13 @@ describe("AcpAdapterV2", () => {
       assert.deepEqual(webItem("grok-web-search", "completed"), {
         title: "Web search: jcode",
         patterns: ["jcode"],
-        results: [{ url: "https://t3.codes" }, { url: "https://github.com/lnsflive/jcode" }],
+        results: [
+          { url: "https://jaimegonzalezjr.com" },
+          { url: "https://github.com/lnsflive/jcode" },
+        ],
       });
       assert.deepEqual(webItem("grok-web-fetch", "completed")?.results, [
-        { url: "https://t3.codes", snippet: "JCode page" },
+        { url: "https://jaimegonzalezjr.com", snippet: "JCode page" },
       ]);
       const completedCompaction = items.find(
         (item) =>
@@ -3538,7 +3541,7 @@ describe("AcpAdapterV2", () => {
       );
       const blocks = rawProtocolPromptTextBlocks(Option.getOrThrow(prompt));
       if (native) {
-        // Same shape as a typed native command: one bare text block, no T3 instructions.
+        // Same shape as a typed native command: one bare text block, no JCode instructions.
         assert.deepEqual(blocks, [{ type: "text", text: sent }]);
       } else {
         assert.isTrue(blocks.some((block) => block.text.includes(sent)));

@@ -13,7 +13,7 @@ Bring your own: Claude Code, Codex, Cursor, Grok Build, OpenCode, Google Antigra
 We were inspired by the Codex desktop app, Conductor, Claude Desktop, and Cursor Glass, but none met our bar. What you get:
 
 - Bring your own sub. Claude, Codex, and whatever else you already have installed.
-- Best in class remote. Run `npx t3 connect` on any box and drive it from anywhere.
+- Best in class remote. Run `npx @lnsflive/jcode connect` on any box and drive it from anywhere.
 - Best in class mobile app.
 - Truly 100% open source. If we go the wrong direction, fork it.
 
@@ -25,7 +25,7 @@ Yes.
 
 ## How much does JCode cost?
 
-Nothing. There's no way to pay us to use JCode. You bring your own sub. It is free and open source (MIT). You still pay your provider like you already do. T3 Connect is free too, for now. Every account can connect up to 3 machines running JCode. Phones and browsers that connect to them do not count. We don't want to charge for this, but if the bill gets unacceptable we may have to change course. If you hit limits or have issues, you can always fork it, self host, or use Tailscale. [Install](./install.md)
+Nothing. There's no way to pay us to use JCode. You bring your own sub. It is free and open source (MIT). You still pay your provider like you already do. JCode Connect is free too, for now. Every account can connect up to 3 machines running JCode. Phones and browsers that connect to them do not count. We don't want to charge for this, but if the bill gets unacceptable we may have to change course. If you hit limits or have issues, you can always fork it, self host, or use Tailscale. [Install](./install.md)
 
 ## Why is my Claude 5-hour limit draining so fast?
 
@@ -33,15 +33,15 @@ JCode drives Claude through Anthropic's Agent SDK. I confirmed it's a real bug o
 
 ## How do I use JCode remotely?
 
-Your agents run wherever JCode runs: your desktop, a server, a VPS. You connect to it from anywhere. I do this constantly. Less than 5% of my prompts run on my laptop. Run `npx t3 connect` on that machine and you get really good remote support. T3 Connect is the easy path. LAN pairing and Tailscale work too, and [app.t3.codes](https://app.t3.codes) is the web client. [Remote access](./remote-access.md)
+Your agents run wherever JCode runs: your desktop, a server, a VPS. You connect to it from anywhere. I do this constantly. Less than 5% of my prompts run on my laptop. Run `npx @lnsflive/jcode connect` on that machine and you get really good remote support. JCode Connect is the easy path. LAN pairing and Tailscale work too, and [app.jaimegonzalezjr.com](https://app.jaimegonzalezjr.com) is the web client. [Remote access](./remote-access.md)
 
 ## How do I use JCode on my phone?
 
-Get the [iOS](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824) or [Android](https://play.google.com/store/apps/details?id=com.t3tools.jcode) app, then connect it to your computer with T3 Connect or a pairing link. The phone is a remote. Your computer does the work and needs to stay on. [Mobile setup](./install.md#mobile-app) · [Remote access](./remote-access.md)
+Get the [iOS](https://apps.apple.com/us/app/jcode-remote-claude-more/id6787819824) or [Android](https://play.google.com/store/apps/details?id=com.t3tools.jcode) app, then connect it to your computer with JCode Connect or a pairing link. The phone is a remote. Your computer does the work and needs to stay on. [Mobile setup](./install.md#mobile-app) · [Remote access](./remote-access.md)
 
-## Why does T3 Connect keep disconnecting?
+## Why does JCode Connect keep disconnecting?
 
-T3 Connect is our built-in alternative to Tailscale for remote connections. If it keeps dropping, open **Settings > Connections**, find the machine, and select **Details**. The first part marked as failed is the cause. I will not be disappointed if you set up Tailscale as a fallback (I do this personally). [T3 Connect troubleshooting](./t3-connect-troubleshooting.md)
+JCode Connect is our built-in alternative to Tailscale for remote connections. If it keeps dropping, open **Settings > Connections**, find the machine, and select **Details**. The first part marked as failed is the cause. I will not be disappointed if you set up Tailscale as a fallback (I do this personally). [JCode Connect troubleshooting](./jcode-connect-troubleshooting.md)
 
 ## Will I get banned for using my subscription?
 
@@ -53,7 +53,7 @@ If it works in JCode, you can trust it is safe.
 
 I don't think JCode is the right place to manage a pile of accounts. If we add an auto-switcher, we are risking TOS bans for our users.
 
-A separate work account is fine. Setup for two: [Codex](./providers-codex.md#use-multiple-accounts) · [Claude](./providers-claude.md#separate-accounts-or-configurations). For a bigger pool, manage them outside JCode with a self-hosted proxy like [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI). I walked through how I use 6 Claude subs and 3 Codex subs in [this video](https://www.youtube.com/watch?v=D8PikZ1KhUo), and wrote up the setup in [this guide](https://gist.github.com/t3dotgg/59a521d2ee8d70aaf90e280c175072af). Hand it to your agent and it will walk you through it. Early apologies if it gets you banned 💀 After you set up a hub, JCode can show its pooled limits under Usage. [Connect a hub](./usage.md#connect-a-cliproxyapi-hub)
+A separate work account is fine. Setup for two: [Codex](./providers-codex.md#use-multiple-accounts) · [Claude](./providers-claude.md#separate-accounts-or-configurations). For a bigger pool, manage them outside JCode with a self-hosted proxy like [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI). After you set up a hub, JCode can show its pooled limits under Usage. [Connect a hub](./usage.md#connect-a-cliproxyapi-hub)
 
 ## Can I use an API key or OpenRouter instead of a subscription?
 
@@ -63,9 +63,9 @@ Yes. Add another provider instance in Settings and give it its own keys and endp
 
 No. JCode is a serious developer tool. Locally runnable models are not capable of meaningful engineering work.
 
-## Does my code go to T3 servers?
+## Does my code go to JCode servers?
 
-No. Your code and prompts go from your machine to your provider (Anthropic, OpenAI, etc.), not to us. With T3 Connect, traffic rides a Cloudflare tunnel (`cloudflared` on your machine). Our relay sets up the link. It does not proxy your HTTP or WebSocket sessions. JCode does send basic product usage events (provider, model, token totals, that kind of thing). No prompts, no file contents. That is the same on Tailscale, LAN, or T3 Connect. Set `JCODE_TELEMETRY_ENABLED=false` if you want it off. [Product usage data](./telemetry.md)
+No. Your code and prompts go from your machine to your provider (Anthropic, OpenAI, etc.), not to us. With JCode Connect, traffic rides a Cloudflare tunnel (`cloudflared` on your machine). Our relay sets up the link. It does not proxy your HTTP or WebSocket sessions. JCode does send basic product usage events (provider, model, token totals, that kind of thing). No prompts, no file contents. That is the same on Tailscale, LAN, or JCode Connect. Set `JCODE_TELEMETRY_ENABLED=false` if you want it off. [Product usage data](./telemetry.md)
 
 ## Worktrees are eating my disk. How do I clean them up?
 

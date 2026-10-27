@@ -66,7 +66,7 @@ import {
   ServerUpdateProgress,
 } from "../ServerUpdateAction";
 import { CloudEnvironmentConnectRows } from "../cloud/CloudEnvironmentConnectList";
-import { useT3ConnectAuthPrompt } from "../clerk/useT3ConnectAuthPrompt";
+import { useJCodeConnectAuthPrompt } from "../clerk/useJCodeConnectAuthPrompt";
 
 type SavedBackendListRowProps = {
   environment: EnvironmentPresentation;
@@ -439,7 +439,7 @@ function CloudLinkSwitch({
   disabled,
   disabledReason,
   onCheckedChange,
-  ariaLabel = "Enable T3 Connect",
+  ariaLabel = "Enable JCode Connect",
 }: {
   readonly checked: boolean;
   readonly disabled: boolean;
@@ -478,13 +478,13 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
     operationError,
     reconcileCloudState,
   } = useCloudLinkController();
-  const { openAuthPrompt } = useT3ConnectAuthPrompt();
+  const { openAuthPrompt } = useJCodeConnectAuthPrompt();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isUpdatingPreference, setIsUpdatingPreference] = useState(false);
 
   const disabledReason = canManageRelay
     ? null
-    : "Your session does not have permission to manage T3 Connect access.";
+    : "Your session does not have permission to manage JCode Connect access.";
   const isBusy = isUpdating || isUpdatingPreference;
   const switchDisabled =
     !canManageRelay ||
@@ -540,15 +540,15 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
       toastManager.add({
         type: "success",
         title: enabled
-          ? "T3 Connect linked"
+          ? "JCode Connect linked"
           : publishAgentActivity
-            ? "T3 Connect tunnel disabled"
-            : "T3 Connect unlinked",
+            ? "JCode Connect tunnel disabled"
+            : "JCode Connect unlinked",
         description: enabled
-          ? "This environment is available through T3 Connect."
+          ? "This environment is available through JCode Connect."
           : publishAgentActivity
             ? "The managed tunnel was removed. Agent activity publishing stays on."
-            : "This environment is no longer available through T3 Connect.",
+            : "This environment is no longer available through JCode Connect.",
       });
     }
     setIsUpdating(false);
@@ -586,7 +586,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
         type: "success",
         title: enabled ? "Webhooks held while offline" : "Webhooks no longer held",
         description: enabled
-          ? "T3 Connect keeps webhook requests for up to 24 hours while this environment is offline."
+          ? "JCode Connect keeps webhook requests for up to 24 hours while this environment is offline."
           : "Requests to an offline environment now fail. Anything already held is still delivered.",
       });
     }
@@ -600,18 +600,18 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
           title={searchableSetting("t3-connect").title}
           description={
             signedOut
-              ? "Sign in to make this environment available to your other devices through T3 Connect."
+              ? "Sign in to make this environment available to your other devices through JCode Connect."
               : linkRevoked
-                ? "This environment was removed from T3 Connect. Turn it on to link it again."
+                ? "This environment was removed from JCode Connect. Turn it on to link it again."
                 : managedTunnelActive
                   ? reachability?.status === "unreachable"
-                    ? "T3 Connect is on, but other devices cannot reach this environment."
+                    ? "JCode Connect is on, but other devices cannot reach this environment."
                     : reachability?.status === "reachable"
-                      ? "This environment is available to your other devices through T3 Connect."
-                      : "T3 Connect is on. Reachability has not been checked yet."
+                      ? "This environment is available to your other devices through JCode Connect."
+                      : "JCode Connect is on. Reachability has not been checked yet."
                   : managedTunnelOutOfSync
-                    ? "T3 Connect is out of sync. This environment is linked only to publish agent activity, so other devices cannot connect. Turn T3 Connect on to repair it."
-                    : "Make this environment available to your other devices through T3 Connect."
+                    ? "JCode Connect is out of sync. This environment is linked only to publish agent activity, so other devices cannot connect. Turn JCode Connect on to repair it."
+                    : "Make this environment available to your other devices through JCode Connect."
           }
           status={operationError ?? primaryCloudLinkState.error ?? reachabilityStatus}
           control={
@@ -630,7 +630,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
       ) : linkRevoked ? (
         <SettingsRow
           title={searchableSetting("t3-connect").title}
-          description="This environment was removed from T3 Connect. Run `t3 connect link` on the host to link it again."
+          description="This environment was removed from JCode Connect. Run `jcode connect link` on the host to link it again."
         />
       ) : null}
       {signedOut && isElectron ? null : (
@@ -639,7 +639,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
           description={
             signedOut
               ? "Sign in to send activity to mobile notifications and Live Activities."
-              : "Send activity to mobile notifications and Live Activities without T3 Connect."
+              : "Send activity to mobile notifications and Live Activities without JCode Connect."
           }
           control={
             signedOut ? (
@@ -659,7 +659,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
       {managedTunnelActive && !signedOut ? (
         <SettingsRow
           title={searchableSetting("hold-webhooks-while-offline").title}
-          description="Keep webhook requests for up to 24 hours while this environment is offline, then deliver them. Off: T3 Connect only forwards requests and stores nothing."
+          description="Keep webhook requests for up to 24 hours while this environment is offline, then deliver them. Off: JCode Connect only forwards requests and stores nothing."
           control={
             <CloudLinkSwitch
               ariaLabel="Hold webhook requests while this environment is offline"
@@ -686,7 +686,7 @@ export function CloudLinkRow({
   if (!canReadRelay) {
     return (
       <SettingsRow
-        title="T3 Connect"
+        title="JCode Connect"
         description="To edit these settings, pair this connection with both View relay and Manage relay permissions."
       />
     );
@@ -704,7 +704,7 @@ function EmptyRemoteEnvironments({ cloudEnabled = true }: { readonly cloudEnable
         <EmptyTitle>No saved remote environments</EmptyTitle>
         <EmptyDescription>
           {cloudEnabled
-            ? "Click “Add environment” to pair another environment, or connect one from T3 Connect."
+            ? "Click “Add environment” to pair another environment, or connect one from JCode Connect."
             : "Click “Add environment” to pair another environment."}
         </EmptyDescription>
       </EmptyHeader>

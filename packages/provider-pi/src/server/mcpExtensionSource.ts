@@ -1,4 +1,4 @@
-// No T3 imports inside the string; resolve Pi and typebox from the user's Pi install.
+// No JCode imports inside the string; resolve Pi and typebox from the user's Pi install.
 import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";
 
 export const PI_T3_MCP_EXTENSION_FILENAME = "pi-t3-mcp-extension.ts";
@@ -294,7 +294,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
     if (changed) return replacement;
   });
 
-  // Pi deliberately leaves permission policy to extensions. T3's injected
+  // Pi deliberately leaves permission policy to extensions. JCode's injected
   // bridge uses Pi's public blocking tool hook so the shared runtime modes
   // keep their normal meaning without replacing or shadowing Pi's runtime.
   // Only Pi's own search is known to be read-only. An extension that replaces
@@ -308,7 +308,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
     const extensionPath = env(EXTENSION_PATH_ENV);
     if (extensionPath === undefined || !readOnlyMcpTools.has(name) || typeof pi.getAllTools !== "function") return false;
     // A user extension may own the same name. Only our registered HTTP bridge
-    // may inherit the canonical T3 server's read-only annotation.
+    // may inherit the canonical JCode server's read-only annotation.
     return pi.getAllTools().some((tool) => tool.name === name &&
       typeof tool.sourceInfo?.path === "string" &&
       NodePath.resolve(tool.sourceInfo.path) === NodePath.resolve(extensionPath));
@@ -358,7 +358,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
   const registerTools = () => {
     // Preserve public names for saved loadouts and tool selectors. Hidden
     // canonical names reserve ownership against Pi's configured MCP servers.
-    const prefixes = supportsExposure ? ["mcp__jcode__", "mcp__jcode__"] : ["mcp__jcode__"];
+    const prefixes = supportsExposure ? ["mcp__jcode__", "jcode__"] : ["mcp__jcode__"];
     readOnlyMcpTools.clear();
     for (const tool of catalog) {
       const name = tool.name;
@@ -411,7 +411,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
   };
 
   // CLI extensions load before builtins, and Pi keeps the first registration
-  // of a tool name. Register now so the bridge owns the T3 namespace even when
+  // of a tool name. Register now so the bridge owns the JCode namespace even when
   // mcp.json configures it; retry a failed connection at session_start.
   await ensureStarted().catch(() => undefined);
 
@@ -424,7 +424,7 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
     if (exposureChanged) registerTools();
     const active = pi.getActiveTools();
     // Completion gateways can silently drop calls to undeclared tools named
-    // in history or guidance. Eagerly load T3 schemas, including after tree
+    // in history or guidance. Eagerly load JCode schemas, including after tree
     // restores, while retaining deferred exposure for Pi's allowlist rules.
     // Pi still applies --tools/--exclude-tools to this active loadout.
     const required = [

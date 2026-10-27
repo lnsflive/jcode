@@ -7,7 +7,7 @@ export function providerAuthReturnUrl(value: string | undefined): string | undef
     const desktop = ["jcode:", "jcode-dev:"].includes(url.protocol) && url.host === "app";
     const web =
       ["http:", "https:"].includes(url.protocol) &&
-      (isLoopbackHost(url.hostname) || url.origin === "https://app.t3.codes");
+      (isLoopbackHost(url.hostname) || url.origin === "https://app.jaimegonzalezjr.com");
     if (
       url.username ||
       url.password ||
