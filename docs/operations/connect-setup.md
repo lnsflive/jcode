@@ -49,13 +49,13 @@ In Clerk's OAuth applications settings:
 
 ## JWT template
 
-Create a Clerk JWT template named `t3-relay` with claims:
+Create a Clerk JWT template named `jcode-relay` with claims:
 
 ```json
 { "aud": "jcode-relay" }
 ```
 
-Set `JCODE_CLERK_JWT_TEMPLATE=t3-relay` for clients and
+Set `JCODE_CLERK_JWT_TEMPLATE=jcode-relay` for clients and
 `CLERK_JWT_AUDIENCE=jcode-relay` for the relay. The production relay deployment environment
 also defines `CLERK_JWT_TEMPLATE`. The audience stays the same across relay stages; the relay
 URL selects the deployment.
@@ -79,8 +79,8 @@ persistence and system-browser callback delivery.
 
 Clerk's native Android SDK uses `clerk://<applicationId>.callback`. In the Clerk instance selected by the app's publishable key, add each supported package to **Native applications > Allowlist for mobile SSO redirect**:
 
-| Variant     | Callback                                      |
-| ----------- | --------------------------------------------- |
+| Variant     | Callback                                     |
+| ----------- | -------------------------------------------- |
 | Development | `clerk://com.t3tools.jcode.dev.callback`     |
 | Preview     | `clerk://com.t3tools.jcode.preview.callback` |
 | Production  | `clerk://com.t3tools.jcode.callback`         |
