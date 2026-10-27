@@ -38,7 +38,8 @@ jobs:
   publish:
     name: Validate and publish
     if: github.repository == 'lnsflive/jcode'
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    # runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     container:
       image: archlinux:base-devel
