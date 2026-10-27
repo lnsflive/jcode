@@ -63,9 +63,9 @@ function formatServiceChange(
   result: Extract<ServiceReconcileResult, { readonly changed: true }>,
 ): string {
   if (result.plan.handedOff === true) {
-    return `Handed the JCode service switch to t3@${packageJson.version} to a separate systemd unit, since this session runs inside the service and disconnects when it restarts.\nResult: ${result.plan.logPath}`;
+    return `Handed the JCode service switch to JCode ${packageJson.version} to a separate systemd unit, since this session runs inside the service and disconnects when it restarts.\nResult: ${result.plan.logPath}`;
   }
-  return `${result.previouslyInstalled ? "Updated" : "Installed"} JCode service with t3@${packageJson.version}.\nLogs: ${result.plan.logPath}`;
+  return `${result.previouslyInstalled ? "Updated" : "Installed"} JCode service with JCode ${packageJson.version}.\nLogs: ${result.plan.logPath}`;
 }
 
 function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: string): string {
@@ -86,7 +86,7 @@ function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: 
   ) {
     return [
       "JCode service",
-      `  Status: installed · t3@${installedVersion} (newer than this t3@${cliVersion} CLI)`,
+      `  Status: installed · JCode ${installedVersion} (newer than this JCode ${cliVersion} CLI)`,
       `  Unit: ${status.unitPath}`,
       `  Logs: ${status.logPath}`,
       ...problems,
@@ -95,7 +95,7 @@ function formatServiceStatus(status: BootService.BootServiceStatus, cliVersion: 
   }
   return [
     "JCode service",
-    `  Status: ${status.current ? `installed · t3@${installedVersion}` : "needs an update or repair"}`,
+    `  Status: ${status.current ? `installed · JCode ${installedVersion}` : "needs an update or repair"}`,
     `  Unit: ${status.unitPath}`,
     `  Logs: ${status.logPath}`,
     ...problems,
@@ -129,7 +129,7 @@ const serviceInstallCommand = Command.make("install", serviceReconcileFlags).pip
         const result = yield* reconcileService({ allowDowngrade: flags.allowDowngrade });
         if (!result.changed) {
           yield* Console.log(
-            `JCode service is already installed with t3@${packageJson.version} (${yield* resolveEntryPath}).`,
+            `JCode service is already installed with JCode ${packageJson.version} (${yield* resolveEntryPath}).`,
           );
           return;
         }
@@ -152,7 +152,7 @@ const serviceUpdateCommand = Command.make("update", serviceReconcileFlags).pipe(
         const result = yield* reconcileService({ allowDowngrade: flags.allowDowngrade });
         if (!result.changed) {
           yield* Console.log(
-            `JCode service is already using t3@${packageJson.version} (${yield* resolveEntryPath}).`,
+            `JCode service is already using JCode ${packageJson.version} (${yield* resolveEntryPath}).`,
           );
           return;
         }
@@ -174,7 +174,7 @@ const serviceRestartCommand = Command.make("restart", projectLocationFlags).pipe
         const status = yield* service.status;
         const outcome = yield* service.restart;
         const onVersion =
-          status.installedVersion === undefined ? "" : ` on t3@${status.installedVersion}`;
+          status.installedVersion === undefined ? "" : ` on JCode ${status.installedVersion}`;
         yield* Console.log(
           outcome === "restarted"
             ? `Restarted the JCode service${onVersion}.`
@@ -238,7 +238,7 @@ export const offerServiceDuringOnboarding = Effect.gen(function* () {
     compareExactServiceVersions(status.installedVersion, packageJson.version) > 0
   ) {
     yield* Console.log(
-      `A newer t3@${status.installedVersion} background service is installed. Leaving it unchanged.`,
+      `A newer JCode ${status.installedVersion} background service is installed. Leaving it unchanged.`,
     );
     return "skipped" as const;
   }

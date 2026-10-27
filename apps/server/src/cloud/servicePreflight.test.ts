@@ -18,7 +18,7 @@ it.each([1])("blocks legacy launcher protocol %i with exact recovery steps", (la
   expect(reason).toContain(
     "curl -fsSL https://jaimegonzalezjr.com/install.sh | JCODE_VERSION=9.8.7 sh",
   );
-  expect(reason).toContain("~/.local/bin/t3 service install");
-  expect(reason).toContain("t3 --version");
-  expect(reason).toContain("which -a t3");
+  expect(reason).toContain("~/.local/bin/jcode service install");
+  expect(reason).toContain("jcode --version");
+  expect(reason).toContain("which -a jcode");
 });

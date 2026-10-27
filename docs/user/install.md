@@ -20,25 +20,25 @@ On Windows, in PowerShell:
 irm https://jaimegonzalezjr.com/install.ps1 | iex
 ```
 
-This installs the `t3` binary to `~/.local/bin`. If your shell reports `command not found`
-afterwards, that directory is not on your `PATH` yet; the installer prints the
+This installs the `jcode` command to `~/.local/bin` and keeps `t3` as a compatibility
+alias. If your shell reports `command not found` afterwards, that directory is not on your `PATH` yet; the installer prints the
 line to add. Set `JCODE_CHANNEL=nightly` to install the nightly train, or
 `JCODE_VERSION` to pin an exact version.
 
 | Task                                             | Command                                                                    |
 | ------------------------------------------------ | -------------------------------------------------------------------------- |
-| Start the server and open the web app            | `t3`                                                                       |
+| Start the server and open the web app            | `jcode`                                                                    |
 | Start the server without a browser               | `jcode serve`                                                              |
 | Keep it running in the background (macOS, Linux) | `jcode service install` ([details](./background-service.md))               |
 | Move to the newest release                       | `jcode update`                                                             |
 | Reclaim database space                           | `jcode doctor` ([details](./background-service.md#reclaim-database-space)) |
-| Remove it again                                  | `t3 uninstall`                                                             |
+| Remove it again                                  | `jcode uninstall`                                                          |
 
-Run `jcode help` or `t3 --help` for the full reference. To start in a new working
-directory, use an explicit path such as `t3 ./my-project`. A bare directory name
+Run `jcode help` or `jcode --help` for the full reference. To start in a new working
+directory, use an explicit path such as `jcode ./my-project`. A bare directory name
 is accepted only if it already exists.
 
-If `t3` or `jcode start` reports an already running server, connect to that server
+If `jcode` or `jcode start` reports an already running server, connect to that server
 instead. Stop it before starting a replacement, or use a different `--base-dir`
 for an independent server.
 
@@ -47,7 +47,7 @@ Node.js for `npx`).
 
 ### Intel Macs
 
-There is no `t3` executable for Intel Macs (the desktop app is available). To
+There is no standalone JCode CLI release for Intel Macs (the desktop app is available). To
 run a server there, build it from source with `vp`, which provides the Node version it needs
 ([Install vp](https://github.com/lnsflive/jcode#install-vp)):
 
@@ -77,14 +77,13 @@ The `.deb` updates itself like the other desktop builds. It asks for your
 password to install each update. If your desktop has no password prompt, the
 update fails. Download the new `.deb` and install it the same way.
 
-### The `t3` command
+### The `jcode` command
 
-The desktop app includes the `t3` command-line tool. To run it from any
+The desktop app includes the `jcode` command-line tool. To run it from any
 terminal, open **Settings → About** and choose **Install** next to
-**t3 command**. On macOS and Linux it adds a `t3` link to a folder on your
+**jcode command**. On macOS and Linux it adds a `jcode` link to a folder on your
 `PATH`; on Windows it adds the app's command folder to your `PATH`. Open a new
-terminal afterwards. **Remove** takes it off again. If you already have `t3`
-from npm, it stays as it is.
+terminal afterwards. **Remove** takes it off again. The standalone CLI installer also keeps `t3` as a compatibility alias.
 
 ### Windows Subsystem for Linux
 

@@ -5,9 +5,9 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { findOwnedLauncher } from "./uninstall.ts";
+import { findOwnedLaunchers } from "./uninstall.ts";
 
-it.layer(NodeServices.layer)("t3 uninstall launcher", (it) => {
+it.layer(NodeServices.layer)("JCode uninstall launchers", (it) => {
   it.effect("claims only a launcher that points into this home's runtime tree", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
@@ -22,16 +22,21 @@ it.layer(NodeServices.layer)("t3 uninstall launcher", (it) => {
         yield* fs.writeFileString(file, "");
       }
       const ours = path.join(root, "bin/t3");
+      const primary = path.join(root, "bin/jcode");
       const theirs = path.join(root, "other/bin/t3");
       yield* fs.makeDirectory(path.dirname(ours), { recursive: true });
       yield* fs.makeDirectory(path.dirname(theirs), { recursive: true });
       yield* fs.symlink(exe, ours);
+      yield* fs.symlink(exe, primary);
       yield* fs.symlink(otherExe, theirs);
 
-      assert.equal(yield* findOwnedLauncher({ launchedAs: ours, versionsDir }), ours);
-      assert.isUndefined(yield* findOwnedLauncher({ launchedAs: theirs, versionsDir }));
-      assert.isUndefined(yield* findOwnedLauncher({ launchedAs: copy, versionsDir }));
-      assert.isUndefined(yield* findOwnedLauncher({ launchedAs: undefined, versionsDir }));
+      assert.deepEqual(
+        [...(yield* findOwnedLaunchers({ launchedAs: ours, versionsDir }))].sort(),
+        [ours, primary].sort(),
+      );
+      assert.deepEqual(yield* findOwnedLaunchers({ launchedAs: theirs, versionsDir }), []);
+      assert.deepEqual(yield* findOwnedLaunchers({ launchedAs: copy, versionsDir }), []);
+      assert.deepEqual(yield* findOwnedLaunchers({ launchedAs: undefined, versionsDir }), []);
     }).pipe(Effect.scoped, Effect.provideService(HostProcess.Platform, "linux")),
   );
 });

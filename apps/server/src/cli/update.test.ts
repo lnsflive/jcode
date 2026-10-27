@@ -44,12 +44,14 @@ it.layer(NodeServices.layer)("jcode update launcher", (it) => {
       const oldExe = path.join(root, "runtime/versions/1.0.0/t3");
       const newExe = path.join(root, "runtime/versions/2.0.0/t3");
       const launcher = path.join(root, "bin/t3");
+      const primaryLauncher = path.join(root, "bin/jcode");
       for (const file of [oldExe, newExe]) {
         yield* fs.makeDirectory(path.dirname(file), { recursive: true });
         yield* fs.writeFileString(file, "");
       }
       yield* fs.makeDirectory(path.dirname(launcher), { recursive: true });
       yield* fs.symlink(oldExe, launcher);
+      yield* fs.symlink(oldExe, primaryLauncher);
 
       const repointed = yield* repointLauncher({
         launchedAs: launcher,
@@ -59,6 +61,7 @@ it.layer(NodeServices.layer)("jcode update launcher", (it) => {
 
       assert.deepStrictEqual(Option.getOrUndefined(repointed), launcher);
       assert.equal(yield* fs.readLink(launcher), newExe);
+      assert.equal(yield* fs.readLink(primaryLauncher), newExe);
     }).pipe(Effect.scoped, Effect.provideService(HostProcess.Platform, "linux")),
   );
 

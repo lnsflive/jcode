@@ -9,7 +9,7 @@
 #                            (default: stable; preview is a maintainers' test train)
 #   JCODE_VERSION           exact version to install (overrides JCODE_CHANNEL)
 #   JCODE_HOME              JCode home directory (default: ~/.t3)
-#   JCODE_INSTALL_BIN_DIR   where the `t3` symlink goes (default: ~/.local/bin)
+#   JCODE_INSTALL_BIN_DIR   where the `jcode` symlink goes (default: ~/.local/bin)
 #   JCODE_RELEASE_BASE_URL  mirror for releases/download (default: GitHub)
 #
 # The archive is unpacked into $JCODE_HOME/runtime/versions/<version>, the
@@ -225,16 +225,20 @@ else
   trap - EXIT
 fi
 
-step "Setting up the t3 command..."
+step "Setting up the jcode command..."
 mkdir -p "$bin_dir"
+ln -sfn "${target_dir}/t3" "${bin_dir}/jcode"
 ln -sfn "${target_dir}/t3" "${bin_dir}/t3"
 # Pruning keeps what this launcher points at; a background service cannot see bin_dir otherwise.
-launcher="$(CDPATH='' cd -P -- "$bin_dir" && pwd)/t3"
+launcher_dir="$(CDPATH='' cd -P -- "$bin_dir" && pwd)"
 launchers="${t3_home}/runtime/launchers"
-grep -qxF "$launcher" "$launchers" 2>/dev/null || printf '%s\n' "$launcher" >> "$launchers"
+for name in jcode t3; do
+  launcher="${launcher_dir}/${name}"
+  grep -qxF "$launcher" "$launchers" 2>/dev/null || printf '%s\n' "$launcher" >> "$launchers"
+done
 if "$interactive"; then printf '\r\033[2K' >&2; fi
 printf '  %sInstalled JCode %s%s\n\n' "$green" "$version" "$reset" >&2
 case ":${PATH}:" in
-  *":${bin_dir}:"*) printf '  Run %st3%s to get started.\n\n' "$bold" "$reset" ;;
-  *) printf '  Add %s to your PATH, then run %st3%s.\n\n' "$bin_dir" "$bold" "$reset" ;;
+  *":${bin_dir}:"*) printf '  Run %sjcode%s to get started.\n\n' "$bold" "$reset" ;;
+  *) printf '  Add %s to your PATH, then run %sjcode%s.\n\n' "$bin_dir" "$bold" "$reset" ;;
 esac

@@ -8,7 +8,7 @@
 #                            (default: stable; preview is a maintainers' test train)
 #   JCODE_VERSION           exact version to install (overrides JCODE_CHANNEL)
 #   JCODE_HOME              JCode home directory (default: ~\.t3)
-#   JCODE_INSTALL_BIN_DIR   where t3.exe is linked (default: ~\.local\bin)
+#   JCODE_INSTALL_BIN_DIR   where jcode.cmd is installed (default: ~\.local\bin)
 #   JCODE_RELEASE_BASE_URL  mirror for releases/download (default: GitHub)
 #
 # The archive is unpacked into $JCODE_HOME\runtime\versions\<version>, the
@@ -213,22 +213,26 @@ if ((Test-Path $marker) -and ((Get-Content $marker -Raw).Trim() -eq $version)) {
   }
 }
 
-Step "Setting up the t3 command..."
+Step "Setting up the jcode command..."
 New-Item -ItemType Directory -Force -Path $binDir | Out-Null
-$shim = Join-Path $binDir "t3.cmd"
+$shim = Join-Path $binDir "jcode.cmd"
 # UTF-8 without a BOM: cmd.exe reads the shim as-is, and ASCII would corrupt
 # non-ASCII characters in the user's home path.
 [System.IO.File]::WriteAllText($shim, "@echo off`r`n`"$(Join-Path $targetDir 't3.exe')`" %*", (New-Object System.Text.UTF8Encoding $false))
+$legacyShim = Join-Path $binDir "t3.cmd"
+[System.IO.File]::WriteAllText($legacyShim, "@echo off`r`n`"$(Join-Path $targetDir 't3.exe')`" %*", (New-Object System.Text.UTF8Encoding $false))
 # Pruning keeps what this shim points at; a background service cannot see $binDir otherwise.
 $launchers = Join-Path $t3Home "runtime\launchers"
 $shimPath = (Resolve-Path $shim).Path
-if (-not ((Test-Path $launchers) -and ((Get-Content $launchers) -contains $shimPath))) {
-  [System.IO.File]::AppendAllText($launchers, "$shimPath`r`n", (New-Object System.Text.UTF8Encoding $false))
+foreach ($launcherPath in @($shimPath, (Resolve-Path $legacyShim).Path)) {
+  if (-not ((Test-Path $launchers) -and ((Get-Content $launchers) -contains $launcherPath))) {
+    [System.IO.File]::AppendAllText($launchers, "$launcherPath`r`n", (New-Object System.Text.UTF8Encoding $false))
+  }
 }
 if ($interactive) { [Console]::Error.Write("`r$esc[2K") }
 [Console]::Error.WriteLine("  ${green}Installed JCode $version$reset`n")
 if (($env:PATH -split ";") -notcontains $binDir) {
-  Write-Host "  Add $binDir to your PATH, then run ${bold}t3$reset.`n"
+  Write-Host "  Add $binDir to your PATH, then run ${bold}jcode$reset.`n"
 } else {
-  Write-Host "  Run ${bold}t3$reset to get started.`n"
+  Write-Host "  Run ${bold}jcode$reset to get started.`n"
 }

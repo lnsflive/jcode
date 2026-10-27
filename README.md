@@ -34,7 +34,7 @@ On Windows, in PowerShell:
 irm https://jaimegonzalezjr.com/install.ps1 | iex
 ```
 
-Then run `t3` to start the server and open the local web app. `jcode service install` keeps it running in the background, `jcode update` moves to a newer release, and `t3 --help` has the full reference.
+Then run `jcode` to start the server and open the local web app. `jcode service install` keeps it running in the background, and `jcode update` moves to a newer release.
 
 To try it once without installing, run `npx @lnsflive/jcode@latest` instead.
 

@@ -5,7 +5,7 @@ to keep a terminal open.
 
 ## Manage the service
 
-Install the `t3` CLI first ([Install JCode](./install.md#command-line)), then
+Install the JCode CLI first ([Install JCode](./install.md#command-line)), then
 run these commands on the machine that will host JCode:
 
 | Task                            | Command                   |
@@ -20,7 +20,7 @@ Uninstalling the service leaves your projects, threads, and settings intact.
 Running `jcode service install` again repairs a service that `jcode service status`
 reports as broken.
 
-`jcode update` downloads the newest release on your channel and switches `t3`
+`jcode update` downloads the newest release on your channel and switches `jcode`
 and the service to it. Restarting interrupts running agent turns, terminals,
 and remote clients, so it asks first; answer no and the service keeps running
 the old version until you run `jcode service restart`. Pass `--yes` from a
@@ -35,7 +35,7 @@ maintainers' test train: its builds can be broken and are never offered as
 updates, so the installer and `jcode update` ask for confirmation before
 installing one.
 
-`t3 uninstall` removes the background service, the `t3` launcher, and the
+`jcode uninstall` removes the background service, the JCode launchers, and the
 downloaded versions after showing you the list and asking once. Your projects,
 threads, and settings under `~/.t3/userdata` are kept, along with `service.env`
 under JCode home. Pass `--yes` from a script.
