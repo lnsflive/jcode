@@ -1,13 +1,13 @@
 import type {
   RelayClientEnvironmentRecord,
   RelayEnvironmentStatusResponse,
-} from "@t3tools/contracts/relay";
-import type { EnvironmentId } from "@t3tools/contracts";
+} from "@lnsflive/contracts/relay";
+import type { EnvironmentId } from "@lnsflive/contracts";
 import {
   RelayEnvironmentConnectScope,
   RelayEnvironmentStatusScope,
-} from "@t3tools/contracts/relay";
-import { decodeRelayJwt } from "@t3tools/shared/relayJwt";
+} from "@lnsflive/contracts/relay";
+import { decodeRelayJwt } from "@lnsflive/shared/relayJwt";
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Data from "effect/Data";
@@ -315,7 +315,7 @@ const logListingFailure =
       Effect.tapCause((cause) => {
         if (Cause.hasInterruptsOnly(cause)) return Effect.void;
         const { message, traceId } = describeManagedRelayFailure(cause);
-        return Effect.logError(`[t3-cloud] Relay ${label} listing failed`).pipe(
+        return Effect.logError(`[jcode-cloud] Relay ${label} listing failed`).pipe(
           Effect.annotateLogs({ message, traceId }),
         );
       }),

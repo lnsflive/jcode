@@ -225,7 +225,7 @@ const relayDashboardCharts = (dataset: string): ReadonlyArray<QueryChart> => {
   const source = `['${dataset}']`;
   const linkRequests = `${source}\n| where kind == "server" and ['attributes.http.request.method'] == "POST" and ['attributes.http.route'] == ${LINK_ROUTE}`;
   const tunnelRequests = `${source}\n| where kind == "server" and ['attributes.http.request.method'] == "POST" and ['attributes.http.route'] in (${TUNNEL_ROUTES})`;
-  const clientConnections = `${source}\n| where name == "relay.connection.attempt" and error != true\n| extend surface = tostring(['resource.custom']['t3.client.surface'])\n| where isnotempty(surface)`;
+  const clientConnections = `${source}\n| where name == "relay.connection.attempt" and error != true\n| extend surface = tostring(['resource.custom']['jcode.client.surface'])\n| where isnotempty(surface)`;
   return [
     timeSeries(
       "links",
@@ -305,7 +305,7 @@ const relayDashboardCharts = (dataset: string): ReadonlyArray<QueryChart> => {
     timeSeries(
       "connect-outcomes",
       "Connecting: attempts by outcome",
-      `${source}\n| where name == "relay.connection.attempt" and isnotempty(['resource.custom']['t3.client.surface'])\n| summarize connected = countif(error != true), failed = countif(error == true) by bin_auto(_time)`,
+      `${source}\n| where name == "relay.connection.attempt" and isnotempty(['resource.custom']['jcode.client.surface'])\n| summarize connected = countif(error != true), failed = countif(error == true) by bin_auto(_time)`,
     ),
     {
       id: "connect-phases",
@@ -316,7 +316,7 @@ const relayDashboardCharts = (dataset: string): ReadonlyArray<QueryChart> => {
         // address before falling back to the relay is the slowest step.
         apl: [
           source,
-          `| where isnotempty(['resource.custom']['t3.client.surface'])`,
+          `| where isnotempty(['resource.custom']['jcode.client.surface'])`,
           `| extend url = tostring(['attributes.url.full'])`,
           `| extend phase = case(`,
           `    name == "ConnectionDriver.checkRoute", "0. Direct route check, before any relay fallback",`,

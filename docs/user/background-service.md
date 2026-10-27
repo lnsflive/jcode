@@ -37,7 +37,7 @@ installing one.
 
 `jcode uninstall` removes the background service, the JCode launchers, and the
 downloaded versions after showing you the list and asking once. Your projects,
-threads, and settings under `~/.t3/userdata` are kept, along with `service.env`
+threads, and settings under `~/.jcode/userdata` are kept, along with `service.env`
 under JCode home. Pass `--yes` from a script.
 
 ## Local network access
@@ -53,7 +53,7 @@ replaces this default.
 ## Configure the service environment
 
 Put custom environment variables in `service.env` under the service's JCode home
-directory, normally `~/.t3/service.env`. This file survives service installation
+directory, normally `~/.jcode/service.env`. This file survives service installation
 and updates. For example:
 
 ```dotenv
@@ -64,7 +64,7 @@ JCODE_HOST=127.0.0.1
 Use `KEY=VALUE` entries, quoting values that contain spaces or `#`. Values are
 literal: shell commands and variable expansion are not evaluated. Entries
 override the inherited service environment, except for `PATH`, `JCODE_HOME`,
-`T3_BOOT_SERVICE_UNIT`, and `T3_SERVICE_LAUNCHER_CONTEXT` (including case variants).
+`JCODE_BOOT_SERVICE_UNIT`, and `JCODE_SERVICE_LAUNCHER_CONTEXT` (including case variants).
 
 Run `jcode service restart` after changing the file. Changes apply when the service
 starts again; switching the server version alone keeps the current values.
@@ -72,7 +72,7 @@ For a service installed before env-file support, run `jcode service install` onc
 with an up-to-date CLI.
 A missing file is ignored; other read failures stop service startup.
 If the file contains credentials, restrict access to that file with `chmod 600`
-(for the default JCode home, `chmod 600 ~/.t3/service.env`).
+(for the default JCode home, `chmod 600 ~/.jcode/service.env`).
 
 ## Platform support
 

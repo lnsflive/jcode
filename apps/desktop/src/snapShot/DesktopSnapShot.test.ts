@@ -5,7 +5,7 @@ import {
   DesktopPendingSnapShot,
   type ClientSettings,
   type DesktopSnapShotEvent,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Crypto from "effect/Crypto";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
@@ -494,7 +494,7 @@ const layerTest = (
             platform,
             displayName: "JCode (Dev)",
             stateDir: "/state",
-            linuxDesktopEntryName: "com.t3tools.JCode.desktop",
+            linuxDesktopEntryName: "com.lnsflive.JCode.desktop",
             appRoot: "/repo",
             linuxApplicationsDir: "/test-data/applications",
           } as DesktopEnvironment.DesktopEnvironment["Service"]),

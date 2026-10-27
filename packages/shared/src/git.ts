@@ -5,11 +5,11 @@ import type {
   VcsStatusRemoteResult,
   VcsStatusResult,
   VcsStatusStreamEvent,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Arr from "effect/Array";
 import * as Result from "effect/Result";
 
-export const WORKTREE_BRANCH_PREFIX = "t3";
+export const WORKTREE_BRANCH_PREFIX = "jcode";
 const TEMP_WORKTREE_HEX_TOKEN = "[0-9a-f]{8}";
 const TEMP_WORKTREE_UUID_V4_TOKEN =
   "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
@@ -108,7 +108,7 @@ export function buildTemporaryWorktreeBranchName(
   return `${WORKTREE_BRANCH_PREFIX}/${token}`;
 }
 
-/** Flatten temporary t3/<hex> refs because an existing t3 branch blocks nested refs. */
+/** Flatten temporary jcode/<hex> refs because an existing jcode branch blocks nested refs. */
 export function flattenTemporaryWorktreeBranchName(refName: string): string {
   const normalized = refName.trim().toLowerCase();
   const tokenStart = normalized.search(/[-/]/) + 1;

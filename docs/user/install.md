@@ -20,8 +20,7 @@ On Windows, in PowerShell:
 irm https://jaimegonzalezjr.com/install.ps1 | iex
 ```
 
-This installs the `jcode` command to `~/.local/bin` and keeps `t3` as a compatibility
-alias. If your shell reports `command not found` afterwards, that directory is not on your `PATH` yet; the installer prints the
+This installs the `jcode` command to `~/.local/bin`. If your shell reports `command not found` afterwards, that directory is not on your `PATH` yet; the installer prints the
 line to add. Set `JCODE_CHANNEL=nightly` to install the nightly train, or
 `JCODE_VERSION` to pin an exact version.
 
@@ -65,13 +64,13 @@ update it with `git pull` and a rebuild.
 Download a release from [GitHub Releases](https://github.com/lnsflive/jcode/releases),
 or use a package manager:
 
-| Platform           | Install                          |
-| ------------------ | -------------------------------- |
-| Windows            | `winget install T3Tools.JCode`   |
-| macOS              | `brew install --cask jcode`      |
-| Debian, Ubuntu     | `sudo apt install ./JCode-*.deb` |
-| Arch Linux         | `yay -S jcode-bin`               |
-| Arch Linux nightly | `yay -S jcode-nightly-bin`       |
+| Platform           | Install                                                       |
+| ------------------ | ------------------------------------------------------------- |
+| Windows            | [GitHub Releases](https://github.com/lnsflive/jcode/releases) |
+| macOS              | `brew install --cask jcode`                                   |
+| Debian, Ubuntu     | `sudo apt install ./JCode-*.deb`                              |
+| Arch Linux         | `yay -S jcode-bin`                                            |
+| Arch Linux nightly | `yay -S jcode-nightly-bin`                                    |
 
 The `.deb` updates itself like the other desktop builds. It asks for your
 password to install each update. If your desktop has no password prompt, the
@@ -83,7 +82,7 @@ The desktop app includes the `jcode` command-line tool. To run it from any
 terminal, open **Settings → About** and choose **Install** next to
 **jcode command**. On macOS and Linux it adds a `jcode` link to a folder on your
 `PATH`; on Windows it adds the app's command folder to your `PATH`. Open a new
-terminal afterwards. **Remove** takes it off again. The standalone CLI installer also keeps `t3` as a compatibility alias.
+terminal afterwards. **Remove** takes it off again.
 
 ### Windows Subsystem for Linux
 

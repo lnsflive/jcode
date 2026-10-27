@@ -1,10 +1,10 @@
-import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
-import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
+import { sourceControlClients } from "@lnsflive/client-runtime/source-control-clients";
+import type { EnvironmentThreadShell } from "@lnsflive/client-runtime/state/shell";
 import { useProjects, useServerConfigs, useThreadShells } from "~/state/entities";
 import {
   threadPullRequestKeysEqual,
   visibleThreadPullRequests,
-} from "@t3tools/client-runtime/thread-pull-requests";
+} from "@lnsflive/client-runtime/thread-pull-requests";
 import type {
   ContextMenuItem,
   EnvironmentId,
@@ -12,8 +12,8 @@ import type {
   ProjectId,
   PullRequestState,
   ResolvedKeybindingsConfig,
-} from "@t3tools/contracts";
-import { getTerminalLabel } from "@t3tools/shared/terminalLabels";
+} from "@lnsflive/contracts";
+import { getTerminalLabel } from "@lnsflive/shared/terminalLabels";
 import {
   closestCenter,
   DndContext,

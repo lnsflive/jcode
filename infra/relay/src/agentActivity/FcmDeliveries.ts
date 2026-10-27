@@ -4,7 +4,7 @@ import {
   RelayAgentActivityAggregateState,
   RelayAgentAwarenessPreferences,
   type RelayDeliveryResult,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import * as Crypto from "effect/Crypto";
 import type * as PlatformError from "effect/PlatformError";
 import * as Context from "effect/Context";
@@ -288,7 +288,7 @@ export const make = Effect.gen(function* () {
       const active = (displayedAggregate?.activeCount ?? 0) > 0;
       if (!displayedAggregate && !alert && !previousAggregate && job.state !== null) return;
       const data: Record<string, string> = {
-        t3_kind: "agent_activity",
+        jcode_kind: "agent_activity",
         device_id: job.deviceId,
         user_id: job.userId,
         updated_at: String(now.epochMilliseconds),

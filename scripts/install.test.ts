@@ -1,5 +1,5 @@
 // @effect-diagnostics nodeBuiltinImport:off - Drives the real shell installer against a local GitHub fixture.
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import * as NodeChildProcess from "node:child_process";
 import * as NodeFSP from "node:fs/promises";
 import * as NodeHttp from "node:http";
@@ -17,13 +17,13 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chan
     ["stable", "1.2.3"],
     ["preview", "1.2.4-preview.20261019.50"],
   ])("finds the newest %s release behind a full page of nightlies", async (channel, version) => {
-    const root = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "t3-install-index-"));
+    const root = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "jcode-install-index-"));
     const target = NodePath.join(root, "home/runtime/versions", version);
     const server = NodeHttp.createServer((request, response) => {
       const url = new URL(request.url ?? "/", "http://fixture");
       const body =
-        url.pathname === "/lnsflive/jcode/releases/latest" &&
-        request.headers.accept === "application/json"
+        url.pathname === "/repos/lnsflive/jcode/releases/latest" &&
+        request.headers.accept === "application/vnd.github+json"
           ? { tag_name: "v1.2.3" }
           : url.pathname === "/repos/lnsflive/jcode/releases"
             ? { "1": nightlies, "2": [{ tag_name: `v${version}` }, { tag_name: "v1.2.3" }] }[
@@ -74,6 +74,44 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chan
     } finally {
       server.closeAllConnections();
       await new Promise<void>((resolve) => server.close(() => resolve()));
+      await NodeFSP.rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it("reuses the data directory of a previous installation", async () => {
+    const root = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "jcode-install-home-"));
+    const previousHome = NodePath.join(root, "previous-home");
+    const versionDir = NodePath.join(previousHome, "runtime/versions/1.2.3");
+    const bin = NodePath.join(root, "bin");
+    try {
+      await NodeFSP.mkdir(NodePath.join(previousHome, "userdata"), { recursive: true });
+      await NodeFSP.mkdir(versionDir, { recursive: true });
+      await NodeFSP.mkdir(bin);
+      await NodeFSP.writeFile(NodePath.join(previousHome, "userdata/keep"), "existing data");
+      await NodeFSP.writeFile(NodePath.join(versionDir, ".install-complete"), "1.2.3\n");
+      await NodeFSP.symlink(NodePath.join(versionDir, "jcode"), NodePath.join(bin, "jcode"));
+
+      const result = NodeChildProcess.spawnSync(
+        "sh",
+        [NodePath.resolve(import.meta.dirname, "install.sh")],
+        {
+          env: {
+            ...process.env,
+            HOME: root,
+            JCODE_HOME: "",
+            JCODE_INSTALL_BIN_DIR: bin,
+            JCODE_VERSION: "1.2.3",
+          },
+          encoding: "utf8",
+        },
+      );
+
+      expect(result.status, result.stderr).toBe(0);
+      expect(await NodeFSP.readlink(NodePath.join(root, ".jcode"))).toBe(previousHome);
+      expect(await NodeFSP.readFile(NodePath.join(root, ".jcode/userdata/keep"), "utf8")).toBe(
+        "existing data",
+      );
+    } finally {
       await NodeFSP.rm(root, { recursive: true, force: true });
     }
   });

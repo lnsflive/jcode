@@ -1,4 +1,4 @@
-import { EnvironmentId } from "@t3tools/contracts";
+import { EnvironmentId } from "@lnsflive/contracts";
 import { describe, expect, it } from "@effect/vitest";
 import * as Option from "effect/Option";
 
@@ -109,7 +109,7 @@ describe("learned routes", () => {
     expect(ids(routes)).toEqual([`learned:${ENVIRONMENT_ID}:http://192.168.1.10:3773`, "relay"]);
     expect(profileOf(routes![0]!)).toMatchObject({
       learned: true,
-      authorization: "t3-connect",
+      authorization: "jcode-connect",
       wsBaseUrl: "ws://192.168.1.10:3773/",
     });
   });
@@ -266,7 +266,7 @@ describe("learned routes", () => {
     });
     // The stale route is gone; the address is learned again with JCode Connect's credential.
     expect(ids(routes)).toEqual([`learned:${ENVIRONMENT_ID}:${lanOrigin}`, "public", "relay"]);
-    expect(profileOf(routes![0]!)).toMatchObject({ authorization: "t3-connect" });
+    expect(profileOf(routes![0]!)).toMatchObject({ authorization: "jcode-connect" });
   });
 
   it("keeps plain HTTP routes that don't borrow the active HTTPS-paired token", () => {
@@ -389,7 +389,7 @@ describe("learned routes", () => {
       allowInsecure: true,
     })!;
     for (const route of next.filter((candidate) => connectionRouteKind(candidate) !== "relay")) {
-      expect(profileOf(route)).toMatchObject({ authorization: "t3-connect" });
+      expect(profileOf(route)).toMatchObject({ authorization: "jcode-connect" });
       expect(connectionRouteId(route.target)).not.toContain("@");
     }
   });

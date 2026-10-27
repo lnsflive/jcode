@@ -132,7 +132,7 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
+          task-cache-read-token: ${{ secrets.JCODE_TASK_CACHE_READ_TOKEN }}
         env:
           pnpm_config_cache_dir: ${{ runner.temp }}/pnpm-metadata
 
@@ -248,10 +248,10 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
+          task-cache-read-token: ${{ secrets.JCODE_TASK_CACHE_READ_TOKEN }}
 
       - name: Ensure Electron runtime is installed
-        run: vp run --filter @t3tools/desktop ensure:electron
+        run: vp run --filter @lnsflive/desktop ensure:electron
 
       - name: Check
         run: vp check
@@ -280,10 +280,10 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
+          task-cache-read-token: ${{ secrets.JCODE_TASK_CACHE_READ_TOKEN }}
 
       - name: Ensure Electron runtime is installed
-        run: vp run --filter @t3tools/desktop ensure:electron
+        run: vp run --filter @lnsflive/desktop ensure:electron
 
       - uses: ./.github/actions/setup-apt-mirrors
 
@@ -293,7 +293,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y libsecret-1-dev pkg-config build-essential
 
       - name: Test
-        run: vp run --parallel --concurrency-limit 4 --filter '!t3' --filter '!@t3tools/monorepo' --filter '!@t3tools/web' test
+        run: vp run --parallel --concurrency-limit 4 --filter '!jcode' --filter '!@lnsflive/monorepo' --filter '!@lnsflive/web' test
 
   # Web browser tests time out when they share a runner with the other package
   # suites: Chromium gets too little CPU and diff workers miss their 10s start budget.
@@ -316,7 +316,7 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
+          task-cache-read-token: ${{ secrets.JCODE_TASK_CACHE_READ_TOKEN }}
 
       - name: Resolve Playwright version
         id: playwright_version
@@ -342,12 +342,12 @@ jobs:
           fi
 
       - name: Test
-        run: vp run --filter @t3tools/web test
+        run: vp run --filter @lnsflive/web test
 
       # Browser tests run source modules; this boots the production chunk graph.
       - name: Boot the built web client
         run: |
-          vp run --filter @t3tools/web build
+          vp run --filter @lnsflive/web build
           node apps/web/scripts/verify-built-boot.ts
 
   # Server test files run one at a time, so more small runners beat fewer big ones.
@@ -374,16 +374,16 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
+          task-cache-read-token: ${{ secrets.JCODE_TASK_CACHE_READ_TOKEN }}
 
-      # No Electron setup here: `t3` (apps/server) has no Electron dependency
+      # No Electron setup here: `jcode` (apps/server) has no Electron dependency
       # and none of its tests touch the runtime. Only the non-server `test`
-      # job, which covers @t3tools/desktop, needs the download.
+      # job, which covers @lnsflive/desktop, needs the download.
       - name: Install Chromium for server browser integration tests
         run: node apps/server/node_modules/playwright-core/cli.js install --with-deps --only-shell chromium
 
       - name: Test
-        run: vp run --filter t3 test --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+        run: vp run --filter jcode test --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
   relay_public_config:
     name: Resolve JCode Connect public config
@@ -541,7 +541,7 @@ jobs:
       - name: Install bundle dependencies
         env:
           pnpm_config_cache_dir: ${{ runner.temp }}/pnpm-metadata
-        run: vp install --filter=t3... --filter=@t3tools/web... --filter=@t3tools/desktop... --filter=@t3tools/scripts...
+        run: vp install --filter=jcode... --filter=@lnsflive/web... --filter=@lnsflive/desktop... --filter=@lnsflive/scripts...
 
       - name: Download relay client tracing config
         uses: actions/download-artifact@v8
@@ -562,13 +562,13 @@ jobs:
 
       - uses: ./.github/actions/setup-apt-mirrors
 
-      # @t3tools/desktop#build compiles the Linux browser secret helper on a
+      # @lnsflive/desktop#build compiles the Linux browser secret helper on a
       # Linux host before packing, and that needs libsecret headers.
       - name: Install browser secret helper build libraries
         run: sudo apt-get update && sudo apt-get install -y libsecret-1-dev pkg-config
 
-      # Runs t3#build (which depends on @t3tools/web#build) and
-      # @t3tools/desktop#build, so apps/server/dist holds the server bundle
+      # Runs jcode#build (which depends on @lnsflive/web#build) and
+      # @lnsflive/desktop#build, so apps/server/dist holds the server bundle
       # plus the web client and apps/desktop/dist-electron the Electron main.
       # The release channel is already stable, nightly, or preview. Builds in
       # other repositories report "dev" telemetry.
@@ -788,7 +788,7 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=@t3tools/scripts...
+              - --filter=@lnsflive/scripts...
 
       - name: Download all desktop artifacts
         uses: actions/download-artifact@v8
@@ -824,7 +824,7 @@ jobs:
           set -euo pipefail
           cd release-assets
           shopt -s nullglob
-          archives=(t3-*.tar.gz t3-*.zip)
+          archives=(jcode-*.tar.gz jcode-*.zip)
           if [[ ${#archives[@]} -eq 0 ]]; then
             echo "No CLI archives were produced." >&2
             exit 1
@@ -954,7 +954,7 @@ jobs:
           fail_on_unmatched_files: true
           token: ${{ github.token }}
 
-  # The `t3` npm package is a launcher that downloads this version's CLI
+  # The `jcode` npm package is a launcher that downloads this version's CLI
   # archive from the GitHub Release, so it publishes only once that release
   # exists. Preview publishes too, under the `preview` dist-tag, which
   # nothing resolves unless asked for by name.
@@ -984,8 +984,8 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=t3...
-              - --filter=@t3tools/scripts...
+              - --filter=jcode...
+              - --filter=@lnsflive/scripts...
 
       - name: Build the npm launcher
         run: node scripts/build-npm-launcher.ts --version "${{ needs.preflight.outputs.version }}" --output-dir npm-packages
@@ -993,7 +993,7 @@ jobs:
       - name: Publish the npm launcher
         run: |
           if ! node apps/server/scripts/cli.ts publish --packages-dir npm-packages --tag "${{ needs.preflight.outputs.cli_dist_tag }}" --provenance --verbose; then
-            echo "::error::npm publish failed. Make sure package t3 has a trusted publisher registered for .github/workflows/release.yml (see docs/operations/release.md)." >&2
+            echo "::error::npm publish failed. Make sure package jcode has a trusted publisher registered for .github/workflows/release.yml (see docs/operations/release.md)." >&2
             exit 1
           fi
 
@@ -1048,8 +1048,8 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=@t3tools/scripts...
-              - --filter=@t3tools/web...
+              - --filter=@lnsflive/scripts...
+              - --filter=@lnsflive/web...
 
       - name: Download relay client tracing config
         uses: actions/download-artifact@v8
@@ -1223,7 +1223,7 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=@t3tools/marketing...
+              - --filter=@lnsflive/marketing...
 
       - id: deploy
         name: Build staged deployment
@@ -1353,8 +1353,8 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=@t3tools/scripts...
-              - --filter=@t3tools/oxlint-plugin-jcode...
+              - --filter=@lnsflive/scripts...
+              - --filter=@lnsflive/oxlint-plugin-jcode...
 
       - id: update_versions
         name: Update version strings
@@ -1418,7 +1418,7 @@ jobs:
           cache: true
           run-install: |
             args:
-              - --filter=@t3tools/scripts...
+              - --filter=@lnsflive/scripts...
 
       - name: Read published release notes
         if: needs.preflight.outputs.is_prerelease == 'true'

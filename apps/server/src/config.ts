@@ -8,16 +8,16 @@ import * as Path from "effect/Path";
 import type * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 
-import type { OtlpEndpointSource } from "@t3tools/contracts";
+import type { OtlpEndpointSource } from "@lnsflive/contracts";
 import { sweepStalePendingAttachments } from "./attachmentStore.ts";
 import {
   DEFAULT_SIGNAL_EXPORT,
   nodeProcessRuntimeAttributes,
   processServiceInstanceId,
   type SignalExport,
-} from "@t3tools/shared/observability";
-import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
-import { type ReleaseChannel, releaseResourceAttributes } from "@t3tools/shared/releaseResource";
+} from "@lnsflive/shared/observability";
+import * as OtelEnvironment from "@lnsflive/shared/otelEnvironment";
+import { type ReleaseChannel, releaseResourceAttributes } from "@lnsflive/shared/releaseResource";
 import packageJson from "../package.json" with { type: "json" };
 
 // Official release workflows set this telemetry channel; other builds report dev.
@@ -107,7 +107,7 @@ export class ServerConfig extends Context.Service<
     readonly tailscaleServeEnabled: boolean;
     readonly tailscaleServePort: number;
   }
->()("t3/config/ServerConfig") {
+>()("jcode/config/ServerConfig") {
   static readonly layerTest = (
     cwd: string,
     baseDirOrPrefix: string | { readonly prefix: string },
@@ -124,7 +124,7 @@ export const otlpResource = (
   serviceVersion: packageJson.version,
   attributes: {
     "service.namespace": "jcode",
-    "service.runtime": "t3-server",
+    "service.runtime": "jcode-server",
     "jcode.server.managed_by": config.mode === "desktop" ? "desktop" : "standalone",
     "service.instance.id": processServiceInstanceId(config.otelEnvironment.resourceAttributes),
     ...releaseResourceAttributes(telemetryChannel, config.otelEnvironment.resourceAttributes),

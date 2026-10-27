@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { GuestMessageId } from "@t3tools/contracts";
+import { GuestMessageId } from "@lnsflive/contracts";
 
 import { resolveUserMessagePresentation } from "./userMessage.ts";
 

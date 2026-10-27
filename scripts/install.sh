@@ -8,7 +8,7 @@
 #   JCODE_CHANNEL           release train to follow: stable, nightly, or preview
 #                            (default: stable; preview is a maintainers' test train)
 #   JCODE_VERSION           exact version to install (overrides JCODE_CHANNEL)
-#   JCODE_HOME              JCode home directory (default: ~/.t3)
+#   JCODE_HOME              JCode home directory (default: ~/.jcode)
 #   JCODE_INSTALL_BIN_DIR   where the `jcode` symlink goes (default: ~/.local/bin)
 #   JCODE_RELEASE_BASE_URL  mirror for releases/download (default: GitHub)
 #
@@ -19,8 +19,20 @@ set -eu
 
 repo="lnsflive/jcode"
 base_url="${JCODE_RELEASE_BASE_URL:-https://github.com/${repo}/releases/download}"
-t3_home="${JCODE_HOME:-$HOME/.t3}"
 bin_dir="${JCODE_INSTALL_BIN_DIR:-$HOME/.local/bin}"
+jcode_home="${JCODE_HOME:-$HOME/.jcode}"
+
+if [ -z "${JCODE_HOME:-}" ] && [ ! -e "$jcode_home" ] && [ ! -L "$jcode_home" ] && [ -L "$bin_dir/jcode" ] && command -v readlink >/dev/null 2>&1; then
+  previous_executable="$(readlink "$bin_dir/jcode")"
+  case "$previous_executable" in
+    /*/runtime/versions/*/*)
+      previous_home="${previous_executable%%/runtime/versions/*}"
+      if [ -d "$previous_home/userdata" ]; then
+        ln -s "$previous_home" "$jcode_home"
+      fi
+      ;;
+  esac
+fi
 
 fail() {
   printf '\njcode install: %s\n' "$1" >&2
@@ -176,9 +188,9 @@ case "$version" in
     ;;
 esac
 
-stem="t3-${version}-${platform}-${arch}"
+stem="jcode-${version}-${platform}-${arch}"
 archive="${stem}.tar.gz"
-versions_dir="${t3_home}/runtime/versions"
+versions_dir="${jcode_home}/runtime/versions"
 target_dir="${versions_dir}/${version}"
 
 if [ -f "${target_dir}/.install-complete" ] && [ "$(cat "${target_dir}/.install-complete")" = "$version" ]; then
@@ -212,7 +224,7 @@ else
   step "Extracting JCode..."
   tar -xzf "${staging}/${archive}" -C "$staging" --strip-components=1
   rm -f "${staging}/${archive}" "${staging}/SHA256SUMS"
-  "${staging}/t3" --version >/dev/null || fail "the downloaded executable does not run"
+  "${staging}/jcode" --version >/dev/null || fail "the downloaded executable does not run"
   printf '%s\n' "$version" > "${staging}/.install-complete"
 
   rm -rf "$target_dir"
@@ -222,12 +234,11 @@ fi
 
 step "Setting up the jcode command..."
 mkdir -p "$bin_dir"
-ln -sfn "${target_dir}/t3" "${bin_dir}/jcode"
-ln -sfn "${target_dir}/t3" "${bin_dir}/t3"
+ln -sfn "${target_dir}/jcode" "${bin_dir}/jcode"
 # Pruning keeps what this launcher points at; a background service cannot see bin_dir otherwise.
 launcher_dir="$(CDPATH='' cd -P -- "$bin_dir" && pwd)"
-launchers="${t3_home}/runtime/launchers"
-for name in jcode t3; do
+launchers="${jcode_home}/runtime/launchers"
+for name in jcode; do
   launcher="${launcher_dir}/${name}"
   grep -qxF "$launcher" "$launchers" 2>/dev/null || printf '%s\n' "$launcher" >> "$launchers"
 done

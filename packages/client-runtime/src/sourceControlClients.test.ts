@@ -1,4 +1,4 @@
-import { ProjectId, SourceControlProviderKind } from "@t3tools/contracts";
+import { ProjectId, SourceControlProviderKind } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import { sourceControlClients } from "./sourceControlClients.ts";
@@ -14,9 +14,9 @@ const kindOf = (url: string) => sourceControlClients.parseChangeRequestUrl(url)?
 
 describe("sourceControlClients.parseChangeRequestUrl", () => {
   it("reads a GitHub pull request, lower-casing the repository", () => {
-    expect(parse("https://github.com/T3Tools/JCode/pull/123")).toEqual({
+    expect(parse("https://github.com/JCodeTools/JCode/pull/123")).toEqual({
       host: "github.com",
-      repository: "t3tools/jcode",
+      repository: "lnsflive/jcode",
       number: 123,
     });
   });
@@ -62,9 +62,9 @@ describe("sourceControlClients.parseChangeRequestUrl", () => {
   });
 
   it("reads a GitLab merge request on any host, nested groups and all", () => {
-    expect(parse("https://gitlab.com/t3tools/platform/jcode/-/merge_requests/42")).toEqual({
+    expect(parse("https://gitlab.com/lnsflive/platform/jcode/-/merge_requests/42")).toEqual({
       host: "gitlab.com",
-      repository: "t3tools/platform/jcode",
+      repository: "lnsflive/platform/jcode",
       number: 42,
     });
     expect(parse("https://code.acme.test/team/project/-/merge_requests/9")).toEqual({
@@ -126,28 +126,28 @@ describe("sourceControlClients.parseChangeRequestUrl", () => {
   });
 
   it("survives trailing segments, a trailing slash and a query string", () => {
-    expect(parse("https://github.com/t3tools/jcode/pull/123/files?w=1")).toEqual({
+    expect(parse("https://github.com/lnsflive/jcode/pull/123/files?w=1")).toEqual({
       host: "github.com",
-      repository: "t3tools/jcode",
+      repository: "lnsflive/jcode",
       number: 123,
     });
-    expect(parse("https://github.com/t3tools/jcode/pull/123/")).toEqual({
+    expect(parse("https://github.com/lnsflive/jcode/pull/123/")).toEqual({
       host: "github.com",
-      repository: "t3tools/jcode",
+      repository: "lnsflive/jcode",
       number: 123,
     });
   });
 
   it("claims nothing it cannot be sure of", () => {
     for (const link of [
-      "https://github.com/t3tools/jcode/issues/123",
+      "https://github.com/lnsflive/jcode/issues/123",
       "https://git.cafe/lnsflive/jcode/issues/23897",
       "https://git.cafe/lnsflive/jcode/pull/abc",
       "https://git.cafe/lnsflive/jcode",
-      "https://github.com/t3tools/jcode/commit/0a1b2c3",
-      "https://github.com/t3tools/jcode",
-      "https://github.com/t3tools/jcode/pull/abc",
-      "https://gitlab.com/t3tools/jcode/-/issues/12",
+      "https://github.com/lnsflive/jcode/commit/0a1b2c3",
+      "https://github.com/lnsflive/jcode",
+      "https://github.com/lnsflive/jcode/pull/abc",
+      "https://gitlab.com/lnsflive/jcode/-/issues/12",
       "https://blog.example.test/2026/updates/archive/pull/3",
       "https://scm.example.test/tfs/Collection/Project/_git/Repo",
       "https://scm.example.test/tfs/Collection/Project/pullrequest/123",
@@ -155,7 +155,7 @@ describe("sourceControlClients.parseChangeRequestUrl", () => {
       "https://scm.example.test/tfs/Collection/Project/_git/Repo/pullrequest/0",
       "https://scm.example.test/tfs/Collection/Project/_git/Repo/pullrequest/9007199254740992",
       "ftp://scm.example.test/tfs/Collection/Project/_git/Repo/pullrequest/123",
-      "javascript:alert(1)//github.com/t3tools/jcode/pull/1",
+      "javascript:alert(1)//github.com/lnsflive/jcode/pull/1",
       "not a url",
     ]) {
       expect(parse(link), link).toBeNull();
@@ -273,19 +273,19 @@ describe("sourceControlClients.recognizeRemote", () => {
 describe("sourceControlClients repository keys", () => {
   // Persisted as `repositoryIdentity.canonicalKey` and in thread pull request keys.
   it.each([
-    ["git@github.com:T3Tools/JCode.git", "github.com/t3tools/jcode"],
+    ["git@github.com:JCodeTools/JCode.git", "github.com/lnsflive/jcode"],
     ["ssh://git@gitlab.company.com:2222/team/project.git", "gitlab.company.com/team/project"],
     [
-      "git@ssh.dev.azure.com:v3/T3Tools/Platform/JCode",
-      "dev.azure.com/t3tools/platform/_git/jcode",
+      "git@ssh.dev.azure.com:v3/JCodeTools/Platform/JCode",
+      "dev.azure.com/lnsflive/platform/_git/jcode",
     ],
     [
-      "T3Tools@vs-ssh.visualstudio.com:v3/T3Tools/Platform/JCode",
-      "t3tools.visualstudio.com/platform/_git/jcode",
+      "JCodeTools@vs-ssh.visualstudio.com:v3/JCodeTools/Platform/JCode",
+      "lnsflive.visualstudio.com/platform/_git/jcode",
     ],
     [
-      "https://T3Tools.visualstudio.com/DefaultCollection/Platform/_git/JCode",
-      "t3tools.visualstudio.com/defaultcollection/platform/_git/jcode",
+      "https://JCodeTools.visualstudio.com/DefaultCollection/Platform/_git/JCode",
+      "lnsflive.visualstudio.com/defaultcollection/platform/_git/jcode",
     ],
     ["git@ssh.dev.azure.com:v3/o/p", "ssh.dev.azure.com/v3/o/p"],
     ["ssh.dev.azure.com/v3/o/p/r", "ssh.dev.azure.com/v3/o/p/r"],

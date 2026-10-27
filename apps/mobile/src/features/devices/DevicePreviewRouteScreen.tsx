@@ -5,9 +5,9 @@ import {
   deviceToolVersionLabels,
   deviceToolUpdateOwnership,
   deviceToolUpdatePolicy,
-} from "@t3tools/client-runtime/state/device";
+} from "@lnsflive/client-runtime/state/device";
 import { useIsFocused, useNavigation, type StaticScreenProps } from "@react-navigation/native";
-import { EnvironmentId, ThreadId } from "@t3tools/contracts";
+import { EnvironmentId, ThreadId } from "@lnsflive/contracts";
 import * as Cause from "effect/Cause";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import * as Haptics from "expo-haptics";
@@ -267,7 +267,7 @@ export function DevicePreviewScreen({
           style={{ paddingTop: Math.max(insets.top, 8) }}
         >
           <SheetCloseButton accessibilityLabel="Close device preview" onClose={onClose} />
-          <AppText numberOfLines={1} className="min-w-0 flex-1 font-t3-medium text-sm">
+          <AppText numberOfLines={1} className="min-w-0 flex-1 font-jcode-medium text-sm">
             {preview?.name ?? "Devices"}
           </AppText>
           <ControlPill
@@ -331,7 +331,7 @@ export function DevicePreviewScreen({
           <View className="px-3" style={{ paddingTop: Math.max(insets.top, 12) }}>
             <GlassSurface className="flex-row items-center gap-1 p-1">
               <SheetCloseButton accessibilityLabel="Close device preview" onClose={onClose} />
-              <AppText numberOfLines={1} className="flex-1 text-center font-t3-medium text-base">
+              <AppText numberOfLines={1} className="flex-1 text-center font-jcode-medium text-base">
                 {preview?.name ?? "Devices"}
               </AppText>
               <ControlPill

@@ -17,10 +17,10 @@ import type {
   PullRequestReviewThread,
   PullRequestReviewerCandidate,
   PullRequestState,
-} from "@t3tools/contracts";
-import { TrimmedNonEmptyString } from "@t3tools/contracts";
-import { quoteGitPatchPath } from "@t3tools/shared/gitPatchPath";
-import { decodeJsonResult } from "@t3tools/shared/schemaJson";
+} from "@lnsflive/contracts";
+import { TrimmedNonEmptyString } from "@lnsflive/contracts";
+import { quoteGitPatchPath } from "@lnsflive/shared/gitPatchPath";
+import { decodeJsonResult } from "@lnsflive/shared/schemaJson";
 
 /** Unknown pipeline or merge status values must not fail the whole payload. */
 const RawUserSchema = Schema.Struct({

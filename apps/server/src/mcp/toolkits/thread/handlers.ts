@@ -6,10 +6,10 @@ import {
   type RunId,
   OrchestratorMcpFailure,
   type OrchestrationV2Command,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Effect from "effect/Effect";
-import { modelSelectionCommandType } from "@t3tools/shared/model";
-import { formatThreadLink } from "@t3tools/shared/threadLinks";
+import { modelSelectionCommandType } from "@lnsflive/shared/model";
+import { formatThreadLink } from "@lnsflive/shared/threadLinks";
 
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import {
@@ -112,7 +112,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
       };
     }),
   ),
-  t3_thread_search: McpToolAccess.reads((input) =>
+  jcode_thread_search: McpToolAccess.reads((input) =>
     Effect.gen(function* () {
       const { caller } = yield* readCaller();
       const threadSearch = yield* ThreadSearch.ThreadSearch;
@@ -127,7 +127,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
       };
     }),
   ),
-  t3_thread_transfer: McpToolAccess.either(
+  jcode_thread_transfer: McpToolAccess.either(
     (input) => input.action === "status",
     McpToolAccess.reads((input) =>
       Effect.gen(function* () {
@@ -184,7 +184,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
         }),
     ),
   ),
-  t3_thread_configure: McpToolAccess.either(
+  jcode_thread_configure: McpToolAccess.either(
     (input) => input.modelSelection === undefined,
     McpToolAccess.reads((input) =>
       Effect.gen(function* () {
@@ -214,7 +214,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
       }),
     ),
   ),
-  t3_pending_request: McpToolAccess.either(
+  jcode_pending_request: McpToolAccess.either(
     (input) => input.action !== "respond",
     McpToolAccess.reads((input) =>
       Effect.gen(function* () {
@@ -252,7 +252,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
       }),
     ),
   ),
-  t3_queue: McpToolAccess.either(
+  jcode_queue: McpToolAccess.either(
     (input) => input.action === "list" || input.action === "read",
     McpToolAccess.reads((input) =>
       Effect.gen(function* () {
@@ -320,7 +320,7 @@ export const layer = McpToolAccess.toLayer(ThreadToolkit, {
       }),
     ),
   ),
-  t3_thread_organize: writesThread((input) =>
+  jcode_thread_organize: writesThread((input) =>
     Effect.gen(function* () {
       const { threads, projection, caller } = yield* readThread(input.threadId);
       const common = { commandId: yield* newCommandId(), threadId: projection.thread.id };

@@ -17,8 +17,8 @@ import * as KnownWorkspaces from "./KnownWorkspaces.ts";
 import * as WorkspaceEntries from "./WorkspaceEntries.ts";
 import * as WorkspaceFileSystem from "./WorkspaceFileSystem.ts";
 import * as WorkspacePaths from "./WorkspacePaths.ts";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { symlinksSupported } from "@lnsflive/shared/testing/symlinks";
 import { vi } from "vite-plus/test";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
@@ -47,7 +47,7 @@ const layerTest = Layer.empty.pipe(
   Layer.provideMerge(VcsDriverRegistry.layer.pipe(Layer.provide(VcsProcess.layer))),
   Layer.provide(
     ServerConfig.ServerConfig.layerTest(process.cwd(), {
-      prefix: "t3-workspace-files-test-",
+      prefix: "jcode-workspace-files-test-",
     }),
   ),
   Layer.provideMerge(NodeServices.layer),
@@ -331,7 +331,7 @@ it.layer(layerTest, { excludeTestServices: true })("WorkspaceFileSystemLive", (i
           const missingChildError = yield* workspaceFileSystem
             .readFile(
               Object.assign(
-                { cwd, relativePath: "linked-dir/missing/t3.json" },
+                { cwd, relativePath: "linked-dir/missing/jcode.json" },
                 { allowMissing: true },
               ),
             )

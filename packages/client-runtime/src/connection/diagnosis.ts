@@ -1,8 +1,8 @@
 import {
-  t3ConnectTroubleshootingUrl,
+  jcodeConnectTroubleshootingUrl,
   type JCodeConnectTroubleshootingSection,
-} from "@t3tools/contracts";
-import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts";
+import type { RelayEnvironmentStatusResponse } from "@lnsflive/contracts/relay";
 import * as DateTime from "effect/DateTime";
 
 import type {
@@ -329,7 +329,7 @@ export function presentConnectionDiagnosis(
     hops,
     steps: steps(host, located, failure),
     facts,
-    moreInfoUrl: relayPath ? t3ConnectTroubleshootingUrl(helpSection(located, failure)) : null,
+    moreInfoUrl: relayPath ? jcodeConnectTroubleshootingUrl(helpSection(located, failure)) : null,
   };
 }
 

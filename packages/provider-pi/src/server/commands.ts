@@ -1,4 +1,4 @@
-import { type ServerProviderSkill, type ServerProviderSlashCommand } from "@t3tools/contracts";
+import { type ServerProviderSkill, type ServerProviderSlashCommand } from "@lnsflive/contracts";
 import * as Predicate from "effect/Predicate";
 
 // Pi RPC get_commands omits TUI builtins. Advertise /compact so JCode can map it to RPC compact.

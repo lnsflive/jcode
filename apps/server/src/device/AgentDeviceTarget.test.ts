@@ -1,5 +1,5 @@
 // @effect-diagnostics nodeBuiltinImport:off - exercises concurrent real CLI subprocesses.
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import { describe, expect, it } from "@effect/vitest";
 import * as NodeChildProcess from "node:child_process";
 import * as NodeUtil from "node:util";
@@ -23,7 +23,7 @@ describe("host-bound agent commands", () => {
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
-        const temp = yield* fs.makeTempDirectoryScoped({ prefix: "t3-device-target-" });
+        const temp = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-device-target-" });
         const dir = path.join(temp, "quotes '\" $HOME `literal`");
         yield* fs.makeDirectory(dir);
         const desktopApp = path.join(dir, "JCode");
@@ -71,7 +71,7 @@ exec '${process.execPath.replaceAll("'", "'\"'\"'")}' "$@"
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
-      const temp = yield* fs.makeTempDirectoryScoped({ prefix: "t3-device-target-" });
+      const temp = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-device-target-" });
       const platform = yield* HostProcess.Platform;
       const dir = path.join(
         temp,
@@ -142,7 +142,7 @@ if (process.env.AGENT_DEVICE_DAEMON_BASE_URL) process.exit(2);`,
     }).pipe(
       Effect.scoped,
       Effect.provideService(HostProcess.IsExecutable, true),
-      Effect.provideService(HostProcess.ExecutablePath, "/packaged/t3"),
+      Effect.provideService(HostProcess.ExecutablePath, "/packaged/jcode"),
       Effect.provide(NodeServices.layer),
     ),
   );

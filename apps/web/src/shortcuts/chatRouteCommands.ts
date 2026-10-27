@@ -1,4 +1,4 @@
-import { AuthPreviewOperateScope, type EnvironmentId } from "@t3tools/contracts";
+import { AuthPreviewOperateScope, type EnvironmentId } from "@lnsflive/contracts";
 import type { AnyRouter } from "@tanstack/react-router";
 
 import { stackedThreadToast, toastManager } from "~/components/ui/toast";

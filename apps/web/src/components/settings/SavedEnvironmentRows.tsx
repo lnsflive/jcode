@@ -13,13 +13,13 @@ import {
   connectReachabilityHelpUrl,
   formatConnectReachable,
   resolveEnvironmentMachineKind,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   connectionRoutes,
   hasSavedBearerRoute,
   connectionStatusText,
   environmentMcpUrl,
-} from "@t3tools/client-runtime/connection";
+} from "@lnsflive/client-runtime/connection";
 import * as Option from "effect/Option";
 
 import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
@@ -597,7 +597,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
     <>
       {isElectron ? (
         <SettingsRow
-          title={searchableSetting("t3-connect").title}
+          title={searchableSetting("jcode-connect").title}
           description={
             signedOut
               ? "Sign in to make this environment available to your other devices through JCode Connect."
@@ -629,7 +629,7 @@ function ConfiguredCloudLinkRow({ canManageRelay }: { readonly canManageRelay: b
         />
       ) : linkRevoked ? (
         <SettingsRow
-          title={searchableSetting("t3-connect").title}
+          title={searchableSetting("jcode-connect").title}
           description="This environment was removed from JCode Connect. Run `jcode connect link` on the host to link it again."
         />
       ) : null}

@@ -697,7 +697,7 @@ internal class SelectionAwareEditText(context: Context) : EditText(context) {
 
   private fun pasteContextOrImages(): Boolean {
     val payload = JComposerClipboard.read(context)
-    if (payload["html"]?.contains("data-t3-context-fragment=") == true) {
+    if (payload["html"]?.contains("data-jcode-context-fragment=") == true) {
       pasteContextListener?.invoke(payload)
       return true
     }

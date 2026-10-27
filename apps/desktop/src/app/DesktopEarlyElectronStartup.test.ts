@@ -13,11 +13,11 @@ describe("DesktopEarlyElectronStartup", () => {
 
   it("reads the persisted linux password-store preference before Electron is ready", () => {
     const preference = resolveEarlyLinuxPasswordStorePreference({
-      env: { JCODE_HOME: "/home/user/.t3-test" },
+      env: { JCODE_HOME: "/home/user/.jcode-test" },
       homeDirectory: "/home/user",
       joinPath,
       readFileString: (path) => {
-        assert.equal(path, "/home/user/.t3-test/userdata/desktop-settings.json");
+        assert.equal(path, "/home/user/.jcode-test/userdata/desktop-settings.json");
         return JSON.stringify({ linuxPasswordStore: "kwallet6" });
       },
     });
@@ -27,7 +27,7 @@ describe("DesktopEarlyElectronStartup", () => {
 
   it("accepts JSONC in the early desktop settings file", () => {
     const preference = resolveEarlyLinuxPasswordStorePreference({
-      env: { JCODE_HOME: "/home/user/.t3-test" },
+      env: { JCODE_HOME: "/home/user/.jcode-test" },
       homeDirectory: "/home/user",
       joinPath,
       readFileString: () => `{

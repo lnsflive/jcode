@@ -1,7 +1,7 @@
 import * as Exit from "effect/Exit";
 import * as Schema from "effect/Schema";
 
-import { JProjectFile, J_PROJECT_FILE_SCHEMA_URL } from "@t3tools/contracts";
+import { JProjectFile, J_PROJECT_FILE_SCHEMA_URL } from "@lnsflive/contracts";
 
 import { fromLenientJson } from "./schemaJson.ts";
 

@@ -21,9 +21,9 @@
     "storage": "32gb"
   },
   "containerEnv": {
-    // Keep all runtime state inside the (gitignored) workspace .t3, matching
+    // Keep all runtime state inside the (gitignored) workspace .jcode, matching
     // the worktree default. An explicit --home-dir still wins.
-    "JCODE_HOME": "${containerWorkspaceFolder}/.t3"
+    "JCODE_HOME": "${containerWorkspaceFolder}/.jcode"
   },
   "mounts": [
     // vp keeps the pnpm content-addressable store and metadata cache under
@@ -42,11 +42,11 @@
   "forwardPorts": [5733, 13773],
   "portsAttributes": {
     "5733": {
-      "label": "t3 web (open via the pairing URL, not the bare origin)",
+      "label": "jcode web (open via the pairing URL, not the bare origin)",
       "onAutoForward": "notify"
     },
     "13773": {
-      "label": "t3 server",
+      "label": "jcode server",
       "onAutoForward": "silent"
     }
   },
@@ -61,7 +61,7 @@
         // burns CPU and file handles.
         "files.watcherExclude": {
           "**/.repos/**": true,
-          "**/.t3/**": true
+          "**/.jcode/**": true
         },
         "search.exclude": {
           "**/.repos": true

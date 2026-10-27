@@ -4,9 +4,9 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
-import type { ServerInstallation } from "@t3tools/contracts";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { isCommandAvailable } from "@t3tools/shared/shell";
+import type { ServerInstallation } from "@lnsflive/contracts";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { isCommandAvailable } from "@lnsflive/shared/shell";
 
 import packageJson from "../../package.json" with { type: "json" };
 
@@ -40,7 +40,7 @@ const decodeInstallManifest = Schema.decodeUnknownEffect(Schema.fromJsonString(I
 
 /**
  * `JCODE_NPM_LAUNCHER_PATH` is inherited by child shells, so accept it only for this package
- * version to avoid claiming another `t3` invocation is the npm install.
+ * version to avoid claiming another `jcode` invocation is the npm install.
  */
 export const resolveEntryPath = Effect.gen(function* () {
   const npmLauncher = (yield* HostProcess.Environment).JCODE_NPM_LAUNCHER_PATH?.trim();

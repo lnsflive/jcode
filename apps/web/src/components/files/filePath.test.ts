@@ -4,10 +4,10 @@ import { fileBreadcrumbChildren, fileBreadcrumbs, retainedBreadcrumbTrail } from
 
 describe("fileBreadcrumbs", () => {
   it("starts host paths outside the workspace at the filesystem root", () => {
-    expect(fileBreadcrumbs("jcode", "/tmp/t3-cleanup/report.md")).toEqual([
+    expect(fileBreadcrumbs("jcode", "/tmp/jcode-cleanup/report.md")).toEqual([
       { label: "tmp", path: "/tmp", kind: "directory" },
-      { label: "t3-cleanup", path: "/tmp/t3-cleanup", kind: "directory" },
-      { label: "report.md", path: "/tmp/t3-cleanup/report.md", kind: "file" },
+      { label: "jcode-cleanup", path: "/tmp/jcode-cleanup", kind: "directory" },
+      { label: "report.md", path: "/tmp/jcode-cleanup/report.md", kind: "file" },
     ]);
     expect(fileBreadcrumbs("jcode", "C:\\Temp\\report.md")).toEqual([
       { label: "C:", path: "C:\\", kind: "directory" },

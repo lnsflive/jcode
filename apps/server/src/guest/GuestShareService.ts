@@ -17,8 +17,8 @@ import {
   type OrchestrationV2GetTurnItemResult,
   ThreadId,
   TurnItemId,
-} from "@t3tools/contracts";
-import { htmlRenderFromToolItem } from "@t3tools/shared/toolOutput";
+} from "@lnsflive/contracts";
+import { htmlRenderFromToolItem } from "@lnsflive/shared/toolOutput";
 import * as Context from "effect/Context";
 import * as Crypto from "effect/Crypto";
 import * as DateTime from "effect/DateTime";
@@ -191,7 +191,7 @@ export class GuestShareService extends Context.Service<
       GuestShareAccessError
     >;
   }
->()("t3/guest/GuestShareService") {}
+>()("jcode/guest/GuestShareService") {}
 
 /** The thread record an event carries, for the share and the view. */
 const threadOf = (event: OrchestrationV2DomainEvent): OrchestrationV2AppThread | null => {

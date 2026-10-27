@@ -308,17 +308,17 @@ static inline void load_data(u8* dest, const u8* src, size_t n) {
     ret_kw name##_unchecked(wasm_rt_local_memory_base, mem, addr, val1, val2); \
   }
 
-#define DEFINE_LOAD(name, t1, t2, t3, force_read)                             \
-  static inline t3 name##_unchecked(uint8_t* const wasm_rt_local_memory_base, \
+#define DEFINE_LOAD(name, t1, t2, jcode, force_read)                             \
+  static inline jcode name##_unchecked(uint8_t* const wasm_rt_local_memory_base, \
                                     wasm_rt_memory_t* mem, u64 addr) {        \
     t1 result;                                                                \
     wasm_rt_memcpy(&result, MEM_ADDR_MEMOP(mem, addr, sizeof(t1)),            \
                    sizeof(t1));                                               \
-    t3 ret = (t3)(t2)result;                                                  \
+    jcode ret = (jcode)(t2)result;                                                  \
     force_read(ret);                                                          \
     return ret;                                                               \
   }                                                                           \
-  DEF_MEM_CHECKS0(name, _, t1, return, t3)
+  DEF_MEM_CHECKS0(name, _, t1, return, jcode)
 
 #define DEFINE_STORE(name, t1, t2)                                     \
   static inline void name##_unchecked(                                 \
@@ -1689,7 +1689,7 @@ struct wasm_multi_ii {
 FUNC_TYPE_T(w2c_highlights_t0) = "\x07\x80\x96\x7a\x42\xf7\x3e\xe6\x70\x5c\x2f\xac\x83\xf5\x67\xd2\xa2\xa0\x69\x41\x5f\xf8\xe7\x96\x7f\x23\xab\x00\x03\x5f\x4a\x3c";
 FUNC_TYPE_T(w2c_highlights_t1) = "\x36\xa9\xe7\xf1\xc9\x5b\x82\xff\xb9\x97\x43\xe0\xc5\xc4\xce\x95\xd8\x3c\x9a\x43\x0a\xac\x59\xf8\x4e\xf3\xcb\xfa\xb6\x14\x50\x68";
 FUNC_TYPE_T(w2c_highlights_t2) = "\x92\xfb\x6a\xdf\x49\x07\x0a\x83\xbe\x08\x02\x68\xcd\xf6\x95\x27\x4a\xc2\xf3\xe5\xe4\x7d\x29\x49\xe8\xed\x42\x92\x6a\x9d\xda\xf0";
-FUNC_TYPE_T(w2c_highlights_t3) = "\x89\x3a\x3d\x2c\x8f\x4d\x7f\x6d\x6c\x9d\x62\x67\x29\xaf\x3d\x44\x39\x8e\xc3\xf3\xe8\x51\xc1\x99\xb9\xdd\x9f\xd5\x3d\x1f\xd3\xe4";
+FUNC_TYPE_T(w2c_highlights_jcode) = "\x89\x3a\x3d\x2c\x8f\x4d\x7f\x6d\x6c\x9d\x62\x67\x29\xaf\x3d\x44\x39\x8e\xc3\xf3\xe8\x51\xc1\x99\xb9\xdd\x9f\xd5\x3d\x1f\xd3\xe4";
 FUNC_TYPE_T(w2c_highlights_t4) = "\x26\x10\x81\xe2\x21\x43\xd6\x01\x3e\x2d\x2f\x16\x17\x78\x6f\xba\xb3\x2f\x4d\x54\x9b\x8a\xa9\xdd\xbf\x53\x92\x3c\xd3\x71\xc6\xb2";
 FUNC_TYPE_T(w2c_highlights_t5) = "\x72\xab\x00\xdf\x20\x3d\xce\xa1\xf2\x29\xc7\x9d\x13\x40\x7e\x98\xac\x7d\x41\x4a\x53\x2e\x42\x42\x61\x55\x2e\xaa\xeb\xbe\xc6\x35";
 FUNC_TYPE_T(w2c_highlights_t6) = "\x78\xde\x71\xb6\x49\x9a\x33\x9d\xd3\x70\x88\x4c\x50\xd4\xea\xdf\xe1\x2a\x18\x12\xf6\xf3\x64\xf7\xea\x4f\x94\x19\xa7\x20\x28\xe8";
@@ -4928,7 +4928,7 @@ wasm_rt_func_type_t wasm2c_highlights_get_func_type(uint32_t param_count, uint32
     va_start(args, result_count);
     if (true && va_arg(args, int) == WASM_RT_I32) {
       va_end(args);
-      return w2c_highlights_t3;
+      return w2c_highlights_jcode;
     }
     va_end(args);
   }

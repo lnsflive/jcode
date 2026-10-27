@@ -1,4 +1,4 @@
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import {
   CLI_RELEASE_BASE_URL_ENV,
   CLI_RELEASE_CHANNELS,
@@ -6,7 +6,7 @@ import {
   cliReleaseChannelOf,
   newestCliReleaseVersion,
   type CliReleaseChannel,
-} from "@t3tools/shared/cliRelease";
+} from "@lnsflive/shared/cliRelease";
 import * as Console from "effect/Console";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -112,7 +112,7 @@ export const repointLauncher = Effect.fn("cli.update.repoint_launcher")(function
     if (shimPath === undefined) return Option.none<string>();
     const launcherDirectory = path.dirname(shimPath);
     let repointed = false;
-    for (const name of ["jcode.cmd", "t3.cmd"]) {
+    for (const name of ["jcode.cmd"]) {
       const candidate = path.join(launcherDirectory, name);
       const current = yield* fs.readFileString(candidate).pipe(Effect.option);
       const target = Option.isSome(current) ? windowsShimTarget(current.value) : undefined;
@@ -132,7 +132,7 @@ export const repointLauncher = Effect.fn("cli.update.repoint_launcher")(function
   }
 
   let repointed = false;
-  for (const name of ["jcode", "t3"]) {
+  for (const name of ["jcode"]) {
     const candidate = path.join(path.dirname(input.launchedAs), name);
     const linkTarget = yield* fs.readLink(candidate).pipe(Effect.option);
     if (Option.isNone(linkTarget)) continue;
@@ -186,7 +186,7 @@ export const findWindowsShim = Effect.fn("cli.update.find_windows_shim")(functio
     ...(environment["PATH"] ?? environment["Path"] ?? "").split(";"),
   ].filter((entry) => entry.trim().length > 0);
   for (const directory of candidates) {
-    const shimPath = path.join(directory, "t3.cmd");
+    const shimPath = path.join(directory, "jcode.cmd");
     const contents = yield* fs.readFileString(shimPath).pipe(Effect.option);
     if (Option.isNone(contents)) continue;
     const target = windowsShimTarget(contents.value);

@@ -5,9 +5,9 @@ import { ThreadEnvMode, WorktreeSubmodules } from "./environment.ts";
 import { ProjectScriptIcon } from "./project.ts";
 import type { ProjectScopedServerSettingKey, ServerSettings } from "./settings.ts";
 
-export const J_PROJECT_FILE_NAME = "t3.json";
+export const J_PROJECT_FILE_NAME = "jcode.json";
 
-export const J_PROJECT_FILE_SCHEMA_URL = "https://jaimegonzalezjr.com/schema/t3.json";
+export const J_PROJECT_FILE_SCHEMA_URL = "https://jaimegonzalezjr.com/schema/jcode.json";
 
 const J_PROJECT_FILE_PATH_MAX_LENGTH = 512;
 const J_PROJECT_FILE_MAX_SCRIPTS = 50;
@@ -106,11 +106,11 @@ export const JProjectFile = Schema.Struct({
 }).annotate({
   title: "JCode project file",
   description:
-    "Checked-in project configuration for JCode (t3.json at the repository root). See https://jaimegonzalezjr.com for documentation.",
+    "Checked-in project configuration for JCode (jcode.json at the repository root). See https://jaimegonzalezjr.com for documentation.",
 });
 export type JProjectFile = typeof JProjectFile.Type;
 
-/** Keys must be nullable in ServerSettings so both environment and project overrides can inherit t3.json. */
+/** Keys must be nullable in ServerSettings so both environment and project overrides can inherit jcode.json. */
 export const PROJECT_FILE_BACKED_SETTINGS = {
   defaultThreadEnvMode: { field: "defaultThreadEnvMode", builtIn: "local" },
   worktreeSubmodules: { field: "worktreeSubmodules", builtIn: "recursive" },

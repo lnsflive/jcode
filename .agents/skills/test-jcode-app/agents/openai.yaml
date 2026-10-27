@@ -1,0 +1,4 @@
+interface:
+  display_name: "JCode App Testing"
+  short_description: "Test web and desktop in JCode's Browser panel"
+  default_prompt: "Use $test-jcode-app to verify the affected web or desktop flow through JCode's Browser panel."

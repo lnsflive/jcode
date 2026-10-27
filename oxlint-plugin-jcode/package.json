@@ -1,5 +1,5 @@
 {
-  "name": "@t3tools/oxlint-plugin-jcode",
+  "name": "@lnsflive/oxlint-plugin-jcode",
   "private": true,
   "type": "module",
   "scripts": {

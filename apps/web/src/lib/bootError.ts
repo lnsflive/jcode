@@ -1,4 +1,4 @@
-import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts";
+import type { DesktopBridge, DesktopUpdateState } from "@lnsflive/contracts";
 
 const FALLBACK_TRIAGE_COMMAND = "npx @lnsflive/jcode triage";
 const DOWNLOAD_URL = "https://github.com/lnsflive/jcode/releases";

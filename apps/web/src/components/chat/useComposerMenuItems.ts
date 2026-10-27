@@ -1,4 +1,4 @@
-import { matchComposerThreadItems } from "@t3tools/client-runtime/composerThreadItems";
+import { matchComposerThreadItems } from "@lnsflive/client-runtime/composerThreadItems";
 import { useState } from "react";
 import type {
   EnvironmentId,
@@ -8,19 +8,19 @@ import type {
   ServerProvider,
   ThreadId,
   ThreadPullRequestLink,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   composerPullRequestsFromLinks,
   filterComposerPullRequestMatches,
-} from "@t3tools/shared/composerPullRequestMatches";
-import { formatProviderSkillDisplayName } from "@t3tools/shared/inlineSkills";
+} from "@lnsflive/shared/composerPullRequestMatches";
+import { formatProviderSkillDisplayName } from "@lnsflive/shared/inlineSkills";
 
 import type { ComposerTrigger } from "../../composer-logic";
 import { basenameOfPath } from "../../pierre-icons";
 import {
   getProviderSkillsForSlashMenu,
   getProviderSlashCommandsForSlashMenu,
-} from "@t3tools/client-runtime/providerSkills";
+} from "@lnsflive/client-runtime/providerSkills";
 import { searchProviderSkills } from "../../providerSkillSearch";
 import { useThreadShells } from "~/state/entities";
 import {

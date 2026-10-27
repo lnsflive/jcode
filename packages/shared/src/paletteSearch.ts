@@ -1,6 +1,6 @@
 /** Shared ranking keeps command palettes and MCP thread search consistent across surfaces. */
 
-import type { OrchestrationV2ThreadOpens } from "@t3tools/contracts";
+import type { OrchestrationV2ThreadOpens } from "@lnsflive/contracts";
 
 import { WORKTREE_BRANCH_PREFIX } from "./git.ts";
 
@@ -210,7 +210,7 @@ function matchToken(
   ) {
     // A token that opens with punctuation (".ts") brings its own boundary, as in messages.
     if (field.wordStarts[index] || ownBoundary) {
-      // Whole when the match ends where a word ends: "t3c" is a prefix of
+      // Whole when the match ends where a word ends: "jco" is a prefix of
       // "jcode", ".ts" whole in "index.ts" but a prefix in "parser.tsx".
       const end = index + token.length;
       const whole =
@@ -272,7 +272,7 @@ function matchToken(
 
 /**
  * Short words followed by a short prefix are noise inside a title ("inth" in "in thread").
- * Allow them at its start ("t3co"), before three letters ("gomod"), or a whole word ("vscode").
+ * Allow them at its start ("jcod"), before three letters ("gomod"), or a whole word ("vscode").
  */
 function matchJoinedWords(field: SearchField, token: string): TokenMatch | null {
   const firstWord = field.wordStarts.indexOf(1);
@@ -884,10 +884,10 @@ export interface SearchMatchHint {
   readonly ranges: ReadonlyArray<SearchRange>;
 }
 
-// Most threads' branches start with the app's own worktree prefix ("t3/", and
+// Most threads' branches start with the app's own worktree prefix ("jcode/", and
 // "jcode/" before it), so "jcode connect" would match nearly every thread.
-// Only before more text, so typing "t3/" does not empty the list for a keystroke.
-const WORKTREE_BRANCH_PREFIX_PATTERN = new RegExp(`^(?:${WORKTREE_BRANCH_PREFIX}|t3)/(?=\\S)`);
+// Only before more text, so typing "jcode/" does not empty the list for a keystroke.
+const WORKTREE_BRANCH_PREFIX_PATTERN = new RegExp(`^(?:${WORKTREE_BRANCH_PREFIX}|jcode)/(?=\\S)`);
 
 function searchableBranch(branch: string | null | undefined): string | null {
   return branch ? branch.replace(WORKTREE_BRANCH_PREFIX_PATTERN, "") : null;

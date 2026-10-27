@@ -2,13 +2,13 @@ import {
   RelayEnvironmentLinkProofPayload,
   RelayEnvironmentLinkProofInvalidReason,
   type RelayEnvironmentLinkRequest,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import {
   decodeRelayJwt,
   normalizeRelayIssuer,
   RELAY_LINK_PROOF_TYP,
   verifyRelayJwt,
-} from "@t3tools/shared/relayJwt";
+} from "@lnsflive/shared/relayJwt";
 import * as Context from "effect/Context";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -183,7 +183,7 @@ const make = Effect.gen(function* () {
           expiresAt: DateTime.formatIso(DateTime.makeUnsafe(candidate.exp * 1_000)),
         });
       }
-      const issuer = `t3-env:${candidate.environmentId}`;
+      const issuer = `jcode-env:${candidate.environmentId}`;
       const relayIssuer = normalizeRelayIssuer(config.relayIssuer);
       const verified = yield* verifyRelayJwt({
         publicKey: candidate.environmentPublicKey,

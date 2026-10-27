@@ -44,8 +44,8 @@ it("deduplicates shared summaries and retries delivery without credentials in qu
   const home = NodePath.join(root, "home");
   const endpoint = "https://cache.example/projects/jcode";
   try {
-    const stopA = observeSummaries(root, endpoint, { T3_TASK_CACHE_HOST: "test-host" }, home);
-    const stopB = observeSummaries(root, endpoint, { T3_TASK_CACHE_HOST: "test-host" }, home);
+    const stopA = observeSummaries(root, endpoint, { JCODE_TASK_CACHE_HOST: "test-host" }, home);
+    const stopB = observeSummaries(root, endpoint, { JCODE_TASK_CACHE_HOST: "test-host" }, home);
     const version = NodePath.join(root, "node_modules/.vite/task-cache/v18");
     NodeFS.mkdirSync(version);
     NodeFS.writeFileSync(
@@ -56,15 +56,15 @@ it("deduplicates shared summaries and retries delivery without credentials in qu
     );
     stopA();
     stopB();
-    const queue = NodePath.join(home, ".cache/t3-task-cache/telemetry");
+    const queue = NodePath.join(home, ".cache/jcode-task-cache/telemetry");
     const files = NodeFS.readdirSync(queue);
     expect(files).toHaveLength(1);
     const serialized = NodeFS.readFileSync(NodePath.join(queue, files[0]!), "utf8");
     expect(serialized).not.toContain("SECRET");
     expect(JSON.parse(serialized).event.host).toBe("test-host");
-    NodeFS.mkdirSync(NodePath.join(home, ".config/t3-task-cache"), { recursive: true });
+    NodeFS.mkdirSync(NodePath.join(home, ".config/jcode-task-cache"), { recursive: true });
     NodeFS.writeFileSync(
-      NodePath.join(home, ".config/t3-task-cache/credentials.json"),
+      NodePath.join(home, ".config/jcode-task-cache/credentials.json"),
       JSON.stringify({ [endpoint]: { name: "alice", token: "secret-token" } }),
     );
     using request = vi
@@ -92,7 +92,7 @@ it("skips unauthenticated endpoints without consuming the delivery budget", asyn
   const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "cache-queue-"));
   const endpoint = "https://cache.example/projects/jcode";
   try {
-    const queue = NodePath.join(home, ".cache/t3-task-cache/telemetry");
+    const queue = NodePath.join(home, ".cache/jcode-task-cache/telemetry");
     NodeFS.mkdirSync(queue, { recursive: true });
     const skipped = Array.from({ length: 101 }, (_, i) => `a${i}.json`);
     for (const file of skipped)
@@ -104,9 +104,9 @@ it("skips unauthenticated endpoints without consuming the delivery budget", asyn
       NodePath.join(queue, "b.json"),
       JSON.stringify({ endpoint, event: { id: "current" } }),
     );
-    NodeFS.mkdirSync(NodePath.join(home, ".config/t3-task-cache"), { recursive: true });
+    NodeFS.mkdirSync(NodePath.join(home, ".config/jcode-task-cache"), { recursive: true });
     NodeFS.writeFileSync(
-      NodePath.join(home, ".config/t3-task-cache/credentials.json"),
+      NodePath.join(home, ".config/jcode-task-cache/credentials.json"),
       JSON.stringify({ [endpoint]: { name: "alice", token: "secret-token" } }),
     );
     using request = vi
@@ -135,8 +135,8 @@ it("excludes tasks that explicitly disable caching from the hit-rate denominator
 it("drops revoked credentials and continues delivering other queued endpoints", async () => {
   const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "cache-revoked-"));
   try {
-    const queue = NodePath.join(home, ".cache/t3-task-cache/telemetry");
-    const state = NodePath.join(home, ".config/t3-task-cache");
+    const queue = NodePath.join(home, ".cache/jcode-task-cache/telemetry");
+    const state = NodePath.join(home, ".config/jcode-task-cache");
     NodeFS.mkdirSync(queue, { recursive: true });
     NodeFS.mkdirSync(state, { recursive: true });
     NodeFS.writeFileSync(
@@ -170,8 +170,8 @@ it("delivers an event queued while the previous flusher releases its lock", asyn
   const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "cache-handoff-"));
   const endpoint = "https://cache.example/projects/jcode";
   try {
-    const queue = NodePath.join(home, ".cache/t3-task-cache/telemetry");
-    const state = NodePath.join(home, ".config/t3-task-cache");
+    const queue = NodePath.join(home, ".cache/jcode-task-cache/telemetry");
+    const state = NodePath.join(home, ".config/jcode-task-cache");
     NodeFS.mkdirSync(queue, { recursive: true });
     NodeFS.mkdirSync(state, { recursive: true });
     NodeFS.writeFileSync(

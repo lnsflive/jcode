@@ -1,14 +1,14 @@
-import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import { deriveThreadQueueWorkflowState } from "@t3tools/client-runtime/state/thread-workflows";
-import { assistantCitationsToPlainText } from "@t3tools/shared/assistantCitations";
-import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
+import { scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import { deriveThreadQueueWorkflowState } from "@lnsflive/client-runtime/state/thread-workflows";
+import { assistantCitationsToPlainText } from "@lnsflive/shared/assistantCitations";
+import { replaceComposerContextReferences } from "@lnsflive/shared/composerContextReferences";
 import type {
   ChatAttachment as ContractChatAttachment,
   EnvironmentId,
   MessageId,
   RunId,
   ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { ChevronDownIcon, Clock3Icon, ArrowUpIcon, PencilIcon, XIcon } from "lucide-react";
 import { useId, useImperativeHandle, useRef, useState, type Ref } from "react";
 

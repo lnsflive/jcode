@@ -1,4 +1,4 @@
-import type { DesktopPreviewTabState } from "@t3tools/contracts";
+import type { DesktopPreviewTabState } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import { useBrowserSurfaceStore } from "~/browser/browserSurfaceStore";

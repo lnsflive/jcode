@@ -6,13 +6,13 @@ import {
   type ServerSettings,
   UsageLimitSourceConfig,
   secretSettingsFields,
-} from "@t3tools/contracts";
-import { acpRegistryClient } from "@t3tools/provider-acp-registry/client";
-import { cursorClient } from "@t3tools/provider-cursor/client";
-import { grokClient } from "@t3tools/provider-grok/client";
-import { museClient } from "@t3tools/provider-muse/client";
-import { openCodeClient } from "@t3tools/provider-opencode/client";
-import { piClient } from "@t3tools/provider-pi/client";
+} from "@lnsflive/contracts";
+import { acpRegistryClient } from "@lnsflive/provider-acp-registry/client";
+import { cursorClient } from "@lnsflive/provider-cursor/client";
+import { grokClient } from "@lnsflive/provider-grok/client";
+import { museClient } from "@lnsflive/provider-muse/client";
+import { openCodeClient } from "@lnsflive/provider-opencode/client";
+import { piClient } from "@lnsflive/provider-pi/client";
 import {
   readSecretFieldValues,
   SOURCE_CONTROL_HOST_SECRET_FIELDS,

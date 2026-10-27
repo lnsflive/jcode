@@ -169,7 +169,7 @@ credentials, and agent work stay on the remote machine.
 
 The remote host must be Linux or an Apple Silicon Mac with `curl` or `wget`,
 `tar`, `sha256sum` or `shasum`, and [provider setup](./install.md#providers).
-The first launch downloads JCode's server to `~/.t3/runtime` on the host, so
+The first launch downloads JCode's server to `~/.jcode/runtime` on the host, so
 it takes longer than later ones.
 Provider CLIs must be on the `PATH` of a non-interactive login shell there;
 check with:
@@ -232,7 +232,7 @@ sudo jcode browser setup
 
 The server shows the exact line for how you started it, such as
 `sudo npx @lnsflive/jcode browser setup`, and keeps your `PATH` when Node is installed only
-for your user. Where the `t3` compatibility command is not on your `PATH`, such as with only the
+for your user. Where the `jcode` compatibility command is not on your `PATH`, such as with only the
 desktop app installed, it names the full path of the app's own JCode launcher instead. It allows Chrome's sandbox with an AppArmor profile and installs
 any missing libraries and system fonts with apt; pages that load without text
 can mean the host has no fonts. It is safe to run again. Without `sudo`, it only

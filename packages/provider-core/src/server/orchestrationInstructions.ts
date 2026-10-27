@@ -1,4 +1,4 @@
-import type { ProviderInteractionMode } from "@t3tools/contracts";
+import type { ProviderInteractionMode } from "@lnsflive/contracts";
 
 // Codex truncates entries over 4,000 bytes; keep each section self-contained and below that limit.
 export const JCODE_ORCHESTRATION_SECTIONS: ReadonlyArray<string> = [
@@ -8,12 +8,12 @@ Ordinary coding tasks need no JCode tools.
 
 - Subagents: use your native tool when the child uses your provider, a model it offers, and no settings beyond yours, and it finishes in this turn (Claude \`Agent\` always with \`run_in_background:false\`; Codex \`spawn_agent\`, then wait). Use \`delegate_task\` for another provider's model, user-asked settings, a separate checkout (\`isolation:"worktree"\`), background work, or \`delegate_task\` by name. A native type running another provider's model counts too. Workflow only when asked.
 - Call \`orchestrator_capabilities\` once per thread, before the first \`delegate_task\`. Again only after an error or a user-named provider change. Settings go in \`target.options\`. Provider or model unavailable: say so. Never switch unasked, or fall back to native tools, Workflow, or CLIs. Never make a child's checkout in the shell or in \`task\`.
-- Every new delegate review or re-check is a new \`delegate_task\` (brief, findings, objections), never a \`t3_thread_send\`. Fix small review findings yourself; start no delegate for them. When told to proceed without a delegate, or to run fewer, \`task_cancel\` the extras. Start no replacement.
-- Follow a running delegate's \`next\`. Do not poll it (\`task_status\`, \`sleep\`, watchers, Monitor, ScheduleWakeup). Stop a delegate run you replace or no longer need with \`task_cancel\`, never \`t3_thread_interrupt\` on a \`childThreadId\`.
+- Every new delegate review or re-check is a new \`delegate_task\` (brief, findings, objections), never a \`jcode_thread_send\`. Fix small review findings yourself; start no delegate for them. When told to proceed without a delegate, or to run fewer, \`task_cancel\` the extras. Start no replacement.
+- Follow a running delegate's \`next\`. Do not poll it (\`task_status\`, \`sleep\`, watchers, Monitor, ScheduleWakeup). Stop a delegate run you replace or no longer need with \`task_cancel\`, never \`jcode_thread_interrupt\` on a \`childThreadId\`.
 - If you are a subagent or child, do the work yourself. Start no subagents unless your task says to.`,
-  `- \`t3_thread_launch\` and \`create_threads\` make new top-level threads, only when the user asks for a new thread. "Subagent", "delegate", and "parallel" never mean one. Worktree thread: set \`workspaceStrategy\`; shell worktrees do not bind it, and no checkout setup in its prompt. No \`workspaceStrategy\`: project root, not your worktree.
-- Given a thread id, \`t3_thread_read\` it before you answer about it.
-- In your reply, a thread's first mention is its \`link\` verbatim. No \`link\`: \`[title](t3-thread://v1/<exact id>)\`. Never a plain title or bare id.
+  `- \`jcode_thread_launch\` and \`create_threads\` make new top-level threads, only when the user asks for a new thread. "Subagent", "delegate", and "parallel" never mean one. Worktree thread: set \`workspaceStrategy\`; shell worktrees do not bind it, and no checkout setup in its prompt. No \`workspaceStrategy\`: project root, not your worktree.
+- Given a thread id, \`jcode_thread_read\` it before you answer about it.
+- In your reply, a thread's first mention is its \`link\` verbatim. No \`link\`: \`[title](jcode-thread://v1/<exact id>)\`. Never a plain title or bare id.
 - A secret: call \`request_secret\` yourself. Pass its \`secretRef\` to a JCode tool, or use \`delivery: "file"\` for a shell command. Never ask in chat or invent one. When asked only to schedule, \`schedule_task\` without running its prompt.
 - JCode tools may load late. Try the name once before you call it absent.`,
   `### Visuals and preview
@@ -36,7 +36,7 @@ When browser work was asked, \`preview_*\` is the browser you share with the use
 
 // ACP only: some ACP agents accept the injected MCP server but never expose
 // its tools, so they need the terminal transport other harnesses never use.
-const JCODE_ACP_MCP_FALLBACK_INSTRUCTIONS = `ACP fallback: if the JCode tools are absent and \`T3_ACP_MCP_NODE\` is present, call them through the terminal: \`ELECTRON_RUN_AS_NODE=1 "$T3_ACP_MCP_NODE" \${T3_ACP_MCP_ENTRYPOINT:+"$T3_ACP_MCP_ENTRYPOINT"} acp-mcp-call orchestrator_capabilities '{}'\` (\`T3_ACP_MCP_ENTRYPOINT\` is unset for a standalone executable). Delegate with \`acp-mcp-call delegate_task '{"task":"...","target":{"providerInstanceId":"...","model":"..."},"mode":"async","clientRequestId":"..."}'\`.`;
+const JCODE_ACP_MCP_FALLBACK_INSTRUCTIONS = `ACP fallback: if the JCode tools are absent and \`JCODE_ACP_MCP_NODE\` is present, call them through the terminal: \`ELECTRON_RUN_AS_NODE=1 "$JCODE_ACP_MCP_NODE" \${JCODE_ACP_MCP_ENTRYPOINT:+"$JCODE_ACP_MCP_ENTRYPOINT"} acp-mcp-call orchestrator_capabilities '{}'\` (\`JCODE_ACP_MCP_ENTRYPOINT\` is unset for a standalone executable). Delegate with \`acp-mcp-call delegate_task '{"task":"...","target":{"providerInstanceId":"...","model":"..."},"mode":"async","clientRequestId":"..."}'\`.`;
 
 const JCODE_ACP_DEFAULT_MODE_INSTRUCTIONS = `## JCode interaction mode: Default
 
@@ -46,16 +46,16 @@ const JCODE_ACP_PLAN_MODE_INSTRUCTIONS = `## JCode interaction mode: Plan
 
 Investigate with read-only actions and do not edit files or otherwise execute the implementation. Resolve discoverable facts before asking questions. When the requirements are decision complete, return a concrete implementation plan and do not start implementing it. Treat this mode as active until JCode supplies a different interaction-mode instruction.`;
 
-export interface T3AcpInstructionState {
+export interface JCodeAcpInstructionState {
   readonly interactionMode: ProviderInteractionMode;
   readonly hasJMcp: boolean;
 }
 
 /** ACP lacks system/developer fields; inject context on first prompt and tool/mode changes. */
-export function t3AcpPromptWithInstructions(input: {
+export function jcodeAcpPromptWithInstructions(input: {
   readonly prompt: string;
-  readonly state: T3AcpInstructionState;
-  readonly previousState?: T3AcpInstructionState;
+  readonly state: JCodeAcpInstructionState;
+  readonly previousState?: JCodeAcpInstructionState;
 }): string {
   // Native slash commands must remain at the start of the prompt.
   if (input.prompt.trimStart().startsWith("/")) return input.prompt;
@@ -80,20 +80,20 @@ export function t3AcpPromptWithInstructions(input: {
   return `<jcode_instructions>\n${instructions.join("\n\n")}\n</jcode_instructions>\n\n<user_request>\n${input.prompt}\n</user_request>`;
 }
 
-function prependT3OrchestrationInstructions(prompt: string): string {
+function prependJCodeOrchestrationInstructions(prompt: string): string {
   return `<jcode_orchestration_instructions>${JCODE_ORCHESTRATION_INSTRUCTIONS.trim()}</jcode_orchestration_instructions>\n\n<user_request>\n${prompt}\n</user_request>`;
 }
 
-export function t3OrchestrationPromptForFirstRun(input: {
+export function jcodeOrchestrationPromptForFirstRun(input: {
   readonly prompt: string;
   readonly runOrdinal: number;
   readonly hasJMcp: boolean;
 }): string {
   return input.runOrdinal === 1 && input.hasJMcp
-    ? prependT3OrchestrationInstructions(input.prompt)
+    ? prependJCodeOrchestrationInstructions(input.prompt)
     : input.prompt;
 }
 
-export function t3OrchestrationSystemPrompt(hasJMcp: boolean): string | undefined {
+export function jcodeOrchestrationSystemPrompt(hasJMcp: boolean): string | undefined {
   return hasJMcp ? JCODE_ORCHESTRATION_INSTRUCTIONS : undefined;
 }

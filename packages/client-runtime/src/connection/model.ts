@@ -1,5 +1,5 @@
-import { EnvironmentId } from "@t3tools/contracts";
-import { RelayEnvironmentEndpointFailure } from "@t3tools/contracts/relay";
+import { EnvironmentId } from "@lnsflive/contracts";
+import { RelayEnvironmentEndpointFailure } from "@lnsflive/contracts/relay";
 import * as Schema from "effect/Schema";
 
 const ConnectionTargetBase = {

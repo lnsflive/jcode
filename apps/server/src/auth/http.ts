@@ -17,10 +17,10 @@ import {
   EnvironmentScopeRequiredError,
   EnvironmentAuthenticatedAuth,
   EnvironmentAuthenticatedPrincipal,
-} from "@t3tools/contracts";
-import type { AuthEnvironmentScope, DpopFailureReason } from "@t3tools/contracts";
-import { parseOAuthScope } from "@t3tools/shared/oauthScope";
-import { causeErrorTag } from "@t3tools/shared/observability";
+} from "@lnsflive/contracts";
+import type { AuthEnvironmentScope, DpopFailureReason } from "@lnsflive/contracts";
+import { parseOAuthScope } from "@lnsflive/shared/oauthScope";
+import { causeErrorTag } from "@lnsflive/shared/observability";
 import * as Clock from "effect/Clock";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";

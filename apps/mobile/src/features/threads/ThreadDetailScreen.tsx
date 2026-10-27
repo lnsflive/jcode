@@ -5,12 +5,12 @@ import {
   isAtomCommandInterrupted,
   settlePromise,
   squashAtomCommandFailure,
-} from "@t3tools/client-runtime/state/runtime";
+} from "@lnsflive/client-runtime/state/runtime";
 import { AsyncResult, Atom } from "effect/reactivity";
 import * as Dialog from "../../components/ui/Dialog";
 import { useAtomMount, useAtomValue } from "@effect/atom-react";
-import { parseThreadKey, threadKey } from "@t3tools/client-runtime/state/entities";
-import { createThreadVisitTracker } from "@t3tools/client-runtime/state/thread-visits";
+import { parseThreadKey, threadKey } from "@lnsflive/client-runtime/state/entities";
+import { createThreadVisitTracker } from "@lnsflive/client-runtime/state/thread-visits";
 import { useChildThreadInputs, useThreadReportedModelSelection } from "../../state/entities";
 import { UsageLimitRecoveryCard } from "./UsageLimitRecoveryCard";
 import { ChatGptUsageLimitNotice } from "./ChatGptUsageLimitNotice";
@@ -20,20 +20,20 @@ import {
   threadWokeAt,
   isThreadWokeUnseen,
   snoozeWakeLabel,
-} from "@t3tools/client-runtime/state/thread-settled";
+} from "@lnsflive/client-runtime/state/thread-settled";
 import type { WorktreeSetupCardProps } from "./worktree-setup-card";
 import type { ComposerTextPaste } from "../../native/JComposerEditor.types";
-import { type EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
-import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
-import type { HandoffEndpoints } from "@t3tools/client-runtime/handoff";
-import { queuedRunEditBlockedReason } from "@t3tools/client-runtime/queued-run-edit";
+import { type EnvironmentConnectionPhase } from "@lnsflive/client-runtime/connection";
+import type { EnvironmentThreadShell } from "@lnsflive/client-runtime/state/shell";
+import type { HandoffEndpoints } from "@lnsflive/client-runtime/handoff";
+import { queuedRunEditBlockedReason } from "@lnsflive/client-runtime/queued-run-edit";
 import {
   childThreadInputsTitle,
   type CodexFeedbackSubmission,
   type EnvironmentThreadStatus,
-} from "@t3tools/client-runtime/state/threads";
+} from "@lnsflive/client-runtime/state/threads";
 import { useKeyboardChatComposerInset, useKeyboardScrollToEnd } from "@legendapp/list/keyboard";
-import { resolveProviderSkillsForCwd } from "@t3tools/client-runtime/providerSkills";
+import { resolveProviderSkillsForCwd } from "@lnsflive/client-runtime/providerSkills";
 import type { LegendListRef } from "@legendapp/list/react-native";
 import { HeaderHeightContext } from "@react-navigation/elements";
 import { NativeLayoutObserver } from "../../native/NativeLayoutObserver";
@@ -46,31 +46,31 @@ import type {
   ScopedThreadRef,
   ServerConfig as JServerConfig,
   UsageLimitsReport,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   appendCodexArtifactTemplateUsePrompt,
   type CodexArtifactTemplate,
-} from "@t3tools/shared/codexArtifactTemplates";
+} from "@lnsflive/shared/codexArtifactTemplates";
 import {
   declinePendingApprovals,
   sendApprovalFeedback,
   type ApprovalResponder,
   type ThreadUserInputQuestion,
-} from "@t3tools/client-runtime/state/thread-requests";
+} from "@lnsflive/client-runtime/state/thread-requests";
 import {
   presentPendingBackgroundWork,
   presentProviderGoal,
-} from "@t3tools/client-runtime/state/thread-execution";
-import { resolveSubagentPillSegment } from "@t3tools/client-runtime/state/thread-subagents";
+} from "@lnsflive/client-runtime/state/thread-execution";
+import { resolveSubagentPillSegment } from "@lnsflive/client-runtime/state/thread-subagents";
 import {
   formatModelSelectionEffort,
   type ProviderSubagentStatus,
-} from "@t3tools/client-runtime/state/thread-execution";
-import { formatModelSlugName, resolveSelectableModel } from "@t3tools/shared/model";
-import { isProviderNativeSubagentThread } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/state/thread-execution";
+import { formatModelSlugName, resolveSelectableModel } from "@lnsflive/shared/model";
+import { isProviderNativeSubagentThread } from "@lnsflive/contracts";
 import type { QueuedRunEdit } from "../../state/queued-run-edit";
 import type { FollowUpBehavior } from "../../lib/followUpBehavior";
-import type { ActiveTurnComposerAction } from "@t3tools/client-runtime/state/composer-dispatch";
+import type { ActiveTurnComposerAction } from "@lnsflive/client-runtime/state/composer-dispatch";
 import * as Haptics from "expo-haptics";
 import {
   useCallback,
@@ -121,7 +121,7 @@ import {
   useNativeLayoutMetrics,
 } from "../../native/native-layout-metrics";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
-import { collectProviderUsageLimits } from "@t3tools/shared/usageLimits";
+import { collectProviderUsageLimits } from "@lnsflive/shared/usageLimits";
 import type { ComposerEditorHandle } from "../../components/ComposerEditor";
 import type { StatusTone } from "../../components/StatusPill";
 import { getComposerDraftSnapshot } from "../../state/use-composer-drafts";

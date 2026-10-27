@@ -8,26 +8,26 @@ import {
   type ToolActivityIcon,
   type OrchestrationV2TurnItem,
   type ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   resolveJMcpSummaryAction,
   resolveJMcpToolDefinition,
   type JMcpToolDefinition,
   type JMcpToolSummaryAction,
-} from "@t3tools/shared/jMcpToolPresentation";
-import { classifyMarkdownImageSource } from "@t3tools/client-runtime/markdown-images";
-import { resolveMediaSource } from "@t3tools/client-runtime/media-source";
-import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
-import { isWorkspaceImagePreviewPath } from "@t3tools/shared/mediaPreview";
-import { formatTokens } from "@t3tools/shared/usageFormat";
-import { classifyToolActivity } from "@t3tools/shared/toolActivity";
-import { toolOutputIndicatesFailure } from "@t3tools/shared/toolOutput";
+} from "@lnsflive/shared/jMcpToolPresentation";
+import { classifyMarkdownImageSource } from "@lnsflive/client-runtime/markdown-images";
+import { resolveMediaSource } from "@lnsflive/client-runtime/media-source";
+import { sourceControlClients } from "@lnsflive/client-runtime/source-control-clients";
+import { isWorkspaceImagePreviewPath } from "@lnsflive/shared/mediaPreview";
+import { formatTokens } from "@lnsflive/shared/usageFormat";
+import { classifyToolActivity } from "@lnsflive/shared/toolActivity";
+import { toolOutputIndicatesFailure } from "@lnsflive/shared/toolOutput";
 
 import {
   summarizeJCodeToolCalls,
   jcodeToolResultIndicatesFailure,
   type JCodeToolSummaryCall,
-} from "@t3tools/client-runtime/jcodeToolSummary";
+} from "@lnsflive/client-runtime/jcodeToolSummary";
 
 export type WorkLogToolLifecycleStatus = RuntimeItemStatus | "stopped" | "idle";
 
@@ -80,7 +80,7 @@ export function contextCompactionLabel(item: CompactionLabelItem): string {
 }
 
 export interface WorkLogPresentationEntry {
-  readonly questionAnswer?: import("@t3tools/contracts").UserInputAttachmentAnswerPayload;
+  readonly questionAnswer?: import("@lnsflive/contracts").UserInputAttachmentAnswerPayload;
   readonly id: string;
   readonly createdAt: string;
   readonly label: string;
@@ -538,32 +538,32 @@ export function summarizeToolGroup(entries: ReadonlyArray<WorkLogPresentationEnt
     ToolGroupAction | JMcpToolSummaryAction,
     {
       action: ToolGroupAction;
-      t3Action: JMcpToolSummaryAction | null;
+      jcodeAction: JMcpToolSummaryAction | null;
       entries: WorkLogPresentationEntry[];
     }
   >();
   const sources = new Map<string, ToolActivitySource>();
   for (const entry of entries) {
-    const t3Action = resolveJMcpSummaryAction(
+    const jcodeAction = resolveJMcpSummaryAction(
       workEntryToolName(entry),
       jcodeToolSummaryCall(entry).input,
     );
-    if (entry.toolSource && t3Action === null) {
+    if (entry.toolSource && jcodeAction === null) {
       sources.set(entry.toolSource.key, entry.toolSource);
       continue;
     }
     const action = toolGroupAction(entry);
-    const key = t3Action ?? action;
+    const key = jcodeAction ?? action;
     const group = groups.get(key);
     if (group) group.entries.push(entry);
-    else groups.set(key, { action, t3Action, entries: [entry] });
+    else groups.set(key, { action, jcodeAction, entries: [entry] });
   }
   const summaries = [...groups].map(([action, group], index) => ({
     index,
     count: group.entries.length,
     priority: summaryActionPriority(action),
-    ...(group.t3Action
-      ? summarizeJCodeToolCalls(group.t3Action, group.entries.map(jcodeToolSummaryCall))
+    ...(group.jcodeAction
+      ? summarizeJCodeToolCalls(group.jcodeAction, group.entries.map(jcodeToolSummaryCall))
       : {
           label: toolGroupActionLabel(
             group.action,

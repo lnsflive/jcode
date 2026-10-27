@@ -154,13 +154,13 @@ describe("index.html boot script", () => {
     { name: "no stored preference on a dark OS", storage: {}, prefersDark: true },
     {
       name: "JCode Chat follows a dark OS",
-      storage: { [THEME_STORAGE_KEY]: "t3-chat", [THEME_FOLLOW_SYSTEM_STORAGE_KEY]: "true" },
+      storage: { [THEME_STORAGE_KEY]: "jcode-chat", [THEME_FOLLOW_SYSTEM_STORAGE_KEY]: "true" },
       prefersDark: true,
     },
     {
       name: "an explicit global dark mode applies to JCode Chat",
       storage: {
-        [THEME_STORAGE_KEY]: "t3-chat",
+        [THEME_STORAGE_KEY]: "jcode-chat",
         [THEME_APPEARANCE_MODE_STORAGE_KEY]: "dark",
         [THEME_FOLLOW_SYSTEM_STORAGE_KEY]: "false",
       },
@@ -187,13 +187,13 @@ describe("index.html boot script", () => {
       prefersDark: true,
     },
     {
-      name: "a legacy t3-grove preference resolves through the alias",
-      storage: { [THEME_STORAGE_KEY]: "t3-grove", [THEME_FOLLOW_SYSTEM_STORAGE_KEY]: "true" },
+      name: "a legacy jcode-grove preference resolves through the alias",
+      storage: { [THEME_STORAGE_KEY]: "jcode-grove", [THEME_FOLLOW_SYSTEM_STORAGE_KEY]: "true" },
       prefersDark: true,
     },
     {
-      name: "legacy t3-chat-dark resolves to dark JCode Chat",
-      storage: { [THEME_STORAGE_KEY]: "t3-chat-dark" },
+      name: "legacy jcode-chat-dark resolves to dark JCode Chat",
+      storage: { [THEME_STORAGE_KEY]: "jcode-chat-dark" },
       prefersDark: true,
     },
     {
@@ -309,7 +309,7 @@ describe("index.html boot script", () => {
 
   it("applies the matching half of an automatic mix to the splash", () => {
     const storage = {
-      [THEME_STORAGE_KEY]: "t3-chat",
+      [THEME_STORAGE_KEY]: "jcode-chat",
       [THEME_APPEARANCE_MODE_STORAGE_KEY]: "system",
       "jcode:theme-halves:v1": JSON.stringify({ dark: GROVE_THEME.id }),
     };
@@ -323,7 +323,7 @@ describe("index.html boot script", () => {
 
     const light = runBootScript({ storage, prefersDark: false });
     expect(light.isDark).toBe(false);
-    expect(light.themeId).toBe("t3-chat");
+    expect(light.themeId).toBe("jcode-chat");
     expect(light.bootVariables["--boot-background"]).toBe(
       getThemeColorsForMode(J_CHAT_THEME, "light")!.canvas,
     );

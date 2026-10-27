@@ -1,7 +1,7 @@
-import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
-import { resolveProviderInstanceDisplayName } from "@t3tools/client-runtime/state/provider-instance-display";
-import { resolveSubagentMetadata } from "@t3tools/client-runtime/state/subagent-display";
-import type { EnvironmentId, OrchestrationV2Subagent } from "@t3tools/contracts";
+import { scopeProjectRef, scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import { resolveProviderInstanceDisplayName } from "@lnsflive/client-runtime/state/provider-instance-display";
+import { resolveSubagentMetadata } from "@lnsflive/client-runtime/state/subagent-display";
+import type { EnvironmentId, OrchestrationV2Subagent } from "@lnsflive/contracts";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 
@@ -45,7 +45,7 @@ export function SubagentRow(props: {
           <View className="min-w-0 flex-1 flex-row items-baseline gap-1.5">
             <Text
               numberOfLines={1}
-              className="min-w-0 shrink font-t3-medium text-sm text-foreground"
+              className="min-w-0 shrink font-jcode-medium text-sm text-foreground"
             >
               {presentation.title}
             </Text>
@@ -58,7 +58,7 @@ export function SubagentRow(props: {
             </Text>
             <Text
               className={cn(
-                "shrink-0 text-xs font-t3-medium",
+                "shrink-0 text-xs font-jcode-medium",
                 SUBAGENT_TONE_TEXT_CLASS[presentation.tone],
               )}
             >

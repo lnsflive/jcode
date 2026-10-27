@@ -11,7 +11,7 @@ import * as NodeVM from "node:vm";
 import * as NodeZlib from "node:zlib";
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import { OrchestratorMcpTaskRole, ProviderInstanceId } from "@t3tools/contracts";
+import { OrchestratorMcpTaskRole, ProviderInstanceId } from "@lnsflive/contracts";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -29,8 +29,8 @@ import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http";
 import { taskPrompt } from "../../apps/server/src/mcp/OrchestratorMcpService.ts";
 import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.ts";
 import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.ts";
-import { ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } from "@t3tools/contracts";
-import { formatThreadLink } from "@t3tools/shared/threadLinks";
+import { ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } from "@lnsflive/contracts";
+import { formatThreadLink } from "@lnsflive/shared/threadLinks";
 import { buildCodexAdditionalContext } from "../../apps/server/src/provider/CodexDeveloperInstructions.ts";
 import { AttachmentToolkit } from "../../apps/server/src/mcp/toolkits/attachment/tools.ts";
 import { DeviceToolkit } from "../../apps/server/src/mcp/toolkits/device/tools.ts";
@@ -70,7 +70,7 @@ const PRICES = {
   "claude-opus-5-5": { input: 4, output: 20, cacheWrite: 5, cacheRead: 0.2 },
 };
 type PricedModel = keyof typeof PRICES;
-const T3_PREFIX = "mcp__jcode__";
+const JCODE_PREFIX = "mcp__jcode__";
 const RUNTIME_MARKER = "<runtime_info>";
 const TOOL_LOADED = "Tool loaded.";
 const DEFERRED_LIST =
@@ -260,7 +260,8 @@ const toolResult = (id: string, content: unknown): Block => ({
 });
 const texts = (content: typeof Content.Type) =>
   typeof content === "string" ? [content] : content.flatMap((block) => block.text ?? []);
-const isT3Name = (name: string) => name.startsWith(T3_PREFIX) || name.startsWith("mcp__jcode__");
+const isJCodeName = (name: string) =>
+  name.startsWith(JCODE_PREFIX) || name.startsWith("mcp__jcode__");
 const hasTool = (tools: ReadonlyArray<ApiTool>, name: string) =>
   tools.some((tool) => tool.name === name);
 
@@ -276,8 +277,8 @@ const CODEX_NAMES: Readonly<Record<string, string>> = {
 };
 export const normalizeToolName = (name: string) => {
   const bare = name.slice(name.lastIndexOf(".") + 1);
-  return isT3Name(bare)
-    ? bare.slice(T3_PREFIX.length)
+  return isJCodeName(bare)
+    ? bare.slice(JCODE_PREFIX.length)
     : (CODEX_NAMES[bare] ?? bare.slice(bare.lastIndexOf("_") + 1));
 };
 export const normalizeToolInput = (name: string, input: unknown) =>
@@ -289,7 +290,7 @@ export const normalizeToolInput = (name: string, input: unknown) =>
 
 // McpHttpServer advertises each tool's JSON schema, and Claude Code passes the MCP name,
 // description, and schema through unchanged.
-const t3SourceTools: ReadonlyArray<Tool.Any> = [
+const jcodeSourceTools: ReadonlyArray<Tool.Any> = [
   OrchestratorToolkit,
   ThreadToolkit,
   AttachmentToolkit,
@@ -302,26 +303,26 @@ const t3SourceTools: ReadonlyArray<Tool.Any> = [
   DeviceToolkit,
   HtmlToolkit,
 ].flatMap((toolkit): ReadonlyArray<Tool.Any> => Object.values(toolkit.tools));
-const t3Tools: ReadonlyArray<ApiTool> = t3SourceTools.map((tool) => ({
-  name: `${T3_PREFIX}${tool.name}`,
+const jcodeTools: ReadonlyArray<ApiTool> = jcodeSourceTools.map((tool) => ({
+  name: `${JCODE_PREFIX}${tool.name}`,
   description: Tool.getDescription(tool) ?? "",
   input_schema: advertisedJsonSchema(tool),
 }));
 // JCode does not offer these to a delegated child, so its harness never lists them.
 const hiddenFromSubagents = new Set(
-  t3SourceTools
+  jcodeSourceTools
     .filter(
       (tool) =>
         Context.getOrUndefined(tool.annotations, McpSchema.EnabledWhen) ===
         McpInvocationContext.hiddenFromSubagents,
     )
-    .map((tool) => `${T3_PREFIX}${tool.name}`),
+    .map((tool) => `${JCODE_PREFIX}${tool.name}`),
 );
-const visibleT3Tools = (subagent: boolean) =>
-  subagent ? t3Tools.filter((tool) => !hiddenFromSubagents.has(tool.name)) : t3Tools;
+const visibleJCodeTools = (subagent: boolean) =>
+  subagent ? jcodeTools.filter((tool) => !hiddenFromSubagents.has(tool.name)) : jcodeTools;
 
 /** Text JCode appends to Claude Code's system prompt. Delegated children get the same text. */
-export const t3SystemAppend = (model: Model) => {
+export const jcodeSystemAppend = (model: Model) => {
   const { systemPrompt } = makeClaudeQueryOptions({
     modelSelection: { instanceId: ProviderInstanceId.make(CLAUDE_PROVIDER), model },
     nativeThreadId: "mcp-tool-use-eval",
@@ -340,14 +341,17 @@ export const t3SystemAppend = (model: Model) => {
  * descriptions and schemas (loaded on demand here, sent up front by harnesses without
  * deferred tools). Tokens are estimated at 4 characters each.
  */
-const t3ContextReport = (model: Model) => {
+const jcodeContextReport = (model: Model) => {
   const size = (chars: number) => `${chars} chars (~${Math.round(chars / 4)} tokens)`;
-  const descriptions = t3Tools.reduce((sum, tool) => sum + valueText(tool.description).length, 0);
-  const schemas = JSON.stringify(t3Tools).length;
+  const descriptions = jcodeTools.reduce(
+    (sum, tool) => sum + valueText(tool.description).length,
+    0,
+  );
+  const schemas = JSON.stringify(jcodeTools).length;
   return [
-    `- JCode context: system text ${size((isCodex(model) ? JSON.stringify(buildCodexAdditionalContext({ model }, { browser: true, device: true })) : t3SystemAppend(model)).length)}`,
+    `- JCode context: system text ${size((isCodex(model) ? JSON.stringify(buildCodexAdditionalContext({ model }, { browser: true, device: true })) : jcodeSystemAppend(model)).length)}`,
     `tool descriptions ${size(descriptions)}`,
-    `full tool schemas ${size(schemas)} across ${t3Tools.length} tools.`,
+    `full tool schemas ${size(schemas)} across ${jcodeTools.length} tools.`,
   ].join(", ");
 };
 
@@ -383,7 +387,7 @@ export const buildBase = (
     readonly subagent?: boolean;
   },
 ) => {
-  const t3 = visibleT3Tools(options.subagent === true);
+  const jcode = visibleJCodeTools(options.subagent === true);
   const firstAssistant = template.messages.findIndex((message) => message.role === "assistant");
   const head = template.messages.slice(0, firstAssistant === -1 ? undefined : firstAssistant);
   const systemTexts = [
@@ -396,10 +400,10 @@ export const buildBase = (
   if (systemTexts.filter((value) => value.includes(RUNTIME_MARKER)).length !== 1 || !deferredList) {
     throw new Error(`The template needs one ${RUNTIME_MARKER} block and a deferred tool list.`);
   }
-  const nativeDeferred = deferredList.split("\n").filter((name) => name && !isT3Name(name));
-  const names = [...nativeDeferred, ...t3.map((tool) => tool.name)].toSorted().join("\n");
+  const nativeDeferred = deferredList.split("\n").filter((name) => name && !isJCodeName(name));
+  const names = [...nativeDeferred, ...jcode.map((tool) => tool.name)].toSorted().join("\n");
   const { model } = options;
-  const append = t3SystemAppend(model);
+  const append = jcodeSystemAppend(model);
   const modelLine = `You are powered by the model named ${MODELS[model]}. The exact model ID is ${model}.`;
   const joined = systemTexts.join("\n");
   // The capture's home directory names its user. Cases use `/home/user` paths instead.
@@ -439,10 +443,10 @@ export const buildBase = (
       platform: /Platform: (\w+)/.exec(joined)?.[1] ?? "linux",
       date: /Today's date is ([\d-]+)/.exec(reminders.join("\n"))?.[1],
     },
-    nativeTools: template.tools.filter((tool) => !isT3Name(tool.name)),
+    nativeTools: template.tools.filter((tool) => !isJCodeName(tool.name)),
     /** Tools ToolSearch loads: JCode tools from source, and native tools the template only names. */
-    t3,
-    deferred: [...t3, ...nativeDeferred.map((name) => ({ name, ...nativeSchema(name) }))],
+    jcode,
+    deferred: [...jcode, ...nativeDeferred.map((name) => ({ name, ...nativeSchema(name) }))],
   };
 };
 
@@ -458,7 +462,7 @@ const buildCodexBase = (
     readonly subagent?: boolean;
   },
 ): Base => {
-  const t3 = visibleT3Tools(options.subagent === true);
+  const jcode = visibleJCodeTools(options.subagent === true);
   const contentText = (item: Block) =>
     Array.isArray(item.content)
       ? item.content.map((block: Block) => valueText(block.text)).join("\n")
@@ -518,8 +522,8 @@ const buildCodexBase = (
       date: /<current_date>(.*?)<\/current_date>/.exec(joined)?.[1],
     },
     nativeTools,
-    t3,
-    deferred: [...t3],
+    jcode,
+    deferred: [...jcode],
     codex: { ...template, input, reasoning: { ...template.reasoning, effort } },
   };
 };
@@ -778,7 +782,7 @@ const pullRequest = (repo: string, input: Readonly<Record<string, unknown>>) => 
 };
 
 /** A believable JCode result for a tool the case does not mock. */
-const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, unknown>>) => {
+const jcodeDefault = (sample: Sample, name: string, input: Readonly<Record<string, unknown>>) => {
   const pr = () => pullRequest(sample.repo, input);
   switch (name) {
     case "orchestrator_capabilities":
@@ -826,7 +830,7 @@ const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, 
       const home =
         /^\/(?:home|Users)\/[^/]+/.exec(sample.base.environment.cwd)?.[0] ?? "/home/user";
       return input.delivery === "file"
-        ? { status: "saved", file: `${home}/.t3/userdata/secrets/files/${id}` }
+        ? { status: "saved", file: `${home}/.jcode/userdata/secrets/files/${id}` }
         : { status: "saved", secretRef: `secret-ref:${id}` };
     }
     case "unlink_pull_request":
@@ -846,7 +850,7 @@ const t3Default = (sample: Sample, name: string, input: Readonly<Record<string, 
         })),
         chains: [],
       };
-    case "t3_thread_read": {
+    case "jcode_thread_read": {
       const threadId = valueText(input.threadId);
       const { title, status, items } = DEFAULT_THREAD;
       return { thread: { threadId, title, status }, items, nextPosition: 3, hasMore: false };
@@ -890,15 +894,15 @@ const withProductFields = (name: string, value: unknown, child: boolean): unknow
       const running = task.status === "running" && task.next === undefined;
       return running ? { ...task, next: ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } : task;
     }
-    case "t3_thread_read":
+    case "jcode_thread_read":
       return { ...value, thread: linked(value.thread) };
-    case "t3_thread_launch":
-    case "t3_thread_send":
+    case "jcode_thread_launch":
+    case "jcode_thread_send":
       return linked(value);
-    case "t3_thread_list":
+    case "jcode_thread_list":
     case "create_threads":
       return listed("threads");
-    case "t3_thread_search":
+    case "jcode_thread_search":
       return listed("matches");
     case "link_pull_request":
       return child ? { ...value, next: CHILD_PULL_REQUEST_REPORT_NEXT } : value;
@@ -1092,12 +1096,12 @@ const answerToolCall = Effect.fn("evaluateMcpToolUse.answerToolCall")(function* 
         ? capabilities(sample, mock)
         : withProductFields(name, mock, testCase.setup.role === "delegated-child"),
     );
-  if (isT3Name(call.name)) {
+  if (isJCodeName(call.name)) {
     // JCode refuses a watch from a delegated child.
     if (name === "watch_pull_request" && testCase.setup.role === "delegated-child") {
       return failed(SUBAGENT_WATCH_ERROR);
     }
-    const value = t3Default(sample, name, input);
+    const value = jcodeDefault(sample, name, input);
     return toolResult(
       call.id,
       name === "orchestrator_capabilities"
@@ -1271,7 +1275,7 @@ export const executeCodex = async (
 };
 
 const codexCatalog = (base: Base) => [
-  ...base.t3.map((tool) => ({
+  ...base.jcode.map((tool) => ({
     name: tool.name.replace("mcp__jcode__", "mcp__jcode__"),
     description: `${valueText(tool.description)}\nInput JSON schema: ${JSON.stringify(tool.input_schema)}`,
   })),
@@ -1474,7 +1478,7 @@ const runSample = Effect.fn("evaluateMcpToolUse.runSample")(function* (
           return answerToolCall(sample, config, call).pipe(
             Effect.map((result) => {
               const output = valueText(result.content);
-              if (isT3Name(name))
+              if (isJCodeName(name))
                 return {
                   content: [text(output)],
                   ...(!result.is_error
@@ -1670,7 +1674,7 @@ const main = Effect.gen(function* () {
   });
   const flags = yield* decodeFlags({ template: "", ...values });
   if (flags.context) {
-    process.stdout.write(`${t3ContextReport(flags.model)}\n`);
+    process.stdout.write(`${jcodeContextReport(flags.model)}\n`);
     return;
   }
   if (flags["stop-on-regression"] && flags.baseline === undefined) {
@@ -1846,7 +1850,7 @@ const main = Effect.gen(function* () {
   const summary = summarize(
     rows,
     {
-      header: [header, t3ContextReport(flags.model), ...stopped].join("\n"),
+      header: [header, jcodeContextReport(flags.model), ...stopped].join("\n"),
       shellModel: config.shellModel,
       model: config.model,
     },

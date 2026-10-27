@@ -5,7 +5,7 @@ import {
   MODEL_PICKER_JUMP_KEYBINDING_COMMANDS,
   type ScopedThreadRef,
   THREAD_JUMP_KEYBINDING_COMMANDS,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   type HtmlRenderShortcut,
   htmlRenderShortcutsMessage,
@@ -16,12 +16,12 @@ import {
   readHtmlRenderImageRequest,
   readHtmlRenderKeyDown,
   readHtmlRenderLinkRequest,
-} from "@t3tools/shared/htmlRender";
+} from "@lnsflive/shared/htmlRender";
 import {
   isMacPlatform,
   matchesKeybindingShortcut,
   normalizeEventKey,
-} from "@t3tools/shared/keybindings";
+} from "@lnsflive/shared/keybindings";
 import {
   lazy,
   Suspense,

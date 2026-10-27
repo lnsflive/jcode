@@ -13,7 +13,7 @@ import { JCodeConnectProfilePage } from "../cloud/JCodeConnectProfilePage";
 
 const USER_PROFILE_CUSTOM_PAGES = [
   {
-    path: "t3-connect",
+    path: "jcode-connect",
     label: "JCode Connect",
     icon: "globe",
     content: <JCodeConnectProfilePage />,

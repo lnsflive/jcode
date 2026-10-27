@@ -1,6 +1,6 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
@@ -38,7 +38,7 @@ it.layer(NodeServices.layer)("root CLI commands", (it) => {
 
   it.effect("keeps a user-installed Node reachable when the command runs under sudo", () =>
     Effect.gen(function* () {
-      const npx = "/home/theo/.npm/_npx/abc/node_modules/t3/dist/bin.mjs";
+      const npx = "/home/theo/.npm/_npx/abc/node_modules/jcode/dist/bin.mjs";
       expect(yield* rootCommand({ node: "/usr/bin/node", entry: npx })).toBe(
         "sudo npx @lnsflive/jcode browser setup",
       );
@@ -48,7 +48,7 @@ it.layer(NodeServices.layer)("root CLI commands", (it) => {
       expect(
         yield* rootCommand({
           node: "/home/theo/.local/node/bin/node",
-          entry: "/home/theo/.local/lib/node_modules/t3/dist/bin.mjs",
+          entry: "/home/theo/.local/lib/node_modules/jcode/dist/bin.mjs",
           path: yield* pathWithJCode,
         }),
       ).toBe('sudo env "PATH=$PATH" jcode browser setup');
@@ -77,11 +77,11 @@ it.layer(NodeServices.layer)("root CLI commands", (it) => {
 
       expect(
         yield* rootCommand({
-          node: "/opt/t3/t3",
-          entry: "/opt/t3/t3",
+          node: "/opt/jcode/jcode",
+          entry: "/opt/jcode/jcode",
           executable: true,
         }),
-      ).toBe("sudo /opt/t3/t3 browser setup");
+      ).toBe("sudo /opt/jcode/jcode browser setup");
 
       expect(
         yield* rootCommand({ ...desktop, env: { JCODE_CLI_PATH: path.join(home, "gone") } }),
@@ -96,13 +96,13 @@ it.layer(NodeServices.layer)("host CLI commands", (it) => {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const home = yield* fs.makeTempDirectoryScoped();
-      const shim = path.join(home, "t3.cmd");
+      const shim = path.join(home, "jcode.cmd");
       yield* fs.writeFileString(shim, "@echo off\r\n");
       const hostCommand = (platform: NodeJS.Platform, env: Record<string, string>) =>
-        resolveHostCliCommand("doctor", ["--base-dir", "C:\\Users\\Jane Doe\\.t3"]).pipe(
-          Effect.provideService(HostProcess.ExecutablePath, "C:\\Program Files\\JCode\\t3.exe"),
+        resolveHostCliCommand("doctor", ["--base-dir", "C:\\Users\\Jane Doe\\.jcode"]).pipe(
+          Effect.provideService(HostProcess.ExecutablePath, "C:\\Program Files\\JCode\\jcode.exe"),
           Effect.provideService(HostProcess.Arguments, [
-            "C:\\Program Files\\JCode\\t3.exe",
+            "C:\\Program Files\\JCode\\jcode.exe",
             "C:\\Program Files\\JCode\\resources\\app.asar\\apps\\server\\dist\\bin.mjs",
           ]),
           Effect.provideService(HostProcess.IsExecutable, false),
@@ -110,22 +110,25 @@ it.layer(NodeServices.layer)("host CLI commands", (it) => {
           Effect.provideService(HostProcess.Environment, { PATH: "", ...env }),
         );
       expect((yield* hostCommand("win32", { JCODE_CLI_PATH: shim })).command).toBe(
-        `& "${shim}" doctor "--base-dir" "C:\\Users\\Jane Doe\\.t3"`,
+        `& "${shim}" doctor "--base-dir" "C:\\Users\\Jane Doe\\.jcode"`,
       );
       expect((yield* hostCommand("win32", {})).command).toBe(
-        'jcode doctor "--base-dir" "C:\\Users\\Jane Doe\\.t3"',
+        'jcode doctor "--base-dir" "C:\\Users\\Jane Doe\\.jcode"',
       );
       expect(
-        (yield* resolveHostCliCommand("doctor", ["--base-dir", "C:\\T3\\\u201CArchive\u201D"]).pipe(
+        (yield* resolveHostCliCommand("doctor", [
+          "--base-dir",
+          "C:\\JCode\\\u201CArchive\u201D",
+        ]).pipe(
           Effect.provideService(HostProcess.Platform, "win32"),
           Effect.provideService(HostProcess.Environment, { PATH: "" }),
-          Effect.provideService(HostProcess.ExecutablePath, "C:\\t3.exe"),
-          Effect.provideService(HostProcess.Arguments, ["C:\\t3.exe", "C:\\bin.mjs"]),
+          Effect.provideService(HostProcess.ExecutablePath, "C:\\jcode.exe"),
+          Effect.provideService(HostProcess.Arguments, ["C:\\jcode.exe", "C:\\bin.mjs"]),
           Effect.provideService(HostProcess.IsExecutable, false),
         )).command,
-      ).toBe('jcode doctor "--base-dir" "C:\\T3\\\u201C\u201CArchive\u201D\u201D"');
+      ).toBe('jcode doctor "--base-dir" "C:\\JCode\\\u201C\u201CArchive\u201D\u201D"');
       expect((yield* hostCommand("linux", { JCODE_CLI_PATH: shim })).command).toMatch(
-        / doctor --base-dir 'C:\\Users\\Jane Doe\\\.t3'$/,
+        / doctor --base-dir 'C:\\Users\\Jane Doe\\\.jcode'$/,
       );
     }).pipe(Effect.scoped),
   );
@@ -137,14 +140,14 @@ it.layer(NodeServices.layer)("manual server installation ownership", (it) => {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const root = yield* fs.makeTempDirectoryScoped();
-      const executable = path.join(root, ".t3/runtime/versions/1.0.0/t3");
+      const executable = path.join(root, ".jcode/runtime/versions/1.0.0/jcode");
       yield* fs.makeDirectory(path.dirname(executable), { recursive: true });
       yield* fs.writeFileString(executable, "");
       for (const [relative, kind] of [
-        ["npm/_npx/hash/node_modules/t3/dist/bin.mjs", "npx"],
+        ["npm/_npx/hash/node_modules/jcode/dist/bin.mjs", "npx"],
         ["npm/_npx/hash/node_modules/@lnsflive/jcode/bin/jcode.mjs", "npx"],
-        ["pnpm/dlx/hash/node_modules/t3/dist/bin.mjs", "pnpm-dlx"],
-        [".bun/install/cache/t3/dist/bin.mjs", "bunx"],
+        ["pnpm/dlx/hash/node_modules/jcode/dist/bin.mjs", "pnpm-dlx"],
+        [".bun/install/cache/jcode/dist/bin.mjs", "bunx"],
       ] as const) {
         const entry = path.join(root, relative);
         yield* fs.makeDirectory(path.dirname(entry), { recursive: true });
@@ -193,7 +196,7 @@ it.layer(NodeServices.layer)("manual server installation ownership", (it) => {
       yield* fs.symlink(entry, globalBin);
       expect(yield* resolve).toEqual({ kind: "npm-global", prefix });
       yield* fs.remove(globalBin);
-      yield* fs.writeFileString(globalBin, "an unrelated t3 command");
+      yield* fs.writeFileString(globalBin, "an unrelated jcode command");
       expect(yield* resolve).toBeNull();
       expect(yield* resolve.pipe(Effect.provideService(HostProcess.Platform, "win32"))).toBeNull();
     }),
@@ -207,7 +210,7 @@ it.layer(NodeServices.layer)("manual server installation ownership", (it) => {
       const prefix = path.join(root, "bunx-tools");
       const packageRoot = path.join(prefix, "lib/node_modules/@lnsflive/jcode");
       const launcher = path.join(packageRoot, "bin/jcode.mjs");
-      const executable = path.join(root, ".t3/runtime/versions/1.0.0/t3");
+      const executable = path.join(root, ".jcode/runtime/versions/1.0.0/jcode");
       yield* fs.makeDirectory(path.dirname(launcher), { recursive: true });
       yield* fs.makeDirectory(path.dirname(executable), { recursive: true });
       yield* fs.makeDirectory(path.join(prefix, "bin"));
@@ -240,9 +243,9 @@ it.layer(NodeServices.layer)("manual server installation ownership", (it) => {
       const path = yield* Path.Path;
       const root = yield* fs.makeTempDirectoryScoped();
       for (const relative of [
-        "project/node_modules/t3/dist/bin.mjs",
+        "project/node_modules/jcode/dist/bin.mjs",
         "project/apps/server/dist/bin.mjs",
-        ".t3/runtime/0.0.45/t3",
+        ".jcode/runtime/0.0.45/jcode",
         "missing/dist/bin.mjs",
       ]) {
         const entry = path.join(root, relative);

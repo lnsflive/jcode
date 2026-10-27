@@ -1,10 +1,10 @@
 import { writeTextToClipboard } from "../hooks/useCopyToClipboard";
-import { formatFilePathForClipboard } from "@t3tools/client-runtime/media-actions";
+import { formatFilePathForClipboard } from "@lnsflive/client-runtime/media-actions";
 import { readLocalApi } from "../localApi";
 import { stackedThreadToast, toastManager } from "./ui/toast";
 import { ComposerContextLabel } from "./ComposerContextLabel";
-import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
-import type { EnvironmentId, ProjectId, ThreadId } from "@t3tools/contracts";
+import { scopeProjectRef, scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import type { EnvironmentId, ProjectId, ThreadId } from "@lnsflive/contracts";
 import {
   ChevronDownIcon,
   FolderGit2Icon,

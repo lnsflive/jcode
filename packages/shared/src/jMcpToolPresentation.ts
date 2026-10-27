@@ -146,28 +146,31 @@ const J_MCP_TOOLS: Readonly<Record<string, JMcpToolDefinition>> = {
   ),
   request_secret: tool(["Ask for", "Asking for", "Asked for", "a secret"], "secret-request"),
   create_threads: tool(["Create", "Creating", "Created", "JCode threads"], "thread-create"),
-  t3_thread_start: tool(["Start", "Starting", "Started", "a JCode thread"], "thread-create"),
-  t3_thread_list: tool(["List", "Listing", "Listed", "JCode threads"], "thread-list"),
-  t3_thread_read: tool(["Read", "Reading", "Read", "a JCode thread"], "thread-read"),
-  t3_thread_send: tool(["Send", "Sending", "Sent", "to a JCode thread"], "thread-send"),
-  t3_thread_wait: tool(["Wait", "Waiting", "Waited", "for a JCode thread"], "thread-wait"),
-  t3_workflow_stop: tool(
+  jcode_thread_start: tool(["Start", "Starting", "Started", "a JCode thread"], "thread-create"),
+  jcode_thread_list: tool(["List", "Listing", "Listed", "JCode threads"], "thread-list"),
+  jcode_thread_read: tool(["Read", "Reading", "Read", "a JCode thread"], "thread-read"),
+  jcode_thread_send: tool(["Send", "Sending", "Sent", "to a JCode thread"], "thread-send"),
+  jcode_thread_wait: tool(["Wait", "Waiting", "Waited", "for a JCode thread"], "thread-wait"),
+  jcode_workflow_stop: tool(
     ["Stop", "Stopping", "Requested a stop for", "a workflow"],
     "workflow-stop",
   ),
-  t3_background_wait: tool(
+  jcode_background_wait: tool(
     ["Update", "Updating", "Updated", "background waits"],
     "background-wait",
   ),
-  t3_thread_interrupt: tool(
+  jcode_thread_interrupt: tool(
     ["Interrupt", "Interrupting", "Requested an interrupt of", "a JCode thread"],
     "thread-interrupt",
   ),
-  t3_worktree_handoff: tool(
+  jcode_worktree_handoff: tool(
     ["Hand off", "Handing off", "Handed off", "thread to a git worktree"],
     "worktree-handoff",
   ),
-  t3_worktree_status: tool(["Get", "Getting", "Got", "thread worktree status"], "worktree-status"),
+  jcode_worktree_status: tool(
+    ["Get", "Getting", "Got", "thread worktree status"],
+    "worktree-status",
+  ),
   preview_status: tool(["Get", "Getting", "Got", "preview browser status"], "browser", "browser"),
   preview_open: tool(
     ["Open", "Opening", "Opened", "a page in the preview browser"],
@@ -273,77 +276,98 @@ const J_MCP_TOOLS: Readonly<Record<string, JMcpToolDefinition>> = {
     ["Run", "Running", "Requested a run of", "a scheduled task"],
     "schedule-run",
   ),
-  t3_queue: tool(["Manage", "Managing", "Managed", "queued messages"], "queue-edit"),
-  t3_pending_request: tool(
+  jcode_queue: tool(["Manage", "Managing", "Managed", "queued messages"], "queue-edit"),
+  jcode_pending_request: tool(
     ["Handle", "Handling", "Handled", "pending questions"],
     "question-respond",
   ),
-  t3_queue_list: tool(["List", "Listing", "Listed", "queued messages"], "queue-list"),
-  t3_queue_read: tool(["Read", "Reading", "Read", "a queued message"], "queue-read"),
-  t3_queue_edit: tool(["Edit", "Editing", "Edited", "a queued message"], "queue-edit"),
-  t3_queue_cancel: tool(
+  jcode_queue_list: tool(["List", "Listing", "Listed", "queued messages"], "queue-list"),
+  jcode_queue_read: tool(["Read", "Reading", "Read", "a queued message"], "queue-read"),
+  jcode_queue_edit: tool(["Edit", "Editing", "Edited", "a queued message"], "queue-edit"),
+  jcode_queue_cancel: tool(
     ["Cancel", "Canceling", "Requested cancellation of", "a queued run"],
     "queue-cancel",
   ),
-  t3_queue_reorder: tool(["Reorder", "Reordering", "Reordered", "a queued run"], "queue-reorder"),
-  t3_queue_promote_to_steer: tool(
+  jcode_queue_reorder: tool(
+    ["Reorder", "Reordering", "Reordered", "a queued run"],
+    "queue-reorder",
+  ),
+  jcode_queue_promote_to_steer: tool(
     ["Steer with", "Steering with", "Requested steering with", "a queued message"],
     "queue-steer",
   ),
-  t3_pending_request_list: tool(
+  jcode_pending_request_list: tool(
     ["List", "Listing", "Listed", "pending questions"],
     "question-list",
   ),
-  t3_pending_request_read: tool(["Read", "Reading", "Read", "pending questions"], "question-read"),
-  t3_pending_request_respond: tool(
+  jcode_pending_request_read: tool(
+    ["Read", "Reading", "Read", "pending questions"],
+    "question-read",
+  ),
+  jcode_pending_request_respond: tool(
     ["Answer", "Answering", "Answered", "pending questions"],
     "question-respond",
   ),
-  t3_thread_configuration: tool(
+  jcode_thread_configuration: tool(
     ["Read", "Reading", "Read", "thread configuration"],
     "thread-configuration",
   ),
-  t3_thread_configure: tool(["Use", "Using", "Used", "thread model settings"], "thread-configure"),
-  t3_thread_transfer: tool(["Use", "Using", "Used", "thread transfers"], "thread-fork"),
-  t3_thread_fork: tool(["Fork", "Forking", "Requested a fork of", "this thread"], "thread-fork"),
-  t3_thread_merge_back: tool(
+  jcode_thread_configure: tool(
+    ["Use", "Using", "Used", "thread model settings"],
+    "thread-configure",
+  ),
+  jcode_thread_transfer: tool(["Use", "Using", "Used", "thread transfers"], "thread-fork"),
+  jcode_thread_fork: tool(["Fork", "Forking", "Requested a fork of", "this thread"], "thread-fork"),
+  jcode_thread_merge_back: tool(
     ["Merge", "Merging", "Requested a merge of", "thread context"],
     "thread-merge",
   ),
-  t3_thread_search: tool(["Search", "Searching", "Searched", "thread content"], "thread-search"),
-  t3_thread_transfers: tool(["Read", "Reading", "Read", "thread transfers"], "thread-transfers"),
-  t3_thread_organize: tool(["Organize", "Organizing", "Organized", "a thread"], "thread-organize"),
-  t3_thread_update: tool(
+  jcode_thread_search: tool(["Search", "Searching", "Searched", "thread content"], "thread-search"),
+  jcode_thread_transfers: tool(["Read", "Reading", "Read", "thread transfers"], "thread-transfers"),
+  jcode_thread_organize: tool(
+    ["Organize", "Organizing", "Organized", "a thread"],
+    "thread-organize",
+  ),
+  jcode_thread_update: tool(
     ["Update", "Updating", "Updated", "JCode thread metadata"],
     "thread-update",
   ),
-  t3_worktree_list: tool(["List", "Listing", "Listed", "workspace branches"], "worktree-list"),
-  t3_preview_list: tool(["List", "Listing", "Listed", "preview tabs"], "browser", "browser"),
-  t3_preview_close: tool(["Close", "Closing", "Closed", "a preview tab"], "browser", "browser"),
-  t3_environment_read: tool(
+  jcode_worktree_list: tool(["List", "Listing", "Listed", "workspace branches"], "worktree-list"),
+  jcode_preview_list: tool(["List", "Listing", "Listed", "preview tabs"], "browser", "browser"),
+  jcode_preview_close: tool(["Close", "Closing", "Closed", "a preview tab"], "browser", "browser"),
+  jcode_environment_read: tool(
     ["Read", "Reading", "Read", "environment preferences"],
     "environment-read",
   ),
-  t3_environment_preferences_update: tool(
+  jcode_environment_preferences_update: tool(
     ["Update", "Updating", "Updated", "environment preferences"],
     "environment-update",
   ),
-  t3_thread_launch: tool(["Launch", "Launching", "Launched", "a project thread"], "thread-create"),
-  t3_project_list: tool(["List", "Listing", "Listed", "projects"], "project-list"),
-  t3_project_read: tool(["Read", "Reading", "Read", "a project"], "project-read"),
-  t3_project_create: tool(["Register", "Registering", "Registered", "a project"], "project-create"),
-  t3_project_update: tool(["Update", "Updating", "Updated", "a project"], "project-update"),
-  t3_project_delete: tool(["Delete", "Deleting", "Deleted", "a project"], "project-delete"),
-  t3_project_clone: tool(["Clone", "Cloning", "Cloned", "a repository"], "project-clone"),
-  t3_attachment_prepare_upload: tool(
+  jcode_thread_launch: tool(
+    ["Launch", "Launching", "Launched", "a project thread"],
+    "thread-create",
+  ),
+  jcode_project_list: tool(["List", "Listing", "Listed", "projects"], "project-list"),
+  jcode_project_read: tool(["Read", "Reading", "Read", "a project"], "project-read"),
+  jcode_project_create: tool(
+    ["Register", "Registering", "Registered", "a project"],
+    "project-create",
+  ),
+  jcode_project_update: tool(["Update", "Updating", "Updated", "a project"], "project-update"),
+  jcode_project_delete: tool(["Delete", "Deleting", "Deleted", "a project"], "project-delete"),
+  jcode_project_clone: tool(["Clone", "Cloning", "Cloned", "a repository"], "project-clone"),
+  jcode_attachment_prepare_upload: tool(
     ["Prepare", "Preparing", "Prepared", "an attachment upload"],
     "attachment-prepare",
   ),
-  t3_attachment_discard: tool(
+  jcode_attachment_discard: tool(
     ["Discard", "Discarding", "Discarded", "a pending attachment"],
     "attachment-discard",
   ),
-  t3_thread_send_attachments: tool(["Send", "Sending", "Sent", "attachments"], "attachment-send"),
+  jcode_thread_send_attachments: tool(
+    ["Send", "Sending", "Sent", "attachments"],
+    "attachment-send",
+  ),
   html_preview: tool(["Preview", "Previewing", "Previewed", "an HTML page"], "html-preview"),
   html_render: tool(["Render", "Rendering", "Rendered", "an HTML page"], "html-render"),
 };
@@ -357,6 +381,7 @@ function normalizeJMcpToolLabel(value: string): string {
 // ACP tool prefixes vary; match loosely but require a known display-name entry.
 function resolveJMcpToolName(value: string): string | null {
   const label = normalizeJMcpToolLabel(value);
+  if (Object.hasOwn(J_MCP_TOOLS, label)) return label;
   const mcpMatch = /^mcp[-_]{1,2}(?<server>.+?)[-_]{1,2}(?<tool>.+)$/i.exec(label);
   if (mcpMatch?.groups) {
     const { server, tool } = mcpMatch.groups;
@@ -372,7 +397,7 @@ function resolveJMcpToolName(value: string): string | null {
     return namespaceMatch.groups.tool ?? null;
   }
 
-  const prefixed = /^(?:(?:mcp[-_]{1,2})?t3[-_ ]?code|jcode)(?:__|[-_.:/ ])(?<tool>.+)$/i.exec(
+  const prefixed = /^(?:(?:mcp[-_]{1,2})?jcode[-_ ]?code|jcode)(?:__|[-_.:/ ])(?<tool>.+)$/i.exec(
     label,
   );
   const candidate = prefixed?.groups?.tool ?? label;
@@ -399,12 +424,14 @@ const asSummaryInput = (input: unknown): SummaryInput | undefined =>
 /** Action tools present each call as the single-purpose tool its action replaced. */
 const ACTION_TOOLS: Readonly<Record<string, (action: string) => string | undefined>> = {
   preview_act: (action) => `preview_${action}`,
-  t3_queue: (action) => `t3_queue_${action}`,
-  t3_pending_request: (action) => `t3_pending_request_${action}`,
-  t3_thread_transfer: (action) =>
-    ({ fork: "t3_thread_fork", merge_back: "t3_thread_merge_back", status: "t3_thread_transfers" })[
-      action
-    ],
+  jcode_queue: (action) => `jcode_queue_${action}`,
+  jcode_pending_request: (action) => `jcode_pending_request_${action}`,
+  jcode_thread_transfer: (action) =>
+    ({
+      fork: "jcode_thread_fork",
+      merge_back: "jcode_thread_merge_back",
+      status: "jcode_thread_transfers",
+    })[action],
 };
 
 /** Pass the call's input so an action tool resolves to the labels and summary of its action. */
@@ -425,7 +452,7 @@ export function resolveJMcpToolDefinition(
 const ACTION_SUMMARIES: Readonly<
   Record<string, (input: SummaryInput) => JMcpToolSummaryAction | undefined>
 > = {
-  t3_thread_configure: ({ modelSelection }) =>
+  jcode_thread_configure: ({ modelSelection }) =>
     modelSelection === undefined ? "thread-configuration" : "thread-configure",
   schedule_task: ({ scheduledTaskId }) =>
     scheduledTaskId === undefined ? "schedule-create" : "schedule-update",

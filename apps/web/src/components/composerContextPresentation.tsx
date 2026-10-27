@@ -1,12 +1,12 @@
 import ChatMarkdown from "./ChatMarkdown";
-import { isSvgAttachment } from "@t3tools/shared/image";
+import { isSvgAttachment } from "@lnsflive/shared/image";
 import { ReadOnlySourcePreview } from "./files/AttachmentFilePreview";
-import type { PreviewAnnotationPayload, ThreadContextRecord } from "@t3tools/contracts";
-import { formatAttachmentSize } from "@t3tools/client-runtime/state/attachments";
-import { videoMimeType } from "@t3tools/shared/video";
+import type { PreviewAnnotationPayload, ThreadContextRecord } from "@lnsflive/contracts";
+import { formatAttachmentSize } from "@lnsflive/client-runtime/state/attachments";
+import { videoMimeType } from "@lnsflive/shared/video";
 import { MessageCircleIcon, MousePointerClickIcon } from "lucide-react";
 import { createContext, type MouseEvent, type ReactElement, type ReactNode, use } from "react";
-import type { EnvironmentId } from "@t3tools/contracts";
+import type { EnvironmentId } from "@lnsflive/contracts";
 
 import type { ComposerFileAttachment, ComposerImageAttachment } from "~/composerDraftStore";
 import { composerFileNeedsReattach } from "~/composerDraftStore";

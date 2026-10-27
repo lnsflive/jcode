@@ -1,5 +1,5 @@
-import { type ServerLifecycleWelcomePayload } from "@t3tools/contracts";
-import { scopedProjectKey, scopeProjectRef } from "@t3tools/client-runtime/environment";
+import { type ServerLifecycleWelcomePayload } from "@lnsflive/contracts";
+import { scopedProjectKey, scopeProjectRef } from "@lnsflive/client-runtime/environment";
 import {
   Outlet,
   Link,

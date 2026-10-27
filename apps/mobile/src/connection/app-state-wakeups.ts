@@ -1,4 +1,4 @@
-import type { Wakeups } from "@t3tools/client-runtime/connection";
+import type { Wakeups } from "@lnsflive/client-runtime/connection";
 
 export const MOBILE_LONG_BACKGROUND_AFTER_MS = 10_000;
 

@@ -3,7 +3,7 @@ import {
   RelayClientAuth,
   RelayClientPrincipal,
   type RelayClientDeviceRecord,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import * as EnvironmentLinker from "../environments/EnvironmentLinker.ts";
 import * as RelayTokens from "../auth/RelayTokens.ts";
 import * as Devices from "../agentActivity/Devices.ts";
@@ -33,16 +33,16 @@ import * as HttpServerRequest from "effect/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
-import { EnvironmentId } from "@t3tools/contracts";
+import { EnvironmentId } from "@lnsflive/contracts";
 import {
   RelayEnvironmentAuth,
   RelayEnvironmentPrincipal,
   RelayApi,
   RelayEnvironmentLinkUnavailableError,
   RelayEnvironmentLinkRequest,
-} from "@t3tools/contracts/relay";
-import { relayProtectedErrorMessage } from "@t3tools/client-runtime/relay";
-import { RELAY_MANAGED_TUNNEL_RECOVERY_TYP, signRelayJwt } from "@t3tools/shared/relayJwt";
+} from "@lnsflive/contracts/relay";
+import { relayProtectedErrorMessage } from "@lnsflive/client-runtime/relay";
+import { RELAY_MANAGED_TUNNEL_RECOVERY_TYP, signRelayJwt } from "@lnsflive/shared/relayJwt";
 
 import {
   RELAY_HTTP_ROUTER_CONFIG,
@@ -78,7 +78,7 @@ const relaySettings: RelayConfiguration.RelayConfiguration["Service"] = {
     teamId: "apns-team",
     keyId: "apns-key",
     privateKey: Redacted.make("apns-private-key"),
-    bundleId: "com.example.t3",
+    bundleId: "com.example.jcode",
     environment: "sandbox",
   },
   clerkSecretKey: Redacted.make("clerk-secret-key"),
@@ -581,7 +581,7 @@ describe("relay managed tunnel recovery", () => {
         privateKey: keyPair.privateKey,
         typ: RELAY_MANAGED_TUNNEL_RECOVERY_TYP,
         payload: {
-          iss: "t3-env:environment-1",
+          iss: "jcode-env:environment-1",
           aud: "https://relay.example.test",
           sub: "environment-1",
           jti: "recovery-proof",
@@ -644,7 +644,7 @@ describe("relay managed tunnel recovery", () => {
         privateKey: keyPair.privateKey,
         typ: RELAY_MANAGED_TUNNEL_RECOVERY_TYP,
         payload: {
-          iss: "t3-env:environment-1",
+          iss: "jcode-env:environment-1",
           aud: "https://relay.example.test",
           sub: "environment-1",
           jti: "registration-origin-proof",

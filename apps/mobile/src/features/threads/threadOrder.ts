@@ -1,11 +1,11 @@
-import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
+import type { EnvironmentThreadShell } from "@lnsflive/client-runtime/state/shell";
 import {
   generateSpreadPinOrderKeys,
   pinOrderKeyBetween,
   planPinnedReorder,
-} from "@t3tools/client-runtime/state/thread-sort";
-import { effectiveSnoozed } from "@t3tools/client-runtime/state/thread-settled";
-import type { EnvironmentId } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/state/thread-sort";
+import { effectiveSnoozed } from "@lnsflive/client-runtime/state/thread-settled";
+import type { EnvironmentId } from "@lnsflive/contracts";
 
 export type ThreadMoveDestination =
   | "up"

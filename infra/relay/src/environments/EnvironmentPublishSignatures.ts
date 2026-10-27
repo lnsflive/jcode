@@ -2,14 +2,14 @@ import {
   RelayAgentActivityPublishProofPayload,
   RelayAgentActivityPublishProofInvalidReason,
   type RelayAgentActivityPublishRequest,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import {
   decodeRelayJwt,
   normalizeRelayIssuer,
   RELAY_ACTIVITY_PUBLISH_TYP,
   verifyRelayJwt,
-} from "@t3tools/shared/relayJwt";
-import { stableStringify } from "@t3tools/shared/relaySigning";
+} from "@lnsflive/shared/relayJwt";
+import { stableStringify } from "@lnsflive/shared/relaySigning";
 import * as Context from "effect/Context";
 import * as Crypto from "effect/Crypto";
 import * as DateTime from "effect/DateTime";
@@ -139,7 +139,7 @@ const make = Effect.gen(function* () {
         publicKey: input.environmentPublicKey,
         token: input.request.proof,
         typ: RELAY_ACTIVITY_PUBLISH_TYP,
-        issuer: `t3-env:${input.environmentId}`,
+        issuer: `jcode-env:${input.environmentId}`,
         audience: normalizeRelayIssuer(config.relayIssuer),
         nowEpochSeconds: Math.floor(now.epochMilliseconds / 1_000),
       }).pipe(

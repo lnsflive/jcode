@@ -6,7 +6,7 @@ import {
   EnvironmentId,
   ProviderInstanceId,
   ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { McpSchema, McpServer } from "effect/ai";
@@ -148,7 +148,9 @@ const layerTest = McpHttpServer.layerDeviceToolkit.pipe(
   Layer.provideMerge(McpToolAccessTestkit.liveThreadsLayer),
   Layer.provideMerge(layerDeviceServiceMock),
   Layer.provide(layerProjectsMock),
-  Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-device-toolkit-test-" })),
+  Layer.provide(
+    ServerConfig.layerTest(process.cwd(), { prefix: "jcode-mcp-device-toolkit-test-" }),
+  ),
   Layer.provide(NodeServices.layer),
 );
 
@@ -227,7 +229,7 @@ it.effect("rejects unavailable agent access before booting or opening a device",
         Layer.provide(layerUnavailable),
         Layer.provide(layerProjectsMock),
         Layer.provide(
-          ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-device-toolkit-test-" }),
+          ServerConfig.layerTest(process.cwd(), { prefix: "jcode-mcp-device-toolkit-test-" }),
         ),
         Layer.provide(NodeServices.layer),
       ),

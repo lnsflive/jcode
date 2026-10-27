@@ -1,6 +1,6 @@
-import { isWindowsAbsolutePath } from "@t3tools/shared/path";
+import { isWindowsAbsolutePath } from "@lnsflive/shared/path";
 
-import { safeDecodeURIComponent } from "@t3tools/shared/markdownLinks";
+import { safeDecodeURIComponent } from "@lnsflive/shared/markdownLinks";
 
 export type MediaReference =
   | {

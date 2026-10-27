@@ -11,7 +11,7 @@ import {
   useRoute,
   type StaticScreenProps,
 } from "@react-navigation/native";
-import type { EnvironmentId } from "@t3tools/contracts";
+import type { EnvironmentId } from "@lnsflive/contracts";
 import { useAtomValue } from "@effect/atom-react";
 import { useState } from "react";
 import { Linking, Pressable, StyleSheet, View } from "react-native";
@@ -215,7 +215,9 @@ function PairingForm({
           />
 
           <View collapsable={false} className="gap-2">
-            <Text className="px-4 text-sm font-t3-medium text-foreground-muted">Or enter it</Text>
+            <Text className="px-4 text-sm font-jcode-medium text-foreground-muted">
+              Or enter it
+            </Text>
             <View
               collapsable={false}
               className={cn(
@@ -338,7 +340,10 @@ function PairingScanCard(props: {
                 weight="light"
               />
               <Text
-                className={cn("font-t3-medium text-sm", light ? "text-black/70" : "text-white/80")}
+                className={cn(
+                  "font-jcode-medium text-sm",
+                  light ? "text-black/70" : "text-white/80",
+                )}
               >
                 Tap to scan
               </Text>
@@ -365,7 +370,7 @@ function JCodeConnectSection() {
 
   return (
     <View collapsable={false} className="gap-2">
-      <Text className="px-4 text-sm font-t3-medium text-foreground-muted">
+      <Text className="px-4 text-sm font-jcode-medium text-foreground-muted">
         Or use the managed relay
       </Text>
       {isSignedIn ? (

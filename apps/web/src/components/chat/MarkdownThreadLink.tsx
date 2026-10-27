@@ -1,10 +1,10 @@
-import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import type { EnvironmentId, ThreadId } from "@t3tools/contracts";
+import { scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import type { EnvironmentId, ThreadId } from "@lnsflive/contracts";
 import {
   formatThreadLink,
   percentDecodedThreadLinkId,
   resolveThreadLinkRef,
-} from "@t3tools/shared/threadLinks";
+} from "@lnsflive/shared/threadLinks";
 
 import { useThreadRefs, useThreadShell } from "../../state/entities";
 import { ThreadContextChip } from "../ThreadContextChip";

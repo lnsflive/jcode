@@ -41,21 +41,23 @@ describe("resolveJMcpToolDefinition", () => {
     expect(
       resolveJMcpToolDefinition("mcp__jcode__preview_act", { action: "type" })?.labels,
     ).toEqual(resolveJMcpToolDefinition("preview_type")?.labels);
-    expect(resolveJMcpToolDefinition("t3_thread_transfer", { action: "fork" })?.displayName).toBe(
-      resolveJMcpToolDefinition("t3_thread_fork")?.displayName,
-    );
+    expect(
+      resolveJMcpToolDefinition("jcode_thread_transfer", { action: "fork" })?.displayName,
+    ).toBe(resolveJMcpToolDefinition("jcode_thread_fork")?.displayName);
     expect(resolveJMcpToolDefinition("preview_act", { action: "unknown" })?.labels[2]).toBe("Used");
   });
 });
 
 describe("resolveJMcpSummaryAction", () => {
   it("summarizes an action tool by the action each call ran", () => {
-    expect(resolveJMcpSummaryAction("mcp__jcode__t3_queue", { action: "list" })).toBe("queue-list");
-    expect(resolveJMcpSummaryAction("t3_queue", { action: "edit" })).toBe("queue-edit");
-    expect(resolveJMcpSummaryAction("t3_thread_transfer", { action: "status" })).toBe(
+    expect(resolveJMcpSummaryAction("mcp__jcode__jcode_queue", { action: "list" })).toBe(
+      "queue-list",
+    );
+    expect(resolveJMcpSummaryAction("jcode_queue", { action: "edit" })).toBe("queue-edit");
+    expect(resolveJMcpSummaryAction("jcode_thread_transfer", { action: "status" })).toBe(
       "thread-transfers",
     );
-    expect(resolveJMcpSummaryAction("t3_thread_configure", {})).toBe("thread-configuration");
+    expect(resolveJMcpSummaryAction("jcode_thread_configure", {})).toBe("thread-configuration");
     expect(resolveJMcpSummaryAction("schedule_task", { scheduledTaskId: "task-1" })).toBe(
       "schedule-update",
     );

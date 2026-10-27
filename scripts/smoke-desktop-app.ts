@@ -27,10 +27,10 @@ if (!executable)
   throw new Error("Usage: smoke-desktop-app.ts --executable <app> [--artifacts-dir <dir>]");
 const artifactsDir = NodePath.resolve(values["artifacts-dir"] ?? "desktop-launch-check");
 
-const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-desktop-launch-"));
-const t3Home = NodePath.join(home, "t3");
-NodeFS.mkdirSync(NodePath.join(t3Home, "userdata"), { recursive: true });
-NodeFS.copyFileSync(FIXTURE_DB, NodePath.join(t3Home, "userdata/statev2.sqlite"));
+const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "jcode-desktop-launch-"));
+const jcodeHome = NodePath.join(home, "jcode");
+NodeFS.mkdirSync(NodePath.join(jcodeHome, "userdata"), { recursive: true });
+NodeFS.copyFileSync(FIXTURE_DB, NodePath.join(jcodeHome, "userdata/statev2.sqlite"));
 
 let step = "launching the app";
 let app: ElectronApplication | undefined;
@@ -45,7 +45,7 @@ try {
       ...process.env,
       XDG_CONFIG_HOME: NodePath.join(home, ".config"),
       XDG_DATA_HOME: NodePath.join(home, ".local/share"),
-      JCODE_HOME: t3Home,
+      JCODE_HOME: jcodeHome,
       JCODE_TELEMETRY_ENABLED: "false",
       JCODE_DISABLE_AUTO_UPDATE: "true",
     },
@@ -74,7 +74,7 @@ try {
   console.error(`Desktop launch check failed while ${step}.`);
   NodeFS.mkdirSync(artifactsDir, { recursive: true });
   console.error(error instanceof Error ? error.message : error);
-  const logs = NodePath.join(t3Home, "userdata/logs");
+  const logs = NodePath.join(jcodeHome, "userdata/logs");
   if (NodeFS.existsSync(logs)) {
     NodeFS.cpSync(logs, NodePath.join(artifactsDir, "logs"), { recursive: true });
     const serverLog = NodePath.join(logs, "server-child.log");

@@ -3,7 +3,7 @@ import {
   ProjectId,
   type RepositoryIdentity,
   SourceControlProviderKind,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
@@ -21,17 +21,17 @@ describe("findProjectForChangeRequest", () => {
   it("matches a nested GitLab group by the whole path below the host", () => {
     const projects = [
       project({
-        canonicalKey: "gitlab.com/t3tools/platform/jcode",
+        canonicalKey: "gitlab.com/lnsflive/platform/jcode",
         provider: SourceControlProviderKind.make("gitlab"),
-        displayName: "t3tools/platform/jcode",
-        owner: "t3tools",
+        displayName: "lnsflive/platform/jcode",
+        owner: "lnsflive",
         name: "jcode",
       }),
     ];
     expect(
       findProjectForChangeRequest(projects, {
         host: "gitlab.com",
-        repository: "t3tools/platform/jcode",
+        repository: "lnsflive/platform/jcode",
         number: 42,
       }),
     ).toBe(projects[0]);

@@ -3,7 +3,7 @@ import type {
   PreviewReportStatusInput,
   ScopedThreadRef,
   ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { useEffect, useEffectEvent, useRef } from "react";
 
 import { recordFaviconForThread } from "~/browserFaviconStore";

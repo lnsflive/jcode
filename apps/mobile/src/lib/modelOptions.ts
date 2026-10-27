@@ -2,7 +2,7 @@ import {
   normalizeProviderAccentColor,
   resolveProviderInstanceDisplayName,
   shouldShowInstanceBadge,
-} from "@t3tools/client-runtime/state/provider-instance-display";
+} from "@lnsflive/client-runtime/state/provider-instance-display";
 import type { MenuAction } from "@react-native-menu/menu";
 import type {
   ModelCapabilities,
@@ -10,13 +10,13 @@ import type {
   ProjectId,
   RuntimeMode,
   ServerConfig as JServerConfig,
-} from "@t3tools/contracts";
-import { isProviderDriverKind, resolveProjectProviderInstanceEnabled } from "@t3tools/contracts";
+} from "@lnsflive/contracts";
+import { isProviderDriverKind, resolveProjectProviderInstanceEnabled } from "@lnsflive/contracts";
 import {
   buildExplicitProviderOptionSelectionsFromDescriptors,
   getProviderOptionDescriptors,
-} from "@t3tools/shared/model";
-import { resolveModelShortName } from "@t3tools/client-runtime/provider-clients";
+} from "@lnsflive/shared/model";
+import { resolveModelShortName } from "@lnsflive/client-runtime/provider-clients";
 
 export type ModelOption = {
   readonly key: string;

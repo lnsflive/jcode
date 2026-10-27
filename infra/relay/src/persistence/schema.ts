@@ -3,7 +3,7 @@ import type {
   RelayAgentActivityState,
   RelayAgentAwarenessPreferences,
   RelayManagedEndpointOrigin,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import {
   bigint,
   boolean,

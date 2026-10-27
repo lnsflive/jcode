@@ -1,6 +1,6 @@
-import type { CommandOutputView } from "@t3tools/client-runtime/state/command-output";
-import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts";
-import { TERMINAL_PALETTES, terminalOutputSpans } from "@t3tools/shared/terminalOutput";
+import type { CommandOutputView } from "@lnsflive/client-runtime/state/command-output";
+import type { EnvironmentId, ThreadId, TurnItemId } from "@lnsflive/contracts";
+import { TERMINAL_PALETTES, terminalOutputSpans } from "@lnsflive/shared/terminalOutput";
 import { useLayoutEffect, useRef } from "react";
 
 import { useTheme } from "../../hooks/useTheme";

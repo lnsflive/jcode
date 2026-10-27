@@ -1,4 +1,4 @@
-import { historyResponseItems } from "@t3tools/provider-core/server/handoffBudget";
+import { historyResponseItems } from "@lnsflive/provider-core/server/handoffBudget";
 import {
   makeProviderTextDeltaCoalescer,
   type ProviderTextDeltaUpdate,
@@ -27,7 +27,7 @@ import {
   RunId,
   ThreadId,
   TurnItemId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { assert, describe, it } from "@effect/vitest";
 import * as CodexClient from "effect-codex-app-server/client";
 import * as CodexReplay from "effect-codex-app-server/replay";
@@ -38,7 +38,7 @@ import * as Crypto from "effect/Crypto";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
 import * as FileSystem from "effect/FileSystem";
-import { MCP_APP_OUTPUT_KEY, readMcpAppReference } from "@t3tools/shared/mcpApp";
+import { MCP_APP_OUTPUT_KEY, readMcpAppReference } from "@lnsflive/shared/mcpApp";
 import { resolveAttachmentPathById } from "../../attachmentStore.ts";
 import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
@@ -51,14 +51,14 @@ import { TestClock } from "effect/testing";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import packageJson from "../../../package.json" with { type: "json" };
-import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+import * as McpProviderSessions from "@lnsflive/provider-core/server/McpProviderSessions";
+import * as ProviderEventLoggers from "@lnsflive/provider-core/server/ProviderEventLoggers";
+import * as IdAllocator from "@lnsflive/provider-core/server/IdAllocator";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as Orchestrator from "../Orchestrator.ts";
 import * as ProviderReplayHarness from "../testkit/ProviderReplayHarness.ts";
-import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import type * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
+import * as ProviderAdapter from "@lnsflive/provider-core/server/ProviderAdapter";
+import type * as ProviderContinuationRequests from "@lnsflive/provider-core/server/ProviderContinuationRequests";
 import * as CodexAdapterV2 from "./CodexAdapterV2.ts";
 import { makeReplayServerConfig, withCodexReplayChildMetadata } from "./CodexAdapterV2.testkit.ts";
 import * as CodexAdapterV2Testkit from "./CodexAdapterV2.testkit.ts";
@@ -222,7 +222,7 @@ describe("CodexAdapterV2 runtime policy", () => {
       assert.deepEqual(alone.additionalContext, {
         "mcp_app_todos_list_todos_item-1": { kind: "untrusted", value: "Filtered to overdue" },
       });
-      const withT3 = yield* CodexAdapterV2.buildCodexTurnStartParams({
+      const withJCode = yield* CodexAdapterV2.buildCodexTurnStartParams({
         nativeThreadId: "native-app-context",
         codexInput: [{ type: "text", text: "what's on my list?" }],
         runtimePolicy: policy,
@@ -230,11 +230,11 @@ describe("CodexAdapterV2 runtime policy", () => {
         hasJMcp: true,
         appContext,
       });
-      assert.deepEqual(withT3.additionalContext?.["mcp_app_todos_list_todos_item-1"], {
+      assert.deepEqual(withJCode.additionalContext?.["mcp_app_todos_list_todos_item-1"], {
         kind: "untrusted",
         value: "Filtered to overdue",
       });
-      assert.isDefined(withT3.additionalContext?.["jcode_runtime"]);
+      assert.isDefined(withJCode.additionalContext?.["jcode_runtime"]);
     }),
   );
 });
@@ -3046,7 +3046,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     return Effect.scoped(
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
-        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "t3-bg-stop-workspace-" });
+        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-bg-stop-workspace-" });
         const localTranscript = yield* decodeReplayTranscriptJson(
           (yield* encodeReplayTranscriptJson(transcript)).replaceAll(
             yield* encodeStringJson("/workspace"),
@@ -3173,7 +3173,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     Effect.scoped(
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
-        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "t3-bg-stale-workspace-" });
+        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-bg-stale-workspace-" });
         const staleTranscript = makeCodexReplayTranscript({
           scenario: "codex-bg-stop-untracked",
           entries: [
@@ -4561,7 +4561,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: COMPLETED_WAIT_ITEM,
               server: "jcode",
-              tool: "t3_thread_wait",
+              tool: "jcode_thread_wait",
               status: "inProgress",
               arguments: { threadId: "thread:completed-wait", timeoutMs: 30000 },
             },
@@ -4581,7 +4581,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: COMPLETED_WAIT_ITEM,
               server: "jcode",
-              tool: "t3_thread_wait",
+              tool: "jcode_thread_wait",
               status: "completed",
               arguments: { threadId: "thread:completed-wait", timeoutMs: 30000 },
               result: { content: [{ type: "text", text: "idle" }] },
@@ -4602,7 +4602,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: ORPHAN_WAIT_ITEM,
               server: "jcode",
-              tool: "t3_thread_wait",
+              tool: "jcode_thread_wait",
               status: "inProgress",
               arguments: {
                 threadId:

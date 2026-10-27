@@ -5,13 +5,13 @@ import {
   RelayConnectionRegistration,
   RelayConnectionTarget,
   BearerConnectionTarget,
-} from "@t3tools/client-runtime/connection";
+} from "@lnsflive/client-runtime/connection";
 import {
   type ConnectionCatalogDocument,
   EMPTY_CONNECTION_CATALOG_DOCUMENT,
   registerConnectionInCatalog,
-} from "@t3tools/client-runtime/platform";
-import { EnvironmentId } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/platform";
+import { EnvironmentId } from "@lnsflive/contracts";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 

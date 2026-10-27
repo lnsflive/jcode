@@ -9,10 +9,10 @@ import {
   type DeviceSummary,
   type ServerSettings as Settings,
   type SshDeviceHostConfig,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as NetService from "@t3tools/shared/Net";
+import * as NetService from "@lnsflive/shared/Net";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Deferred from "effect/Deferred";
@@ -31,7 +31,7 @@ import * as ProcessRunner from "../processRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as DeviceHost from "./DeviceHost.ts";
 import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
-import { NodeRuntimeUnavailableError } from "@t3tools/shared/nodeRuntime";
+import { NodeRuntimeUnavailableError } from "@lnsflive/shared/nodeRuntime";
 
 import * as DeviceService from "./DeviceService.ts";
 
@@ -982,7 +982,7 @@ it.effect("failed manual installation leaves lifecycle state unchanged and can b
 it.effect("reconciles SSH host settings without publishing no-op changes", () =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-device-reconcile-" });
+    const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-device-reconcile-" });
     const settings = yield* ServerSettings.ServerSettingsService;
     // Each change is acknowledged after reconciliation consumed it, so no-ops are observable.
     const changes = yield* Queue.unbounded<{ value: Settings; done: Deferred.Deferred<void> }>();
@@ -1142,7 +1142,7 @@ it.effect("a failed tool update reports npm's exit code but not its output", () 
     Effect.provide(
       Layer.mergeAll(
         ServerSettings.layerTest({ enableDeviceSupport: true }),
-        ServerConfig.layerTest(process.cwd(), { prefix: "t3-device-update-" }),
+        ServerConfig.layerTest(process.cwd(), { prefix: "jcode-device-update-" }),
         NodeCrypto.layer,
         NetService.layer,
       ).pipe(Layer.provideMerge(NodeServices.layer)),

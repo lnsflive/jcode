@@ -1,6 +1,6 @@
 import { documentIconColorForFileName } from "~/pierre-icons";
-import { isProviderSkillUserInvocable } from "@t3tools/client-runtime/providerSkills";
-import { formatProviderSkillDisplayName } from "@t3tools/shared/inlineSkills";
+import { isProviderSkillUserInvocable } from "@lnsflive/client-runtime/providerSkills";
+import { formatProviderSkillDisplayName } from "@lnsflive/shared/inlineSkills";
 import {
   Extension,
   findChildren,
@@ -28,15 +28,15 @@ import type {
   AssistantCitation,
   ComposerContextClipboardFragment,
   ServerProviderSkill,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   serializeAssistantCitation,
   withAssistantCitationComment,
-} from "@t3tools/shared/assistantCitations";
+} from "@lnsflive/shared/assistantCitations";
 import {
   COMPOSER_CONTEXT_CLIPBOARD_MIME,
   encodeComposerContextClipboardHtml,
-} from "@t3tools/shared/composerContextClipboard";
+} from "@lnsflive/shared/composerContextClipboard";
 import {
   createContext,
   use,

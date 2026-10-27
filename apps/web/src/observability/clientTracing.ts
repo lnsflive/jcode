@@ -5,10 +5,13 @@ import * as Scope from "effect/Scope";
 import { HttpClient } from "effect/http";
 import { OtlpExporter, OtlpSerialization, OtlpTracer } from "effect/observability";
 
-import { settleAsyncResult, squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
-import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
+import {
+  settleAsyncResult,
+  squashAtomCommandFailure,
+} from "@lnsflive/client-runtime/state/runtime";
+import { safeErrorLogAttributes } from "@lnsflive/client-runtime/errors";
 import { resolvePrimaryEnvironmentHttpUrl } from "../environments/primary";
-import { releaseChannelOf, releaseResourceAttributes } from "@t3tools/shared/releaseResource";
+import { releaseChannelOf, releaseResourceAttributes } from "@lnsflive/shared/releaseResource";
 import * as ClientTracer from "./clientTracer";
 import * as PrimaryEnvironmentHttpLayer from "../environments/primary/httpLayer";
 import { isElectron } from "../env";
@@ -54,7 +57,7 @@ const CLIENT_TRACING_RESOURCE = {
     "service.namespace": "jcode",
     "service.instance.id": ClientTracer.serviceInstanceId,
     ...releaseResourceAttributes(RELEASE_CHANNEL),
-    "service.runtime": "t3-web",
+    "service.runtime": "jcode-web",
     "jcode.client.surface": isElectron ? "desktop" : "web",
     "service.version": APP_VERSION,
     ...browserResourceAttributes(),

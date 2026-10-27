@@ -1,4 +1,4 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@lnsflive/contracts";
 import {
   EnvironmentId,
   ProjectId,
@@ -6,7 +6,7 @@ import {
   type PullRequestListInput,
   type PullRequestListResult,
   type PullRequestSummary,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { describe, expect, it, vi } from "vite-plus/test";
 
 import {
@@ -458,13 +458,13 @@ describe("pull request list answers across a reload", () => {
 
   it("removes the composite snapshots it replaced", () => {
     const storage = makeStorage();
-    storage.held.set("t3.pullRequests.list:env-local,env-remote", "{}");
-    storage.held.set("t3.pullRequests.list:env-local", "{}");
-    storage.held.set("t3.other", "kept");
+    storage.held.set("jcode.pullRequests.list:env-local,env-remote", "{}");
+    storage.held.set("jcode.pullRequests.list:env-local", "{}");
+    storage.held.set("jcode.other", "kept");
     rememberPullRequestListAnswer(storage, { environmentId: local, input }, answer([]));
     expect(
-      [...storage.held.keys()].filter((key) => key.startsWith("t3.pullRequests.list:")),
+      [...storage.held.keys()].filter((key) => key.startsWith("jcode.pullRequests.list:")),
     ).toEqual([]);
-    expect(storage.held.get("t3.other")).toBe("kept");
+    expect(storage.held.get("jcode.other")).toBe("kept");
   });
 });

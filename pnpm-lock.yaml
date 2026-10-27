@@ -415,24 +415,24 @@ importers:
       '@effect/platform-node':
         specifier: 4.0.5
         version: 4.0.5(bufferutil@4.1.0)(effect@4.0.5)(redis@6.2.1)(utf-8-validate@6.0.6)
+      '@lnsflive/client-runtime':
+        specifier: workspace:*
+        version: link:../../packages/client-runtime
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@lnsflive/ssh':
+        specifier: workspace:*
+        version: link:../../packages/ssh
+      '@lnsflive/tailscale':
+        specifier: workspace:*
+        version: link:../../packages/tailscale
       '@napi-rs/keyring':
         specifier: ^1.3.0
         version: 1.3.0
-      '@t3tools/client-runtime':
-        specifier: workspace:*
-        version: link:../../packages/client-runtime
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
-      '@t3tools/ssh':
-        specifier: workspace:*
-        version: link:../../packages/ssh
-      '@t3tools/tailscale':
-        specifier: workspace:*
-        version: link:../../packages/tailscale
       dbus-next:
         specifier: 0.10.2
         version: 0.10.2(patch_hash=daa02c675bb63a1b882db539c2adccb42ddb0cdb0b200bb30b119142ce12ace3)
@@ -488,7 +488,7 @@ importers:
 
   apps/marketing:
     dependencies:
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       astro:
@@ -531,6 +531,27 @@ importers:
       '@legendapp/list':
         specifier: 3.3.5
         version: 3.3.5(patch_hash=59f26136215464386c496322f87abae05c41ec6802c6bd4632b3e1823f95391d)(react-dom@19.3.0(react@19.3.0))(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+      '@lnsflive/client-runtime':
+        specifier: workspace:*
+        version: link:../../packages/client-runtime
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@lnsflive/mobile-highlights-native':
+        specifier: file:./modules/jcode-highlights
+        version: file:apps/mobile/modules/jcode-highlights
+      '@lnsflive/mobile-review-diff-native':
+        specifier: file:./modules/jcode-review-diff
+        version: file:apps/mobile/modules/jcode-review-diff
+      '@lnsflive/mobile-source-text':
+        specifier: file:./modules/jcode-source-text
+        version: file:apps/mobile/modules/jcode-source-text(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+      '@lnsflive/mobile-terminal-native':
+        specifier: file:./modules/jcode-terminal
+        version: file:apps/mobile/modules/jcode-terminal
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@material/material-color-utilities':
         specifier: 0.3.0
         version: 0.3.0
@@ -560,28 +581,7 @@ importers:
         version: 7.5.1(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       '@react-navigation/native-stack':
         specifier: 7.21.0
-        version: 7.21.0(patch_hash=990d575444c4af2ce8218b3b7a8280fe244c03abbdb32b822a2e862f791dbf42)(fedae76d040d2e46f454f147f7fa3a09)
-      '@t3tools/client-runtime':
-        specifier: workspace:*
-        version: link:../../packages/client-runtime
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@t3tools/mobile-highlights-native':
-        specifier: file:./modules/jcode-highlights
-        version: file:apps/mobile/modules/jcode-highlights
-      '@t3tools/mobile-review-diff-native':
-        specifier: file:./modules/jcode-review-diff
-        version: file:apps/mobile/modules/jcode-review-diff
-      '@t3tools/mobile-source-text':
-        specifier: file:./modules/jcode-source-text
-        version: file:apps/mobile/modules/jcode-source-text(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
-      '@t3tools/mobile-terminal-native':
-        specifier: file:./modules/jcode-terminal
-        version: file:apps/mobile/modules/jcode-terminal
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
+        version: 7.21.0(patch_hash=990d575444c4af2ce8218b3b7a8280fe244c03abbdb32b822a2e862f791dbf42)(254792008e36b5afb1b053f463b4dd6f)
       '@tabler/icons-react-native':
         specifier: ^3.44.0
         version: 3.44.0(react-native-svg@15.16.0(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0))(react@19.3.0)
@@ -718,8 +718,8 @@ importers:
         specifier: 0.25.1
         version: 0.25.1(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       react-native-enriched-markdown:
-        specifier: file:deps/react-native-enriched-markdown-1.2.0-t3.16-558767d9.tgz
-        version: file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-t3.16-558767d9.tgz(katex@0.16.47)(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+        specifier: file:deps/react-native-enriched-markdown-1.2.0-jcode.16-558767d9.tgz
+        version: file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-jcode.16-558767d9.tgz(katex@0.16.47)(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       react-native-gesture-handler:
         specifier: 3.3.0
         version: 3.3.0(patch_hash=abe20e1d1c23549297cbbc818e14fe479b41455930d9663135d6b40fe359b626)(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
@@ -742,8 +742,8 @@ importers:
         specifier: ~5.10.1
         version: 5.10.1(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       react-native-screens:
-        specifier: file:deps/react-native-screens-5.0.0-t3.45.tgz
-        version: file:apps/mobile/deps/react-native-screens-5.0.0-t3.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+        specifier: file:deps/react-native-screens-5.0.0-jcode.45.tgz
+        version: file:apps/mobile/deps/react-native-screens-5.0.0-jcode.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       react-native-svg:
         specifier: 15.16.0
         version: 15.16.0(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
@@ -820,6 +820,57 @@ importers:
       '@ff-labs/fff-node':
         specifier: 0.11.0
         version: 0.11.0(patch_hash=012c3dfb2b6c86254cff8b52cfb5ff2134b986cbe7646a566e9f5f6092b54cac)
+      '@lnsflive/provider-acp':
+        specifier: workspace:*
+        version: link:../../packages/provider-acp
+      '@lnsflive/provider-acp-registry':
+        specifier: workspace:*
+        version: link:../../packages/provider-acp-registry
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../../packages/provider-core
+      '@lnsflive/provider-cursor':
+        specifier: workspace:*
+        version: link:../../packages/provider-cursor
+      '@lnsflive/provider-fx':
+        specifier: workspace:*
+        version: link:../../packages/provider-fx
+      '@lnsflive/provider-grok':
+        specifier: workspace:*
+        version: link:../../packages/provider-grok
+      '@lnsflive/provider-muse':
+        specifier: workspace:*
+        version: link:../../packages/provider-muse
+      '@lnsflive/provider-opencode':
+        specifier: workspace:*
+        version: link:../../packages/provider-opencode
+      '@lnsflive/provider-pi':
+        specifier: workspace:*
+        version: link:../../packages/provider-pi
+      '@lnsflive/source-control-azure-devops':
+        specifier: workspace:*
+        version: link:../../packages/source-control-azure-devops
+      '@lnsflive/source-control-bitbucket':
+        specifier: workspace:*
+        version: link:../../packages/source-control-bitbucket
+      '@lnsflive/source-control-core':
+        specifier: workspace:*
+        version: link:../../packages/source-control-core
+      '@lnsflive/source-control-definitions':
+        specifier: workspace:*
+        version: link:../../packages/source-control-definitions
+      '@lnsflive/source-control-forgejo':
+        specifier: workspace:*
+        version: link:../../packages/source-control-forgejo
+      '@lnsflive/source-control-gitcafe':
+        specifier: workspace:*
+        version: link:../../packages/source-control-gitcafe
+      '@lnsflive/source-control-github':
+        specifier: workspace:*
+        version: link:../../packages/source-control-github
+      '@lnsflive/source-control-gitlab':
+        specifier: workspace:*
+        version: link:../../packages/source-control-gitlab
       '@muse-code/sdk':
         specifier: 1.4.6
         version: 1.4.6(patch_hash=7b495b607fc5d76b444c7c4d58821e839726a30e6f3c53564f0d59f2d5b42101)(@types/node@24.12.4)
@@ -829,57 +880,6 @@ importers:
       '@opencode-ai/sdk':
         specifier: ^1.3.15
         version: 1.15.13
-      '@t3tools/provider-acp':
-        specifier: workspace:*
-        version: link:../../packages/provider-acp
-      '@t3tools/provider-acp-registry':
-        specifier: workspace:*
-        version: link:../../packages/provider-acp-registry
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../../packages/provider-core
-      '@t3tools/provider-cursor':
-        specifier: workspace:*
-        version: link:../../packages/provider-cursor
-      '@t3tools/provider-fx':
-        specifier: workspace:*
-        version: link:../../packages/provider-fx
-      '@t3tools/provider-grok':
-        specifier: workspace:*
-        version: link:../../packages/provider-grok
-      '@t3tools/provider-muse':
-        specifier: workspace:*
-        version: link:../../packages/provider-muse
-      '@t3tools/provider-opencode':
-        specifier: workspace:*
-        version: link:../../packages/provider-opencode
-      '@t3tools/provider-pi':
-        specifier: workspace:*
-        version: link:../../packages/provider-pi
-      '@t3tools/source-control-azure-devops':
-        specifier: workspace:*
-        version: link:../../packages/source-control-azure-devops
-      '@t3tools/source-control-bitbucket':
-        specifier: workspace:*
-        version: link:../../packages/source-control-bitbucket
-      '@t3tools/source-control-core':
-        specifier: workspace:*
-        version: link:../../packages/source-control-core
-      '@t3tools/source-control-definitions':
-        specifier: workspace:*
-        version: link:../../packages/source-control-definitions
-      '@t3tools/source-control-forgejo':
-        specifier: workspace:*
-        version: link:../../packages/source-control-forgejo
-      '@t3tools/source-control-gitcafe':
-        specifier: workspace:*
-        version: link:../../packages/source-control-gitcafe
-      '@t3tools/source-control-github':
-        specifier: workspace:*
-        version: link:../../packages/source-control-github
-      '@t3tools/source-control-gitlab':
-        specifier: workspace:*
-        version: link:../../packages/source-control-gitlab
       character-entities:
         specifier: 2.0.2
         version: 2.0.2
@@ -926,30 +926,30 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@lnsflive/provider-testing':
+        specifier: workspace:*
+        version: link:../../packages/provider-testing
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@lnsflive/source-control-testing':
+        specifier: workspace:*
+        version: link:../../packages/source-control-testing
+      '@lnsflive/ssh':
+        specifier: workspace:*
+        version: link:../../packages/ssh
+      '@lnsflive/tailscale':
+        specifier: workspace:*
+        version: link:../../packages/tailscale
+      '@lnsflive/web':
+        specifier: workspace:*
+        version: link:../web
       '@modelcontextprotocol/sdk':
         specifier: 1.29.0
         version: 1.29.0(supports-color@8.1.1)(zod@4.6.5)
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@t3tools/provider-testing':
-        specifier: workspace:*
-        version: link:../../packages/provider-testing
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
-      '@t3tools/source-control-testing':
-        specifier: workspace:*
-        version: link:../../packages/source-control-testing
-      '@t3tools/ssh':
-        specifier: workspace:*
-        version: link:../../packages/ssh
-      '@t3tools/tailscale':
-        specifier: workspace:*
-        version: link:../../packages/tailscale
-      '@t3tools/web':
-        specifier: workspace:*
-        version: link:../web
       '@types/node':
         specifier: 24.12.4
         version: 24.12.4
@@ -1025,6 +1025,18 @@ importers:
       '@legendapp/list':
         specifier: 3.3.5
         version: 3.3.5(patch_hash=59f26136215464386c496322f87abae05c41ec6802c6bd4632b3e1823f95391d)(react-dom@19.3.0(react@19.3.0))(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+      '@lnsflive/client-runtime':
+        specifier: workspace:*
+        version: link:../../packages/client-runtime
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../../packages/provider-core
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@noble/hashes':
         specifier: 'catalog:'
         version: 1.8.0
@@ -1034,18 +1046,6 @@ importers:
       '@pierre/trees':
         specifier: 1.0.0-beta.6
         version: 1.0.0-beta.6(@pierre/theme@2.0.0)(@shikijs/themes@4.2.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(shiki@4.2.0)
-      '@t3tools/client-runtime':
-        specifier: workspace:*
-        version: link:../../packages/client-runtime
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../../packages/provider-core
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
       '@tanstack/react-pacer':
         specifier: ^0.19.4
         version: 0.19.4(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1254,13 +1254,13 @@ importers:
       '@effect/platform-node':
         specifier: 4.0.5
         version: 4.0.5(bufferutil@4.1.0)(effect@4.0.5)(redis@6.2.1)(utf-8-validate@6.0.6)
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../packages/contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../packages/provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../packages/shared
       effect:
@@ -1294,21 +1294,21 @@ importers:
       '@effect/sql-sqlite-do':
         specifier: 'catalog:'
         version: 4.0.5(effect@4.0.5)
+      '@lnsflive/client-runtime':
+        specifier: workspace:*
+        version: link:../../packages/client-runtime
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@noble/curves':
         specifier: 'catalog:'
         version: 1.9.1
       '@noble/hashes':
         specifier: 'catalog:'
         version: 1.8.0
-      '@t3tools/client-runtime':
-        specifier: workspace:*
-        version: link:../../packages/client-runtime
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
       alchemy:
         specifier: 2.0.0-beta.80
         version: 2.0.0-beta.80(patch_hash=bea1b6c0c0b23157fd5f439a1d7feff430f28ac1621ba135d8a13eeec60ccacd)(e50ec971fc482761b0a5b8ee3921094f)
@@ -1396,45 +1396,45 @@ importers:
 
   packages/client-runtime:
     dependencies:
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@lnsflive/provider-acp-registry':
+        specifier: workspace:*
+        version: link:../provider-acp-registry
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../provider-core
+      '@lnsflive/provider-cursor':
+        specifier: workspace:*
+        version: link:../provider-cursor
+      '@lnsflive/provider-fx':
+        specifier: workspace:*
+        version: link:../provider-fx
+      '@lnsflive/provider-grok':
+        specifier: workspace:*
+        version: link:../provider-grok
+      '@lnsflive/provider-muse':
+        specifier: workspace:*
+        version: link:../provider-muse
+      '@lnsflive/provider-opencode':
+        specifier: workspace:*
+        version: link:../provider-opencode
+      '@lnsflive/provider-pi':
+        specifier: workspace:*
+        version: link:../provider-pi
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@lnsflive/source-control-core':
+        specifier: workspace:*
+        version: link:../source-control-core
+      '@lnsflive/source-control-definitions':
+        specifier: workspace:*
+        version: link:../source-control-definitions
       '@pierre/diffs':
         specifier: 1.6.1
         version: 1.6.1(patch_hash=4645364ddf113e48e8827f3b4966b3b1ff745317011e5a3d904e2d8672dee7dc)(@shikijs/themes@4.2.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@t3tools/provider-acp-registry':
-        specifier: workspace:*
-        version: link:../provider-acp-registry
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../provider-core
-      '@t3tools/provider-cursor':
-        specifier: workspace:*
-        version: link:../provider-cursor
-      '@t3tools/provider-fx':
-        specifier: workspace:*
-        version: link:../provider-fx
-      '@t3tools/provider-grok':
-        specifier: workspace:*
-        version: link:../provider-grok
-      '@t3tools/provider-muse':
-        specifier: workspace:*
-        version: link:../provider-muse
-      '@t3tools/provider-opencode':
-        specifier: workspace:*
-        version: link:../provider-opencode
-      '@t3tools/provider-pi':
-        specifier: workspace:*
-        version: link:../provider-pi
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@t3tools/source-control-core':
-        specifier: workspace:*
-        version: link:../source-control-core
-      '@t3tools/source-control-definitions':
-        specifier: workspace:*
-        version: link:../source-control-definitions
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1511,13 +1511,13 @@ importers:
 
   packages/provider-acp:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       diff:
@@ -1545,21 +1545,21 @@ importers:
 
   packages/provider-acp-registry:
     dependencies:
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@lnsflive/provider-acp':
+        specifier: workspace:*
+        version: link:../provider-acp
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../provider-core
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@noble/hashes':
         specifier: 'catalog:'
         version: 1.8.0
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@t3tools/provider-acp':
-        specifier: workspace:*
-        version: link:../provider-acp
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../provider-core
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../shared
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1570,7 +1570,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1585,10 +1585,10 @@ importers:
 
   packages/provider-core:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -1613,18 +1613,18 @@ importers:
       '@cursor/sdk':
         specifier: 1.0.38
         version: 1.0.38(zod@4.6.5)
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../provider-core
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@napi-rs/keyring':
         specifier: ^1.3.0
         version: 1.3.0
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../provider-core
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../shared
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1638,7 +1638,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1650,16 +1650,16 @@ importers:
 
   packages/provider-fx:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-acp':
+      '@lnsflive/provider-acp':
         specifier: workspace:*
         version: link:../provider-acp
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -1684,16 +1684,16 @@ importers:
 
   packages/provider-grok:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-acp':
+      '@lnsflive/provider-acp':
         specifier: workspace:*
         version: link:../provider-acp
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -1706,7 +1706,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1721,18 +1721,18 @@ importers:
 
   packages/provider-muse:
     dependencies:
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../provider-core
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@muse-code/sdk':
         specifier: 1.4.6
         version: 1.4.6(patch_hash=7b495b607fc5d76b444c7c4d58821e839726a30e6f3c53564f0d59f2d5b42101)(@types/node@24.12.4)
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../provider-core
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../shared
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1743,7 +1743,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1755,6 +1755,15 @@ importers:
 
   packages/provider-opencode:
     dependencies:
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@lnsflive/provider-core':
+        specifier: workspace:*
+        version: link:../provider-core
+      '@lnsflive/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@opencode-ai/sdk':
         specifier: ^1.3.15
         version: 1.15.13
@@ -1767,15 +1776,6 @@ importers:
       '@opencode/schema':
         specifier: 2.0.28
         version: 2.0.28
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@t3tools/provider-core':
-        specifier: workspace:*
-        version: link:../provider-core
-      '@t3tools/shared':
-        specifier: workspace:*
-        version: link:../shared
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1786,7 +1786,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1798,13 +1798,13 @@ importers:
 
   packages/provider-pi:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -1817,7 +1817,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/provider-testing':
+      '@lnsflive/provider-testing':
         specifier: workspace:*
         version: link:../provider-testing
       '@types/node':
@@ -1832,13 +1832,13 @@ importers:
       '@effect/platform-node':
         specifier: 4.0.5
         version: 4.0.5(bufferutil@4.1.0)(effect@4.0.5)(redis@6.2.1)(utf-8-validate@6.0.6)
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -1851,15 +1851,15 @@ importers:
 
   packages/shared:
     dependencies:
+      '@lnsflive/contracts':
+        specifier: workspace:*
+        version: link:../contracts
       '@noble/curves':
         specifier: 'catalog:'
         version: 1.9.1
       '@noble/hashes':
         specifier: 'catalog:'
         version: 1.8.0
-      '@t3tools/contracts':
-        specifier: workspace:*
-        version: link:../contracts
       effect:
         specifier: 4.0.5
         version: 4.0.5
@@ -1927,13 +1927,13 @@ importers:
 
   packages/source-control-azure-devops:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       diff:
@@ -1949,7 +1949,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -1961,16 +1961,16 @@ importers:
 
   packages/source-control-bitbucket:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -1983,7 +1983,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -1995,10 +1995,10 @@ importers:
 
   packages/source-control-core:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -2017,40 +2017,40 @@ importers:
 
   packages/source-control-definitions:
     dependencies:
-      '@t3tools/source-control-azure-devops':
+      '@lnsflive/source-control-azure-devops':
         specifier: workspace:*
         version: link:../source-control-azure-devops
-      '@t3tools/source-control-bitbucket':
+      '@lnsflive/source-control-bitbucket':
         specifier: workspace:*
         version: link:../source-control-bitbucket
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
-      '@t3tools/source-control-forgejo':
+      '@lnsflive/source-control-forgejo':
         specifier: workspace:*
         version: link:../source-control-forgejo
-      '@t3tools/source-control-gitcafe':
+      '@lnsflive/source-control-gitcafe':
         specifier: workspace:*
         version: link:../source-control-gitcafe
-      '@t3tools/source-control-github':
+      '@lnsflive/source-control-github':
         specifier: workspace:*
         version: link:../source-control-github
-      '@t3tools/source-control-gitlab':
+      '@lnsflive/source-control-gitlab':
         specifier: workspace:*
         version: link:../source-control-gitlab
 
   packages/source-control-forgejo:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -2063,7 +2063,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -2075,16 +2075,16 @@ importers:
 
   packages/source-control-gitcafe:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -2094,7 +2094,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -2106,16 +2106,16 @@ importers:
 
   packages/source-control-github:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/provider-core':
+      '@lnsflive/provider-core':
         specifier: workspace:*
         version: link:../provider-core
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -2131,7 +2131,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -2143,13 +2143,13 @@ importers:
 
   packages/source-control-gitlab:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -2159,7 +2159,7 @@ importers:
       '@effect/vitest':
         specifier: 4.0.5
         version: 4.0.5(patch_hash=2731c9c3761c595f25ddc625a7d61ca376b389d5b3049ecb837c8940f21cfa02)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.0.5)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
-      '@t3tools/source-control-testing':
+      '@lnsflive/source-control-testing':
         specifier: workspace:*
         version: link:../source-control-testing
       '@types/node':
@@ -2174,13 +2174,13 @@ importers:
       '@effect/platform-node':
         specifier: 4.0.5
         version: 4.0.5(bufferutil@4.1.0)(effect@4.0.5)(redis@6.2.1)(utf-8-validate@6.0.6)
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
-      '@t3tools/source-control-core':
+      '@lnsflive/source-control-core':
         specifier: workspace:*
         version: link:../source-control-core
       effect:
@@ -2193,10 +2193,10 @@ importers:
 
   packages/ssh:
     dependencies:
-      '@t3tools/contracts':
+      '@lnsflive/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -2218,7 +2218,7 @@ importers:
 
   packages/tailscale:
     dependencies:
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../shared
       effect:
@@ -2246,10 +2246,10 @@ importers:
       '@electron/osx-sign':
         specifier: 2.7.0
         version: 2.7.0
-      '@t3tools/shared':
+      '@lnsflive/shared':
         specifier: workspace:*
         version: link:../packages/shared
-      '@t3tools/tailscale':
+      '@lnsflive/tailscale':
         specifier: workspace:*
         version: link:../packages/tailscale
       agent-device:
@@ -4595,6 +4595,21 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@lnsflive/mobile-highlights-native@file:apps/mobile/modules/jcode-highlights':
+    resolution: {directory: apps/mobile/modules/jcode-highlights, type: directory}
+
+  '@lnsflive/mobile-review-diff-native@file:apps/mobile/modules/jcode-review-diff':
+    resolution: {directory: apps/mobile/modules/jcode-review-diff, type: directory}
+
+  '@lnsflive/mobile-source-text@file:apps/mobile/modules/jcode-source-text':
+    resolution: {directory: apps/mobile/modules/jcode-source-text, type: directory}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
+  '@lnsflive/mobile-terminal-native@file:apps/mobile/modules/jcode-terminal':
+    resolution: {directory: apps/mobile/modules/jcode-terminal, type: directory}
+
   '@malept/cross-spawn-promise@2.0.0':
     resolution: {integrity: sha512-1DpKU0Z5ThltBwjNySMC14g0CkbyhCaz9FkhxqNsZI6uAPJXFS8cMXlBKo26FJ8ZuW6S9GCMcR9IO5k2X5/9Fg==}
     engines: {node: '>= 12.13.0'}
@@ -6332,21 +6347,6 @@ packages:
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
-
-  '@t3tools/mobile-highlights-native@file:apps/mobile/modules/jcode-highlights':
-    resolution: {directory: apps/mobile/modules/jcode-highlights, type: directory}
-
-  '@t3tools/mobile-review-diff-native@file:apps/mobile/modules/jcode-review-diff':
-    resolution: {directory: apps/mobile/modules/jcode-review-diff, type: directory}
-
-  '@t3tools/mobile-source-text@file:apps/mobile/modules/jcode-source-text':
-    resolution: {directory: apps/mobile/modules/jcode-source-text, type: directory}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
-
-  '@t3tools/mobile-terminal-native@file:apps/mobile/modules/jcode-terminal':
-    resolution: {directory: apps/mobile/modules/jcode-terminal, type: directory}
 
   '@tabler/icons-react-native@3.44.0':
     resolution: {integrity: sha512-/Ppp68bpl9vQQsI/c+YiDC9dnLq4JUo0YI5qP72OQMC1WmCaRzdYn3CU79q01M2L3MfXO9a8WctWN8ay1Odkow==}
@@ -10850,9 +10850,9 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-enriched-markdown@file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-t3.16-558767d9.tgz:
-    resolution: {integrity: sha512-Dl8Raid4175mHijMpsIRLB3yXBZ1s04YxaQoIdHwy64KPHBVdt26x2OYRhYyjMM3VEo4U24AAYNXUh271zYDQw==, tarball: file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-t3.16-558767d9.tgz}
-    version: 1.2.0-t3.16
+  react-native-enriched-markdown@file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-jcode.16-558767d9.tgz:
+    resolution: {integrity: sha512-8epjIYkmLxEOWDPABSxQRyFj/YCEfyHrhB4ZLOP6eZ3Zuw7Xrm2y9D6wVTXnduwniXuUYcw45xthgAvB4gv15w==, tarball: file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-jcode.16-558767d9.tgz}
+    version: 1.2.0-jcode.16
     peerDependencies:
       katex: '>=0.16.0'
       react: '*'
@@ -10914,9 +10914,9 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-screens@file:apps/mobile/deps/react-native-screens-5.0.0-t3.45.tgz:
-    resolution: {integrity: sha512-FgmMB7T2tb0pEKgdsRs5sRCIRfIOHFqEk3lqaRA53dYb51rxlE9utrAoxbUPHcAROAAP2QA55KUTD9V71SoNqA==, tarball: file:apps/mobile/deps/react-native-screens-5.0.0-t3.45.tgz}
-    version: 5.0.0-t3.45
+  react-native-screens@file:apps/mobile/deps/react-native-screens-5.0.0-jcode.45.tgz:
+    resolution: {integrity: sha512-krio0TsK+EwfDPPTTofNEj2K9d479d63ETB8huUOuAcRsgbnVLxj6kbC12TC144og58zw/fE/h+psK5qG0ZBIQ==, tarball: file:apps/mobile/deps/react-native-screens-5.0.0-jcode.45.tgz}
+    version: 5.0.0-jcode.45
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -14896,6 +14896,17 @@ snapshots:
   '@libsql/win32-x64-msvc@0.5.29':
     optional: true
 
+  '@lnsflive/mobile-highlights-native@file:apps/mobile/modules/jcode-highlights': {}
+
+  '@lnsflive/mobile-review-diff-native@file:apps/mobile/modules/jcode-review-diff': {}
+
+  '@lnsflive/mobile-source-text@file:apps/mobile/modules/jcode-source-text(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+      react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
+
+  '@lnsflive/mobile-terminal-native@file:apps/mobile/modules/jcode-terminal': {}
+
   '@malept/cross-spawn-promise@2.0.0':
     dependencies:
       cross-spawn: 7.0.6
@@ -15896,7 +15907,7 @@ snapshots:
     optionalDependencies:
       '@react-native-masked-view/masked-view': 0.3.2(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
 
-  '@react-navigation/native-stack@7.21.0(patch_hash=990d575444c4af2ce8218b3b7a8280fe244c03abbdb32b822a2e862f791dbf42)(fedae76d040d2e46f454f147f7fa3a09)':
+  '@react-navigation/native-stack@7.21.0(patch_hash=990d575444c4af2ce8218b3b7a8280fe244c03abbdb32b822a2e862f791dbf42)(254792008e36b5afb1b053f463b4dd6f)':
     dependencies:
       '@react-navigation/elements': 2.9.45(d8845bac868f4d8a58c8a8f12ad0d4a5)
       '@react-navigation/native': 7.5.1(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
@@ -15904,7 +15915,7 @@ snapshots:
       react: 19.3.0
       react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
       react-native-safe-area-context: 5.10.1(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
-      react-native-screens: file:apps/mobile/deps/react-native-screens-5.0.0-t3.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
+      react-native-screens: file:apps/mobile/deps/react-native-screens-5.0.0-jcode.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)
       sf-symbols-typescript: 2.2.0
       warn-once: 0.1.1
     transitivePeerDependencies:
@@ -16169,17 +16180,6 @@ snapshots:
   '@szmarczak/http-timer@4.0.6':
     dependencies:
       defer-to-connect: 2.0.1
-
-  '@t3tools/mobile-highlights-native@file:apps/mobile/modules/jcode-highlights': {}
-
-  '@t3tools/mobile-review-diff-native@file:apps/mobile/modules/jcode-review-diff': {}
-
-  '@t3tools/mobile-source-text@file:apps/mobile/modules/jcode-source-text(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0)':
-    dependencies:
-      react: 19.3.0
-      react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
-
-  '@t3tools/mobile-terminal-native@file:apps/mobile/modules/jcode-terminal': {}
 
   '@tabler/icons-react-native@3.44.0(react-native-svg@15.16.0(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0))(react@19.3.0)':
     dependencies:
@@ -21417,7 +21417,7 @@ snapshots:
       react: 19.3.0
       react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
 
-  react-native-enriched-markdown@file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-t3.16-558767d9.tgz(katex@0.16.47)(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0):
+  react-native-enriched-markdown@file:apps/mobile/deps/react-native-enriched-markdown-1.2.0-jcode.16-558767d9.tgz(katex@0.16.47)(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0):
     dependencies:
       react: 19.3.0
       react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
@@ -21476,7 +21476,7 @@ snapshots:
       react: 19.3.0
       react-native: 0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
 
-  react-native-screens@file:apps/mobile/deps/react-native-screens-5.0.0-t3.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0):
+  react-native-screens@file:apps/mobile/deps/react-native-screens-5.0.0-jcode.45.tgz(react-native@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(@react-native/metro-config@0.88.0(@babel/core@7.29.7(supports-color@8.1.1))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))(react@19.3.0):
     dependencies:
       react: 19.3.0
       react-freeze: 1.0.4(react@19.3.0)

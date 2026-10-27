@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
-import type { EnvironmentProject } from "@t3tools/client-runtime/state/models";
-import type { EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
-import { EnvironmentId } from "@t3tools/contracts";
+import type { EnvironmentProject } from "@lnsflive/client-runtime/state/models";
+import type { EnvironmentConnectionPhase } from "@lnsflive/client-runtime/connection";
+import { EnvironmentId } from "@lnsflive/contracts";
 import { pullRequestFallbackEnvironment } from "./pullRequestEnvironmentFallback";
 
 const project = (environmentId: string, id: string, canonicalKey: string) =>
@@ -12,13 +12,13 @@ const project = (environmentId: string, id: string, canonicalKey: string) =>
   }) as unknown as EnvironmentProject;
 
 const projects = [
-  project("laptop", "t3", "github.com/lnsflive/jcode"),
+  project("laptop", "jcode", "github.com/lnsflive/jcode"),
   project("desktop", "other", "github.com/lnsflive/other"),
-  project("server", "t3-copy", "github.com/lnsflive/jcode"),
+  project("server", "jcode-copy", "github.com/lnsflive/jcode"),
 ];
 const target = {
   environmentId: "laptop",
-  projectId: "t3",
+  projectId: "jcode",
   repository: "lnsflive/jcode",
   host: "github.com",
 };
@@ -35,7 +35,7 @@ describe("pullRequestFallbackEnvironment", () => {
         environment("desktop"),
         environment("server"),
       ]),
-    ).toEqual({ environmentId: "server", projectId: "t3-copy" });
+    ).toEqual({ environmentId: "server", projectId: "jcode-copy" });
   });
 
   it("stays put while the original is connected or nothing else holds the repository", () => {
@@ -52,7 +52,7 @@ describe("pullRequestFallbackEnvironment", () => {
     const { host: _host, ...hostless } = target;
     expect(pullRequestFallbackEnvironment(hostless, projects, [environment("server")])).toEqual({
       environmentId: "server",
-      projectId: "t3-copy",
+      projectId: "jcode-copy",
     });
   });
 });

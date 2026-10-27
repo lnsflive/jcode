@@ -9,7 +9,7 @@ import { makeComponentLogger } from "./DesktopObservability.ts";
 // AppImage mounts change each run; the launcher must mount the image itself.
 const { logInfo, logWarning } = makeComponentLogger("desktop-cli-shim");
 
-export const MARKER = "Written by JCode: runs the desktop app's bundled t3 CLI.";
+export const MARKER = "Written by JCode: runs the desktop app's bundled jcode CLI.";
 
 const SERVER_ENTRY = "apps/server/dist/bin.mjs";
 
@@ -29,11 +29,11 @@ export type CliShimTarget =
 export const renderCliShim = (input: {
   readonly target: CliShimTarget;
   readonly shimPath: string;
-  readonly t3Home: string;
+  readonly jcodeHome: string;
 }) => {
   const { target } = input;
   if (target.kind === "windows") {
-    const utf8 = [target.executable, target.entry, input.shimPath, input.t3Home].some((value) =>
+    const utf8 = [target.executable, target.entry, input.shimPath, input.jcodeHome].some((value) =>
       [...value].some((character) => character.codePointAt(0)! > 0x7f),
     );
     const restore = utf8 ? ["chcp %jcodepage% >nul"] : [];
@@ -47,7 +47,7 @@ export const renderCliShim = (input: {
         ? [`for /f "tokens=2 delims=:." %%c in ('chcp') do set "jcodepage=%%c"`, "chcp 65001 >nul"]
         : []),
       `set "JCODE_CLI_PATH=${cmdText(input.shimPath)}"`,
-      `if not defined JCODE_HOME set "JCODE_HOME=${cmdText(input.t3Home)}"`,
+      `if not defined JCODE_HOME set "JCODE_HOME=${cmdText(input.jcodeHome)}"`,
       'set "ELECTRON_RUN_AS_NODE=1"',
       // Electron's Windows executable starts without stdin; this tells the CLI to reopen the console.
       'set "JCODE_DESKTOP_CLI_LAUNCHER=1"',
@@ -58,9 +58,9 @@ export const renderCliShim = (input: {
       "exit /b 127",
       ":run",
       `${cmdWord(target.executable)} ${cmdWord(target.entry)} %*`,
-      'set "t3_exit=%ERRORLEVEL%"',
+      'set "jcode_exit=%ERRORLEVEL%"',
       ...restore,
-      "exit /b %t3_exit%",
+      "exit /b %jcode_exit%",
       "",
     ].join("\r\n");
   }
@@ -68,7 +68,7 @@ export const renderCliShim = (input: {
     "#!/bin/sh",
     `# ${MARKER}`,
     `export JCODE_CLI_PATH=${shellWord(input.shimPath)}`,
-    `home=${shellWord(input.t3Home)}`,
+    `home=${shellWord(input.jcodeHome)}`,
     'export JCODE_HOME="${JCODE_HOME:-$home}"',
     "export ELECTRON_RUN_AS_NODE=1",
     `app=${shellWord(target.kind === "appimage" ? target.appImage : target.executable)}`,
@@ -113,7 +113,7 @@ export const launcherPath = (environment: DesktopEnvironment.DesktopEnvironment[
   environment.path.join(
     environment.baseDir,
     "bin",
-    environment.platform === "win32" ? "t3.cmd" : "t3",
+    environment.platform === "win32" ? "jcode.cmd" : "jcode",
   );
 
 export const install = Effect.gen(function* () {
@@ -134,7 +134,7 @@ export const install = Effect.gen(function* () {
         }),
         onNone: () => ({ kind: "direct" as const, executable: process.execPath, entry }),
       });
-  const content = renderCliShim({ target, shimPath, t3Home: environment.baseDir });
+  const content = renderCliShim({ target, shimPath, jcodeHome: environment.baseDir });
 
   return yield* Effect.gen(function* () {
     const existing = yield* fs.readFileString(shimPath).pipe(Effect.option);

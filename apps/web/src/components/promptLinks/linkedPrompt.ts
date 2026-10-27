@@ -1,4 +1,4 @@
-import type { LinkedPrompt } from "@t3tools/shared/promptLinks";
+import type { LinkedPrompt } from "@lnsflive/shared/promptLinks";
 
 import { type ComposerThreadTarget, useComposerDraftStore } from "~/composerDraftStore";
 

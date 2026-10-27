@@ -1,4 +1,4 @@
-import { EnvironmentId, ProjectId, SourceControlProviderKind } from "@t3tools/contracts";
+import { EnvironmentId, ProjectId, SourceControlProviderKind } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import type { EnvironmentProject } from "./models.ts";
@@ -78,14 +78,14 @@ describe("load balancing shared project machines", () => {
   });
 });
 const repositoryIdentity = {
-  canonicalKey: "github.com/t3tools/jcode",
+  canonicalKey: "github.com/lnsflive/jcode",
   locator: {
     source: "git-remote" as const,
     remoteName: "upstream",
-    remoteUrl: "https://github.com/t3tools/jcode.git",
+    remoteUrl: "https://github.com/lnsflive/jcode.git",
   },
   provider: SourceControlProviderKind.make("github"),
-  owner: "t3tools",
+  owner: "lnsflive",
   name: "jcode",
   displayName: "JCode",
 };
@@ -281,7 +281,7 @@ describe("buildProjectGroups", () => {
 
     const groups = buildProjectGroups({ projects, settings: settings("repository") });
     expect(groups.map((group) => group.key)).toEqual([
-      "github.com/t3tools/jcode",
+      "github.com/lnsflive/jcode",
       "github.com/julius/jcode-fork",
     ]);
     expect(groups[1]?.members.map((member) => member.project.id)).toEqual(["fork", "fork-2"]);
@@ -329,7 +329,7 @@ describe("buildProjectGroups", () => {
   it("uses the freshest winner's repository identity when stale duplicates disagree", () => {
     const staleIdentity = {
       ...repositoryIdentity,
-      canonicalKey: "github.com/t3tools/old-repository",
+      canonicalKey: "github.com/lnsflive/old-repository",
       name: "old-repository",
       displayName: "Old Repository",
     };
@@ -353,7 +353,7 @@ describe("buildProjectGroups", () => {
   it("uses the freshest identity-bearing duplicate when the winner lacks identity", () => {
     const staleIdentity = {
       ...repositoryIdentity,
-      canonicalKey: "github.com/t3tools/old-repository",
+      canonicalKey: "github.com/lnsflive/old-repository",
       name: "old-repository",
       displayName: "Old Repository",
     };

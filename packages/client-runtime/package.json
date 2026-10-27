@@ -1,5 +1,5 @@
 {
-  "name": "@t3tools/client-runtime",
+  "name": "@lnsflive/client-runtime",
   "private": true,
   "type": "module",
   "exports": {
@@ -489,19 +489,19 @@
     "test": "vp test run"
   },
   "dependencies": {
+    "@lnsflive/contracts": "workspace:*",
+    "@lnsflive/provider-acp-registry": "workspace:*",
+    "@lnsflive/provider-core": "workspace:*",
+    "@lnsflive/provider-cursor": "workspace:*",
+    "@lnsflive/provider-fx": "workspace:*",
+    "@lnsflive/provider-grok": "workspace:*",
+    "@lnsflive/provider-muse": "workspace:*",
+    "@lnsflive/provider-opencode": "workspace:*",
+    "@lnsflive/provider-pi": "workspace:*",
+    "@lnsflive/shared": "workspace:*",
+    "@lnsflive/source-control-core": "workspace:*",
+    "@lnsflive/source-control-definitions": "workspace:*",
     "@pierre/diffs": "catalog:",
-    "@t3tools/contracts": "workspace:*",
-    "@t3tools/provider-acp-registry": "workspace:*",
-    "@t3tools/provider-core": "workspace:*",
-    "@t3tools/provider-cursor": "workspace:*",
-    "@t3tools/provider-fx": "workspace:*",
-    "@t3tools/provider-grok": "workspace:*",
-    "@t3tools/provider-muse": "workspace:*",
-    "@t3tools/provider-opencode": "workspace:*",
-    "@t3tools/provider-pi": "workspace:*",
-    "@t3tools/shared": "workspace:*",
-    "@t3tools/source-control-core": "workspace:*",
-    "@t3tools/source-control-definitions": "workspace:*",
     "effect": "catalog:",
     "three": "0.180.0"
   },

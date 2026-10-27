@@ -1,7 +1,7 @@
 import { Button } from "../../components/ui/Button";
 import { AppActivityIndicator } from "../../components/ui/AppActivityIndicator";
 import * as Dialog from "../../components/ui/Dialog";
-import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts";
+import type { EnvironmentId, ThreadId, TurnItemId } from "@lnsflive/contracts";
 import {
   makeMcpAppHost,
   McpAppHostRefusal,
@@ -10,16 +10,16 @@ import {
   type McpAppCallToolResult,
   type McpAppHost,
   type McpAppHostContext,
-} from "@t3tools/client-runtime/mcp-apps";
-import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
-import { CommandId, MessageId } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/mcp-apps";
+import { scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import { squashAtomCommandFailure } from "@lnsflive/client-runtime/state/runtime";
+import { CommandId, MessageId } from "@lnsflive/contracts";
 import {
   mcpAppAllowAttribute,
   mcpAppFileName,
   mcpAppReferencesEqual,
   type McpAppReference,
-} from "@t3tools/shared/mcpApp";
+} from "@lnsflive/shared/mcpApp";
 import * as Predicate from "effect/Predicate";
 import { AsyncResult } from "effect/reactivity";
 import Constants from "expo-constants";
@@ -59,9 +59,9 @@ function outerDocument(src: string, allow: string, secret: string) {
 <body><iframe id="app" sandbox="allow-scripts allow-forms" allow="${attribute(allow)}"></iframe>
 <script>(function(){var frame=document.getElementById("app"),secret=${JSON.stringify(secret)},loads=0,live=true;
 var send=function(m){var u=navigator.userActivation;window.ReactNativeWebView.postMessage(JSON.stringify({secret:secret,active:!!(u&&u.isActive)&&document.activeElement===frame,message:m}));};
-frame.addEventListener("load",function(){loads+=1;if(loads>1&&live){live=false;send({t3:"navigated"});}});
+frame.addEventListener("load",function(){loads+=1;if(loads>1&&live){live=false;send({jcode:"navigated"});}});
 window.addEventListener("message",function(e){if(live&&e.source===frame.contentWindow)send(e.data);});
-window.__t3McpAppReceive=function(m){live&&frame.contentWindow&&frame.contentWindow.postMessage(m,"*");};
+window.__jcodeMcpAppReceive=function(m){live&&frame.contentWindow&&frame.contentWindow.postMessage(m,"*");};
 frame.src=${JSON.stringify(src).replace(/</g, "\\u003c")};})();</script></body></html>`;
 }
 
@@ -320,7 +320,7 @@ export function ThreadMcpApp(props: {
         hostVersion: Constants.expoConfig?.version ?? "0.0.0",
         post: (message) =>
           view.injectJavaScript(
-            `window.__t3McpAppReceive&&window.__t3McpAppReceive(${JSON.stringify(message)});true;`,
+            `window.__jcodeMcpAppReceive&&window.__jcodeMcpAppReceive(${JSON.stringify(message)});true;`,
           ),
         hostContext,
         callTool: async ({ name, arguments: args }) => {
@@ -564,7 +564,7 @@ export function ThreadMcpApp(props: {
             }
             if (!Predicate.isObject(envelope) || envelope.secret !== secret) return;
             const message = envelope.message;
-            if (Predicate.isObject(message) && message.t3 === "navigated") {
+            if (Predicate.isObject(message) && message.jcode === "navigated") {
               host?.dispose();
               setNavigatedAway(true);
               return;

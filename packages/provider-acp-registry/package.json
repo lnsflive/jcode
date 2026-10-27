@@ -1,5 +1,5 @@
 {
-  "name": "@t3tools/provider-acp-registry",
+  "name": "@lnsflive/provider-acp-registry",
   "private": true,
   "type": "module",
   "exports": {
@@ -33,17 +33,17 @@
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
+    "@lnsflive/contracts": "workspace:*",
+    "@lnsflive/provider-acp": "workspace:*",
+    "@lnsflive/provider-core": "workspace:*",
+    "@lnsflive/shared": "workspace:*",
     "@noble/hashes": "catalog:",
-    "@t3tools/contracts": "workspace:*",
-    "@t3tools/provider-acp": "workspace:*",
-    "@t3tools/provider-core": "workspace:*",
-    "@t3tools/shared": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
-    "@t3tools/provider-testing": "workspace:*",
+    "@lnsflive/provider-testing": "workspace:*",
     "@types/node": "catalog:",
     "effect-acp": "workspace:*",
     "vite-plus": "catalog:"

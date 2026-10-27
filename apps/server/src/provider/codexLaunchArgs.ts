@@ -1,4 +1,4 @@
-import { tokenizeCliArgs } from "@t3tools/shared/cliArgs";
+import { tokenizeCliArgs } from "@lnsflive/shared/cliArgs";
 
 const JCODE_CODEX_LAUNCH_ARGS_ENV = "JCODE_CODEX_LAUNCH_ARGS";
 

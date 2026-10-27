@@ -21,35 +21,35 @@ const RUNS_EVERYTHING = [
 // Includes cross-package reads absent from package.json dependencies.
 const EXTRA_OWNERS = [
   // Vite configs and tsconfigs of these apps import scripts/lib directly.
-  [/^scripts\/lib\//, ["@t3tools/desktop", "@t3tools/mobile", "@t3tools/web", "t3"]],
+  [/^scripts\/lib\//, ["@lnsflive/desktop", "@lnsflive/mobile", "@lnsflive/web", "jcode"]],
   // scripts/build-desktop-artifact.ts reads the GNOME extension manifest.
-  [/^apps\/desktop\/gnome-extension\//, ["@t3tools/scripts"]],
-  [/^native\/browser-secret\//, ["@t3tools/desktop"]],
-  [/^native\/kde-snap-shot\//, ["@t3tools/desktop"]],
-  [/^native\/libghostty-vt\//, ["@t3tools/web"]],
+  [/^apps\/desktop\/gnome-extension\//, ["@lnsflive/scripts"]],
+  [/^native\/browser-secret\//, ["@lnsflive/desktop"]],
+  [/^native\/kde-snap-shot\//, ["@lnsflive/desktop"]],
+  [/^native\/libghostty-vt\//, ["@lnsflive/web"]],
 ];
 const RUST = /^native\/(resource-monitor|kde-snap-shot|hyprland-snap-shot)\//;
 
 // These tests read other packages without declaring dependencies.
 const TEST_ONLY_DEPS = {
   // Evals import the server's source to test its real model-facing text.
-  "@t3tools/evals": ["t3"],
-  "@t3tools/provider-pi": ["@t3tools/client-runtime"],
-  "@t3tools/scripts": [
-    "@t3tools/desktop",
-    "@t3tools/mobile",
-    "@t3tools/web",
-    "t3",
-    "@t3tools/provider-cursor",
+  "@lnsflive/evals": ["jcode"],
+  "@lnsflive/provider-pi": ["@lnsflive/client-runtime"],
+  "@lnsflive/scripts": [
+    "@lnsflive/desktop",
+    "@lnsflive/mobile",
+    "@lnsflive/web",
+    "jcode",
+    "@lnsflive/provider-cursor",
   ],
 };
 // The server bundles the web build without importing it.
-const BUILD_ONLY_DEPS = { t3: ["@t3tools/web"] };
+const BUILD_ONLY_DEPS = { jcode: ["@lnsflive/web"] };
 
 const MOBILE_NATIVE =
   /^apps\/mobile\/.*\.(swift|kt|kts)$|^apps\/mobile\/(\.swiftlint\.yml|detekt\.yml|\.editorconfig|Brewfile)$|^scripts\/mobile-native-static-check\.ts$|^package\.json$|^\.github\/workflows\/ci\.yml$|^\.github\/scripts\/ci-changes\.cjs$|^\.github\/actions\/ci-changes\//;
 
-const OWN_TEST_JOB = new Set(["t3", "@t3tools/web", "@t3tools/monorepo"]);
+const OWN_TEST_JOB = new Set(["jcode", "@lnsflive/web", "@lnsflive/monorepo"]);
 
 function readWorkspace() {
   const patterns = [];
@@ -98,7 +98,7 @@ function ownersOf(file, packages) {
   if (RUNS_EVERYTHING.some((pattern) => pattern.test(file))) return null;
   const extra = EXTRA_OWNERS.flatMap(([pattern, names]) => (pattern.test(file) ? names : []));
   // scripts/build-desktop-artifact.test.ts reads the crates' sources.
-  if (RUST.test(file)) return ["@t3tools/scripts", ...extra];
+  if (RUST.test(file)) return ["@lnsflive/scripts", ...extra];
 
   const owner = packages
     .filter((pkg) => file.startsWith(`${pkg.dir}/`))
@@ -139,7 +139,7 @@ function decide(files, packages, full) {
         }
       }
     }
-    scriptsChanged = affected.has("@t3tools/scripts");
+    scriptsChanged = affected.has("@lnsflive/scripts");
     for (const [name, deps] of Object.entries(TEST_ONLY_DEPS)) {
       if (deps.some((dep) => affected.has(dep))) affected.add(name);
     }
@@ -154,12 +154,12 @@ function decide(files, packages, full) {
     affected: [...affected].sort(),
     outputs: {
       typecheck: affected.size > 0,
-      build: has("@t3tools/desktop") || has("t3") || has("@t3tools/web"),
+      build: has("@lnsflive/desktop") || has("jcode") || has("@lnsflive/web"),
       test: tested.length > 0,
       // Empty means every package the Test job covers.
       test_packages: everything ? "" : tested.map((pkg) => pkg.name).join(" "),
-      test_web: has("@t3tools/web"),
-      test_server: has("t3"),
+      test_web: has("@lnsflive/web"),
+      test_server: has("jcode"),
       rust: everything || rust,
       release_smoke: scriptsChanged,
       mobile_native: files === null || files.some((file) => MOBILE_NATIVE.test(file)),

@@ -1,23 +1,23 @@
-import { type OrchestrationV2ProviderTurn, type RunAttemptId } from "@t3tools/contracts";
+import { type OrchestrationV2ProviderTurn, type RunAttemptId } from "@lnsflive/contracts";
 import {
   deriveLatestThreadRun,
   deriveThreadRuntime,
-} from "@t3tools/client-runtime/state/thread-execution";
-import { derivePendingBackgroundWork } from "@t3tools/shared/orchestrationV2PendingBackgroundWork";
+} from "@lnsflive/client-runtime/state/thread-execution";
+import { derivePendingBackgroundWork } from "@lnsflive/shared/orchestrationV2PendingBackgroundWork";
 import {
   latestUnheldRun,
   usageLimitRunPresentedAsLatest,
-} from "@t3tools/shared/orchestrationV2ThreadError";
+} from "@lnsflive/shared/orchestrationV2ThreadError";
 import * as Option from "effect/Option";
 import type { SetStateAction } from "react";
-import { applyClaudePromptEffortPrefix, resolvePromptInjectedEffort } from "@t3tools/shared/model";
+import { applyClaudePromptEffortPrefix, resolvePromptInjectedEffort } from "@lnsflive/shared/model";
 import { getProviderModelCapabilities } from "../providerModels";
 import { sanitizeThreadErrorMessage } from "~/rpc/transportError";
 import type {
   EnvironmentThread,
   ThreadStructure,
   EnvironmentThreadShell,
-} from "@t3tools/client-runtime/state/shell";
+} from "@lnsflive/client-runtime/state/shell";
 import {
   ANTIGRAVITY_DEFAULT_MODEL,
   PROVIDER_SEND_TURN_MAX_ATTACHMENTS,
@@ -43,21 +43,21 @@ import {
   type ThreadLinkedPullRequest,
   type RunId,
   type WorktreeSetupSnapshot,
-} from "@t3tools/contracts";
-import { worktreeSetupAgentStarted } from "@t3tools/client-runtime/worktree-setup";
+} from "@lnsflive/contracts";
+import { worktreeSetupAgentStarted } from "@lnsflive/client-runtime/worktree-setup";
 import * as DateTime from "effect/DateTime";
-import { resolveAssetUrl } from "@t3tools/client-runtime/state/assets";
+import { resolveAssetUrl } from "@lnsflive/client-runtime/state/assets";
 import {
   squashAtomCommandFailure,
   type AtomCommandResult,
-} from "@t3tools/client-runtime/state/runtime";
-import { videoMimeType } from "@t3tools/shared/video";
+} from "@lnsflive/client-runtime/state/runtime";
+import { videoMimeType } from "@lnsflive/shared/video";
 import {
   appendCodexArtifactTemplateUsePrompt,
   codexArtifactTemplateUsePrompt,
   type CodexArtifactTemplate,
-} from "@t3tools/shared/codexArtifactTemplates";
-import { presentThreadShell } from "@t3tools/client-runtime/state/shell";
+} from "@lnsflive/shared/codexArtifactTemplates";
+import { presentThreadShell } from "@lnsflive/client-runtime/state/shell";
 import {
   type ChatMessage,
   isImageAttachment,
@@ -89,8 +89,8 @@ import {
   reviewCommentContextLabel,
   terminalContextReference,
 } from "../lib/composerContextRecords";
-import { serializeLegacyContextMessage } from "@t3tools/shared/composerContextLegacySend";
-import type { ComposerDispatchMode } from "@t3tools/client-runtime/state/composer-dispatch";
+import { serializeLegacyContextMessage } from "@lnsflive/shared/composerContextLegacySend";
+import type { ComposerDispatchMode } from "@lnsflive/client-runtime/state/composer-dispatch";
 import type { DraftThreadEnvMode } from "../composerDraftStore";
 import { collapseExpandedComposerCursor, type ComposerSubmissionIntent } from "../composer-logic";
 import type { ReviewCommentContext } from "../reviewCommentContext";
@@ -298,7 +298,7 @@ export function shouldReleaseTimelineAnchorForToolActivity(input: {
 export {
   findRecordedWorktreeSetup,
   resolveVisibleWorktreeSetup,
-} from "@t3tools/client-runtime/worktree-setup";
+} from "@lnsflive/client-runtime/worktree-setup";
 
 export function resolveWorktreeSetupProgress(input: {
   threadId: ThreadId;
@@ -714,7 +714,7 @@ export function collectUserMessageBlobPreviewUrls(message: ChatMessage): string[
 
 export { readFileAsDataUrl } from "../lib/imageCompression";
 
-export { resolveSendEnvMode } from "@t3tools/shared/projectSettings";
+export { resolveSendEnvMode } from "@lnsflive/shared/projectSettings";
 
 export function resolveBackgroundDraftWorkspaceOptions(input: {
   envMode: DraftThreadEnvMode;
@@ -1263,7 +1263,7 @@ export function mergeDirectPreviewAnnotation(input: {
   return { images, previewAnnotations };
 }
 
-export { isThreadWokeUnseen } from "@t3tools/client-runtime/state/thread-settled";
+export { isThreadWokeUnseen } from "@lnsflive/client-runtime/state/thread-settled";
 
 export function formatOutgoingPrompt(params: {
   provider: ProviderDriverKind;

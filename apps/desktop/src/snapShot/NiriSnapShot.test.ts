@@ -41,7 +41,7 @@ let version: string;
 const send = (socket: NodeNet.Socket, value: unknown) => socket.write(`${JSON.stringify(value)}\n`);
 
 beforeEach(async () => {
-  directory = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "t3-niri-test-"));
+  directory = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "jcode-niri-test-"));
   socketPath = NodePath.join(directory, "ipc");
   sockets = new Set();
   events = [];
@@ -107,11 +107,11 @@ afterEach(async () => {
 });
 
 it("selects the native adapter without needing a portal or GNOME extension", async () => {
-  expect(await getLinuxCaptureSupport("com.t3tools.JCode")).toEqual({
+  expect(await getLinuxCaptureSupport("com.lnsflive.JCode")).toEqual({
     linuxBackend: "niri",
     linuxFeedbackAvailable: false,
   });
-  const snapshot = await captureLinuxWindow("com.t3tools.JCode");
+  const snapshot = await captureLinuxWindow("com.lnsflive.JCode");
   expect(snapshot?.png).toEqual(png);
   expect(snapshot?.window).toMatchObject({
     processId: 123,
@@ -132,7 +132,7 @@ it("does not activate JCode until requested, then matches PID and title", async 
   expect(calls.some((call) => typeof call !== "string" && call.Action.FocusWindow)).toBe(false);
   windows = [
     { ...window, id: 1, pid: 999, title: "JCode" },
-    { ...window, id: 2, pid: process.pid, title: "Other T3" },
+    { ...window, id: 2, pid: process.pid, title: "Other JCode" },
     { ...window, id: 3, pid: process.pid, title: "JCode" },
   ];
   await snapshot.feedback!.activate("JCode");
@@ -195,7 +195,7 @@ it("rejects compositor errors and cleans up its temporary image", async () => {
       send(socket, { Err: "window disappeared" });
     } else await original(request, socket);
   };
-  await expect(captureLinuxWindow("com.t3tools.JCode")).rejects.toThrow("window disappeared");
+  await expect(captureLinuxWindow("com.lnsflive.JCode")).rejects.toThrow("window disappeared");
   expect(await NodeFSP.stat(NodePath.dirname(capturePath!)).catch(() => undefined)).toBeUndefined();
 });
 

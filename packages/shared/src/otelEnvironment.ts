@@ -6,7 +6,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
 
-import type { OtlpEndpointSource } from "@t3tools/contracts";
+import type { OtlpEndpointSource } from "@lnsflive/contracts";
 
 import { OtlpHeadersFromString, OtlpProtocol, type SignalExport } from "./observability.ts";
 
@@ -252,7 +252,7 @@ const endpointSignal = (name: OtlpSignalName, own: Settings, generic: Settings):
 };
 
 const sdkFlags = {
-  t3: flag(
+  jcode: flag(
     "JCODE_OTEL_SDK_DISABLED",
     JCODE_TRUE,
     JCODE_FALSE,
@@ -281,8 +281,8 @@ export const load: Effect.Effect<OtelEnvironment> = Config.all({
     logs: exporter("OTEL_LOGS_EXPORTER"),
   }),
 }).pipe(
-  Effect.map(({ t3, spec, resource, generic, exporters, ...own }) => {
-    const disabled = t3.value ?? spec.value ?? false;
+  Effect.map(({ jcode, spec, resource, generic, exporters, ...own }) => {
+    const disabled = jcode.value ?? spec.value ?? false;
     const signals = disabled
       ? undefined
       : {
@@ -294,14 +294,14 @@ export const load: Effect.Effect<OtelEnvironment> = Config.all({
       signals === undefined ? [] : Object.values(signals).flatMap((resolved) => resolved.used),
     );
     const warnings = [
-      t3.warning,
+      jcode.warning,
       spec.warning,
       resource.warning,
       ...Array.from(used, (setting) => setting.warning),
     ].filter((warning) => warning !== undefined);
     if (disabled) {
       warnings.push(
-        t3.value
+        jcode.value
           ? "JCODE_OTEL_SDK_DISABLED is set, so no telemetry is exported, whatever configured it"
           : "OTEL_SDK_DISABLED is set, so no telemetry is exported, whatever configured it; set JCODE_OTEL_SDK_DISABLED=false to export anyway",
       );
@@ -324,7 +324,8 @@ export const isRelayTracingEnabled = (env: Readonly<Record<string, string | unde
     telemetry: flag("JCODE_TELEMETRY_ENABLED", JCODE_TRUE, JCODE_FALSE, String),
   }).pipe(
     Effect.map(
-      ({ telemetry, t3, spec }) => telemetry.value !== false && !(t3.value ?? spec.value ?? false),
+      ({ telemetry, jcode, spec }) =>
+        telemetry.value !== false && !(jcode.value ?? spec.value ?? false),
     ),
     Effect.provide(ConfigProvider.layer(ConfigProvider.fromEnvRecord(env))),
     Effect.orDie,
@@ -344,17 +345,17 @@ export interface SignalEndpoint {
 export const resolveSignalEndpoint = (
   otel: OtelEnvironment,
   signal: SignalName,
-  t3: { readonly url: string | undefined; readonly export: SignalExport },
+  jcode: { readonly url: string | undefined; readonly export: SignalExport },
   fallback: { readonly bootstrapUrl: string | undefined; readonly settingsUrl: string | undefined },
 ): SignalEndpoint | undefined => {
   if (otel.disabled) {
     return undefined;
   }
-  const t3Url = blankAsUnset(t3.url);
-  if (t3Url !== undefined) {
+  const jcodeUrl = blankAsUnset(jcode.url);
+  if (jcodeUrl !== undefined) {
     return {
-      url: t3Url,
-      export: t3.export,
+      url: jcodeUrl,
+      export: jcode.export,
       source: "environment",
       variable: `JCODE_OTLP_${signal.toUpperCase()}_URL`,
     };
@@ -362,7 +363,7 @@ export const resolveSignalEndpoint = (
   return OtelSignal.$match(otel[signal], {
     Export: ({ url, variable, protocol, headers }): SignalEndpoint => ({
       url,
-      export: { protocol, headers, exportIntervalMs: t3.export.exportIntervalMs },
+      export: { protocol, headers, exportIntervalMs: jcode.export.exportIntervalMs },
       source: "environment",
       variable,
     }),
@@ -373,7 +374,7 @@ export const resolveSignalEndpoint = (
       // the desktop's own.
       const url = blankAsUnset(fallback.bootstrapUrl) ?? settingsUrl;
       if (url === undefined) return undefined;
-      return { url, export: t3.export, source: url === settingsUrl ? "settings" : "bootstrap" };
+      return { url, export: jcode.export, source: url === settingsUrl ? "settings" : "bootstrap" };
     },
   });
 };

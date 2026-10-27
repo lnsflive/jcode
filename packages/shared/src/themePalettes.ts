@@ -1,4 +1,4 @@
-export const BUILT_IN_THEME_IDS = ["t3-chat", "grove", "ocean", "ember", "iris"] as const;
+export const BUILT_IN_THEME_IDS = ["jcode-chat", "grove", "ocean", "ember", "iris"] as const;
 
 export const MOBILE_DEFAULT_THEME_ID = "jcode";
 
@@ -10,11 +10,11 @@ export const RESERVED_THEME_IDS: ReadonlySet<string> = new Set([
   "light",
   "dark",
   ...BUILT_IN_THEME_IDS,
-  "t3-chat-dark",
-  "t3-grove",
-  "t3-ocean",
-  "t3-ember",
-  "t3-iris",
+  "jcode-chat-dark",
+  "jcode-grove",
+  "jcode-ocean",
+  "jcode-ember",
+  "jcode-iris",
 ]);
 
 /** The mobile default id is valid in saved themes but cannot be published because web/desktop cannot resolve it. */
@@ -234,7 +234,7 @@ export const JCODE_DARK_THEME_COLORS: ThemeColors = {
 };
 
 export const J_CHAT_THEME: ThemeDefinition = {
-  id: "t3-chat",
+  id: "jcode-chat",
   label: "JCode Chat",
   appearance: "light",
   colors: {

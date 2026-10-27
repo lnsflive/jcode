@@ -5,8 +5,8 @@ import type {
   OrchestrationV2TurnItem,
   ThreadId,
   ThreadPullRequestLink,
-} from "@t3tools/contracts";
-import { isOrchestrationV2WorkActive } from "@t3tools/contracts";
+} from "@lnsflive/contracts";
+import { isOrchestrationV2WorkActive } from "@lnsflive/contracts";
 import * as Predicate from "effect/Predicate";
 
 import { resolveJMcpToolId } from "./jMcpToolPresentation.ts";
@@ -72,7 +72,7 @@ export function deriveBlockedOnThreadWait(input: {
     if (item.type !== "dynamic_tool") return false;
     const tool = resolveJMcpToolId(item.toolName);
     if (
-      tool !== "t3_thread_wait" &&
+      tool !== "jcode_thread_wait" &&
       !(
         tool === "delegate_task" &&
         Predicate.isObject(item.input) &&

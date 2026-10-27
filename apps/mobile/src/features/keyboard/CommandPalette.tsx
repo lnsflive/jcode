@@ -6,8 +6,8 @@ import {
   threadSearchSubject,
   type EnvironmentThreadSearchMatch,
   type ShownOrder,
-} from "@t3tools/client-runtime/state/thread-search";
-import { THREAD_JUMP_KEYBINDING_COMMANDS } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/state/thread-search";
+import { THREAD_JUMP_KEYBINDING_COMMANDS } from "@lnsflive/contracts";
 import {
   foldSearchQuery,
   PALETTE_MESSAGE_LIMIT,
@@ -15,7 +15,7 @@ import {
   splitSearchText,
   pickedQuery,
   threadRecentUse,
-} from "@t3tools/shared/paletteSearch";
+} from "@lnsflive/shared/paletteSearch";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
@@ -148,7 +148,7 @@ function PaletteRow(props: {
               ? splitSearchText(props.item.title, props.item.titleRanges).map((part) => (
                   <Text
                     key={part.start}
-                    className={cn("text-base", part.highlighted && "font-t3-bold")}
+                    className={cn("text-base", part.highlighted && "font-jcode-bold")}
                   >
                     {part.text}
                   </Text>
@@ -181,7 +181,10 @@ function PaletteRow(props: {
           <Text numberOfLines={1} className={cn("text-sm", mutedForegroundClassName)}>
             {props.item.matchHint.label}:{" "}
             {splitSearchText(props.item.matchHint.text, props.item.matchHint.ranges).map((part) => (
-              <Text key={part.start} className={cn("text-sm", part.highlighted && "font-t3-bold")}>
+              <Text
+                key={part.start}
+                className={cn("text-sm", part.highlighted && "font-jcode-bold")}
+              >
                 {part.text}
               </Text>
             ))}

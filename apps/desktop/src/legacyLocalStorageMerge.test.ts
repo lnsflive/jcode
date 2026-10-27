@@ -33,11 +33,11 @@ describe("mergeLegacyLocalStorage", () => {
     mergeLegacyLocalStorage(storage, {
       "jcode:theme": "dark",
       "jcode:prompt-stash:v2": stash("a"),
-      "t3.backgroundActivity.clientId": "v1-client",
+      "jcode.backgroundActivity.clientId": "v1-client",
     });
     assert.equal(storage.getItem("jcode:theme"), "dark");
     assert.equal(storage.getItem("jcode:prompt-stash:v2"), stash("a"));
-    assert.equal(storage.getItem("t3.backgroundActivity.clientId"), null);
+    assert.equal(storage.getItem("jcode.backgroundActivity.clientId"), null);
   });
 
   it("keeps V2 values for plain keys", () => {

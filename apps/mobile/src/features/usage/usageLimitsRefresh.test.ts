@@ -1,5 +1,5 @@
-import { EnvironmentId } from "@t3tools/contracts";
-import { refreshUsageLimits } from "@t3tools/client-runtime/state/usage";
+import { EnvironmentId } from "@lnsflive/contracts";
+import { refreshUsageLimits } from "@lnsflive/client-runtime/state/usage";
 import * as Cause from "effect/Cause";
 import { AsyncResult, AtomRegistry } from "effect/reactivity";
 import { expect, it, vi } from "vite-plus/test";

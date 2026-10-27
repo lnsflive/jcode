@@ -1,7 +1,7 @@
 // @effect-diagnostics nodeBuiltinImport:off - reads the user guide to check its anchors.
 import * as NodeFS from "node:fs";
 
-import { T3_CONNECT_TROUBLESHOOTING_SECTIONS } from "@t3tools/contracts";
+import { JCODE_CONNECT_TROUBLESHOOTING_SECTIONS } from "@lnsflive/contracts";
 import { describe, expect, it } from "@effect/vitest";
 
 import { classifyReachability, type ReachabilityFacts } from "./ConnectReachability.ts";
@@ -82,7 +82,7 @@ describe("JCode Connect troubleshooting links", () => {
           .replace(/ /g, "-"),
       ),
     );
-    for (const section of T3_CONNECT_TROUBLESHOOTING_SECTIONS) {
+    for (const section of JCODE_CONNECT_TROUBLESHOOTING_SECTIONS) {
       expect(anchors, section).toContain(section);
     }
   });

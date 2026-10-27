@@ -5,7 +5,7 @@ import type {
   ProjectScript,
   ResolvedKeybindingsConfig,
   ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 import type { DraftId } from "../../composerDraftStore";
 import { useJProjectFileScripts } from "../../hooks/useJProjectFileScripts";

@@ -1,7 +1,7 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
-import { ProviderInstanceId } from "@t3tools/contracts";
-import { McpProviderSessions } from "@t3tools/provider-core/server/McpProviderSessions";
+import { ProviderInstanceId } from "@lnsflive/contracts";
+import { McpProviderSessions } from "@lnsflive/provider-core/server/McpProviderSessions";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { McpServer } from "effect/ai";
@@ -58,7 +58,7 @@ const toolHandlerServices = Layer.mergeAll(
   Layer.mock(PullRequestReviewGuideService)({}),
   Layer.mock(ScheduledTaskService)({}),
   Layer.mock(SecretRequests)({}),
-  ServerConfig.layerTest(process.cwd(), { prefix: "t3-agent-context-budget-" }),
+  ServerConfig.layerTest(process.cwd(), { prefix: "jcode-agent-context-budget-" }),
   Layer.mock(ServerEnvironment)({}),
   Layer.mock(ServerSecretStore)({}),
   Layer.mock(ServerSettingsService)({}),

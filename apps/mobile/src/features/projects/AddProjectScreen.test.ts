@@ -3,10 +3,10 @@ import * as NodeFSP from "node:fs/promises";
 import * as NodeOS from "node:os";
 import * as NodePath from "node:path";
 import * as NodeModule from "node:module";
-import type { EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
+import type { EnvironmentConnectionPhase } from "@lnsflive/client-runtime/connection";
 import { workspaceDetailRouter } from "../workspace/workspace-detail-selection";
 import type { NavigationState } from "@react-navigation/native";
-import { AuthOrchestrationOperateScope, AuthSourceControlWriteScope } from "@t3tools/contracts";
+import { AuthOrchestrationOperateScope, AuthSourceControlWriteScope } from "@lnsflive/contracts";
 import * as Cause from "effect/Cause";
 import { AsyncResult } from "effect/reactivity";
 import { act, createElement, isValidElement, type ReactNode } from "react";
@@ -250,7 +250,7 @@ function cloneAction() {
 describe("clone project permissions", () => {
   beforeEach(async () => {
     state.baseDirectory = await NodeFSP.mkdtemp(
-      NodePath.join(NodeOS.tmpdir(), "t3-clone-permissions-"),
+      NodePath.join(NodeOS.tmpdir(), "jcode-clone-permissions-"),
     );
     state.scopes = new Set([AuthSourceControlWriteScope]);
     state.projects = [];
@@ -497,7 +497,7 @@ describe("local project navigation", () => {
   function setup() {
     state.navigationState = undefined;
     state.scopes = new Set([AuthOrchestrationOperateScope]);
-    state.baseDirectory = "/tmp/t3-mobile-audit-fixture";
+    state.baseDirectory = "/tmp/jcode-mobile-audit-fixture";
     state.projects = [];
     state.dispatch.mockReset();
     state.alert.mockReset();
@@ -521,7 +521,7 @@ describe("local project navigation", () => {
     projected.resolve(null);
     await submission;
 
-    expect(state.projects).toEqual(["/tmp/t3-mobile-audit-fixture"]);
+    expect(state.projects).toEqual(["/tmp/jcode-mobile-audit-fixture"]);
     expect(state.dispatch).not.toHaveBeenCalled();
     expect(state.alert).toHaveBeenCalledExactlyOnceWith(
       "Project added",
@@ -541,7 +541,7 @@ describe("local project navigation", () => {
     projected.resolve({ environmentId: "environment", id: "project" });
     await submission;
 
-    expect(state.projects).toEqual(["/tmp/t3-mobile-audit-fixture"]);
+    expect(state.projects).toEqual(["/tmp/jcode-mobile-audit-fixture"]);
     expect(navigation.getState()).toEqual(remaining);
     expect(state.dispatch).not.toHaveBeenCalled();
   });
@@ -574,12 +574,12 @@ describe("local project navigation", () => {
       navigation.back();
       navigation.push("AddProjectDestination");
       const remaining = navigation.getState();
-      cloned.resolve(AsyncResult.success({ cwd: "/tmp/t3-mobile-audit-fixture/repo" }));
+      cloned.resolve(AsyncResult.success({ cwd: "/tmp/jcode-mobile-audit-fixture/repo" }));
       created.resolve(AsyncResult.success(undefined));
       projected.resolve({ environmentId: "environment", id: "project" });
       await submission;
 
-      expect(state.projects).toEqual(["/tmp/t3-mobile-audit-fixture/repo"]);
+      expect(state.projects).toEqual(["/tmp/jcode-mobile-audit-fixture/repo"]);
       expect(navigation.getState()).toEqual(remaining);
       expect(state.dispatch).not.toHaveBeenCalled();
     } finally {
@@ -668,7 +668,7 @@ describe("local project navigation", () => {
       const submission = submit();
       created.resolve(AsyncResult.success(undefined));
       await created.promise;
-      expect(state.projects).toEqual(["/tmp/t3-mobile-audit-fixture"]);
+      expect(state.projects).toEqual(["/tmp/jcode-mobile-audit-fixture"]);
       expect(navigation.getState()).toBe(before);
       projected.resolve({ environmentId: "environment", id: "project" });
       await submission;
@@ -678,7 +678,7 @@ describe("local project navigation", () => {
         draft: {
           environmentId: "environment",
           projectId: "project",
-          title: "t3-mobile-audit-fixture",
+          title: "jcode-mobile-audit-fixture",
         },
       });
       navigation.back();

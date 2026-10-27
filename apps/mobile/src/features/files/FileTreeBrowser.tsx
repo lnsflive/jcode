@@ -1,7 +1,7 @@
 import { NativeScrollView } from "../../native/NativeScrollViewMarker";
 import { Button } from "../../components/ui/Button";
 import { LegendList } from "@legendapp/list/react-native";
-import type { ProjectEntry } from "@t3tools/contracts";
+import type { ProjectEntry } from "@lnsflive/contracts";
 import { AppActivityIndicator } from "../../components/ui/AppActivityIndicator";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { useEffect, useRef, useState } from "react";
@@ -81,10 +81,10 @@ const FileTreeRow = function FileTreeRow(props: {
         className={cn(
           "min-w-0 flex-1 text-sm leading-normal",
           props.selected
-            ? "font-t3-bold text-thread-selected-foreground"
+            ? "font-jcode-bold text-thread-selected-foreground"
             : node.ignored
-              ? "font-t3-medium text-foreground-tertiary"
-              : "font-t3-medium text-foreground-secondary",
+              ? "font-jcode-medium text-foreground-tertiary"
+              : "font-jcode-medium text-foreground-secondary",
         )}
         numberOfLines={1}
       >
@@ -250,7 +250,7 @@ export function FileTreeBrowser(props: {
         <View className="px-4 py-5">
           {props.error && props.entries.length === 0 ? (
             <>
-              <Text className="text-sm font-t3-bold text-foreground">Files unavailable</Text>
+              <Text className="text-sm font-jcode-bold text-foreground">Files unavailable</Text>
               <Text
                 accessibilityRole="alert"
                 className="mt-1 text-xs leading-normal text-foreground-muted"
@@ -270,7 +270,7 @@ export function FileTreeBrowser(props: {
             <AppActivityIndicator size="small" />
           ) : (
             <>
-              <Text className="text-sm font-t3-bold text-foreground">No files found</Text>
+              <Text className="text-sm font-jcode-bold text-foreground">No files found</Text>
               <Text className="mt-1 text-xs leading-normal text-foreground-muted">
                 {props.searchQuery.trim().length > 0
                   ? "Try a different search."

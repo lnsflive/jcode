@@ -39,10 +39,10 @@ export function CliCommandSettingsRow() {
   const description = state.shadowedBy
     ? `Another command at ${state.shadowedBy} runs first in a new terminal. Remove it to use JCode's CLI.`
     : !installed
-      ? "Run JCode's CLI as `t3` from any terminal."
+      ? "Run JCode's CLI as `jcode` from any terminal."
       : state.onPath
         ? `Installed at ${state.installedPath}. Open a new terminal to use it.`
-        : `Installed at ${state.installedPath}, which is not on your PATH yet. Add its folder to your PATH to run \`t3\`.`;
+        : `Installed at ${state.installedPath}, which is not on your PATH yet. Add its folder to your PATH to run \`jcode\`.`;
 
   return (
     <SettingsRow

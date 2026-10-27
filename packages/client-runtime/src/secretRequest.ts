@@ -1,4 +1,4 @@
-import type { OrchestrationV2TurnItem, SecretRequestAnswerInput } from "@t3tools/contracts";
+import type { OrchestrationV2TurnItem, SecretRequestAnswerInput } from "@lnsflive/contracts";
 
 export type SecretRequestItem = Extract<
   OrchestrationV2TurnItem,

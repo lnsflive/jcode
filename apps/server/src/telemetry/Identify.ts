@@ -8,9 +8,9 @@ import * as PlatformError from "effect/PlatformError";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { hashTelemetryId } from "@t3tools/shared/telemetryId";
+import { writeFileStringAtomically } from "@lnsflive/shared/atomicWrite";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { hashTelemetryId } from "@lnsflive/shared/telemetryId";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import { CLOUD_LINKED_USER_ID } from "../cloud/config.ts";
 import * as ServerConfig from "../config.ts";
@@ -48,7 +48,7 @@ const IdTokenClaims = Schema.Struct({
 const decodeIdTokenClaims = Schema.decodeUnknownOption(Schema.fromJsonString(IdTokenClaims));
 
 /**
- * Who an install belongs to, from strongest to weakest. `connect` is the T3
+ * Who an install belongs to, from strongest to weakest. `connect` is the JCode
  * Connect account. `openai` and `claude` are provider accounts. `device` is a
  * client device that connected.
  */

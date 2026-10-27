@@ -13,14 +13,14 @@ import {
   ServerSettings,
   type JProjectFile,
   type ServerSettingsPatch,
-} from "@t3tools/contracts";
-import type { EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
+} from "@lnsflive/contracts";
+import type { EnvironmentConnectionPhase } from "@lnsflive/client-runtime/connection";
 import {
   clearProjectSettingsOverrides,
   resolveProjectSettings,
   resolveWorktreeCleanup,
   type ProjectSettingSource,
-} from "@t3tools/shared/projectSettings";
+} from "@lnsflive/shared/projectSettings";
 import * as Equal from "effect/Equal";
 import * as Cause from "effect/Cause";
 
@@ -167,8 +167,8 @@ export function scopedSettingsSource(
     ? "mixed"
     : sources.has("project")
       ? "project"
-      : sources.has("t3.json")
-        ? "t3.json"
+      : sources.has("jcode.json")
+        ? "jcode.json"
         : "environment";
 }
 

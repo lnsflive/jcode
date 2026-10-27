@@ -12,9 +12,9 @@ const { version } = JSON.parse(
 
 const SUPPORTED = ["darwin-arm64", "linux-arm64", "linux-x64", "win32-arm64", "win32-x64"];
 
-function t3Home() {
+function jcodeHome() {
   const raw = (process.env.JCODE_HOME || "").trim();
-  if (raw === "") return path.join(os.homedir(), ".t3");
+  if (raw === "") return path.join(os.homedir(), ".jcode");
   if (raw === "~") return os.homedir();
   if (raw.startsWith("~/") || raw.startsWith("~\\")) return path.join(os.homedir(), raw.slice(2));
   return path.resolve(raw);
@@ -62,7 +62,7 @@ async function download(url, file) {
 }
 
 async function install(dir, key) {
-  const archive = `t3-${version}-${key}.${process.platform === "win32" ? "zip" : "tar.gz"}`;
+  const archive = `jcode-${version}-${key}.${process.platform === "win32" ? "zip" : "tar.gz"}`;
   const base = (
     process.env.JCODE_RELEASE_BASE_URL || "https://github.com/lnsflive/jcode/releases/download"
   ).replace(/\/+$/, "");
@@ -125,13 +125,13 @@ async function main() {
         "The desktop app is at https://github.com/lnsflive/jcode/releases",
     );
   }
-  const dir = path.join(t3Home(), "runtime", "versions", version);
+  const dir = path.join(jcodeHome(), "runtime", "versions", version);
   if (!isComplete(dir)) await install(dir, key);
 
   // Service IPC and signals must reach the child; terminal Ctrl-C already does, so do not forward SIGINT twice.
   const ipc = process.send !== undefined;
   const child = spawn(
-    path.join(dir, process.platform === "win32" ? "t3.exe" : "t3"),
+    path.join(dir, process.platform === "win32" ? "jcode.exe" : "jcode"),
     process.argv.slice(2),
     {
       stdio: ipc ? ["inherit", "inherit", "inherit", "ipc"] : "inherit",
@@ -154,7 +154,7 @@ async function main() {
 }
 
 function fail(error) {
-  process.stderr.write(`t3: ${error.message}\n`);
+  process.stderr.write(`jcode: ${error.message}\n`);
   process.exit(1);
 }
 

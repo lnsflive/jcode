@@ -3,8 +3,8 @@ import { useAtomValue } from "@effect/atom-react";
 import {
   makeQueuedRunsAtom,
   queuedRunEditBlockedReason,
-} from "@t3tools/client-runtime/queued-run-edit";
-import type { ChatAttachment, EnvironmentId, RunId, ThreadId } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/queued-run-edit";
+import type { ChatAttachment, EnvironmentId, RunId, ThreadId } from "@lnsflive/contracts";
 import { Atom } from "effect/reactivity";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
@@ -249,7 +249,7 @@ export function ThreadQueueSheet({ route }: StaticScreenProps<QueueTarget>) {
                       numberOfLines={1}
                     >
                       {context?.guest === undefined ? null : (
-                        <Text className="font-t3-medium text-adaptive-fuchsia-600-300">
+                        <Text className="font-jcode-medium text-adaptive-fuchsia-600-300">
                           {`${context.guest.name}  `}
                         </Text>
                       )}
@@ -277,7 +277,7 @@ export function ThreadQueueSheet({ route }: StaticScreenProps<QueueTarget>) {
                         size={13}
                         tintColorClassName="accent-primary-foreground"
                       />
-                      <Text className="font-t3-medium text-sm text-primary-foreground">
+                      <Text className="font-jcode-medium text-sm text-primary-foreground">
                         Send now
                       </Text>
                     </View>
@@ -371,7 +371,7 @@ function QueueRowSwipeable(props: {
           style={{ width: REMOVE_ACTION_WIDTH }}
         >
           <SymbolView name="trash" size={16} tintColorClassName="accent-danger-foreground" />
-          <Text className="pt-1 text-2xs font-t3-medium text-danger-foreground">Remove</Text>
+          <Text className="pt-1 text-2xs font-jcode-medium text-danger-foreground">Remove</Text>
         </Pressable>
       )}
     >

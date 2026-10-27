@@ -10,7 +10,7 @@ JCode has one server-side observability model:
 
 The local trace file is the persisted source of truth for normal local launches. Those launches do not
 write a separate server log file, but SSH-managed launches also persist the remote process's
-stdout/stderr at `~/.t3/ssh-launch/<state>/server.log`.
+stdout/stderr at `~/.jcode/ssh-launch/<state>/server.log`.
 
 ## Where To Find Things
 
@@ -21,7 +21,7 @@ Logs are human-facing:
 - destination: stdout
 - format: `Logger.consolePretty()`
 - normal local persistence: none
-- SSH-managed launch persistence: `~/.t3/ssh-launch/<state>/server.log`
+- SSH-managed launch persistence: `~/.jcode/ssh-launch/<state>/server.log`
 - remote export: OTLP only, when configured
 
 If you want a log message to show up in the trace file, emit it inside an active span with `Effect.log...`. `Logger.tracerLogger` will attach it as a span event.
@@ -36,10 +36,10 @@ SSH-managed launch persistence stay unchanged either way.
 
 Completed spans are written as NDJSON records to `serverTracePath`. The default depends on how the
 server starts: production and explicitly configured homes use
-`<home>/userdata/logs/server.trace.ndjson` (so `~/.t3/userdata/...` by default, or
+`<home>/userdata/logs/server.trace.ndjson` (so `~/.jcode/userdata/...` by default, or
 `/custom/path/userdata/...` with `--home-dir /custom/path`), a linked worktree dev run uses
-`<worktree>/.t3/userdata/logs/server.trace.ndjson`, and an implicit dev run outside a linked
-worktree uses `~/.t3/dev/logs/server.trace.ndjson`.
+`<worktree>/.jcode/userdata/logs/server.trace.ndjson`, and an implicit dev run outside a linked
+worktree uses `~/.jcode/dev/logs/server.trace.ndjson`.
 
 Important fields common to both record types:
 
@@ -260,19 +260,19 @@ Resolve the path for the launch mode once. Production and explicitly configured 
 state under the base directory's `userdata` folder:
 
 ```bash
-TRACE_FILE="${JCODE_HOME:-$HOME/.t3}/userdata/logs/server.trace.ndjson"
+TRACE_FILE="${JCODE_HOME:-$HOME/.jcode}/userdata/logs/server.trace.ndjson"
 ```
 
 A dev server started from a linked worktree defaults to that worktree's local home:
 
 ```bash
-TRACE_FILE="$WORKTREE/.t3/userdata/logs/server.trace.ndjson"
+TRACE_FILE="$WORKTREE/.jcode/userdata/logs/server.trace.ndjson"
 ```
 
 Only an implicit dev run outside a linked worktree uses the shared dev directory:
 
 ```bash
-TRACE_FILE="$HOME/.t3/dev/logs/server.trace.ndjson"
+TRACE_FILE="$HOME/.jcode/dev/logs/server.trace.ndjson"
 ```
 
 Tail the selected file:
@@ -392,30 +392,30 @@ Traces are best for one request. Metrics are best for trends.
 
 Good metric families to watch:
 
-- `t3_rpc_request_duration`
-- `t3_orchestration_command_duration`
-- `t3_provider_turn_duration` (how long the provider adapter takes to start a turn, not the turn's run time)
-- `t3_git_command_duration`
+- `jcode_rpc_request_duration`
+- `jcode_orchestration_command_duration`
+- `jcode_provider_turn_duration` (how long the provider adapter takes to start a turn, not the turn's run time)
+- `jcode_git_command_duration`
 
 Counters tell you volume and failure rate:
 
-- `t3_rpc_requests_total`
-- `t3_orchestration_commands_total`
-- `t3_provider_turns_total`
-- `t3_git_commands_total`
+- `jcode_rpc_requests_total`
+- `jcode_orchestration_commands_total`
+- `jcode_provider_turns_total`
+- `jcode_git_commands_total`
 
 Webhooks have their own families:
 
-- `t3_webhook_deliveries_total` by `outcome` and `source` (`relay` or `direct`). Beyond what the
+- `jcode_webhook_deliveries_total` by `outcome` and `source` (`relay` or `direct`). Beyond what the
   sender sees, `queue_full` means a task already had its limit of deliveries waiting,
   `prompt_too_long` means the filled-in prompt passed the provider limit, and `duplicate` means
   the relay delivered a request this environment had already run.
-- `t3_webhook_runs_total` by `outcome` (`started`, `skipped`, `failed`) for the runs those
+- `jcode_webhook_runs_total` by `outcome` (`started`, `skipped`, `failed`) for the runs those
   deliveries start, which happen after the sender has its answer.
-- `t3_webhook_held_delay` for how long requests the relay held waited before arriving.
+- `jcode_webhook_held_delay` for how long requests the relay held waited before arriving.
 
-- `t3_secret_requests_total` by `status` (`saved`, `declined`, `cancelled`, `timed_out`) for secrets
-  agents asked users for, and `t3_secret_refs_consumed_total` by `result` (`used`, `rejected`) for
+- `jcode_secret_requests_total` by `status` (`saved`, `declined`, `cancelled`, `timed_out`) for secrets
+  agents asked users for, and `jcode_secret_refs_consumed_total` by `result` (`used`, `rejected`) for
   tools redeeming them. Neither ever carries a value.
 
 `ScheduledTaskService.triggerWebhook` spans carry the same outcome per request, and each run
@@ -706,7 +706,7 @@ handler exits on `SIGUSR2`. After a crash the file can keep a stale pid that now
 different process, so check the pid first.
 
 ```bash
-pid="$(jq .pid "${JCODE_HOME:-$HOME/.t3}/userdata/server-runtime.json")"
+pid="$(jq .pid "${JCODE_HOME:-$HOME/.jcode}/userdata/server-runtime.json")"
 ps -p "$pid" -o command=
 ```
 

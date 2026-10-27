@@ -78,9 +78,9 @@ const colors = {
 };
 
 const customIcons = {
-  agents: "t3-file-icon-agents",
-  pnpm: "t3-file-icon-pnpm",
-  video: "t3-file-icon-video",
+  agents: "jcode-file-icon-agents",
+  pnpm: "jcode-file-icon-pnpm",
+  video: "jcode-file-icon-video",
 };
 
 function symbolFromSprite(sprite, id) {

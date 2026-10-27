@@ -12,7 +12,7 @@ import {
   type MessageLike,
 } from "dbus-next";
 import * as Schema from "effect/Schema";
-import type { SnapShotKeyChord } from "@t3tools/contracts";
+import type { SnapShotKeyChord } from "@lnsflive/contracts";
 import { HYPRLAND_CAPTURE_ACTION, portalShortcutTrigger } from "./linuxCaptureSession.ts";
 export { portalShortcutTrigger } from "./linuxCaptureSession.ts";
 
@@ -262,7 +262,7 @@ export class PortalCaptureShortcut {
     body: unknown[],
     options: Record<string, Variant<unknown>> = {},
   ) {
-    const token = `t3_${NodeCrypto.randomUUID().replaceAll("-", "")}`;
+    const token = `jcode_${NodeCrypto.randomUUID().replaceAll("-", "")}`;
     const expectedPath = this.namespace + token;
     let resolve!: (body: unknown) => void;
     const response = new Promise<unknown>((done) => {
@@ -392,7 +392,7 @@ export class PortalCaptureShortcut {
     const created = await this.request("CreateSession", "", [], {
       session_handle_token: new Variant(
         "s",
-        `t3_capture_${NodeCrypto.randomUUID().replaceAll("-", "")}`,
+        `jcode_capture_${NodeCrypto.randomUUID().replaceAll("-", "")}`,
       ),
     });
     const session = decodeSession(created).session_handle.value;
@@ -401,7 +401,7 @@ export class PortalCaptureShortcut {
     this.session = session;
     this.shortcutId = this.managedByHyprland
       ? HYPRLAND_CAPTURE_ACTION
-      : `t3-snap-shot-${NodeCrypto.createHash("sha256").update(trigger).digest("hex").slice(0, 16)}`;
+      : `jcode-snap-shot-${NodeCrypto.createHash("sha256").update(trigger).digest("hex").slice(0, 16)}`;
     // Every session must bind, even when the desktop remembers this shortcut's approval.
     const bound = await this.request("BindShortcuts", "oa(sa{sv})s", [
       this.session,

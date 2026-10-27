@@ -1,5 +1,5 @@
 {
-  "name": "@t3tools/scripts",
+  "name": "@lnsflive/scripts",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,8 +10,8 @@
     "@effect/platform-node": "catalog:",
     "@electron/asar": "^4.3.0",
     "@electron/osx-sign": "2.7.0",
-    "@t3tools/shared": "workspace:*",
-    "@t3tools/tailscale": "workspace:*",
+    "@lnsflive/shared": "workspace:*",
+    "@lnsflive/tailscale": "workspace:*",
     "agent-device": "0.21.32",
     "effect": "catalog:",
     "playwright-core": "1.60.0",

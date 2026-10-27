@@ -1,5 +1,5 @@
-import type { ChangeRequestTerminology } from "@t3tools/client-runtime/source-control-clients";
-import { EnvironmentId, ProjectId, type PullRequestListEntry } from "@t3tools/contracts";
+import type { ChangeRequestTerminology } from "@lnsflive/client-runtime/source-control-clients";
+import { EnvironmentId, ProjectId, type PullRequestListEntry } from "@lnsflive/contracts";
 import { useAtomRefresh } from "@effect/atom-react";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 

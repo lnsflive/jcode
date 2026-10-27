@@ -1,5 +1,5 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import { afterEach, assert, describe, it, vi } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -20,7 +20,7 @@ describe("ResourceMonitorBinary", () => {
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const baseDir = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3-resource-monitor-binary-",
+        prefix: "jcode-resource-monitor-binary-",
       });
       const binaryPath = `${baseDir}/custom-resource-monitor`;
       yield* fileSystem.writeFileString(binaryPath, "binary");
@@ -43,9 +43,9 @@ describe("ResourceMonitorBinary", () => {
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const baseDir = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3-resource-monitor-binary-",
+        prefix: "jcode-resource-monitor-binary-",
       });
-      const binaryPath = `${baseDir}/t3-resource-monitor`;
+      const binaryPath = `${baseDir}/jcode-resource-monitor`;
       yield* fileSystem.writeFileString(binaryPath, "binary");
       yield* fileSystem.chmod(binaryPath, 0o644);
 
@@ -70,7 +70,7 @@ describe("ResourceMonitorBinary", () => {
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const baseDir = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3-resource-monitor-binary-",
+        prefix: "jcode-resource-monitor-binary-",
       });
 
       const service = yield* ResourceMonitorBinary.make().pipe(
@@ -95,7 +95,7 @@ describe("ResourceMonitorBinary", () => {
         const fileSystem = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const baseDir = yield* fileSystem.makeTempDirectoryScoped({
-          prefix: "t3-resource-monitor-binary-",
+          prefix: "jcode-resource-monitor-binary-",
         });
         const projectDirectory = path.join(baseDir, "repo");
         const distDirectory = path.join(projectDirectory, "apps", "server", "dist");
@@ -106,7 +106,7 @@ describe("ResourceMonitorBinary", () => {
           "target",
           profile,
         );
-        const binaryPath = path.join(binaryDirectory, "t3-resource-monitor.exe");
+        const binaryPath = path.join(binaryDirectory, "jcode-resource-monitor.exe");
         yield* fileSystem.makeDirectory(distDirectory, { recursive: true });
         yield* fileSystem.makeDirectory(binaryDirectory, { recursive: true });
         yield* fileSystem.writeFileString(binaryPath, "binary");
@@ -137,7 +137,7 @@ describe("ResourceMonitorBinary", () => {
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const baseDir = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3-resource-monitor-binary-",
+        prefix: "jcode-resource-monitor-binary-",
       });
       const service = yield* ResourceMonitorBinary.make().pipe(
         Effect.provide(ServerConfig.layerTest(process.cwd(), baseDir)),

@@ -14,7 +14,7 @@ import {
   withMessageContext,
   makeThreadErrorSetter,
 } from "../ChatView.logic";
-import { isUsageLimitsCommand } from "@t3tools/shared/usageLimits";
+import { isUsageLimitsCommand } from "@lnsflive/shared/usageLimits";
 import {
   AuthOrchestrationOperateScope,
   DEFAULT_MODEL,
@@ -24,24 +24,24 @@ import {
   type ThreadId,
   ProviderInteractionMode,
   RuntimeMode,
-} from "@t3tools/contracts";
-import { deriveThreadTitleSeed } from "@t3tools/client-runtime/operations";
-import { wasBootstrapThreadDeleted } from "@t3tools/client-runtime/errors";
+} from "@lnsflive/contracts";
+import { deriveThreadTitleSeed } from "@lnsflive/client-runtime/operations";
+import { wasBootstrapThreadDeleted } from "@lnsflive/client-runtime/errors";
 import {
   declinePendingApprovals,
   sendApprovalFeedback,
-} from "@t3tools/client-runtime/state/thread-requests";
+} from "@lnsflive/client-runtime/state/thread-requests";
 import {
   parseCodexFeedbackCommand,
   submitCodexFeedback,
   type CodexFeedbackSubmission,
-} from "@t3tools/client-runtime/state/threads";
+} from "@lnsflive/client-runtime/state/threads";
 import {
   scopedThreadKey,
   scopeProjectRef,
   scopeThreadRef,
-} from "@t3tools/client-runtime/environment";
-import { createModelSelection } from "@t3tools/shared/model";
+} from "@lnsflive/client-runtime/environment";
+import { createModelSelection } from "@lnsflive/shared/model";
 import { type SetStateAction, useLayoutEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
@@ -50,7 +50,7 @@ import {
   settlePromise,
   squashAtomCommandFailure,
   type AtomCommandResult,
-} from "@t3tools/client-runtime/state/runtime";
+} from "@lnsflive/client-runtime/state/runtime";
 import {
   type ComposerSubmissionIntent,
   collapseExpandedComposerCursor,
@@ -94,7 +94,7 @@ import {
 } from "./composerSend.logic";
 import { usePlanFollowUpSend } from "./useProposedPlanSend";
 import { useMultipleModelSend } from "./useMultipleModelSend";
-import { type ComposerDispatchMode } from "@t3tools/client-runtime/state/composer-dispatch";
+import { type ComposerDispatchMode } from "@lnsflive/client-runtime/state/composer-dispatch";
 import {
   awaitAttachmentUploads,
   getUploadedAttachments,
@@ -110,7 +110,7 @@ import { useOrchestrationCommand } from "../../state/use-orchestration-command";
 import {
   ATTACHMENT_ONLY_BOOTSTRAP_PROMPT,
   threadContextsOutsideEnvironment,
-} from "@t3tools/shared/composerContextReferences";
+} from "@lnsflive/shared/composerContextReferences";
 import {
   draftSendState,
   type MultipleModelTarget,
@@ -121,8 +121,8 @@ import {
 import type {
   EnvironmentProject,
   EnvironmentThreadShell,
-} from "@t3tools/client-runtime/state/shell";
-import type { UnifiedSettings } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/state/shell";
+import type { UnifiedSettings } from "@lnsflive/contracts";
 import type { Dispatch } from "react";
 import type { ComposerThreadTarget } from "../../composerDraftStore";
 import type { ProviderInstanceEntry } from "../../providerInstances";

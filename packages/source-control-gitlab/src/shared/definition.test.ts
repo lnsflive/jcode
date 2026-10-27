@@ -1,4 +1,4 @@
-import { recognizeRemoteWith } from "@t3tools/source-control-core/shared/definition";
+import { recognizeRemoteWith } from "@lnsflive/source-control-core/shared/definition";
 import { describe, expect, it } from "vite-plus/test";
 
 import { definition } from "./definition.ts";
@@ -7,11 +7,11 @@ const parse = (url: string) => definition.parseChangeRequestUrl(new URL(url));
 
 describe("GitLab change request URLs", () => {
   it("reads a merge request on any host, nested groups and all", () => {
-    expect(parse("https://gitlab.com/t3tools/platform/jcode/-/merge_requests/42")).toEqual({
+    expect(parse("https://gitlab.com/lnsflive/platform/jcode/-/merge_requests/42")).toEqual({
       host: "gitlab.com",
-      repository: "t3tools/platform/jcode",
+      repository: "lnsflive/platform/jcode",
       number: 42,
-      repositoryUrl: "https://gitlab.com/t3tools/platform/jcode",
+      repositoryUrl: "https://gitlab.com/lnsflive/platform/jcode",
     });
     expect(parse("https://code.acme.test/team/project/-/merge_requests/9")).toMatchObject({
       host: "code.acme.test",
@@ -27,7 +27,7 @@ describe("GitLab change request URLs", () => {
   });
 
   it("leaves issues and single-segment paths alone", () => {
-    expect(parse("https://gitlab.com/t3tools/jcode/-/issues/12")).toBeNull();
+    expect(parse("https://gitlab.com/lnsflive/jcode/-/issues/12")).toBeNull();
     expect(parse("https://gitlab.com/jcode/-/merge_requests/12")).toBeNull();
   });
 

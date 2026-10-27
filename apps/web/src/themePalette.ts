@@ -1,4 +1,4 @@
-import type { EnvironmentTheme } from "@t3tools/contracts";
+import type { EnvironmentTheme } from "@lnsflive/contracts";
 import * as Equal from "effect/Equal";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
@@ -21,7 +21,7 @@ import {
   type ThemeColors,
   type ThemeDefinition,
   type ThemeVariants,
-} from "@t3tools/shared/themePalettes";
+} from "@lnsflive/shared/themePalettes";
 
 import { appAtomRegistry, subscribeAtomChanges } from "./rpc/atomRegistry";
 import { primaryServerEnvironmentThemesAtom } from "./state/server";
@@ -29,7 +29,7 @@ import { primaryServerEnvironmentThemesAtom } from "./state/server";
 export { EMBER_THEME, GROVE_THEME, IRIS_THEME, OCEAN_THEME, J_CHAT_THEME, THEME_COLOR_ROLES };
 export type { ThemeAppearance, ThemeColorRole, ThemeColors, ThemeDefinition, ThemeVariants };
 
-const J_CHAT_THEME_ID = "t3-chat" as const;
+const J_CHAT_THEME_ID = "jcode-chat" as const;
 const GROVE_THEME_ID = "grove" as const;
 const OCEAN_THEME_ID = "ocean" as const;
 const EMBER_THEME_ID = "ember" as const;
@@ -40,7 +40,7 @@ export const THEME_FOLLOW_SYSTEM_STORAGE_KEY = "jcode:theme-follow-system";
 export const THEME_APPEARANCE_MODE_STORAGE_KEY = "jcode:theme-appearance-mode";
 export const THEME_HALVES_STORAGE_KEY = "jcode:theme-halves:v1";
 
-const LEGACY_T3_CHAT_DARK_THEME_ID = "t3-chat-dark";
+const LEGACY_JCODE_CHAT_DARK_THEME_ID = "jcode-chat-dark";
 
 export const ThemePreference = Schema.String;
 export type ThemePreference = typeof ThemePreference.Type;
@@ -286,7 +286,7 @@ function environmentThemeDefinition(theme: EnvironmentTheme): ThemeDefinition {
 
 /**
  * Published palettes this client can render. Reserved ids are dropped here rather
- * than rendered: a published `t3-iris.json` would show this palette on its
+ * than rendered: a published `jcode-iris.json` would show this palette on its
  * card while "Use" resolved the built-in, and a published `dark.json` would
  * capture everyone whose stored preference is the stock `"dark"`.
  */
@@ -365,11 +365,11 @@ export function subscribeToCustomThemes(listener: () => void): () => void {
 }
 
 const LEGACY_THEME_ID_ALIASES: Readonly<Record<string, string>> = {
-  [LEGACY_T3_CHAT_DARK_THEME_ID]: J_CHAT_THEME_ID,
-  "t3-grove": GROVE_THEME_ID,
-  "t3-ocean": OCEAN_THEME_ID,
-  "t3-ember": EMBER_THEME_ID,
-  "t3-iris": IRIS_THEME_ID,
+  [LEGACY_JCODE_CHAT_DARK_THEME_ID]: J_CHAT_THEME_ID,
+  "jcode-grove": GROVE_THEME_ID,
+  "jcode-ocean": OCEAN_THEME_ID,
+  "jcode-ember": EMBER_THEME_ID,
+  "jcode-iris": IRIS_THEME_ID,
 };
 
 function normalizeThemeId(themeId: string): string {
@@ -377,7 +377,7 @@ function normalizeThemeId(themeId: string): string {
 }
 
 export function canonicalThemePreference(theme: string): string {
-  return theme === LEGACY_T3_CHAT_DARK_THEME_ID ? theme : normalizeThemeId(theme);
+  return theme === LEGACY_JCODE_CHAT_DARK_THEME_ID ? theme : normalizeThemeId(theme);
 }
 
 function themeIdFromPreference(theme: ThemePreference): string {
@@ -385,7 +385,7 @@ function themeIdFromPreference(theme: ThemePreference): string {
 }
 
 function legacyThemeMode(theme: ThemePreference): ThemeAppearance | null {
-  return theme === LEGACY_T3_CHAT_DARK_THEME_ID ? "dark" : null;
+  return theme === LEGACY_JCODE_CHAT_DARK_THEME_ID ? "dark" : null;
 }
 
 export function getStandardThemeColors(appearance: ThemeAppearance): ThemeColors {

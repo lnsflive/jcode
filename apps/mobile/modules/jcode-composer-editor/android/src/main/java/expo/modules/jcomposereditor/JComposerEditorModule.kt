@@ -43,7 +43,7 @@ internal object JComposerClipboard {
         ClipData.newHtmlText(
           "JCode",
           text,
-          "<pre data-t3-context-fragment=\"$encoded\">$escaped</pre>"
+          "<pre data-jcode-context-fragment=\"$encoded\">$escaped</pre>"
         )
       }
     )

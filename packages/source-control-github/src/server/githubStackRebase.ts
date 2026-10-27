@@ -5,7 +5,7 @@ import * as Schema from "effect/Schema";
 import * as Base64 from "effect/encoding/Base64";
 
 import * as GitHubRest from "./GitHubRest.ts";
-import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
+import * as SourceControlHost from "@lnsflive/source-control-core/server/SourceControlHost";
 
 export interface CascadeLayer {
   readonly number: number;
@@ -48,17 +48,19 @@ export const cascadeRebaseStack = Effect.fn("cascadeRebaseStack")(function* (inp
   const { token } = yield* api.credential(input.host);
   const first = input.layers[0];
   if (first === undefined) return 0;
-  const directory = yield* fileSystem.makeTempDirectoryScoped({ prefix: "t3-stack-rebase-" }).pipe(
-    Effect.mapError(
-      (cause) =>
-        new GitHubStackRebaseGitError({
-          step: "preparing",
-          number: first.number,
-          completed: 0,
-          cause,
-        }),
-    ),
-  );
+  const directory = yield* fileSystem
+    .makeTempDirectoryScoped({ prefix: "jcode-stack-rebase-" })
+    .pipe(
+      Effect.mapError(
+        (cause) =>
+          new GitHubStackRebaseGitError({
+            step: "preparing",
+            number: first.number,
+            completed: 0,
+            cause,
+          }),
+      ),
+    );
   // Keep the token in this process's header, outside URLs, argv and git config.
   const remote = input.remote ?? remoteUrl(input.host, input.repository);
   const authorization = `AUTHORIZATION: basic ${Base64.encode(`x-access-token:${Redacted.value(token)}`)}`;

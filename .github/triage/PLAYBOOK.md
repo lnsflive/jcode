@@ -23,8 +23,8 @@ the server process is currently running, and the exact paths for state, logs, an
 the database.
 
 Its triage CLI version (called "Installed version" in older context files) is only
-the version of the `t3` that ran `jcode triage`. It is often not the build the bug
-happened on: `npx @lnsflive/jcode triage` runs whatever `t3` npm resolves, while the user may
+the version of the `jcode` that ran `jcode triage`. It is often not the build the bug
+happened on: `npx @lnsflive/jcode triage` runs whatever `jcode` npm resolves, while the user may
 run the desktop app, the background service, or a nightly. The server process line
 gives the local server's version when the server recorded one.
 
@@ -40,7 +40,7 @@ Before cloning, ask the user which version, device, and surface the bug happened
 on. The bug may have happened on another machine, a remote server, the mobile app,
 or an older build they have since updated. Check their answer against local facts
 where they apply: the server version in the context file, or `serverVersion` from
-`<origin>/.well-known/t3/environment` when a local server is running. If neither
+`<origin>/.well-known/jcode/environment` when a local server is running. If neither
 the user nor the machine can tell you the version, say it is unknown. Do not guess.
 
 Clone the repo at the release tag for that version (`v` followed by the version,

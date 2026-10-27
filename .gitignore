@@ -15,7 +15,9 @@ build/
 .logs/
 release/
 release-mock/
-.t3
+.jcode
+# Previous installations may use a short hidden state directory.
+**/.??/
 .idea/
 apps/web/.playwright
 apps/web/playwright-report

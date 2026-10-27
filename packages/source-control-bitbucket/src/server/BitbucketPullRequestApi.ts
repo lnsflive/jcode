@@ -19,11 +19,11 @@ import type {
   PullRequestReviewThread,
   PullRequestReviewVerdict,
   PullRequestReviewerCandidateList,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 import * as BitbucketApi from "./BitbucketApi.ts";
-import { parseDiffFileRevisions } from "@t3tools/source-control-core/server/diffFileRevisions";
-import { sortChecks } from "@t3tools/source-control-core/server/pullRequestChecks";
+import { parseDiffFileRevisions } from "@lnsflive/source-control-core/server/diffFileRevisions";
+import { sortChecks } from "@lnsflive/source-control-core/server/pullRequestChecks";
 import {
   buildReviewThreads,
   decodeCommentsJson,
@@ -40,7 +40,7 @@ import {
   type BitbucketPullRequest,
   type BitbucketRawComment,
 } from "./bitbucketPullRequestJson.ts";
-import type { ProviderListCursor } from "@t3tools/source-control-core/server/PullRequestProvider";
+import type { ProviderListCursor } from "@lnsflive/source-control-core/server/PullRequestProvider";
 
 export class BitbucketPullRequestReadError extends Schema.TaggedError<BitbucketPullRequestReadError>()(
   "BitbucketPullRequestReadError",
@@ -269,7 +269,7 @@ export class BitbucketPullRequestApi extends Context.Service<
       readonly resolved: boolean;
     }) => Effect.Effect<void, BitbucketPullRequestApiError>;
   }
->()("@t3tools/source-control-bitbucket/server/BitbucketPullRequestApi") {}
+>()("@lnsflive/source-control-bitbucket/server/BitbucketPullRequestApi") {}
 
 function repositorySegments(
   repository: string,

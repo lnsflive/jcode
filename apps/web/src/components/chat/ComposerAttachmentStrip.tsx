@@ -4,8 +4,8 @@ import type {
   EnvironmentId,
   ScopedThreadRef,
   SnapShotSource,
-} from "@t3tools/contracts";
-import { formatAttachmentSize } from "@t3tools/client-runtime/state/attachments";
+} from "@lnsflive/contracts";
+import { formatAttachmentSize } from "@lnsflive/client-runtime/state/attachments";
 import { CircleAlertIcon, PaperclipIcon, PlayIcon, XIcon } from "lucide-react";
 import { type ComponentProps, useLayoutEffect, useRef } from "react";
 

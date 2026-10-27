@@ -1,4 +1,4 @@
-import type { RelayAgentActivityAggregateState } from "@t3tools/contracts/relay";
+import type { RelayAgentActivityAggregateState } from "@lnsflive/contracts/relay";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -162,7 +162,7 @@ function makeLiveActivityRequest(input: MakeLiveActivityRequestInput): ApnsLiveA
 function notificationThreadId(notification: ApnsNotificationPayload): string {
   return notification.threadId.length > 0
     ? `${notification.environmentId}/${notification.threadId}`
-    : "t3-agent-alerts";
+    : "jcode-agent-alerts";
 }
 
 function makePushNotificationRequest(input: {

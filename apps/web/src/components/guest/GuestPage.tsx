@@ -11,17 +11,17 @@ import {
   type OrchestrationV2ThreadProjection,
   type ThreadGuestMessage,
   type ThreadGuestMessageStatus,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import type { LegendListRef } from "@legendapp/list/react";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
-import { formatAttachmentSize } from "@t3tools/client-runtime/state/attachments";
+import { formatAttachmentSize } from "@lnsflive/client-runtime/state/attachments";
 import {
   deriveRunlessWorkStartedAt,
   deriveThreadActivityRun,
   deriveThreadStructureRuntime,
-} from "@t3tools/client-runtime/state/thread-execution";
-import { createQuestionHistoryProjector } from "@t3tools/client-runtime/state/thread-requests";
+} from "@lnsflive/client-runtime/state/thread-execution";
+import { createQuestionHistoryProjector } from "@lnsflive/client-runtime/state/thread-requests";
 import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react";
 import {
   createRef,
@@ -79,7 +79,7 @@ interface GuestEntry {
 let capturedEntry: GuestEntry | null = null;
 
 // A reload keeps the tab's session, so it keeps which messages still wait for a row too.
-const AWAITING_ROWS_KEY = "t3:guest-awaiting-rows";
+const AWAITING_ROWS_KEY = "jcode:guest-awaiting-rows";
 const AWAITING_ROWS_LIMIT = 50;
 
 function readAwaitingRowIds(): ReadonlySet<GuestMessageId> {

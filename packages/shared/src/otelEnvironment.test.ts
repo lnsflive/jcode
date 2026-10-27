@@ -11,7 +11,7 @@ const load = (env: Record<string, string>) =>
 
 const SPEC_OFF =
   "OTEL_SDK_DISABLED is set, so no telemetry is exported, whatever configured it; set JCODE_OTEL_SDK_DISABLED=false to export anyway";
-const T3_OFF =
+const JCODE_OFF =
   "JCODE_OTEL_SDK_DISABLED is set, so no telemetry is exported, whatever configured it";
 const specIgnored = (value: string) =>
   `OTEL_SDK_DISABLED=${value} was read as false; the OpenTelemetry specification recognizes only the string true, so use OTEL_SDK_DISABLED=true or JCODE_OTEL_SDK_DISABLED to say it any other way`;
@@ -26,15 +26,20 @@ describe("OtelEnvironment", () => {
       disabled: false,
       warnings: [specIgnored("1")],
     },
-    { name: "t3 1", env: { JCODE_OTEL_SDK_DISABLED: "1" }, disabled: true, warnings: [T3_OFF] },
     {
-      name: "t3 false overrides spec true",
+      name: "jcode 1",
+      env: { JCODE_OTEL_SDK_DISABLED: "1" },
+      disabled: true,
+      warnings: [JCODE_OFF],
+    },
+    {
+      name: "jcode false overrides spec true",
       env: { JCODE_OTEL_SDK_DISABLED: "false", OTEL_SDK_DISABLED: "true" },
       disabled: false,
       warnings: [],
     },
     {
-      name: "unreadable t3 warns and falls through",
+      name: "unreadable jcode warns and falls through",
       env: { JCODE_OTEL_SDK_DISABLED: "maybe", OTEL_SDK_DISABLED: "true" },
       disabled: true,
       warnings: ["JCODE_OTEL_SDK_DISABLED=maybe is not a yes or a no and was ignored", SPEC_OFF],
@@ -148,7 +153,7 @@ describe("OtelEnvironment", () => {
         traces: "Unset",
         metrics: "Unset",
         logs: "Unset",
-        warnings: [T3_OFF],
+        warnings: [JCODE_OFF],
       },
       {
         name: "an exporter of none turns off only its signal",
@@ -239,9 +244,9 @@ describe("OtelEnvironment", () => {
   );
 
   describe("resolveSignalEndpoint", () => {
-    const t3Export = {
+    const jcodeExport = {
       protocol: "http/json",
-      headers: { "x-key": "t3" },
+      headers: { "x-key": "jcode" },
       exportIntervalMs: 5_000,
     } as const;
     const withLogs = (logs: OtelEnvironment.OtelSignal, disabled = false) => ({
@@ -259,10 +264,10 @@ describe("OtelEnvironment", () => {
       {
         name: "JCODE_OTLP_*_URL wins over a signal the OTEL variables turned off",
         otel: withLogs(OtelEnvironment.OtelSignal.Off()),
-        t3Url: "http://t3:4318/v1/logs",
+        jcodeUrl: "http://jcode:4318/v1/logs",
         expected: {
-          url: "http://t3:4318/v1/logs",
-          export: t3Export,
+          url: "http://jcode:4318/v1/logs",
+          export: jcodeExport,
           source: "environment" as const,
           variable: "JCODE_OTLP_LOGS_URL",
         },
@@ -270,7 +275,7 @@ describe("OtelEnvironment", () => {
       {
         name: "an OTEL endpoint brings its headers and protocol over the fallback",
         otel: withLogs(otelExport),
-        t3Url: " ",
+        jcodeUrl: " ",
         expected: {
           url: "http://otel:4318/v1/logs",
           export: {
@@ -285,47 +290,47 @@ describe("OtelEnvironment", () => {
       {
         name: "a signal the OTEL variables turned off does not fall through",
         otel: withLogs(OtelEnvironment.OtelSignal.Off()),
-        t3Url: undefined,
+        jcodeUrl: undefined,
         expected: undefined,
       },
       {
         name: "an unset signal takes the first non-blank fallback",
         otel: withLogs(OtelEnvironment.OtelSignal.Unset()),
-        t3Url: undefined,
+        jcodeUrl: undefined,
         expected: {
           url: "http://settings:4318/v1/logs",
-          export: t3Export,
+          export: jcodeExport,
           source: "settings" as const,
         },
       },
       {
         name: "a desktop bootstrap URL that differs from the setting wins as the desktop's own",
         otel: withLogs(OtelEnvironment.OtelSignal.Unset()),
-        t3Url: undefined,
+        jcodeUrl: undefined,
         bootstrapUrl: "http://desktop:4318/v1/logs",
         expected: {
           url: "http://desktop:4318/v1/logs",
-          export: t3Export,
+          export: jcodeExport,
           source: "bootstrap" as const,
         },
       },
       {
         name: "a desktop bootstrap URL that forwards the setting counts as the setting",
         otel: withLogs(OtelEnvironment.OtelSignal.Unset()),
-        t3Url: undefined,
+        jcodeUrl: undefined,
         bootstrapUrl: " http://settings:4318/v1/logs ",
         expected: {
           url: "http://settings:4318/v1/logs",
-          export: t3Export,
+          export: jcodeExport,
           source: "settings" as const,
         },
       },
-    ])("$name", ({ otel, t3Url, bootstrapUrl = "", expected }) => {
+    ])("$name", ({ otel, jcodeUrl, bootstrapUrl = "", expected }) => {
       assert.deepStrictEqual(
         OtelEnvironment.resolveSignalEndpoint(
           otel,
           "logs",
-          { url: t3Url, export: t3Export },
+          { url: jcodeUrl, export: jcodeExport },
           { bootstrapUrl, settingsUrl: "http://settings:4318/v1/logs" },
         ),
         expected,
@@ -336,19 +341,19 @@ describe("OtelEnvironment", () => {
   it.effect("an exporter of none keeps the Settings endpoint from re-enabling its signal", () =>
     Effect.gen(function* () {
       const otel = yield* load({ OTEL_LOGS_EXPORTER: "none" });
-      const t3 = {
+      const jcode = {
         url: undefined,
         export: { protocol: "http/json", headers: undefined, exportIntervalMs: 10_000 },
       } as const;
       assert.strictEqual(
-        OtelEnvironment.resolveSignalEndpoint(otel, "logs", t3, {
+        OtelEnvironment.resolveSignalEndpoint(otel, "logs", jcode, {
           bootstrapUrl: undefined,
           settingsUrl: "http://settings:4318/v1/logs",
         }),
         undefined,
       );
       assert.strictEqual(
-        OtelEnvironment.resolveSignalEndpoint(otel, "traces", t3, {
+        OtelEnvironment.resolveSignalEndpoint(otel, "traces", jcode, {
           bootstrapUrl: undefined,
           settingsUrl: "http://settings:4318/v1/traces",
         })?.url,
@@ -367,7 +372,7 @@ describe("OtelEnvironment", () => {
           ConfigProvider.fromEnv({ env: { OTEL_RESOURCE_ATTRIBUTES: raw } }),
         );
         const otel = yield* OtelEnvironment.load.pipe(Effect.provide(layerEnv));
-        const resource = yield* OtlpResource.fromConfig({ serviceName: "t3" }).pipe(
+        const resource = yield* OtlpResource.fromConfig({ serviceName: "jcode" }).pipe(
           Effect.provide(
             Layer.provide(
               OtelEnvironment.layerResourceAttributes(otel.resourceAttributes),

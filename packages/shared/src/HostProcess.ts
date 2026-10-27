@@ -4,22 +4,25 @@ import * as NodeDns from "node:dns";
 import * as NodeOS from "node:os";
 import * as NodeSea from "node:sea";
 
-export const Platform = Context.Reference<NodeJS.Platform>("@t3tools/shared/HostProcess/Platform", {
-  defaultValue: () => process.platform,
-});
+export const Platform = Context.Reference<NodeJS.Platform>(
+  "@lnsflive/shared/HostProcess/Platform",
+  {
+    defaultValue: () => process.platform,
+  },
+);
 
 export const Architecture = Context.Reference<NodeJS.Architecture>(
-  "@t3tools/shared/HostProcess/Architecture",
+  "@lnsflive/shared/HostProcess/Architecture",
   {
     defaultValue: () => process.arch,
   },
 );
 
-export const Hostname = Context.Reference<string>("@t3tools/shared/HostProcess/Hostname", {
+export const Hostname = Context.Reference<string>("@lnsflive/shared/HostProcess/Hostname", {
   defaultValue: () => NodeOS.hostname(),
 });
 
-export const Username = Context.Reference<string | null>("@t3tools/shared/HostProcess/Username", {
+export const Username = Context.Reference<string | null>("@lnsflive/shared/HostProcess/Username", {
   defaultValue: () => {
     try {
       return NodeOS.userInfo().username.trim() || null;
@@ -30,52 +33,55 @@ export const Username = Context.Reference<string | null>("@t3tools/shared/HostPr
 });
 
 export const HomeDirectory = Context.Reference<string>(
-  "@t3tools/shared/HostProcess/HomeDirectory",
+  "@lnsflive/shared/HostProcess/HomeDirectory",
   {
     defaultValue: () => NodeOS.homedir(),
   },
 );
 
 export const Environment = Context.Reference<NodeJS.ProcessEnv>(
-  "@t3tools/shared/HostProcess/Environment",
+  "@lnsflive/shared/HostProcess/Environment",
   {
     defaultValue: () => process.env,
   },
 );
 
 export const WorkingDirectory = Context.Reference<string>(
-  "@t3tools/shared/HostProcess/WorkingDirectory",
+  "@lnsflive/shared/HostProcess/WorkingDirectory",
   {
     defaultValue: () => process.cwd(),
   },
 );
 
 export const ExecutablePath = Context.Reference<string>(
-  "@t3tools/shared/HostProcess/ExecutablePath",
+  "@lnsflive/shared/HostProcess/ExecutablePath",
   {
     defaultValue: () => process.execPath,
   },
 );
 
 export const Arguments = Context.Reference<ReadonlyArray<string>>(
-  "@t3tools/shared/HostProcess/Arguments",
+  "@lnsflive/shared/HostProcess/Arguments",
   {
     defaultValue: () => process.argv,
   },
 );
 
 /** Original shell command spelling; argv[0] and execPath instead identify the resolved binary. */
-export const InvokedAs = Context.Reference<string>("@t3tools/shared/HostProcess/InvokedAs", {
+export const InvokedAs = Context.Reference<string>("@lnsflive/shared/HostProcess/InvokedAs", {
   defaultValue: () => process.argv0,
 });
 
-export const IsExecutable = Context.Reference<boolean>("@t3tools/shared/HostProcess/IsExecutable", {
-  defaultValue: () => NodeSea.isSea(),
-});
+export const IsExecutable = Context.Reference<boolean>(
+  "@lnsflive/shared/HostProcess/IsExecutable",
+  {
+    defaultValue: () => NodeSea.isSea(),
+  },
+);
 
 /** Includes hostname-resolved addresses absent from interfaces, such as Debian's 127.0.1.1 used by Firefox locks. */
 export const Addresses = Context.Reference<Effect.Effect<ReadonlySet<string>>>(
-  "@t3tools/shared/HostProcess/Addresses",
+  "@lnsflive/shared/HostProcess/Addresses",
   {
     // The enclosing operation owns the span for this inline handler.
     defaultValue: Effect.fnUntraced(function* () {
@@ -93,7 +99,7 @@ export const Addresses = Context.Reference<Effect.Effect<ReadonlySet<string>>>(
   },
 );
 
-export const UserId = Context.Reference<number | undefined>("@t3tools/shared/HostProcess/UserId", {
+export const UserId = Context.Reference<number | undefined>("@lnsflive/shared/HostProcess/UserId", {
   defaultValue: () => process.getuid?.(),
 });
 

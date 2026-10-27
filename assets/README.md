@@ -14,6 +14,8 @@ Exporting requires Icon Composer 2 or newer on macOS. The script selects the new
 
 On other platforms, `vp run icons:export:web` regenerates the web icons from the production SVG mark. Run the full Icon Composer export afterward to restore the native variants and pass `icons:check`.
 
+`vp run icons:export:portable` creates replacement application icons from the vector sources on non-macOS hosts. These are portable artwork, including a macOS safe area, and should later be replaced by native Icon Composer exports.
+
 ## macOS exports
 
 Icon Composer's command-line exporter does not expose the `macOS pre-Tahoe` preset. A plain command-line `macOS` export is full bleed and is not suitable for the desktop app, so the export script intentionally leaves the tracked macOS PNGs unchanged and prints a reminder after every run.
@@ -65,5 +67,5 @@ is instead rendered from the same Icon Composer SVG sources by `vp run icons:exp
 - `apps/mobile/assets/android-splash-icon-*.png`: the two layers composed into one 288dp image, so
   the splash mask reproduces the launcher icon's framing.
 
-Rerun the export after changing a layer SVG. `android-icon-mark.png` remains a flat silhouette for
-Android's monochrome themed icon.
+Rerun the export after changing a layer SVG. It also writes the flat silhouettes used for Android's
+monochrome and notification icons.

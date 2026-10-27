@@ -1,7 +1,7 @@
-import { EnvironmentId, ProjectId } from "@t3tools/contracts";
+import { EnvironmentId, ProjectId } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
-import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
+import type { EnvironmentProject } from "@lnsflive/client-runtime/state/shell";
 import type { HomeProjectScope } from "../home/homeThreadList";
 import {
   getProjectScopeSelectionTarget,
@@ -43,7 +43,7 @@ function makeProject(
 
 function makeScope(projects: ReadonlyArray<EnvironmentProject>): HomeProjectScope {
   return {
-    key: "github.com/t3tools/jcode",
+    key: "github.com/lnsflive/jcode",
     title: "JCode",
     representative: projects[0]!,
     projects,
@@ -76,10 +76,10 @@ describe("getProjectScopeSelectionTarget", () => {
 
 describe("resolveEnvironmentProjectMatch", () => {
   it("follows the same repository onto the target machine", () => {
-    const selected = makeProject("jcode", "mac", { repositoryKey: "github.com/t3tools/jcode" });
+    const selected = makeProject("jcode", "mac", { repositoryKey: "github.com/lnsflive/jcode" });
     const target = [
-      makeProject("other", "server", { repositoryKey: "github.com/t3tools/other" }),
-      makeProject("jcode-clone", "server", { repositoryKey: "github.com/t3tools/jcode" }),
+      makeProject("other", "server", { repositoryKey: "github.com/lnsflive/other" }),
+      makeProject("jcode-clone", "server", { repositoryKey: "github.com/lnsflive/jcode" }),
     ];
     expect(resolveEnvironmentProjectMatch(target, selected)).toBe(target[1]);
   });
@@ -101,7 +101,7 @@ describe("resolveEnvironmentProjectMatch", () => {
 
   it("does not treat a known different repository as a basename or title match", () => {
     const selected = makeProject("jcode", "mac", {
-      repositoryKey: "github.com/t3tools/jcode",
+      repositoryKey: "github.com/lnsflive/jcode",
       workspaceRoot: "/Users/me/jcode",
     });
     const fork = makeProject("fork", "server", {

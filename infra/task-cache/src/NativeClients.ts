@@ -21,12 +21,12 @@ export class Bindings extends Context.Service<
     readonly readLimit: Cloudflare.RateLimit;
     readonly storeLimit: Cloudflare.RateLimit;
   }
->()("@t3tools/task-cache/NativeClients/Bindings") {}
+>()("@lnsflive/task-cache/NativeClients/Bindings") {}
 
 export class NativeClients extends Context.Service<
   NativeClients,
   { readonly handle: (request: Request) => Effect.Effect<Response> }
->()("@t3tools/task-cache/NativeClients") {}
+>()("@lnsflive/task-cache/NativeClients") {}
 
 const CompleteBody = Schema.fromJsonString(
   Schema.Struct({
@@ -123,20 +123,20 @@ const make = Effect.gen(function* () {
             // agent-device install-from-source picks the archive type from this name.
             // iOS clients are uploaded as a tarred .app, Android ones as the bare APK.
             "Content-Disposition": `attachment; filename="${key.split("/").at(-1)}.${key.startsWith("ios/") ? "tgz" : "apk"}"`,
-            "X-T3-Digest": object.customMetadata?.digest ?? "",
-            "X-T3-Build-Ms": object.customMetadata?.buildMs ?? "0",
+            "X-JCode-Digest": object.customMetadata?.digest ?? "",
+            "X-JCode-Build-Ms": object.customMetadata?.buildMs ?? "0",
           },
         });
       }
       if (operation === "create") {
-        const digest = request.headers.get("x-t3-digest") ?? "";
+        const digest = request.headers.get("x-jcode-digest") ?? "";
         if (!digestPattern.test(digest))
           return yield* new NativeClientsError({ status: 400, reason: "invalid_digest" });
         if (yield* r2(() => bindings.CLIENTS.head(key))) {
           yield* Effect.annotateCurrentSpan({ "native.result": "exists" });
           return Response.json({ exists: true });
         }
-        const buildMs = request.headers.get("x-t3-build-ms") ?? "";
+        const buildMs = request.headers.get("x-jcode-build-ms") ?? "";
         const upload = yield* r2(() =>
           bindings.CLIENTS.createMultipartUpload(key, {
             customMetadata: {

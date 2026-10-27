@@ -1,20 +1,20 @@
-import { AuthProvidersManageScope } from "@t3tools/contracts";
+import { AuthProvidersManageScope } from "@lnsflive/contracts";
 import { readPreparedConnection, useEnvironmentScope } from "../../state/session";
 import {
   isAtomCommandInterrupted,
   squashAtomCommandFailure,
   type AtomCommandResult,
-} from "@t3tools/client-runtime/state/runtime";
+} from "@lnsflive/client-runtime/state/runtime";
 import type {
   ChatGptHandoffInput,
   ChatGptTransferredProfile,
   EnvironmentId,
   ProviderInstanceId,
   ServerProvider,
-} from "@t3tools/contracts";
-import { codexAuthHandoffUrl } from "@t3tools/shared/codexAuthHandoff";
-import { providerAuthReturnUrl } from "@t3tools/shared/providerAuthReturnUrl";
-import { isLoopbackHost } from "@t3tools/shared/preview";
+} from "@lnsflive/contracts";
+import { codexAuthHandoffUrl } from "@lnsflive/shared/codexAuthHandoff";
+import { providerAuthReturnUrl } from "@lnsflive/shared/providerAuthReturnUrl";
+import { isLoopbackHost } from "@lnsflive/shared/preview";
 import { CheckIcon, ChevronRightIcon, ExternalLinkIcon } from "lucide-react";
 import {
   Children,

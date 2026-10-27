@@ -1,5 +1,5 @@
-import type { ScopedProjectRef, ScopedThreadRef } from "@t3tools/contracts";
-import { scopedThreadKey } from "@t3tools/client-runtime/environment";
+import type { ScopedProjectRef, ScopedThreadRef } from "@lnsflive/contracts";
+import { scopedThreadKey } from "@lnsflive/client-runtime/environment";
 
 import { type DraftId, useComposerDraftStore } from "../composerDraftStore";
 import { releaseDraftAttachments } from "./attachmentUploadQueue";

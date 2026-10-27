@@ -1,4 +1,4 @@
-import { ProjectId, type ThreadPullRequestLink } from "@t3tools/contracts";
+import { ProjectId, type ThreadPullRequestLink } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
@@ -13,9 +13,9 @@ function linkedPr(
 ): ThreadPullRequestLink {
   return {
     host: "github.com",
-    repository: "t3tools/jcode",
+    repository: "lnsflive/jcode",
     number,
-    url: `https://github.com/t3tools/jcode/pull/${number}`,
+    url: `https://github.com/lnsflive/jcode/pull/${number}`,
     source: "manual",
     linkedAt: "2026-09-08T00:00:00.000Z",
     stack: null,
@@ -55,8 +55,8 @@ describe("presentThreadLinkedPullRequests", () => {
       presentThreadLinkedPullRequests([
         linkedPr(7, {
           host: "gitlab.com",
-          repository: "t3tools/jcode",
-          url: "https://gitlab.com/t3tools/jcode/-/merge_requests/7",
+          repository: "lnsflive/jcode",
+          url: "https://gitlab.com/lnsflive/jcode/-/merge_requests/7",
         }),
       ])?.accessibilityLabel,
     ).toBe("#7 merge request open");
@@ -66,11 +66,11 @@ describe("presentThreadLinkedPullRequests", () => {
 describe("resolveThreadPrSource compatibility", () => {
   const legacyRef = {
     projectId: ProjectId.make("project"),
-    repository: "t3tools/jcode",
+    repository: "lnsflive/jcode",
     number: 1,
-    url: "https://github.com/t3tools/jcode/pull/1",
+    url: "https://github.com/lnsflive/jcode/pull/1",
   };
-  const branchRef = { ...legacyRef, number: 2, url: "https://github.com/t3tools/jcode/pull/2" };
+  const branchRef = { ...legacyRef, number: 2, url: "https://github.com/lnsflive/jcode/pull/2" };
 
   it("polls the legacy reference when only the older linking capability exists", () => {
     expect(

@@ -1,5 +1,5 @@
-import { type EnvironmentId, J_PROJECT_FILE_NAME, type JProjectFile } from "@t3tools/contracts";
-import { parseJProjectFile } from "@t3tools/shared/jProjectFile";
+import { type EnvironmentId, J_PROJECT_FILE_NAME, type JProjectFile } from "@lnsflive/contracts";
+import { parseJProjectFile } from "@lnsflive/shared/jProjectFile";
 import { useAtomValue } from "@effect/atom-react";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";

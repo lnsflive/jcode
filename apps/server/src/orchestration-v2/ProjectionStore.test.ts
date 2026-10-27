@@ -25,14 +25,14 @@ import {
   ThreadId,
   TurnItemId,
   type ThreadPullRequestLink,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 import * as SqlClient from "effect/sql/SqlClient";
-import { projectThreadAwarenessV2 } from "@t3tools/shared/agentAwareness";
+import { projectThreadAwarenessV2 } from "@lnsflive/shared/agentAwareness";
 
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
@@ -250,7 +250,7 @@ it.effect.each([
         id: TurnItemId.make("item:thread-wait:active"),
         runId: run.id,
         type: "dynamic_tool" as const,
-        toolName: "mcp__jcode__t3_thread_wait",
+        toolName: "mcp__jcode__jcode_thread_wait",
         input: { threadId: "child-thread" },
         status: "running" as const,
       };
@@ -264,7 +264,7 @@ it.effect.each([
       const foreign = {
         ...wait,
         id: TurnItemId.make("item:thread-wait:foreign"),
-        toolName: "weather.t3_thread_wait",
+        toolName: "weather.jcode_thread_wait",
       };
       yield* updateItem(foreign);
       yield* assertBlocked(false);
@@ -1115,7 +1115,7 @@ it.effect.each([
     const store = yield* ProjectionStore.ProjectionStoreV2;
     const now = yield* DateTime.now;
     const projectId = ProjectId.make("project:family");
-    const worktreePath = "/repo/.t3/worktrees/family";
+    const worktreePath = "/repo/.jcode/worktrees/family";
     const id = (name: string) => ThreadId.make(`thread:family:${name}`);
     const payloadOf = (input: {
       readonly name: string;
@@ -1682,7 +1682,7 @@ it.layer(layerTest)("ProjectionStoreV2", (it) => {
           parentCheckpointId: null,
           ordinalWithinScope: 0,
           appRunOrdinal: null,
-          ref: CheckpointRef.make("refs/t3/bounded-sql-history/0"),
+          ref: CheckpointRef.make("refs/jcode/bounded-sql-history/0"),
           status: "ready",
           files: [],
           capturedAt: now,

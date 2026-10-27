@@ -1,9 +1,9 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
-import type { ChangeRequestProjectIdentity } from "@t3tools/source-control-core/shared/definition";
+import { SourceControlProviderKind } from "@lnsflive/contracts";
+import type { ChangeRequestProjectIdentity } from "@lnsflive/source-control-core/shared/definition";
 import {
   makeSourceControlDefinitionRegistry,
   recognizeRemoteWith,
-} from "@t3tools/source-control-core/shared/definition";
+} from "@lnsflive/source-control-core/shared/definition";
 import { describe, expect, it } from "vite-plus/test";
 
 import { definition } from "./definition.ts";
@@ -127,23 +127,23 @@ describe("Azure DevOps repository keys", () => {
 
   it("gives a repository the same key over SSH as over HTTPS", () => {
     for (const remote of [
-      "git@ssh.dev.azure.com:v3/T3Tools/Platform/JCode",
-      "ssh://git@ssh.dev.azure.com:22/v3/T3Tools/Platform/JCode",
-      "https://T3Tools@dev.azure.com/T3Tools/Platform/_git/JCode",
+      "git@ssh.dev.azure.com:v3/JCodeTools/Platform/JCode",
+      "ssh://git@ssh.dev.azure.com:22/v3/JCodeTools/Platform/JCode",
+      "https://JCodeTools@dev.azure.com/JCodeTools/Platform/_git/JCode",
     ]) {
       expect(registry.repositoryKeyFromRemote(remote), remote).toBe(
-        "dev.azure.com/t3tools/platform/_git/jcode",
+        "dev.azure.com/lnsflive/platform/_git/jcode",
       );
     }
   });
 
   it("keeps the organization in the host for the legacy visualstudio.com remotes", () => {
     for (const remote of [
-      "T3Tools@vs-ssh.visualstudio.com:v3/T3Tools/Platform/JCode",
-      "https://T3Tools.visualstudio.com/Platform/_git/JCode",
+      "JCodeTools@vs-ssh.visualstudio.com:v3/JCodeTools/Platform/JCode",
+      "https://JCodeTools.visualstudio.com/Platform/_git/JCode",
     ]) {
       expect(registry.repositoryKeyFromRemote(remote), remote).toBe(
-        "t3tools.visualstudio.com/platform/_git/jcode",
+        "lnsflive.visualstudio.com/platform/_git/jcode",
       );
     }
   });

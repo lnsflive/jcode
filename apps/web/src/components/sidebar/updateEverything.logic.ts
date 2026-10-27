@@ -1,6 +1,6 @@
-import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
-import type { EnvironmentId, ServerConfig } from "@t3tools/contracts";
-import { cliReleaseChannelOf } from "@t3tools/shared/cliRelease";
+import type { ServerUpdateState } from "@lnsflive/client-runtime/state/server";
+import type { EnvironmentId, ServerConfig } from "@lnsflive/contracts";
+import { cliReleaseChannelOf } from "@lnsflive/shared/cliRelease";
 
 import {
   resolveServerSelfUpdateCapability,

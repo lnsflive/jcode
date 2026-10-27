@@ -1,6 +1,6 @@
 import type { Root, RootContent } from "mdast";
-import { resolveWorkEntryToolPresentation } from "@t3tools/client-runtime/work-log/presentation";
-import { isJavaScriptReplTool } from "@t3tools/shared/toolActivity";
+import { resolveWorkEntryToolPresentation } from "@lnsflive/client-runtime/work-log/presentation";
+import { isJavaScriptReplTool } from "@lnsflive/shared/toolActivity";
 import { toolGroupAction } from "./MessagesTimeline.logic";
 import { formatWorkspaceRelativePath } from "../../filePathDisplay";
 import { type TimelineWorkEntry, type TimelineRow } from "./timelineRowContext";

@@ -1,4 +1,4 @@
-import type { JMcpToolSummaryAction } from "@t3tools/shared/jMcpToolPresentation";
+import type { JMcpToolSummaryAction } from "@lnsflive/shared/jMcpToolPresentation";
 
 export interface JCodeToolSummaryCall {
   readonly input: unknown;

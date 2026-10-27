@@ -2,7 +2,7 @@
 
 > For maintainers. Using JCode? See [docs/user](../user/).
 
-The screenshot harness runs the real mobile application against three disposable local T3
+The screenshot harness runs the real mobile application against three disposable local JCode
 environments. It creates an isolated base directory and server for each environment, real Git
 projects with deterministic content, seeded orchestration projections, and persisted terminal
 history. The app pairs with every server through its normal connection flow and React Navigation
@@ -56,7 +56,7 @@ Every configured device defaults to dark appearance and the `jcode` palette, so 
 `--appearance both` to override the configured appearance; `both` produces 90 PNGs.
 
 Pass `--theme <id>` (repeatable) or `--theme all` to capture the app's other palettes: `jcode`,
-`t3-chat`, `grove`, `ocean`, `ember`, and `iris`. The runner hands the palette to the app as a launch
+`jcode-chat`, `grove`, `ocean`, `ember`, and `iris`. The runner hands the palette to the app as a launch
 argument, the app applies it to both color schemes, and a scene only reports itself ready once the
 requested palette is active — so a capture can never show the previous theme. `--theme all`
 multiplies the run by six; only the native build is shared.
@@ -134,7 +134,7 @@ Download `app-store-connect-screenshots` and `google-play-screenshots` from the 
 Artifacts section. Artifacts are retained for 14 days.
 
 The workflow uses the same checked-in device and scene matrix as local capture. Android remains
-ARM64 by default for local Apple Silicon development; CI sets `T3_SHOWCASE_ANDROID_ABI=x86_64` so the
+ARM64 by default for local Apple Silicon development; CI sets `JCODE_SHOWCASE_ANDROID_ABI=x86_64` so the
 debug APK matches its accelerated emulator.
 
 ## Fast iteration
@@ -171,7 +171,7 @@ Then run the capture from the repository root:
 
     pnpm screenshots:mobile --skip-build --skip-metro --device iphone-6.9
 
-`pnpm --filter @t3tools/mobile showcase` starts Expo on its normal port, so it is not compatible with
+`pnpm --filter @lnsflive/mobile showcase` starts Expo on its normal port, so it is not compatible with
 the harness's `--skip-metro` mode.
 
 List the matrix and flags:

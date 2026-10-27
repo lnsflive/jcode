@@ -3,8 +3,8 @@ import {
   connectionRouteId,
   connectionRouteLabel,
   connectionRoutes,
-} from "@t3tools/client-runtime/connection";
-import type { DesktopSshEnvironmentTarget, EnvironmentMachineKind } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/connection";
+import type { DesktopSshEnvironmentTarget, EnvironmentMachineKind } from "@lnsflive/contracts";
 import * as Option from "effect/Option";
 import type { ReactNode } from "react";
 

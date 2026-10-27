@@ -8,16 +8,16 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientResponse } from "effect/http";
-import { GrokSettings } from "@t3tools/provider-grok/settings";
+import { GrokSettings } from "@lnsflive/provider-grok/settings";
 
 import {
   buildGrokModelCapabilities,
   checkGrokProviderStatus,
   grokSlashCommandsFromInitialize,
   parseGrokModelsCliOutput,
-} from "@t3tools/provider-grok/testing";
-import { execScriptSource, writeFakeCli } from "@t3tools/provider-testing/fakeCli";
-import { grokUsageResponseToLimits, readGrokAccount } from "@t3tools/provider-grok/testing";
+} from "@lnsflive/provider-grok/testing";
+import { execScriptSource, writeFakeCli } from "@lnsflive/provider-testing/fakeCli";
+import { grokUsageResponseToLimits, readGrokAccount } from "@lnsflive/provider-grok/testing";
 
 const decodeGrokSettings = Schema.decodeSync(GrokSettings);
 const __dirname = NodePath.dirname(NodeURL.fileURLToPath(import.meta.url));
@@ -362,7 +362,7 @@ it.layer(NodeServices.layer)("checkGrokProviderStatus", (it) => {
           });
           return yield* checkGrokProviderStatus(
             decodeGrokSettings({ enabled: true, binaryPath: grokPath }),
-            { ...process.env, XAI_API_KEY: "", T3_ACP_OMIT_INITIALIZE_MODEL_STATE: "1" },
+            { ...process.env, XAI_API_KEY: "", JCODE_ACP_OMIT_INITIALIZE_MODEL_STATE: "1" },
           );
         }),
       );

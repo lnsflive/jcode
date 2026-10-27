@@ -2,9 +2,9 @@ import {
   type OrchestrationV2LimitRecovery,
   type OrchestrationV2LimitRecoveryUpdate,
   type RunId,
-} from "@t3tools/contracts";
-import { type TimestampFormat } from "@t3tools/contracts/settings";
-import { deadlineStore } from "@t3tools/client-runtime/clock";
+} from "@lnsflive/contracts";
+import { type TimestampFormat } from "@lnsflive/contracts/settings";
+import { deadlineStore } from "@lnsflive/client-runtime/clock";
 import { GaugeIcon } from "lucide-react";
 import { useState } from "react";
 import { useDeadlinePassed } from "../../hooks/useDeadline";

@@ -30,14 +30,14 @@ import {
   type ReviewDiffFileStat,
   type ReviewDiffPreviewSource,
   type VcsRef,
-} from "@t3tools/contracts";
-import { dedupeRemoteBranchesWithLocalMatches } from "@t3tools/shared/git";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { compactTraceAttributes } from "@t3tools/shared/observability";
-import { decodeJsonResult } from "@t3tools/shared/schemaJson";
-import { resolveSpawnCommand } from "@t3tools/shared/shell";
-import { parseJProjectFile } from "@t3tools/shared/jProjectFile";
-import { resolveProjectFileBackedSetting } from "@t3tools/shared/projectSettings";
+} from "@lnsflive/contracts";
+import { dedupeRemoteBranchesWithLocalMatches } from "@lnsflive/shared/git";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { compactTraceAttributes } from "@lnsflive/shared/observability";
+import { decodeJsonResult } from "@lnsflive/shared/schemaJson";
+import { resolveSpawnCommand } from "@lnsflive/shared/shell";
+import { parseJProjectFile } from "@lnsflive/shared/jProjectFile";
+import { resolveProjectFileBackedSetting } from "@lnsflive/shared/projectSettings";
 import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observability/Metrics.ts";
 import * as GitVcsDriver from "./GitVcsDriver.ts";
 import { removeEmptyDirectory } from "./removeEmptyDirectory.ts";
@@ -54,7 +54,7 @@ import { sourceControlDefinitions } from "../sourceControl/sourceControlDefiniti
 
 const DEFAULT_TIMEOUT_MS = 30_000;
 /** JCode's record of the branch, named as on the host, that a branch was cut from. */
-const branchBaseConfigKey = (branch: string) => `branch.${branch}.t3-merge-base`;
+const branchBaseConfigKey = (branch: string) => `branch.${branch}.jcode-merge-base`;
 /**
  * Where JCode kept that record before it had a key of its own, for every host alike: the GitHub
  * CLI's key, which branches cut before then still carry instead.
@@ -1772,7 +1772,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
       readonly knownOriginDefaultBranch?: string | null;
     },
   ) {
-    const configuredBaseRef = yield* readConfigValue(cwd, `branch.${refName}.t3-merge-base-ref`);
+    const configuredBaseRef = yield* readConfigValue(cwd, `branch.${refName}.jcode-merge-base-ref`);
     if (
       configuredBaseRef?.startsWith("refs/heads/") ||
       configuredBaseRef?.startsWith("refs/remotes/")
@@ -2607,10 +2607,10 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
             branchBaseConfigKey(branch),
             currentUpstream.branchName,
           ]);
-          if (!(yield* readConfigValue(cwd, `branch.${branch}.t3-merge-base-ref`))) {
+          if (!(yield* readConfigValue(cwd, `branch.${branch}.jcode-merge-base-ref`))) {
             yield* runGit("GitVcsDriver.pushCurrentBranch.recordComparisonRef", cwd, [
               "config",
-              `branch.${branch}.t3-merge-base-ref`,
+              `branch.${branch}.jcode-merge-base-ref`,
               `refs/remotes/${currentUpstream.upstreamRef}`,
             ]);
           }
@@ -3749,9 +3749,12 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
                 Effect.flatMap((contents) => {
                   const file = parseJProjectFile(contents);
                   return file === null
-                    ? Effect.logWarning("t3.json is invalid; initializing submodules recursively", {
-                        worktreePath,
-                      }).pipe(Effect.as(null))
+                    ? Effect.logWarning(
+                        "jcode.json is invalid; initializing submodules recursively",
+                        {
+                          worktreePath,
+                        },
+                      ).pipe(Effect.as(null))
                     : Effect.succeed(file);
                 }),
                 Effect.orElseSucceed(() => null),
@@ -3759,7 +3762,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         );
     if (hasSubmodules && submoduleMode.value === "none" && progress?.onSubmodulesDisabled) {
       yield* progress.onSubmodulesDisabled({
-        source: submoduleMode.source === "t3.json" ? "t3.json" : "settings",
+        source: submoduleMode.source === "jcode.json" ? "jcode.json" : "settings",
       });
     }
     if (submoduleMode.value !== "none") {
@@ -3814,7 +3817,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
             // The base key names a branch on the host; this one keeps the remote it came from.
             yield* runGit("GitVcsDriver.createWorktree.configureComparisonRef", input.cwd, [
               "config",
-              `branch.${input.newRefName}.t3-merge-base-ref`,
+              `branch.${input.newRefName}.jcode-merge-base-ref`,
               base.baseRef,
             ]);
           }

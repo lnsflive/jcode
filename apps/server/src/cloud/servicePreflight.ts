@@ -23,7 +23,7 @@ export function runServicePreflight(input: {
     return {
       status: "blocked",
       version,
-      // A stale `t3` earlier on PATH (an old npm/nvm global) makes `jcode service install`
+      // A stale `jcode` earlier on PATH (an old npm/nvm global) makes `jcode service install`
       // reinstall itself and report success, so name the exact install and the path check.
       reason: [
         `The installed service launcher speaks protocol ${input.launcherProtocol}, but JCode ${version} requires protocol ${SERVICE_LAUNCHER_PROTOCOL}.`,

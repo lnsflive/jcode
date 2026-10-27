@@ -4,10 +4,10 @@ import * as NodeOS from "node:os";
 
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as NetService from "@t3tools/shared/Net";
-import { resolveGitWorktreePath, resolveWorktreeT3Home } from "@t3tools/shared/devHome";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { resolveSpawnCommand } from "@t3tools/shared/shell";
+import * as NetService from "@lnsflive/shared/Net";
+import { resolveGitWorktreePath, resolveWorktreeJCodeHome } from "@lnsflive/shared/devHome";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { resolveSpawnCommand } from "@lnsflive/shared/shell";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -59,30 +59,30 @@ export function isProxiableBindHost(host: string): boolean {
   );
 }
 
-export const DEFAULT_T3_HOME = Effect.map(Effect.service(Path.Path), (path) =>
-  path.join(NodeOS.homedir(), ".t3"),
+export const DEFAULT_JCODE_HOME = Effect.map(Effect.service(Path.Path), (path) =>
+  path.join(NodeOS.homedir(), ".jcode"),
 );
 
 const MODE_ARGS = {
   dev: [
     "run",
-    "--filter=@t3tools/contracts",
-    "--filter=@t3tools/web",
-    "--filter=t3",
+    "--filter=@lnsflive/contracts",
+    "--filter=@lnsflive/web",
+    "--filter=jcode",
     "--parallel",
     "dev",
   ],
-  "dev:server": ["run", "--filter=t3", "dev"],
-  "dev:web": ["run", "--filter=@t3tools/web", "dev"],
-  "dev:desktop": ["run", "--filter=@t3tools/desktop", "--filter=@t3tools/web", "dev"],
+  "dev:server": ["run", "--filter=jcode", "dev"],
+  "dev:web": ["run", "--filter=@lnsflive/web", "dev"],
+  "dev:desktop": ["run", "--filter=@lnsflive/desktop", "--filter=@lnsflive/web", "dev"],
 } as const satisfies Record<string, ReadonlyArray<string>>;
 
 // `--built`: the web package rebuilds into apps/web/dist and the backend serves
 // it, so no Vite dev server runs.
 const BUILT_DEV_ARGS = [
   "run",
-  "--filter=@t3tools/web",
-  "--filter=t3",
+  "--filter=@lnsflive/web",
+  "--filter=jcode",
   "--parallel",
   "dev:built",
 ] as const;
@@ -276,7 +276,7 @@ const resolveBaseDir = Effect.fn("dev-runner.resolveBaseDir")(function* (
     return path.resolve(configured);
   }
 
-  return yield* DEFAULT_T3_HOME;
+  return yield* DEFAULT_JCODE_HOME;
 });
 
 interface CreateDevRunnerEnvInput {
@@ -284,7 +284,7 @@ interface CreateDevRunnerEnvInput {
   readonly baseEnv: NodeJS.ProcessEnv;
   readonly serverOffset: number;
   readonly webOffset: number;
-  readonly t3Home: string | undefined;
+  readonly jcodeHome: string | undefined;
   readonly browser: boolean | undefined;
   readonly autoBootstrapProjectFromCwd: boolean | undefined;
   readonly logWebSocketEvents: boolean | undefined;
@@ -298,7 +298,7 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
   baseEnv,
   serverOffset,
   webOffset,
-  t3Home,
+  jcodeHome,
   browser,
   autoBootstrapProjectFromCwd,
   logWebSocketEvents,
@@ -308,7 +308,7 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
 }: CreateDevRunnerEnvInput): Effect.fn.Return<NodeJS.ProcessEnv, never, Path.Path> {
   const serverPort = port ?? BASE_SERVER_PORT + serverOffset;
   const webPort = BASE_WEB_PORT + webOffset;
-  const configuredBaseDir = t3Home?.trim() || undefined;
+  const configuredBaseDir = jcodeHome?.trim() || undefined;
   const resolvedBaseDir = yield* resolveBaseDir(configuredBaseDir);
   const isDesktopMode = mode === "dev:desktop";
 
@@ -328,8 +328,8 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
 
   // Managed JCode service shells leak launcher variables that make dev servers fail version checks.
   // Dev-runner servers are never launcher-managed (serviceLauncherClient.ts resolveStartup).
-  delete output.T3_SERVICE_LAUNCHER_CONTEXT;
-  delete output.T3_BOOT_SERVICE_UNIT;
+  delete output.JCODE_SERVICE_LAUNCHER_CONTEXT;
+  delete output.JCODE_BOOT_SERVICE_UNIT;
 
   // Each worktree has its own state, so a dev server would count as a new
   // install of the developer's real accounts. Set it explicitly to opt in.
@@ -627,7 +627,12 @@ const prepareFirstStart = Effect.fn("dev-runner.prepareFirstStart")(function* (i
         );
       }
     }
-    const source = path.join(yield* HostProcess.HomeDirectory, ".t3", "userdata", "statev2.sqlite");
+    const source = path.join(
+      yield* HostProcess.HomeDirectory,
+      ".jcode",
+      "userdata",
+      "statev2.sqlite",
+    );
     // A V1 state.sqlite counts as data too: the server imports it only while
     // statev2.sqlite is missing, so seeding would hide it.
     if (
@@ -666,7 +671,7 @@ const prepareFirstStart = Effect.fn("dev-runner.prepareFirstStart")(function* (i
 
 interface DevRunnerCliInput {
   readonly mode: DevMode;
-  readonly t3Home: string | undefined;
+  readonly jcodeHome: string | undefined;
   readonly browser: boolean | undefined;
   readonly autoBootstrapProjectFromCwd: boolean | undefined;
   readonly logWebSocketEvents: boolean | undefined;
@@ -723,14 +728,14 @@ export const runDevRunnerWithInput = Effect.fn("dev-runner.runDevRunnerWithInput
 
   const hostEnvironment = yield* HostProcess.Environment;
   // A dev server started inside a worktree defaults to that worktree's own
-  // (gitignored) `.t3` — see @t3tools/shared/devHome for why this must
+  // (gitignored) `.jcode` — see @lnsflive/shared/devHome for why this must
   // outrank an ambient JCODE_HOME. `--home-dir` still wins.
-  const worktreeHome = yield* resolveWorktreeT3Home(yield* HostProcess.WorkingDirectory);
+  const worktreeHome = yield* resolveWorktreeJCodeHome(yield* HostProcess.WorkingDirectory);
   // Trim before choosing: `--home-dir ""` is not a selection, and treating it
   // as one would skip the worktree default and land on the shared home —
   // exactly the outcome this precedence exists to prevent.
-  const resolvedT3Home =
-    (input.t3Home?.trim() || undefined) ??
+  const resolvedJCodeHome =
+    (input.jcodeHome?.trim() || undefined) ??
     worktreeHome ??
     (hostEnvironment.JCODE_HOME?.trim() || undefined);
   const env = yield* createDevRunnerEnv({
@@ -738,7 +743,7 @@ export const runDevRunnerWithInput = Effect.fn("dev-runner.runDevRunnerWithInput
     baseEnv: hostEnvironment,
     serverOffset,
     webOffset,
-    t3Home: resolvedT3Home,
+    jcodeHome: resolvedJCodeHome,
     browser: input.browser,
     autoBootstrapProjectFromCwd: input.autoBootstrapProjectFromCwd,
     logWebSocketEvents: input.logWebSocketEvents,
@@ -751,7 +756,7 @@ export const runDevRunnerWithInput = Effect.fn("dev-runner.runDevRunnerWithInput
     serverOffset !== offset || webOffset !== offset
       ? ` selectedOffset(server=${serverOffset},web=${webOffset})`
       : "";
-  const baseDir = env.JCODE_HOME ?? (yield* DEFAULT_T3_HOME);
+  const baseDir = env.JCODE_HOME ?? (yield* DEFAULT_JCODE_HOME);
 
   yield* Effect.logInfo(
     `[dev-runner] mode=${input.mode} source=${source}${selectionSuffix} serverPort=${String(env.JCODE_PORT)} webPort=${String(env.PORT)} baseDir=${baseDir}`,
@@ -906,9 +911,9 @@ const devRunnerCli = Command.make("dev-runner", {
   mode: Argument.Literals("mode", DEV_RUNNER_MODES).pipe(
     Argument.withDescription("Development mode to run."),
   ),
-  t3Home: Flag.String("home-dir").pipe(
+  jcodeHome: Flag.String("home-dir").pipe(
     Flag.withDescription(
-      "Explicit JCode data directory; runtime state is stored under userdata (equivalent to JCODE_HOME). Inside a git worktree this defaults to that worktree's own .t3 so dev state stays off the shared home.",
+      "Explicit JCode data directory; runtime state is stored under userdata (equivalent to JCODE_HOME). Inside a git worktree this defaults to that worktree's own .jcode so dev state stays off the shared home.",
     ),
     Flag.optional,
     Flag.map(Option.getOrUndefined),
@@ -957,7 +962,7 @@ const devRunnerCli = Command.make("dev-runner", {
   ),
   seed: Flag.Boolean("seed").pipe(
     Flag.withDescription(
-      "Seed an empty worktree database from ~/.t3 on first start (read-only, via migrate-dev-db) if the source is at most 500 MiB. On by default; --no-seed or JCODE_DEV_SEED=0 skips it.",
+      "Seed an empty worktree database from ~/.jcode on first start (read-only, via migrate-dev-db) if the source is at most 500 MiB. On by default; --no-seed or JCODE_DEV_SEED=0 skips it.",
     ),
     Flag.withFallbackConfig(optionalBooleanConfig("JCODE_DEV_SEED")),
   ),

@@ -4,7 +4,7 @@ import {
   type OrchestrationV2CreationSource,
   type OrchestrationV2IdleCompaction,
   ScheduledTaskId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 /** The working row while JCode's own compaction runs. */
 export const IDLE_COMPACTING_LABELS = {

@@ -7,9 +7,9 @@ import type {
   ServerConfig,
   SourceControlDiscoveryResult,
   SourceControlRepositoryInfo,
-} from "@t3tools/contracts";
-import { SourceControlProviderKind } from "@t3tools/contracts";
-import { newProjectFolderName } from "@t3tools/shared/path";
+} from "@lnsflive/contracts";
+import { SourceControlProviderKind } from "@lnsflive/contracts";
+import { newProjectFolderName } from "@lnsflive/shared/path";
 import * as Arr from "effect/Array";
 import * as Option from "effect/Option";
 import * as Order from "effect/Order";

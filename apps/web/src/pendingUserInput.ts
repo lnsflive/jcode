@@ -1,6 +1,6 @@
-import type { ThreadContextRecord, UserInputQuestion } from "@t3tools/contracts";
-import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
-import { formatThreadLink } from "@t3tools/shared/threadLinks";
+import type { ThreadContextRecord, UserInputQuestion } from "@lnsflive/contracts";
+import { replaceComposerContextReferences } from "@lnsflive/shared/composerContextReferences";
+import { formatThreadLink } from "@lnsflive/shared/threadLinks";
 
 import { collectInlineContextIds } from "./lib/composerContextReferences";
 

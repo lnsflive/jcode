@@ -42,12 +42,6 @@ To try it once without installing, run `npx @lnsflive/jcode@latest` instead.
 
 Install the latest version of the desktop app from [GitHub Releases](https://github.com/lnsflive/jcode/releases), or from your favorite package registry:
 
-#### Windows (`winget`)
-
-```bash
-winget install T3Tools.JCode
-```
-
 #### Windows (`scoop`)
 
 ```bash

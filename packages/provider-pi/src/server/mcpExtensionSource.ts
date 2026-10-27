@@ -1,12 +1,12 @@
 // No JCode imports inside the string; resolve Pi and typebox from the user's Pi install.
-import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";
+import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@lnsflive/provider-core/server/orchestrationInstructions";
 
-export const PI_J_MCP_EXTENSION_FILENAME = "pi-t3-mcp-extension.ts";
+export const PI_J_MCP_EXTENSION_FILENAME = "pi-jcode-mcp-extension.ts";
 
 export const J_MCP_URL_ENV = "J_MCP_URL";
 export const J_MCP_BEARER_ENV = "J_MCP_BEARER_TOKEN";
-export const T3_PI_RUNTIME_MODE_ENV = "T3_PI_RUNTIME_MODE";
-export const T3_PI_MCP_EXTENSION_PATH_ENV = "T3_PI_MCP_EXTENSION_PATH";
+export const JCODE_PI_RUNTIME_MODE_ENV = "JCODE_PI_RUNTIME_MODE";
+export const JCODE_PI_MCP_EXTENSION_PATH_ENV = "JCODE_PI_MCP_EXTENSION_PATH";
 
 // These tools trigger file-change approvals, bypassed by Auto-accept edits.
 export const PI_FILE_CHANGE_TOOLS = ["edit", "write"] as const;
@@ -19,8 +19,8 @@ import { Type } from "typebox";
 
 const URL_ENV = ${JSON.stringify(J_MCP_URL_ENV)};
 const TOKEN_ENV = ${JSON.stringify(J_MCP_BEARER_ENV)};
-const RUNTIME_MODE_ENV = ${JSON.stringify(T3_PI_RUNTIME_MODE_ENV)};
-const EXTENSION_PATH_ENV = ${JSON.stringify(T3_PI_MCP_EXTENSION_PATH_ENV)};
+const RUNTIME_MODE_ENV = ${JSON.stringify(JCODE_PI_RUNTIME_MODE_ENV)};
+const EXTENSION_PATH_ENV = ${JSON.stringify(JCODE_PI_MCP_EXTENSION_PATH_ENV)};
 const ORCHESTRATION_INSTRUCTIONS = ${JSON.stringify(JCODE_ORCHESTRATION_INSTRUCTIONS.trim())};
 const PROTOCOL = "2025-06-18";
 const READ_ONLY_TOOLS = new Set(["read", "grep", "find", "ls"]);
@@ -214,7 +214,7 @@ function createMcpClient(endpoint: string, token: string) {
         {
           protocolVersion: PROTOCOL,
           capabilities: {},
-          clientInfo: { name: "t3-pi-mcp", version: "1.0.0" },
+          clientInfo: { name: "jcode-pi-mcp", version: "1.0.0" },
         },
         signal,
       );
@@ -240,7 +240,7 @@ function createMcpClient(endpoint: string, token: string) {
   };
 }
 
-export default async function t3McpExtension(pi: ExtensionAPI) {
+export default async function jcodeMcpExtension(pi: ExtensionAPI) {
   // Keep skill chips in the request. Pi expands only one leading /skill:
   // command, so use its own frontmatter loader for every selected chip here.
   pi.on("input", async (event, ctx) => {

@@ -48,12 +48,12 @@ jobs:
           run-install: false
 
       - name: Install dependencies
-        run: vp install --filter=t3... --filter=@t3tools/web... --filter=@t3tools/scripts...
+        run: vp install --filter=jcode... --filter=@lnsflive/web... --filter=@lnsflive/scripts...
 
       - name: Build web client and server
         run: |
           node scripts/update-release-package-versions.ts "$RELEASE_VERSION"
-          vp run --filter t3 build
+          vp run --filter jcode build
           node scripts/apply-web-brand-assets.ts production apps/server/dist/client
           node apps/server/scripts/cli.ts build-exe --verbose
 
@@ -61,17 +61,17 @@ jobs:
         run: |
           cargo build --locked --release --manifest-path native/resource-monitor/Cargo.toml --target x86_64-unknown-linux-gnu
           mkdir -p "$RUNNER_TEMP/cli-resource-monitor/linux-x64"
-          cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/t3-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
+          cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/jcode-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
 
       - name: Build and verify CLI archive
         run: |
           node scripts/build-cli-archive.ts --platform linux --arch x64 --version "$RELEASE_VERSION" --resource-monitor-dir "$RUNNER_TEMP/cli-resource-monitor" --output-dir release-cli
-          node scripts/smoke-cli-archive.ts --archive "release-cli/t3-$RELEASE_VERSION-linux-x64.tar.gz" --expect-version "$RELEASE_VERSION"
-          (cd release-cli && sha256sum "t3-$RELEASE_VERSION-linux-x64.tar.gz" > SHA256SUMS)
+          node scripts/smoke-cli-archive.ts --archive "release-cli/jcode-$RELEASE_VERSION-linux-x64.tar.gz" --expect-version "$RELEASE_VERSION"
+          (cd release-cli && sha256sum "jcode-$RELEASE_VERSION-linux-x64.tar.gz" > SHA256SUMS)
 
       - name: Publish Linux CLI release
         run: |
-          gh release create "v$RELEASE_VERSION" "release-cli/t3-$RELEASE_VERSION-linux-x64.tar.gz" release-cli/SHA256SUMS \
+          gh release create "v$RELEASE_VERSION" "release-cli/jcode-$RELEASE_VERSION-linux-x64.tar.gz" release-cli/SHA256SUMS \
             --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --latest \
             --title "JCode v$RELEASE_VERSION" \
             --notes 'This release contains the Linux x64 command-line server. Desktop and other platform builds are not included. JCode Connect requires a separately configured relay.'

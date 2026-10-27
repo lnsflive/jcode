@@ -8,7 +8,7 @@ import {
   RunId,
   ScheduledTaskId,
   ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import type { LegendListRef } from "@legendapp/list/react";
 import { createRef, Profiler, StrictMode, type ComponentProps, type ReactElement } from "react";
 import { describe, expect, it, vi } from "vite-plus/test";
@@ -20,7 +20,7 @@ import { MessagesTimeline } from "./MessagesTimeline";
 import { makeStreamingTimelineFixture } from "../../test-fixtures";
 import { deriveTimelineEntriesFromVisibleTurnItems } from "../../session-logic";
 import { remarkThoughtPreview } from "./TimelineWorkEntryRow.logic";
-import { parseMarkdownWithMath } from "@t3tools/shared/markdownMath";
+import { parseMarkdownWithMath } from "@lnsflive/shared/markdownMath";
 import { collectThreadFindRanges } from "./threadFindHighlights";
 import { toastManager } from "../ui/toast";
 import type { CitedHistory } from "./citationProcedure";
@@ -355,22 +355,22 @@ describe("MessagesTimeline messages", () => {
 
   it("renders unsafe user HTML as inert source text", async () => {
     const source =
-      '<script>globalThis.__t3Xss = 1</script><img src="x" onerror="globalThis.__t3Xss = 2">';
+      '<script>globalThis.__jcodeXss = 1</script><img src="x" onerror="globalThis.__jcodeXss = 2">';
     await using screen = await renderTimeline([message(source)]);
     expect(screen.text()).toContain(source);
     expect(screen.container.querySelector("script, img")).toBeNull();
-    expect((globalThis as { __t3Xss?: number }).__t3Xss).toBeUndefined();
+    expect((globalThis as { __jcodeXss?: number }).__jcodeXss).toBeUndefined();
   });
 
   it("renders sanitized raw HTML in assistant messages", async () => {
     await using screen = await renderTimeline([
       message(
         [
-          '<details onclick="globalThis.__t3Xss = 1">',
+          '<details onclick="globalThis.__jcodeXss = 1">',
           "<summary>Safe details</summary>",
-          "<script>globalThis.__t3Xss = 2</script>",
-          '<img src="x" onerror="globalThis.__t3Xss = 3">',
-          '<a href="javascript:globalThis.__t3Xss = 4">Unsafe link</a>',
+          "<script>globalThis.__jcodeXss = 2</script>",
+          '<img src="x" onerror="globalThis.__jcodeXss = 3">',
+          '<a href="javascript:globalThis.__jcodeXss = 4">Unsafe link</a>',
           "</details>",
         ].join(""),
         { role: "assistant" },
@@ -383,7 +383,7 @@ describe("MessagesTimeline messages", () => {
     expect(screen.container.querySelector("script, [onclick], [onerror]")).toBeNull();
     expect(screen.container.innerHTML).not.toContain("javascript:");
     await click(screen.button("Safe details"));
-    expect((globalThis as { __t3Xss?: number }).__t3Xss).toBeUndefined();
+    expect((globalThis as { __jcodeXss?: number }).__jcodeXss).toBeUndefined();
   });
 });
 

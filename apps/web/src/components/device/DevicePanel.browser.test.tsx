@@ -3,7 +3,7 @@ import {
   ThreadId,
   type DeviceServiceState,
   type ScopedThreadRef,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vite-plus/test";
 

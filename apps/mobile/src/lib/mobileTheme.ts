@@ -9,11 +9,11 @@ import {
   type MobileThemeId as SharedMobileThemeId,
   type ThemeAppearance,
   type ThemeColors,
-} from "@t3tools/shared/themePalettes";
+} from "@lnsflive/shared/themePalettes";
 import {
   STANDARD_THEME_PREVIEW_COLORS,
   type ThemePreviewColors,
-} from "@t3tools/shared/themePreview";
+} from "@lnsflive/shared/themePreview";
 
 export const DEFAULT_MOBILE_THEME_ID = MOBILE_DEFAULT_THEME_ID;
 export const MOBILE_THEME_IDS = [...SHARED_MOBILE_THEME_IDS, "material-you"] as const;
@@ -474,7 +474,7 @@ export function getMobileThemeVariables(
       ? appearance === "light"
         ? colors.toolbarControlHover
         : colors.sidebarRowActive
-      : themeId === "t3-chat"
+      : themeId === "jcode-chat"
         ? appearance === "light"
           ? colors.toolbarControl
           : colors.surface
@@ -496,9 +496,9 @@ export function getMobileThemeVariables(
     mobileColors,
     appearance,
     groupedCard,
-    themeId === "t3-chat" && appearance === "dark"
+    themeId === "jcode-chat" && appearance === "dark"
       ? [colors.messageActionForeground, colors.messageAction]
-      : themeId !== DEFAULT_MOBILE_THEME_ID && themeId !== "t3-chat"
+      : themeId !== DEFAULT_MOBILE_THEME_ID && themeId !== "jcode-chat"
         ? [colors.messageAction, colors.messageActionForeground]
         : undefined,
   );

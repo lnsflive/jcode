@@ -1,18 +1,18 @@
 import { assert, describe, it } from "@effect/vitest";
-import { EnvironmentId, ProviderInstanceId, ThreadId } from "@t3tools/contracts";
+import { EnvironmentId, ProviderInstanceId, ThreadId } from "@lnsflive/contracts";
 
 import {
   J_MCP_BEARER_ENV,
   J_MCP_URL_ENV,
-  T3_PI_RUNTIME_MODE_ENV,
-  T3_PI_MCP_EXTENSION_PATH_ENV,
+  JCODE_PI_RUNTIME_MODE_ENV,
+  JCODE_PI_MCP_EXTENSION_PATH_ENV,
 } from "./mcpExtensionSource.ts";
 import { buildPiRpcLaunch, resolvePiLaunchArgs } from "./mcpInjection.ts";
 
-const threadId = ThreadId.make("thread-pi-t3-mcp");
+const threadId = ThreadId.make("thread-pi-jcode-mcp");
 
 const mcpSession = {
-  environmentId: EnvironmentId.make("environment-pi-t3-mcp"),
+  environmentId: EnvironmentId.make("environment-pi-jcode-mcp"),
   threadId,
   providerSessionId: "mcp-session-pi",
   providerInstanceId: ProviderInstanceId.make("pi"),
@@ -32,7 +32,7 @@ describe("pi JCode MCP injection", () => {
       launchArgs: resolvedArgs.args,
       environment: { PATH: "/usr/bin" },
       mcpSession,
-      extensionPath: "/tmp/cache/pi-t3-mcp-extension.ts",
+      extensionPath: "/tmp/cache/pi-jcode-mcp-extension.ts",
       runtimeMode: "approval-required",
     });
     assert.deepEqual(launch.args, [
@@ -52,38 +52,41 @@ describe("pi JCode MCP injection", () => {
       "-review",
       "--extension-flag=kept",
       "--extension",
-      "/tmp/cache/pi-t3-mcp-extension.ts",
+      "/tmp/cache/pi-jcode-mcp-extension.ts",
     ]);
     assert.notInclude(launch.args, "--no-extensions");
     assert.equal(launch.env[J_MCP_URL_ENV], "http://127.0.0.1:43123/mcp");
     assert.equal(launch.env[J_MCP_BEARER_ENV], "secret-pi-token");
-    assert.equal(launch.env[T3_PI_RUNTIME_MODE_ENV], "approval-required");
-    assert.equal(launch.env[T3_PI_MCP_EXTENSION_PATH_ENV], "/tmp/cache/pi-t3-mcp-extension.ts");
+    assert.equal(launch.env[JCODE_PI_RUNTIME_MODE_ENV], "approval-required");
+    assert.equal(
+      launch.env[JCODE_PI_MCP_EXTENSION_PATH_ENV],
+      "/tmp/cache/pi-jcode-mcp-extension.ts",
+    );
 
     const permissionOnly = buildPiRpcLaunch({
       launchArgs: [],
       environment: {
         [J_MCP_URL_ENV]: "http://127.0.0.1:9999/stale",
         [J_MCP_BEARER_ENV]: "stale-token",
-        [T3_PI_MCP_EXTENSION_PATH_ENV]: "/stale/extension.ts",
+        [JCODE_PI_MCP_EXTENSION_PATH_ENV]: "/stale/extension.ts",
       },
       mcpSession: undefined,
-      extensionPath: "/tmp/cache/pi-t3-mcp-extension.ts",
+      extensionPath: "/tmp/cache/pi-jcode-mcp-extension.ts",
       runtimeMode: "auto-accept-edits",
     });
     assert.deepEqual(permissionOnly.args, [
       "--mode",
       "rpc",
       "--extension",
-      "/tmp/cache/pi-t3-mcp-extension.ts",
+      "/tmp/cache/pi-jcode-mcp-extension.ts",
     ]);
     assert.isFalse(permissionOnly.hasJMcp);
     assert.isUndefined(permissionOnly.env[J_MCP_URL_ENV]);
     assert.isUndefined(permissionOnly.env[J_MCP_BEARER_ENV]);
-    assert.equal(permissionOnly.env[T3_PI_RUNTIME_MODE_ENV], "auto-accept-edits");
+    assert.equal(permissionOnly.env[JCODE_PI_RUNTIME_MODE_ENV], "auto-accept-edits");
     assert.equal(
-      permissionOnly.env[T3_PI_MCP_EXTENSION_PATH_ENV],
-      "/tmp/cache/pi-t3-mcp-extension.ts",
+      permissionOnly.env[JCODE_PI_MCP_EXTENSION_PATH_ENV],
+      "/tmp/cache/pi-jcode-mcp-extension.ts",
     );
   });
 
@@ -100,7 +103,7 @@ describe("pi JCode MCP injection", () => {
       ],
       environment: {},
       mcpSession,
-      extensionPath: "/tmp/cache/pi-t3-mcp-extension.ts",
+      extensionPath: "/tmp/cache/pi-jcode-mcp-extension.ts",
       sessionPath: "/fake/persisted.jsonl",
       ephemeral: true,
       disableExtensions: true,

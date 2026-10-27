@@ -3,7 +3,7 @@ import { LogInIcon } from "lucide-react";
 
 import { hasCloudPublicConfig } from "../../cloud/publicConfig";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
-import { T3_CONNECT_ACCOUNT_PAGES } from "./JCodeConnectAccountPages";
+import { JCODE_CONNECT_ACCOUNT_PAGES } from "./JCodeConnectAccountPages";
 import { useJCodeConnectAuthPrompt } from "./useJCodeConnectAuthPrompt";
 
 export function JCodeConnectSidebarSignIn() {
@@ -32,7 +32,7 @@ function ConfiguredJCodeConnectSidebarAvatar() {
         },
       }}
     >
-      {T3_CONNECT_ACCOUNT_PAGES.map((page) => (
+      {JCODE_CONNECT_ACCOUNT_PAGES.map((page) => (
         <UserButton.UserProfilePage
           key={page.url}
           label={page.label}

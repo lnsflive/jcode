@@ -6,8 +6,8 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
-import { J_PROJECT_FILE_NAME, type JProjectFile } from "@t3tools/contracts";
-import { JProjectFileFromJson } from "@t3tools/shared/jProjectFile";
+import { J_PROJECT_FILE_NAME, type JProjectFile } from "@lnsflive/contracts";
+import { JProjectFileFromJson } from "@lnsflive/shared/jProjectFile";
 
 const decodeJProjectFileJson = Schema.decodeEffect(JProjectFileFromJson);
 
@@ -31,7 +31,7 @@ export class JProjectFileLoader extends Context.Service<
     /** Never fails; missing/unreadable/invalid files return none, with warnings for invalid files. */
     readonly load: (workspaceRoot: string) => Effect.Effect<Option.Option<JProjectFile>>;
   }
->()("t3/project/JProjectFileLoader") {}
+>()("jcode/project/JProjectFileLoader") {}
 
 const logJProjectFileLoadError = (error: JProjectFileLoadError) =>
   Effect.logWarning(error).pipe(

@@ -22,7 +22,7 @@ const url = "https://jcode-fixture-pinglabs.vercel.app";
 const warning = 'Error while parsing config file: "/runner/jcode/pnpm-lock.yaml"';
 
 function runStep(script, stdout, exitCode = 0) {
-  const directory = mkdtempSync(join(tmpdir(), "t3-vercel-output-"));
+  const directory = mkdtempSync(join(tmpdir(), "jcode-vercel-output-"));
   const outputFile = join(directory, "output");
   try {
     const result = spawnSync(

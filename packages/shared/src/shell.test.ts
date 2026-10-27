@@ -1,7 +1,7 @@
 // @effect-diagnostics nodeBuiltinImport:off -- The synchronous shell probe runs real commands with isolated config files.
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { it as effectIt } from "@effect/vitest";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
@@ -60,11 +60,11 @@ const withWindowsEnvironmentMocks = <A, E, R>(
 
 describe("readEnvironmentFromLoginShell", () => {
   // Opt in with an explicit binary, like the provider live probes; CI need not install Nu.
-  it.runIf(process.env.T3_TEST_NU_PATH !== undefined)(
+  it.runIf(process.env.JCODE_TEST_NU_PATH !== undefined)(
     "captures Nushell PATH and multiline values without external tools",
     () => {
-      const shell = process.env.T3_TEST_NU_PATH!;
-      const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-nu-env-"));
+      const shell = process.env.JCODE_TEST_NU_PATH!;
+      const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "jcode-nu-env-"));
       try {
         const toolPath = NodePath.join(home, "nu tools", "bin");
         const extraToolPath = NodePath.join(home, "extra-tools", "bin");
@@ -464,7 +464,7 @@ effectIt.layer(NodeServices.layer)("resolveCommandPath", (it) => {
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
-        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "t3-case-sensitive-path-" });
+        const cwd = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-case-sensitive-path-" });
         const executable = path.join(cwd, "audit-command.cmd");
         yield* fs.writeFileString(executable, "@echo off\n");
 
@@ -702,7 +702,7 @@ effectIt.layer(NodeServices.layer)("resolveSpawnCommand", (it) => {
         Effect.gen(function* () {
           const fs = yield* FileSystem.FileSystem;
           const path = yield* Path.Path;
-          const prefix = yield* fs.makeTempDirectoryScoped({ prefix: "t3-npm-shim-" });
+          const prefix = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-npm-shim-" });
           const shim = path.join(prefix, "opencode.cmd");
           const executable = path.join(
             prefix,

@@ -46,7 +46,7 @@ import { useFocusEffect, useNavigation, type StaticScreenProps } from "@react-na
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RegistryContext, useAtomRefresh, useAtomValue } from "@effect/atom-react";
 import { pullRequestReviewKey } from "./pullRequestReviewDrafts";
-import { type PullRequestDetail, type PullRequestListEntry } from "@t3tools/contracts";
+import { type PullRequestDetail, type PullRequestListEntry } from "@lnsflive/contracts";
 import { PullRequestOverviewLoading } from "./PullRequestOverviewLoading";
 import { copyPullRequestLink, sharePullRequestLink } from "./pullRequestLink";
 import { pullRequestStatus } from "./pullRequestStatus";
@@ -127,7 +127,7 @@ import { pullRequestFileJumpScope, subscribePullRequestFileJump } from "./pullRe
 import {
   capitalizeTerm,
   sourceControlClients,
-} from "@t3tools/client-runtime/source-control-clients";
+} from "@lnsflive/client-runtime/source-control-clients";
 
 const EMPTY_IDS: readonly string[] = [];
 
@@ -190,7 +190,7 @@ function PullRequestIdentity(props: {
         ) : (
           <View className="min-h-8 flex-row items-center gap-1.5">
             <SymbolView name={status.icon} size={14} tintColorClassName={status.tint} />
-            <Text className={`text-xs font-t3-medium ${status.text}`}>{status.label}</Text>
+            <Text className={`text-xs font-jcode-medium ${status.text}`}>{status.label}</Text>
           </View>
         )}
         <PullRequestDiffStats additions={pr.additions} deletions={pr.deletions} compact />
@@ -202,12 +202,12 @@ function PullRequestIdentity(props: {
           <View className="h-3 w-12 rounded bg-subtle-strong" />
         )}
       </View>
-      <Text selectable className="text-xl font-t3-bold leading-7">
+      <Text selectable className="text-xl font-jcode-bold leading-7">
         {pr.title}
       </Text>
       <View className="flex-row items-center gap-2">
         <PullRequestAvatar actor={pr.author} size={20} />
-        <Text className="min-w-0 flex-1 text-xs font-t3-medium" numberOfLines={1}>
+        <Text className="min-w-0 flex-1 text-xs font-jcode-medium" numberOfLines={1}>
           {pr.author?.login ?? "Unknown author"}
         </Text>
         <Text className="shrink text-right text-2xs text-foreground-muted" numberOfLines={1}>

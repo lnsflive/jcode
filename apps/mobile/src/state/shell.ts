@@ -5,9 +5,9 @@ import {
   createShellEnvironmentAtoms,
   EMPTY_SHELL_STATE,
   type EnvironmentShellState,
-} from "@t3tools/client-runtime/state/shell";
+} from "@lnsflive/client-runtime/state/shell";
 import { useAtomValue } from "@effect/atom-react";
-import type { EnvironmentId } from "@t3tools/contracts";
+import type { EnvironmentId } from "@lnsflive/contracts";
 import * as Option from "effect/Option";
 import { Atom } from "effect/reactivity";
 

@@ -12,11 +12,11 @@ import {
   SystemSettingsPaneSchema,
   type DesktopEnvironmentBootstrap,
   type PickedThemeFile,
-} from "@t3tools/contracts";
-import { PROJECT_FAVICON_EXTENSIONS } from "@t3tools/shared/projectFavicon";
-import { resolveEditorCommand } from "@t3tools/shared/editor";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { isRelayTracingEnabled } from "@t3tools/shared/otelEnvironment";
+} from "@lnsflive/contracts";
+import { PROJECT_FAVICON_EXTENSIONS } from "@lnsflive/shared/projectFavicon";
+import { resolveEditorCommand } from "@lnsflive/shared/editor";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { isRelayTracingEnabled } from "@lnsflive/shared/otelEnvironment";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Effect from "effect/Effect";

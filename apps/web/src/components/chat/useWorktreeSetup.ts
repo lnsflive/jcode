@@ -1,12 +1,12 @@
-import type { ThreadStructure } from "@t3tools/client-runtime/state/shell";
+import type { ThreadStructure } from "@lnsflive/client-runtime/state/shell";
 import type {
   EnvironmentId,
   RunId,
   ScopedThreadRef,
   ThreadId,
   WorktreeSetupSnapshot,
-} from "@t3tools/contracts";
-import { workspacePreparationRetryRunIds } from "@t3tools/client-runtime/state/turn-item-presentation";
+} from "@lnsflive/contracts";
+import { workspacePreparationRetryRunIds } from "@lnsflive/client-runtime/state/turn-item-presentation";
 import { useState } from "react";
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { useEnvironmentQuery } from "../../state/query";

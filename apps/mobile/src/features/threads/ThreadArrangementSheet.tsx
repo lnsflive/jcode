@@ -1,9 +1,9 @@
 import { SheetHeader } from "../../components/ui/SheetHeader";
 import { appAtomRegistry } from "../../state/atom-registry";
 import { useAtomValue } from "@effect/atom-react";
-import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
-import { effectiveSnoozed } from "@t3tools/client-runtime/state/thread-settled";
-import { sortInboxThreadsByReturn } from "@t3tools/client-runtime/state/thread-inbox";
+import type { EnvironmentThreadShell } from "@lnsflive/client-runtime/state/shell";
+import { effectiveSnoozed } from "@lnsflive/client-runtime/state/thread-settled";
+import { sortInboxThreadsByReturn } from "@lnsflive/client-runtime/state/thread-inbox";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, FlatList, Modal, Pressable, View } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
@@ -16,7 +16,7 @@ import { SymbolView } from "../../components/ui/AppSymbol";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import { environmentServerConfigsAtom } from "../../state/server";
 import { environmentThreadShells } from "../../state/threads";
-import { sortSettledThreads } from "@t3tools/client-runtime/state/thread-sort";
+import { sortSettledThreads } from "@lnsflive/client-runtime/state/thread-sort";
 import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../../state/olderSettledShelf";
 import {
   pendingThreadOrderAtom,
@@ -555,7 +555,7 @@ export function ThreadArrangementSheet(props: { onClose: () => void }) {
                                 setExpanded((value) => ({ ...value, [section]: !value[section] }));
                             }}
                           >
-                            <Text className="text-sm font-t3-semibold text-foreground-muted">
+                            <Text className="text-sm font-jcode-semibold text-foreground-muted">
                               {item.section[0]!.toUpperCase() + item.section.slice(1)} (
                               {item.section === "settled"
                                 ? settledCount
@@ -576,7 +576,7 @@ export function ThreadArrangementSheet(props: { onClose: () => void }) {
                   >
                     <Text
                       numberOfLines={visiblePreview.destination?.section ? 1 : 2}
-                      className="text-base font-t3-medium"
+                      className="text-base font-jcode-medium"
                     >
                       {visiblePreview.thread.title}
                     </Text>

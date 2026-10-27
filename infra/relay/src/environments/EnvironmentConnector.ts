@@ -4,8 +4,8 @@ import {
   EnvironmentHttpForbiddenError,
   EnvironmentHttpInternalServerError,
   EnvironmentHttpUnauthorizedError,
-} from "@t3tools/contracts";
-import { makeEnvironmentHttpApiClient } from "@t3tools/client-runtime/rpc";
+} from "@lnsflive/contracts";
+import { makeEnvironmentHttpApiClient } from "@lnsflive/client-runtime/rpc";
 import {
   RelayCloudEnvironmentHealthProofPayload,
   RelayEnvironmentHealthResponse,
@@ -18,7 +18,7 @@ import {
   type RelayEnvironmentConnectResponse,
   type RelayEnvironmentStatusResponse,
   type RelayManagedEndpoint,
-} from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts/relay";
 import {
   normalizeRelayIssuer,
   RELAY_HEALTH_REQUEST_TYP,
@@ -27,8 +27,8 @@ import {
   RELAY_MINT_RESPONSE_TYP,
   signRelayJwt,
   verifyRelayJwt,
-} from "@t3tools/shared/relayJwt";
-import { stableStringify } from "@t3tools/shared/relaySigning";
+} from "@lnsflive/shared/relayJwt";
+import { stableStringify } from "@lnsflive/shared/relaySigning";
 import * as Context from "effect/Context";
 import * as Crypto from "effect/Crypto";
 import * as DateTime from "effect/DateTime";
@@ -235,7 +235,7 @@ function verifyEnvironmentResponse(input: {
   return verifyWithEnvironmentKeys({
     token: input.response.proof,
     typ: RELAY_MINT_RESPONSE_TYP,
-    issuer: `t3-env:${input.environmentId}`,
+    issuer: `jcode-env:${input.environmentId}`,
     audience: normalizeRelayIssuer(input.relayIssuer),
     nowEpochSeconds: input.nowEpochSeconds,
     environmentPublicKeys: input.environmentPublicKeys,
@@ -268,7 +268,7 @@ function verifyEnvironmentHealthResponse(input: {
   return verifyWithEnvironmentKeys({
     token: input.response.proof,
     typ: RELAY_HEALTH_RESPONSE_TYP,
-    issuer: `t3-env:${input.environmentId}`,
+    issuer: `jcode-env:${input.environmentId}`,
     audience: normalizeRelayIssuer(input.relayIssuer),
     nowEpochSeconds: Math.floor(input.now.epochMilliseconds / 1_000),
     environmentPublicKeys: input.environmentPublicKeys,
@@ -456,7 +456,7 @@ const make = Effect.gen(function* () {
       );
       const payload = {
         iss: relayIssuer,
-        aud: `t3-env:${link.environmentId}`,
+        aud: `jcode-env:${link.environmentId}`,
         sub: input.userId,
         jti: yield* crypto.randomUUIDv4().pipe(
           Effect.mapError(
@@ -618,7 +618,7 @@ const make = Effect.gen(function* () {
       );
       const payload = {
         iss: relayIssuer,
-        aud: `t3-env:${link.environmentId}`,
+        aud: `jcode-env:${link.environmentId}`,
         sub: input.userId,
         jti: yield* crypto.randomUUIDv4().pipe(
           Effect.mapError(
@@ -655,7 +655,7 @@ const make = Effect.gen(function* () {
       );
       const environmentClient = yield* makeEnvironmentClient(endpoint.httpBaseUrl);
       const decoded = yield* environmentClient.connect
-        .t3MintCredential({ payload: { proof } })
+        .jcodeMintCredential({ payload: { proof } })
         .pipe(
           withoutRedirects,
           Effect.catch((cause) =>

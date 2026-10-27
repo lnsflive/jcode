@@ -7,11 +7,11 @@ import {
   formatConnectReachable,
   type RelayClientInstallProgressEvent,
   type RelayClientInstallProgressStage,
-} from "@t3tools/contracts";
-import { RelayOkResponse } from "@t3tools/contracts/relay";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as RelayClient from "@t3tools/shared/relayClient";
-import { withRelayClientTracing } from "@t3tools/shared/relayTracing";
+} from "@lnsflive/contracts";
+import { RelayOkResponse } from "@lnsflive/contracts/relay";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import * as RelayClient from "@lnsflive/shared/relayClient";
+import { withRelayClientTracing } from "@lnsflive/shared/relayTracing";
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Config from "effect/Config";

@@ -8,7 +8,7 @@ import * as NodePath from "node:path";
 import * as NodeStream from "node:stream";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, describe, it } from "@effect/vitest";
-import { ProviderSessionId, ThreadId } from "@t3tools/contracts";
+import { ProviderSessionId, ThreadId } from "@lnsflive/contracts";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Deferred from "effect/Deferred";
@@ -19,11 +19,11 @@ import * as Path from "effect/Path";
 import * as TestClock from "effect/testing/TestClock";
 import { vi } from "vite-plus/test";
 
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { AgentScope } from "@t3tools/shared/AgentScope";
-import { ProviderEventLoggers } from "@t3tools/provider-core/server/ProviderEventLoggers";
-import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
-import { signalProcessGroup } from "@t3tools/provider-core/server/processGroup";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { AgentScope } from "@lnsflive/shared/AgentScope";
+import { ProviderEventLoggers } from "@lnsflive/provider-core/server/ProviderEventLoggers";
+import { makeProviderFailure } from "@lnsflive/provider-core/server/failure";
+import { signalProcessGroup } from "@lnsflive/provider-core/server/processGroup";
 import {
   ClaudeAgentSdkQueryRunner,
   type ClaudeAgentSdkQueryOpenInput,
@@ -75,7 +75,7 @@ it.effect("forks a session stored under the instance's own CLAUDE_CONFIG_DIR", (
       const fileSystem = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const configDir = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3-claude-fork-config-",
+        prefix: "jcode-claude-fork-config-",
       });
       const projectDir = yield* writeClaudeSession(configDir);
       const hostConfigDir = process.env.CLAUDE_CONFIG_DIR;
@@ -382,7 +382,7 @@ it.effect("does not reuse a fresh session ID after MCP registration times out", 
 );
 
 function fakeClaudeCli(script: string): string {
-  const dir = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-claude-cli-"));
+  const dir = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "jcode-claude-cli-"));
   const cli = NodePath.join(dir, "claude");
   NodeFS.writeFileSync(cli, `#!/bin/sh\n${script}\n`, { mode: 0o755 });
   return cli;

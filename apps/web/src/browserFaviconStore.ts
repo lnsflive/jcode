@@ -3,8 +3,8 @@ import {
   scopedProjectKey,
   scopedThreadKey,
   scopeProjectRef,
-} from "@t3tools/client-runtime/environment";
-import type { DesktopPreviewFavicon, ScopedProjectRef, ScopedThreadRef } from "@t3tools/contracts";
+} from "@lnsflive/client-runtime/environment";
+import type { DesktopPreviewFavicon, ScopedProjectRef, ScopedThreadRef } from "@lnsflive/contracts";
 import * as Option from "effect/Option";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";

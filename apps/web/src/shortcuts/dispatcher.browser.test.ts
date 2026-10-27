@@ -1,4 +1,4 @@
-import type { KeybindingCommand, ResolvedKeybindingsConfig } from "@t3tools/contracts";
+import type { KeybindingCommand, ResolvedKeybindingsConfig } from "@lnsflive/contracts";
 import { describe, expect, it, vi } from "vite-plus/test";
 
 import { dispatchMenuAction, registerCommands, registerMenuAction } from "./dispatcher";

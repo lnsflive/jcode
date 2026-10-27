@@ -5,9 +5,9 @@ import type {
   RelayAgentActivityPublishProofPayload,
   RelayAgentActivityPublishRequest,
   RelayAgentActivityState,
-} from "@t3tools/contracts/relay";
-import { RELAY_ACTIVITY_PUBLISH_TYP } from "@t3tools/shared/relayJwt";
-import { stableStringify } from "@t3tools/shared/relaySigning";
+} from "@lnsflive/contracts/relay";
+import { RELAY_ACTIVITY_PUBLISH_TYP } from "@lnsflive/shared/relayJwt";
+import { stableStringify } from "@lnsflive/shared/relaySigning";
 import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -69,7 +69,7 @@ function signTestJwt(payload: object, privateKey: string): string {
 const freshRequest = Effect.gen(function* () {
   const now = yield* DateTime.now;
   const payload = {
-    iss: "t3-env:env",
+    iss: "jcode-env:env",
     aud: "https://relay.example.test",
     sub: "env",
     jti: "publish-jti",

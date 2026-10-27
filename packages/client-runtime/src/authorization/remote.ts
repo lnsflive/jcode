@@ -7,9 +7,9 @@ import {
   type AuthEnvironmentScope,
   type AuthWebSocketTicketResult,
   type AuthWebSocketTicketUse,
-} from "@t3tools/contracts";
-import { encodeOAuthScope } from "@t3tools/shared/oauthScope";
-import { hashTelemetryId } from "@t3tools/shared/telemetryId";
+} from "@lnsflive/contracts";
+import { encodeOAuthScope } from "@lnsflive/shared/oauthScope";
+import { hashTelemetryId } from "@lnsflive/shared/telemetryId";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";

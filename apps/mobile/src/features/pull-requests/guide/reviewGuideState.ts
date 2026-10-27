@@ -1,4 +1,4 @@
-import type { PullRequestReviewGuideResult } from "@t3tools/contracts";
+import type { PullRequestReviewGuideResult } from "@lnsflive/contracts";
 
 export function reviewGuideState(data: PullRequestReviewGuideResult | null) {
   const guide = data?.guide ?? null;

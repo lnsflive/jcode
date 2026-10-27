@@ -18,7 +18,7 @@ import {
   type OrchestrationV2ProviderThread,
   OrchestrationV2UserInputQuestion,
   type OrchestrationV2ProviderTurn,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
@@ -34,16 +34,16 @@ import * as Stream from "effect/Stream";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { handoffBudget } from "@t3tools/provider-core/server/handoffBudget";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { AgentScope } from "@t3tools/shared/AgentScope";
-import { toolOutputImages, compactDynamicToolOutput } from "@t3tools/shared/toolOutput";
+import * as TestProviderHost from "@lnsflive/provider-testing/TestProviderHost";
+import * as ProviderContinuationRequests from "@lnsflive/provider-core/server/ProviderContinuationRequests";
+import * as McpProviderSessions from "@lnsflive/provider-core/server/McpProviderSessions";
+import * as IdAllocator from "@lnsflive/provider-core/server/IdAllocator";
+import * as ProviderAdapter from "@lnsflive/provider-core/server/ProviderAdapter";
+import * as ProviderHost from "@lnsflive/provider-core/server/ProviderHost";
+import { handoffBudget } from "@lnsflive/provider-core/server/handoffBudget";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { AgentScope } from "@lnsflive/shared/AgentScope";
+import { toolOutputImages, compactDynamicToolOutput } from "@lnsflive/shared/toolOutput";
 import {
   makePiAdapterV2,
   PiAdapterV2Driver,
@@ -1566,10 +1566,10 @@ describe("PiAdapterV2", () => {
         arg === "--extension" ? [spawn.args[index + 1]] : [],
       );
       assert.isFalse(spawn.args.includes("--no-extensions"));
-      assert.isTrue(extensions.some((path) => path?.endsWith("pi-t3-mcp-extension.ts")));
+      assert.isTrue(extensions.some((path) => path?.endsWith("pi-jcode-mcp-extension.ts")));
       assert.equal(spawn.env.J_MCP_URL, "http://127.0.0.1:43123/mcp");
       assert.equal(spawn.env.J_MCP_BEARER_TOKEN, "secret-pi-token");
-      assert.equal(spawn.env.T3_PI_RUNTIME_MODE, "full-access");
+      assert.equal(spawn.env.JCODE_PI_RUNTIME_MODE, "full-access");
     }).pipe(Effect.scoped, Effect.provide(layerTest)),
   );
 

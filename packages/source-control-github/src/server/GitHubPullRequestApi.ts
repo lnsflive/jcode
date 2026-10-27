@@ -1,4 +1,4 @@
-import { removeAgentCredits } from "@t3tools/source-control-core/server/mergeMessage";
+import { removeAgentCredits } from "@lnsflive/source-control-core/server/mergeMessage";
 import { KnownWorkflowRuns, makeChecksRevalidator } from "./gitHubConditionalChecks.ts";
 import { runGitHubStackAction, type GitHubStackActionError } from "./githubStackActions.ts";
 import * as Cache from "effect/Cache";
@@ -42,7 +42,7 @@ import {
   type PullRequestThreadCommentsResult,
   type PullRequestUpdateMethod,
   type PullRequestPreview,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 import * as GitHubRest from "./GitHubRest.ts";
 import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
@@ -51,8 +51,8 @@ import { PullRequestBatchesGraphQLGroup } from "./pullRequestBatches.graphql.ts"
 import { PullRequestMutationsGraphQLGroup } from "./pullRequestMutations.graphql.ts";
 import { PullRequestReadsGraphQLGroup } from "./pullRequestReads.graphql.ts";
 import { PullRequestReviewsGraphQLGroup } from "./pullRequestReviews.graphql.ts";
-import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
-import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
+import * as SourceControlHost from "@lnsflive/source-control-core/server/SourceControlHost";
+import * as SourceControlRateLimit from "@lnsflive/source-control-core/server/SourceControlRateLimit";
 import {
   buildReviewSubmission,
   buildReviewerRequest,
@@ -113,7 +113,7 @@ import {
 import type {
   ProviderChangeRequestSummary,
   ProviderListCursor,
-} from "@t3tools/source-control-core/server/PullRequestProvider";
+} from "@lnsflive/source-control-core/server/PullRequestProvider";
 
 export class GitHubPullRequestReadError extends Schema.TaggedError<GitHubPullRequestReadError>()(
   "GitHubPullRequestReadError",
@@ -743,7 +743,7 @@ export class GitHubPullRequestApi extends Context.Service<
       readonly body: string;
     }) => Effect.Effect<void, GitHubPullRequestApiError>;
   }
->()("@t3tools/source-control-github/server/GitHubPullRequestApi") {}
+>()("@lnsflive/source-control-github/server/GitHubPullRequestApi") {}
 
 function parseRepositorySelector(value: string): {
   readonly owner: string;

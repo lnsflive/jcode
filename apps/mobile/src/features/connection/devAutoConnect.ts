@@ -1,6 +1,6 @@
 import type { NavigationState, PartialState } from "@react-navigation/native";
 import { StackActions } from "@react-navigation/native";
-import type { EnvironmentId } from "@t3tools/contracts";
+import type { EnvironmentId } from "@lnsflive/contracts";
 import { Atom } from "effect/reactivity";
 
 import { findLinkedRoute } from "../../lib/appLinking";

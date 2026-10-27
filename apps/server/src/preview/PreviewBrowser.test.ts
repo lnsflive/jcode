@@ -1,6 +1,6 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import * as Crypto from "effect/Crypto";
 import type * as Duration from "effect/Duration";
 import * as DateTime from "effect/DateTime";
@@ -82,7 +82,7 @@ const makeHarness = Effect.fn("test.makePreviewBrowser")(function* (
 ) {
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
-  const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-preview-browser-test-" });
+  const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "jcode-preview-browser-test-" });
   const archive = options.archive ?? browserArchive;
   const crypto = yield* Crypto.Crypto;
   const sha256 =

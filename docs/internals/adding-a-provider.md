@@ -28,7 +28,7 @@ capabilities, never the driver kind.
 - **Permission modes.** Offer only modes the provider enforces natively, through
   `supportedRuntimeModes` in the provider presentation ([Grok](../../packages/provider-grok/src/server/status.ts)
   and [Pi](../../packages/provider-pi/src/server/status.ts) are examples). Do not imitate a missing
-  mode by answering approvals in T3: JCode's check is weaker than the agent's own enforcement. The
+  mode by answering approvals in JCode: JCode's check is weaker than the agent's own enforcement. The
   server runs an unoffered stored mode as Supervised
   ([`RuntimePolicy.ts`](../../apps/server/src/orchestration-v2/RuntimePolicy.ts)).
 - **Approval and question options.** Pass the provider's own option IDs through unchanged. Every
@@ -43,7 +43,7 @@ capabilities, never the driver kind.
   silently share an account or billing.
 - **Status checks.** Background status and model refreshes must not open a session that can start
   MCP servers, run hooks, or launch a login. Keep heavier probes behind an explicit refresh.
-- **T3 MCP tools.** Inject the thread's MCP server so agents can use JCode's tools, and make a turn
+- **JCode MCP tools.** Inject the thread's MCP server so agents can use JCode's tools, and make a turn
   survive when that server is unreachable.
 - **Updates.** Run an update only through the installer that provably owns the binary; otherwise
   leave it manual. See [`providerMaintenance.ts`](../../apps/server/src/provider/providerMaintenance.ts).
@@ -113,9 +113,9 @@ A provider lives in its own `packages/provider-<name>` package, with
   `./server` exports the `ProviderDriver` and its adapter driver. `./testing` exposes internals
   the server's replay testkits drive; testkits that need the orchestrator stay in the server.
   Settings live in `providerInstances`; new providers are off by default.
-- **Package boundaries.** Server code imports only `@t3tools/provider-core/server/*`, contracts,
+- **Package boundaries.** Server code imports only `@lnsflive/provider-core/server/*`, contracts,
   and shared. It reaches the server through `ProviderHost` (paths, settings, background demand,
-  attachments, stored credentials), never through `apps/server`. Tests use `@t3tools/provider-testing`.
+  attachments, stored credentials), never through `apps/server`. Tests use `@lnsflive/provider-testing`.
 - **Server registration:** the driver's entry in
   [`builtInDrivers.ts`](../../apps/server/src/provider/builtInDrivers.ts). The driver carries its
   adapter driver. Also its position in the [status order](../../apps/server/src/provider/providerStatusCache.ts), a

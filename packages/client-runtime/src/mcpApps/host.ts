@@ -1,5 +1,5 @@
 // @effect-diagnostics globalTimers:off - The bridge runs in the client, outside an Effect runtime.
-import { MCP_APP_PROTOCOL_VERSION, type McpAppReference } from "@t3tools/shared/mcpApp";
+import { MCP_APP_PROTOCOL_VERSION, type McpAppReference } from "@lnsflive/shared/mcpApp";
 import * as Base64 from "effect/encoding/Base64";
 import * as Predicate from "effect/Predicate";
 import * as Result from "effect/Result";
@@ -446,7 +446,7 @@ export function makeMcpAppHost(options: McpAppHostOptions): McpAppHost {
           finish();
           return;
         }
-        const id = `t3-host-${nextHostRequestId++}`;
+        const id = `jcode-host-${nextHostRequestId++}`;
         hostRequests.set(id, finish);
         timer = setTimeout(() => {
           hostRequests.delete(id);

@@ -1,6 +1,6 @@
 // JCode ingest retains events and forwards to PostHog; UUIDs deduplicate retries there.
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import type { ClientOs } from "@t3tools/contracts";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import type { ClientOs } from "@lnsflive/contracts";
 import * as Clock from "effect/Clock";
 import * as Config from "effect/Config";
 import * as Context from "effect/Context";
@@ -95,7 +95,7 @@ export class AnalyticsService extends Context.Service<
       observedBy: "server" | "client",
     ) => Effect.Effect<void>;
   }
->()("t3/telemetry/AnalyticsService") {
+>()("jcode/telemetry/AnalyticsService") {
   static readonly layerTest = Layer.succeed(
     AnalyticsService,
     AnalyticsService.of({

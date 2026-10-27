@@ -1,5 +1,5 @@
 ---
-name: test-t3-mobile
+name: test-jcode-mobile
 description: Test JCode's native iOS and Android app through its Device panel and returned AgentDevice command. Use for mobile verification, native-client builds, Metro launch, and mobile pairing against isolated development state.
 ---
 
@@ -8,7 +8,7 @@ description: Test JCode's native iOS and Android app through its Device panel an
 ## Open the device
 
 Call `device_list`, then `device_open` with the selected host and device IDs.
-T3 boots the device and shows its live stream in the Device panel. Follow its
+JCode boots the device and shows its live stream in the Device panel. Follow its
 returned `quickStart`, using the exact `agentDevice.command` and all `targetArgs`
 on every operation. Use `device_screenshot` to inspect the screen.
 
@@ -19,11 +19,11 @@ and stop verification. Do not install or switch to another automation system.
 
 Reuse this task's healthy backend. Otherwise run `vp run dev` from the
 repository root, retain its terminal session, and read the actual backend port
-from the dev-runner output. Use the worktree's ignored `.t3` state. Never run
-against `~/.t3/userdata`. The Browser panel is not required for this workflow.
+from the dev-runner output. Use the worktree's ignored `.jcode` state. Never run
+against `~/.jcode/userdata`. The Browser panel is not required for this workflow.
 
 Test with meaningful project and thread data. Read the shared
-[SQLite fixture reference](../test-t3-app/references/sqlite-fixtures.md) only
+[SQLite fixture reference](../test-jcode-app/references/sqlite-fixtures.md) only
 when inspecting or seeding SQLite. Stop the test server before fixture writes.
 
 ## Launch JCode Dev
@@ -62,7 +62,7 @@ arguments stored in `agent_device_command` and the Bash array
 `agent_device_target_args`:
 
 ```bash
-.agents/skills/test-t3-mobile/scripts/pair-client.sh \
+.agents/skills/test-jcode-mobile/scripts/pair-client.sh \
   <server-port> <base-dir> <device-reachable-backend-origin> \
   "$agent_device_command" "${agent_device_target_args[@]}"
 ```

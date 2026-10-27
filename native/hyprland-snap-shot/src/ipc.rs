@@ -181,7 +181,7 @@ mod tests {
             address: "0x123456789abcdef".into(),
             pid,
             title: title.into(),
-            class: "t3".into(),
+            class: "jcode".into(),
             at: [-1920, 20],
             size: [1000, 800],
             mapped: true,
@@ -195,18 +195,18 @@ mod tests {
     #[test]
     fn destination_requires_unique_process_and_title() {
         assert!(
-            destination(vec![window(2, "T3")], 1, "T3")
+            destination(vec![window(2, "JCode")], 1, "JCode")
                 .unwrap()
                 .is_none()
         );
         assert!(
-            destination(vec![window(1, "other")], 1, "T3")
+            destination(vec![window(1, "other")], 1, "JCode")
                 .unwrap()
                 .is_none()
         );
-        assert!(destination(vec![window(1, "T3"), window(1, "T3")], 1, "T3").is_err());
+        assert!(destination(vec![window(1, "JCode"), window(1, "JCode")], 1, "JCode").is_err());
         assert!(
-            destination(vec![window(2, "T3"), window(1, "T3")], 1, "T3")
+            destination(vec![window(2, "JCode"), window(1, "JCode")], 1, "JCode")
                 .unwrap()
                 .is_some()
         );

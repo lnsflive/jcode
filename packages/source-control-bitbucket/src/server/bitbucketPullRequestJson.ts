@@ -14,11 +14,11 @@ import type {
   PullRequestReviewThread,
   PullRequestReviewerCandidate,
   PullRequestState,
-} from "@t3tools/contracts";
-import { TrimmedNonEmptyString } from "@t3tools/contracts";
-import { decodeJsonResult } from "@t3tools/shared/schemaJson";
+} from "@lnsflive/contracts";
+import { TrimmedNonEmptyString } from "@lnsflive/contracts";
+import { decodeJsonResult } from "@lnsflive/shared/schemaJson";
 
-import { dedupeChecks } from "@t3tools/source-control-core/server/pullRequestChecks";
+import { dedupeChecks } from "@lnsflive/source-control-core/server/pullRequestChecks";
 
 /** Unknown enum values must not fail the whole payload. */
 const RawUserSchema = Schema.Struct({

@@ -1,9 +1,9 @@
 import { AppActivityIndicator } from "../../components/ui/AppActivityIndicator";
 import * as Dialog from "../../components/ui/Dialog";
 import { useAtomRefresh, useAtomSet, useAtomValue } from "@effect/atom-react";
-import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
-import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
-import type { PullRequestDetail, PullRequestMergeMethod } from "@t3tools/contracts";
+import { squashAtomCommandFailure } from "@lnsflive/client-runtime/state/runtime";
+import { sourceControlClients } from "@lnsflive/client-runtime/source-control-clients";
+import type { PullRequestDetail, PullRequestMergeMethod } from "@lnsflive/contracts";
 import { AsyncResult } from "effect/reactivity";
 import { useRef, useState } from "react";
 import { Platform, Pressable, View } from "react-native";
@@ -210,7 +210,7 @@ export function PullRequestMergeControls(props: {
               />
             )}
             <Text
-              className={`shrink text-center text-sm font-t3-semibold ${canMerge ? "text-prominent-action-foreground" : "text-foreground-muted"}`}
+              className={`shrink text-center text-sm font-jcode-semibold ${canMerge ? "text-prominent-action-foreground" : "text-foreground-muted"}`}
             >
               {busy ? "Working…" : !permissions.connected ? "Reconnect to merge" : label}
             </Text>

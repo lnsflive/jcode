@@ -36,7 +36,7 @@ vi.mock("electron", () => ({
 import { captureLinuxWindow, getLinuxCaptureSupport, readPortalPng } from "./LinuxSnapShot.ts";
 
 const png = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10, 0]);
-const appId = "com.t3tools.JCode";
+const appId = "com.lnsflive.JCode";
 const metadata = {
   title: "Editor",
   appName: "Text Editor",
@@ -150,7 +150,7 @@ let directory: string;
 beforeEach(async () => {
   bus = new FakeBus();
   connect.mockImplementation(() => bus as unknown as MessageBus);
-  directory = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "t3-portal-test-"));
+  directory = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "jcode-portal-test-"));
   bus.uri = NodeURL.pathToFileURL(NodePath.join(directory, "image.png")).href;
   await NodeFSP.writeFile(NodePath.join(directory, "image.png"), png);
   imageSize.width = 800;

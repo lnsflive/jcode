@@ -1,6 +1,6 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@lnsflive/contracts";
 import { resolvePlanFollowUpSubmission } from "../../proposedPlan";
-import { serializeLegacyContextMessage } from "@t3tools/shared/composerContextLegacySend";
+import { serializeLegacyContextMessage } from "@lnsflive/shared/composerContextLegacySend";
 import {
   GitCommandError,
   ProjectId,
@@ -13,7 +13,7 @@ import {
   type PullRequestState,
   type RepositoryIdentity,
   type ThreadPullRequestLink,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 import { formatInlineContextReference } from "~/lib/composerContextReferences";
 import { buildMessageContext, reviewCommentContextReference } from "~/lib/composerContextRecords";
@@ -865,7 +865,7 @@ describe("asking about a change rather than working on it", () => {
     expect(legacyText).toContain(base.url);
     expect(legacyText).toContain(prose);
     expect(legacyText).not.toContain("PLEASE IMPLEMENT THIS PLAN");
-    expect(legacyText).not.toContain("t3-context://");
+    expect(legacyText).not.toContain("jcode-context://");
   });
 
   it("puts the reader's request in the composer and the selected lines in chips", () => {
@@ -1487,7 +1487,7 @@ describe("cached pull request detail", () => {
   // regression: #9294 corrupt cached PR chrome broke reopening
   it("shrugs off corrupt storage and no storage at all", () => {
     const storage = makeStorage();
-    storage.setItem("t3.pullRequests.detail:env-1:project-1:acme/web#7", "{not json");
+    storage.setItem("jcode.pullRequests.detail:env-1:project-1:acme/web#7", "{not json");
     expect(readPullRequestDetailSnapshot(storage, "env-1", reference)).toBeNull();
     expect(readPullRequestDetailSnapshot(undefined, "env-1", reference)).toBeNull();
     const hosted = { ...reference, host: "github.com" };

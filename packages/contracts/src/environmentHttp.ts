@@ -385,7 +385,7 @@ export interface EnvironmentSessionPrincipalShape {
 export class EnvironmentAuthenticatedPrincipal extends Context.Service<
   EnvironmentAuthenticatedPrincipal,
   EnvironmentSessionPrincipalShape
->()("@t3tools/contracts/environmentHttp/EnvironmentAuthenticatedPrincipal") {}
+>()("@lnsflive/contracts/environmentHttp/EnvironmentAuthenticatedPrincipal") {}
 
 export class EnvironmentAuthenticatedAuth extends HttpApiMiddleware.Service<
   EnvironmentAuthenticatedAuth,
@@ -458,7 +458,7 @@ export function formatConnectReachable(
  * Sections of docs/user/jcode-connect-troubleshooting.md. Each is the GitHub anchor of a
  * heading there; the test fails when a heading is renamed without updating this list.
  */
-export const T3_CONNECT_TROUBLESHOOTING_SECTIONS = [
+export const JCODE_CONNECT_TROUBLESHOOTING_SECTIONS = [
   "the-hosts-tunnel-is-offline",
   "port-7844-is-blocked-on-the-host",
   "the-tunnel-works-but-jcode-does-not-answer",
@@ -470,10 +470,12 @@ export const T3_CONNECT_TROUBLESHOOTING_SECTIONS = [
   "jcode-connect-returned-an-error",
 ] as const;
 export type JCodeConnectTroubleshootingSection =
-  (typeof T3_CONNECT_TROUBLESHOOTING_SECTIONS)[number];
+  (typeof JCODE_CONNECT_TROUBLESHOOTING_SECTIONS)[number];
 
 /** Clients, the CLI, and server logs link here as "More info". */
-export function t3ConnectTroubleshootingUrl(section: JCodeConnectTroubleshootingSection): string {
+export function jcodeConnectTroubleshootingUrl(
+  section: JCodeConnectTroubleshootingSection,
+): string {
   return `https://github.com/lnsflive/jcode/blob/main/docs/user/jcode-connect-troubleshooting.md#${section}`;
 }
 
@@ -490,7 +492,7 @@ const REACHABILITY_SECTION = {
 } satisfies Record<EnvironmentConnectReachabilityCause, JCodeConnectTroubleshootingSection>;
 
 export function connectReachabilityHelpUrl(cause: EnvironmentConnectReachabilityCause): string {
-  return t3ConnectTroubleshootingUrl(REACHABILITY_SECTION[cause]);
+  return jcodeConnectTroubleshootingUrl(REACHABILITY_SECTION[cause]);
 }
 
 export const EnvironmentCloudLinkStateResult = Schema.Struct({
@@ -529,7 +531,7 @@ export const AuthOtherClientSessionsRevokeResult = Schema.Struct({
 export type AuthOtherClientSessionsRevokeResult = typeof AuthOtherClientSessionsRevokeResult.Type;
 
 class EnvironmentMetadataHttpApi extends HttpApiGroup.make("metadata").add(
-  HttpApiEndpoint.get("descriptor", "/.well-known/t3/environment", {
+  HttpApiEndpoint.get("descriptor", "/.well-known/jcode/environment", {
     success: ExecutionEnvironmentDescriptor,
   }),
 ) {}
@@ -816,7 +818,7 @@ class EnvironmentConnectHttpApi extends HttpApiGroup.make("connect")
     }).middleware(EnvironmentAuthenticatedAuth),
   )
   .add(
-    HttpApiEndpoint.post("health", "/api/t3-connect/health", {
+    HttpApiEndpoint.post("health", "/api/jcode-connect/health", {
       payload: RelayCloudEnvironmentHealthRequest,
       success: RelayEnvironmentHealthResponse,
       error: EnvironmentHttpCloudErrors,
@@ -830,7 +832,7 @@ class EnvironmentConnectHttpApi extends HttpApiGroup.make("connect")
     }),
   )
   .add(
-    HttpApiEndpoint.post("t3MintCredential", "/api/t3-connect/mint-credential", {
+    HttpApiEndpoint.post("jcodeMintCredential", "/api/jcode-connect/mint-credential", {
       payload: RelayCloudMintCredentialRequest,
       success: RelayEnvironmentMintResponse,
       error: EnvironmentHttpCloudErrors,

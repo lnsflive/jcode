@@ -1,15 +1,15 @@
-import { tokenizeCliArgs } from "@t3tools/shared/cliArgs";
+import { tokenizeCliArgs } from "@lnsflive/shared/cliArgs";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 
-import type { McpProviderSessionConfig } from "@t3tools/provider-core/server/mcpSession";
+import type { McpProviderSessionConfig } from "@lnsflive/provider-core/server/mcpSession";
 import {
   PI_J_MCP_EXTENSION_FILENAME,
   PI_J_MCP_EXTENSION_SOURCE,
   J_MCP_BEARER_ENV,
   J_MCP_URL_ENV,
-  T3_PI_RUNTIME_MODE_ENV,
-  T3_PI_MCP_EXTENSION_PATH_ENV,
+  JCODE_PI_RUNTIME_MODE_ENV,
+  JCODE_PI_MCP_EXTENSION_PATH_ENV,
 } from "./mcpExtensionSource.ts";
 
 const RESERVED_PI_LAUNCH_ARGUMENTS = new Set([
@@ -252,8 +252,8 @@ export function buildPiRpcLaunch(input: {
   readonly env: NodeJS.ProcessEnv;
   readonly hasJMcp: boolean;
 } {
-  const hasT3Extension = input.disableExtensions !== true && input.extensionPath !== undefined;
-  const hasJMcp = hasT3Extension && input.mcpSession !== undefined;
+  const hasJCodeExtension = input.disableExtensions !== true && input.extensionPath !== undefined;
+  const hasJMcp = hasJCodeExtension && input.mcpSession !== undefined;
   const extensionSafeArgs =
     input.disableExtensions === true
       ? withoutExplicitExtensions(input.launchArgs)
@@ -274,7 +274,7 @@ export function buildPiRpcLaunch(input: {
     ...(input.disableTools === true ? ["--no-tools"] : []),
   ];
   if (
-    hasT3Extension &&
+    hasJCodeExtension &&
     input.extensionPath !== undefined &&
     !hasExplicitExtension(args, input.extensionPath)
   ) {
@@ -284,18 +284,18 @@ export function buildPiRpcLaunch(input: {
   // MCP credentials belong to this JCode session; discard inherited server/parent credentials.
   delete environment[J_MCP_URL_ENV];
   delete environment[J_MCP_BEARER_ENV];
-  delete environment[T3_PI_MCP_EXTENSION_PATH_ENV];
+  delete environment[JCODE_PI_MCP_EXTENSION_PATH_ENV];
 
   return {
     args,
     env: {
       ...environment,
-      ...(hasT3Extension && input.extensionPath !== undefined
-        ? { [T3_PI_MCP_EXTENSION_PATH_ENV]: input.extensionPath }
+      ...(hasJCodeExtension && input.extensionPath !== undefined
+        ? { [JCODE_PI_MCP_EXTENSION_PATH_ENV]: input.extensionPath }
         : {}),
-      ...(hasT3Extension && input.runtimeMode !== undefined
+      ...(hasJCodeExtension && input.runtimeMode !== undefined
         ? {
-            [T3_PI_RUNTIME_MODE_ENV]:
+            [JCODE_PI_RUNTIME_MODE_ENV]:
               input.runtimeMode === "auto" ? "approval-required" : input.runtimeMode,
           }
         : {}),

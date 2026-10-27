@@ -5,7 +5,7 @@ import {
   dynamicToolTitle,
   formatReadToolLabel,
   formatSearchToolLabel,
-} from "@t3tools/shared/toolActivity";
+} from "@lnsflive/shared/toolActivity";
 import { field, text } from "../unknownField.ts";
 import {
   initialWorkflowAgentTranscriptCursor,
@@ -19,7 +19,7 @@ import {
   parseClaudeWorkflowRunHandles,
 } from "./claudeWorkflowProgress.ts";
 
-import { isWorkspaceImagePreviewPath } from "@t3tools/shared/filePreview";
+import { isWorkspaceImagePreviewPath } from "@lnsflive/shared/filePreview";
 import { normalizeClaudeTurnTokenUsage } from "../../provider/ClaudeTurnTokenUsage.ts";
 import {
   type CanUseTool,
@@ -53,16 +53,16 @@ import type {
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- the SDK takes a Node ChildProcess for the CLI.
 import * as NodeChildProcess from "node:child_process";
 import * as NodeUtil from "node:util";
-import { parseCliArgs } from "@t3tools/shared/cliArgs";
-import { fromLenientJson } from "@t3tools/shared/schemaJson";
-import { AgentScope } from "@t3tools/shared/AgentScope";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import { applyClaudePromptEffortPrefix } from "@t3tools/shared/model";
+import { parseCliArgs } from "@lnsflive/shared/cliArgs";
+import { fromLenientJson } from "@lnsflive/shared/schemaJson";
+import { AgentScope } from "@lnsflive/shared/AgentScope";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
+import { applyClaudePromptEffortPrefix } from "@lnsflive/shared/model";
 import {
   CLAUDE_RESUME_COMPACTION_COMPACT_ANSWER,
   CLAUDE_RESUME_COMPACTION_NEVER_ANSWER,
   formatClaudeResumeCompactionQuestion,
-} from "@t3tools/shared/claudeCompaction";
+} from "@lnsflive/shared/claudeCompaction";
 import {
   type ChatAttachment,
   PROVIDER_SEND_TURN_MAX_FILE_BYTES,
@@ -102,7 +102,7 @@ import {
   type RunId,
   type ThreadId,
   resolveIdleCompaction,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
@@ -139,9 +139,9 @@ import {
 } from "../../claudeModelOptions.ts";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
-import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
-import { spawnAndCollect } from "@t3tools/provider-core/server/snapshotProbe";
-import { signalProcessGroup } from "@t3tools/provider-core/server/processGroup";
+import { expandHomePath } from "@lnsflive/provider-core/server/pathExpansion";
+import { spawnAndCollect } from "@lnsflive/provider-core/server/snapshotProbe";
+import { signalProcessGroup } from "@lnsflive/provider-core/server/processGroup";
 import {
   claudeSignedOutMessage,
   makeClaudeEnvironment,
@@ -159,44 +159,44 @@ import {
   boundProviderEventForLogging,
   shouldPersistProviderEvent,
 } from "../../provider/EventNdjsonLogger.ts";
-import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
+import * as ProviderEventLoggers from "@lnsflive/provider-core/server/ProviderEventLoggers";
 import {
   claudeRateLimitEventToUpdate,
   type ClaudeScopedLimitNames,
 } from "../../provider/claudeUsageLimits.ts";
-import type { ManagedServerProvider } from "@t3tools/provider-core/server/snapshot";
-import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
-import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";
-import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";
+import type { ManagedServerProvider } from "@lnsflive/provider-core/server/snapshot";
+import { mergeProviderInstanceEnvironment } from "@lnsflive/provider-core/server/instanceEnvironment";
+import { JCODE_ORCHESTRATION_INSTRUCTIONS } from "@lnsflive/provider-core/server/orchestrationInstructions";
+import { buildRuntimeInstructions } from "@lnsflive/provider-core/server/runtimeInstructions";
 import {
   mcpToolPresentation,
   normalizeMcpText,
-} from "@t3tools/provider-core/server/mcpToolPresentation";
-import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
-import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+} from "@lnsflive/provider-core/server/mcpToolPresentation";
+import * as McpProviderSession from "@lnsflive/provider-core/server/mcpSession";
+import * as McpProviderSessions from "@lnsflive/provider-core/server/McpProviderSessions";
+import * as IdAllocator from "@lnsflive/provider-core/server/IdAllocator";
 import {
   makeProviderFailure,
   makeProviderRetryTurnItem,
-} from "@t3tools/provider-core/server/failure";
-import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/selectionTransition";
-import { providerMessageTextWithAttachmentPaths } from "@t3tools/provider-core/server/attachmentPrompt";
-import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+} from "@lnsflive/provider-core/server/failure";
+import { turnScopedSelectionTransition } from "@lnsflive/provider-core/server/selectionTransition";
+import { providerMessageTextWithAttachmentPaths } from "@lnsflive/provider-core/server/attachmentPrompt";
+import * as ProviderAdapter from "@lnsflive/provider-core/server/ProviderAdapter";
 import {
   ProviderAdapterDriverCreateError,
   type ProviderAdapterDriver,
   type ProviderAdapterDriverCreateInput,
-} from "@t3tools/provider-core/server/adapterDriver";
+} from "@lnsflive/provider-core/server/adapterDriver";
 import {
   type BackgroundWorkReport,
   backgroundWorkNotification,
-} from "@t3tools/provider-core/server/notification";
-import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
+} from "@lnsflive/provider-core/server/notification";
+import * as ProviderContinuationRequests from "@lnsflive/provider-core/server/ProviderContinuationRequests";
 import {
   makeSubagentChildThread,
   makeSubagentConversationArtifacts,
   subagentThreadTitle,
-} from "@t3tools/provider-core/server/subagentProjection";
+} from "@lnsflive/provider-core/server/subagentProjection";
 
 export const CLAUDE_PROVIDER = ProviderDriverKind.make("claudeAgent");
 const CLAUDE_AGENT_SDK_QUERY_PROTOCOL = "claude-agent-sdk.query" as const;
@@ -331,7 +331,7 @@ export function spawnClaudeProcessGroup(
 ): ClaudeSpawnedProcess {
   const child = NodeChildProcess.spawn(
     "/bin/sh",
-    ["-c", CLAUDE_GROUP_WATCH_SCRIPT, "t3-claude", options.command, ...options.args],
+    ["-c", CLAUDE_GROUP_WATCH_SCRIPT, "jcode-claude", options.command, ...options.args],
     {
       cwd: options.cwd,
       env: options.env,
@@ -593,7 +593,7 @@ export interface ClaudeAgentSdkQueryRunnerShape {
 export class ClaudeAgentSdkQueryRunner extends Context.Service<
   ClaudeAgentSdkQueryRunner,
   ClaudeAgentSdkQueryRunnerShape
->()("t3/orchestration-v2/Adapters/ClaudeAdapterV2/ClaudeAgentSdkQueryRunner") {}
+>()("jcode/orchestration-v2/Adapters/ClaudeAdapterV2/ClaudeAgentSdkQueryRunner") {}
 
 export interface ClaudeAgentSdkSessionForkInput {
   readonly sessionId: string;
@@ -1394,12 +1394,12 @@ function parseClaudeInteger(text: string): number {
 }
 
 // Claude Code defers MCP tools behind ToolSearch, so the agent only finds
-// t3_background_wait when the system prompt says when to reach for it.
+// jcode_background_wait when the system prompt says when to reach for it.
 const CLAUDE_BACKGROUND_WAIT_INSTRUCTIONS = `
 
 ### Background work you wait on
 
-To wait for a background command or Monitor you started (tests, a build), call \`t3_background_wait\` with its task ID before you end your turn. Do not mark work you leave running, or PRs. JCode MCP tools are deferred: load one with ToolSearch before you call it.
+To wait for a background command or Monitor you started (tests, a build), call \`jcode_background_wait\` with its task ID before you end your turn. Do not mark work you leave running, or PRs. JCode MCP tools are deferred: load one with ToolSearch before you call it.
 `;
 
 export function makeClaudeQueryOptions(input: {
@@ -1585,15 +1585,15 @@ export const CLAUDE_J_MCP_TOOL_WILDCARD = "mcp__jcode__*";
 export const CLAUDE_READ_ONLY_J_MCP_ALLOWED_TOOLS: ReadonlyArray<string> = [
   "mcp__jcode__orchestrator_capabilities",
   "mcp__jcode__list_scheduled_tasks",
-  "mcp__jcode__t3_thread_list",
-  "mcp__jcode__t3_thread_wait",
-  "mcp__jcode__t3_worktree_status",
-  "mcp__jcode__t3_worktree_list",
-  "mcp__jcode__t3_project_list",
-  "mcp__jcode__t3_project_read",
-  "mcp__jcode__t3_thread_search",
-  "mcp__jcode__t3_preview_list",
-  "mcp__jcode__t3_environment_read",
+  "mcp__jcode__jcode_thread_list",
+  "mcp__jcode__jcode_thread_wait",
+  "mcp__jcode__jcode_worktree_status",
+  "mcp__jcode__jcode_worktree_list",
+  "mcp__jcode__jcode_project_list",
+  "mcp__jcode__jcode_project_read",
+  "mcp__jcode__jcode_thread_search",
+  "mcp__jcode__jcode_preview_list",
+  "mcp__jcode__jcode_environment_read",
   "mcp__jcode__html_preview",
   "mcp__jcode__html_render",
 ];

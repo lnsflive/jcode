@@ -1,6 +1,6 @@
 ---
-name: test-t3-app
-description: Test JCode's web and desktop UI through its built-in Browser panel against isolated development state. Use for browser verification, browser pairing recovery, and test fixtures. Use test-t3-mobile for native mobile verification.
+name: test-jcode-app
+description: Test JCode's web and desktop UI through its built-in Browser panel against isolated development state. Use for browser verification, browser pairing recovery, and test fixtures. Use test-jcode-mobile for native mobile verification.
 ---
 
 # Test JCode web and desktop
@@ -8,14 +8,14 @@ description: Test JCode's web and desktop UI through its built-in Browser panel 
 Use JCode's built-in Browser panel for verification. If its tools are absent or
 the panel reports unavailable, explain the blocker and stop verification.
 Do not install or switch to another automation system. For native mobile
-testing, use [test-t3-mobile](../test-t3-mobile/SKILL.md).
+testing, use [test-jcode-mobile](../test-jcode-mobile/SKILL.md).
 
 ## Start the app
 
 Reuse this task's healthy dev server. Otherwise run `vp run dev` from the
 repository root and retain its terminal session. Use the worktree's ignored
-`.t3` state and read the actual ports and pairing URL from the dev-runner output.
-Never run against `~/.t3/userdata` or set `VITE_HTTP_URL` or `VITE_WS_URL`.
+`.jcode` state and read the actual ports and pairing URL from the dev-runner output.
+Never run against `~/.jcode/userdata` or set `VITE_HTTP_URL` or `VITE_WS_URL`.
 
 Test with meaningful project and thread data. Read
 [references/sqlite-fixtures.md](references/sqlite-fixtures.md) only when

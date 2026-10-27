@@ -3,8 +3,8 @@ import {
   type EnvironmentId,
   type JProjectFile,
   type JProjectFileScript,
-} from "@t3tools/contracts";
-import { parseJProjectFile } from "@t3tools/shared/jProjectFile";
+} from "@lnsflive/contracts";
+import { parseJProjectFile } from "@lnsflive/shared/jProjectFile";
 
 import { useProjectFileQuery } from "~/components/files/projectFilesQueryState";
 

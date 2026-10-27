@@ -1,4 +1,4 @@
-import { upgradeLegacyContextMessage } from "@t3tools/shared/composerContextLegacy";
+import { upgradeLegacyContextMessage } from "@lnsflive/shared/composerContextLegacy";
 import { buildProjectThreadStartTurnInput } from "./projectThreadStartTurn";
 import {
   ProjectId,
@@ -8,14 +8,14 @@ import {
   ThreadId,
   type OrchestrationMessageContext,
   type ServerProviderSkill,
-} from "@t3tools/contracts";
-import { collectComposerInlineTokens } from "@t3tools/shared/composerInlineTokens";
+} from "@lnsflive/contracts";
+import { collectComposerInlineTokens } from "@lnsflive/shared/composerInlineTokens";
 import {
   ATTACHMENT_ONLY_BOOTSTRAP_PROMPT,
   collectComposerContextReferences,
   formatComposerContextReference,
   projectComposerContextForProvider,
-} from "@t3tools/shared/composerContextReferences";
+} from "@lnsflive/shared/composerContextReferences";
 import { describe, expect, it } from "vite-plus/test";
 import {
   composerContextEditorTokens,
@@ -380,7 +380,7 @@ describe("host context compatibility", () => {
             worktreeBranchName: "unused",
           }).message;
     expect(message).not.toHaveProperty("context");
-    expect(message.text).not.toContain("t3-context://");
+    expect(message.text).not.toContain("jcode-context://");
     expect(
       upgradeLegacyContextMessage(message.text).records.find(
         (record) => record.kind === "terminal",

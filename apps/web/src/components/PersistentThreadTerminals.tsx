@@ -4,10 +4,10 @@ import {
   type ResolvedKeybindingsConfig,
   type ScopedThreadRef,
   type ThreadId,
-} from "@t3tools/contracts";
-import { scopeProjectRef } from "@t3tools/client-runtime/environment";
-import { projectScriptCwd, projectScriptRuntimeEnv } from "@t3tools/shared/projectScripts";
-import { resolveTerminalSessionLabel } from "@t3tools/shared/terminalLabels";
+} from "@lnsflive/contracts";
+import { scopeProjectRef } from "@lnsflive/client-runtime/environment";
+import { projectScriptCwd, projectScriptRuntimeEnv } from "@lnsflive/shared/projectScripts";
+import { resolveTerminalSessionLabel } from "@lnsflive/shared/terminalLabels";
 import { memo, useEffect } from "react";
 import { useComposerDraftStore } from "../composerDraftStore";
 import { useStableCallback } from "../hooks/useStableCallback";

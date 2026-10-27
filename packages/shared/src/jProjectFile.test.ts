@@ -24,7 +24,7 @@ describe("parseJProjectFile", () => {
   it("reads project defaults from JSONC with a URL in a block comment", () => {
     expect(
       parseJProjectFile(`{
-        /* See https://jaimegonzalezjr.com/schema/t3.json */
+        /* See https://jaimegonzalezjr.com/schema/jcode.json */
         "defaultThreadEnvMode": "worktree"
       }`),
     ).toEqual({ defaultThreadEnvMode: "worktree" });

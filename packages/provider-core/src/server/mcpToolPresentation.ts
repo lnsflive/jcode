@@ -1,5 +1,5 @@
-import type { ToolActivityIcon, ToolActivitySource } from "@t3tools/contracts";
-import { resolveJMcpToolDefinition } from "@t3tools/shared/jMcpToolPresentation";
+import type { ToolActivityIcon, ToolActivitySource } from "@lnsflive/contracts";
+import { resolveJMcpToolDefinition } from "@lnsflive/shared/jMcpToolPresentation";
 
 export function normalizeMcpText(value: unknown, maxLength = 160): string | undefined {
   if (typeof value !== "string") return undefined;

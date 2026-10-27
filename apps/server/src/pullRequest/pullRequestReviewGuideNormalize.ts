@@ -1,5 +1,8 @@
-import type { PullRequestReviewGuideExcerpt, PullRequestReviewGuideStop } from "@t3tools/contracts";
-import type { ReviewGuideGenerationResult } from "@t3tools/provider-core/server/textGeneration";
+import type {
+  PullRequestReviewGuideExcerpt,
+  PullRequestReviewGuideStop,
+} from "@lnsflive/contracts";
+import type { ReviewGuideGenerationResult } from "@lnsflive/provider-core/server/textGeneration";
 
 const MAX_EXCERPT_LINES = 25;
 

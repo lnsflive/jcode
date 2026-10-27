@@ -99,7 +99,7 @@ class AgentNotificationsTest {
     lifecycle.currentState = Lifecycle.State.RESUMED
     AgentNotifications.setThreadOnScreen("/threads/environment/other")
     AgentNotifications.receive(context, update("elsewhere", false))
-    assertEquals("t3-agent-alert", manager.activeNotifications.single().tag)
+    assertEquals("jcode-agent-alert", manager.activeNotifications.single().tag)
   }
 
   @Test
@@ -109,7 +109,7 @@ class AgentNotificationsTest {
     AgentNotifications.receive(context, update("attention", true))
 
     val ongoing = manager.activeNotifications.single()
-    assertEquals("t3-agent-activity", ongoing.tag)
+    assertEquals("jcode-agent-activity", ongoing.tag)
     assertEquals("1 active agent", ongoing.notification.extras.getString(Notification.EXTRA_TITLE))
     assertTrue(ongoing.notification.flags and Notification.FLAG_ONGOING_EVENT != 0)
 
@@ -127,7 +127,7 @@ class AgentNotificationsTest {
     AgentNotifications.receive(context, update("completion", false))
 
     val alert = manager.activeNotifications.single()
-    assertEquals("t3-agent-alert", alert.tag)
+    assertEquals("jcode-agent-alert", alert.tag)
     assertEquals("Test thread", alert.notification.extras.getString(Notification.EXTRA_TITLE))
     assertFalse(alert.notification.flags and Notification.FLAG_ONGOING_EVENT != 0)
   }
@@ -204,13 +204,13 @@ class AgentNotificationsTest {
     )
     lifecycle.currentState = Lifecycle.State.RESUMED
     AgentNotifications.receive(context, grouped)
-    assertEquals(1, manager.activeNotifications.count { it.tag == "t3-agent-alert" })
+    assertEquals(1, manager.activeNotifications.count { it.tag == "jcode-agent-alert" })
     lifecycle.currentState = Lifecycle.State.CREATED
     AgentNotifications.receive(context, grouped)
 
     assertEquals(2, manager.activeNotifications.size)
-    assertEquals(1, manager.activeNotifications.count { it.tag == "t3-agent-activity" })
-    assertEquals(1, manager.activeNotifications.count { it.tag == "t3-agent-alert" })
+    assertEquals(1, manager.activeNotifications.count { it.tag == "jcode-agent-activity" })
+    assertEquals(1, manager.activeNotifications.count { it.tag == "jcode-agent-alert" })
   }
 
   @Test
@@ -222,7 +222,7 @@ class AgentNotificationsTest {
     AgentNotifications.dismiss(context)
     AgentNotifications.configure(context, "device", "user", "jcode-dev", true)
     AgentNotifications.receive(context, message)
-    assertEquals("t3-agent-alert", manager.activeNotifications.single().tag)
+    assertEquals("jcode-agent-alert", manager.activeNotifications.single().tag)
   }
 
   @Test
@@ -308,7 +308,7 @@ class AgentNotificationsTest {
     AgentNotifications.receive(context, finished)
     assertTrue(manager.activeNotifications.isEmpty())
     AgentNotifications.receive(context, update("new-work", true))
-    assertEquals("t3-agent-activity", manager.activeNotifications.single().tag)
+    assertEquals("jcode-agent-activity", manager.activeNotifications.single().tag)
     AgentNotifications.configure(context, "device", "user", "jcode-dev", false)
     assertTrue(manager.activeNotifications.isEmpty())
   }
@@ -322,7 +322,7 @@ class AgentNotificationsTest {
       update("older-alert", false) + ("updated_at" to (now - 1000).toString())
     )
     assertEquals(4, manager.activeNotifications.size)
-    assertEquals(1, manager.activeNotifications.count { it.tag == "t3-agent-activity" })
+    assertEquals(1, manager.activeNotifications.count { it.tag == "jcode-agent-activity" })
     shadowOf(manager).setNotificationsEnabled(false)
     AgentNotifications.receive(context, update("revoked-permission", true))
     assertEquals(4, manager.activeNotifications.size)
@@ -536,10 +536,10 @@ class AgentNotificationsTest {
     val receiver = AgentActivityExpiryReceiver()
     receiver.onReceive(context, shadowOf(oldExpiry).savedIntent)
     AgentNotifications.expire(context, expiresAt + 60_000)
-    assertEquals(1, manager.activeNotifications.count { it.tag == "t3-agent-activity" })
+    assertEquals(1, manager.activeNotifications.count { it.tag == "jcode-agent-activity" })
     AgentNotifications.expire(context, expiresAt + 2 * 60 * 60 * 1000L)
-    assertEquals(2, manager.activeNotifications.count { it.tag == "t3-agent-alert" })
-    assertTrue(manager.activeNotifications.none { it.tag == "t3-agent-activity" })
+    assertEquals(2, manager.activeNotifications.count { it.tag == "jcode-agent-alert" })
+    assertTrue(manager.activeNotifications.none { it.tag == "jcode-agent-activity" })
     assertTrue(alarms.scheduledAlarms.isEmpty())
   }
 
@@ -566,8 +566,8 @@ class AgentNotificationsTest {
   @Test
   fun alertsAndActivityUseVersionAppropriatePriorityAndPromotion() {
     AgentNotifications.receive(context, update("work", true))
-    val alert = manager.activeNotifications.single { it.tag == "t3-agent-alert" }.notification
-    val card = manager.activeNotifications.single { it.tag == "t3-agent-activity" }.notification
+    val alert = manager.activeNotifications.single { it.tag == "jcode-agent-alert" }.notification
+    val card = manager.activeNotifications.single { it.tag == "jcode-agent-activity" }.notification
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       assertEquals(Notification.PRIORITY_HIGH, alert.priority)
       assertTrue(alert.defaults and Notification.DEFAULT_SOUND != 0)

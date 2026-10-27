@@ -1,5 +1,5 @@
 {
-  "name": "@t3tools/shared",
+  "name": "@lnsflive/shared",
   "private": true,
   "type": "module",
   "exports": {
@@ -513,9 +513,9 @@
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
+    "@lnsflive/contracts": "workspace:*",
     "@noble/curves": "catalog:",
     "@noble/hashes": "catalog:",
-    "@t3tools/contracts": "workspace:*",
     "effect": "catalog:",
     "jose": "catalog:",
     "mdast-util-directive": "catalog:",

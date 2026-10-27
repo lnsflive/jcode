@@ -7,7 +7,7 @@ import {
   type ProviderInstanceId,
   type RuntimeMode,
   type ThreadId,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
@@ -52,7 +52,7 @@ export interface McpInvocationScope {
 export class McpInvocationContext extends Context.Service<
   McpInvocationContext,
   McpInvocationScope
->()("t3/mcp/McpInvocationContext") {}
+>()("jcode/mcp/McpInvocationContext") {}
 
 /**
  * `McpSchema.EnabledWhen` for tools a delegated child must not see or call.

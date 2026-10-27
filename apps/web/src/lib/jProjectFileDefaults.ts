@@ -1,6 +1,6 @@
-import { J_PROJECT_FILE_NAME, type EnvironmentId, type JProjectFile } from "@t3tools/contracts";
-import { parseJProjectFile } from "@t3tools/shared/jProjectFile";
-import { executeAtomQuery } from "@t3tools/client-runtime/state/runtime";
+import { J_PROJECT_FILE_NAME, type EnvironmentId, type JProjectFile } from "@lnsflive/contracts";
+import { parseJProjectFile } from "@lnsflive/shared/jProjectFile";
+import { executeAtomQuery } from "@lnsflive/client-runtime/state/runtime";
 
 import {
   getProjectFileQueryAtom,

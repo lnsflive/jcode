@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vite-plus/test";
-import { EnvironmentId, ProjectId, ProviderInstanceId, ThreadId } from "@t3tools/contracts";
+import { EnvironmentId, ProjectId, ProviderInstanceId, ThreadId } from "@lnsflive/contracts";
 import type { Thread } from "../types";
 import { makeThreadFixture } from "../test-fixtures";
 import {
@@ -263,7 +263,7 @@ describe("buildThreadActionItems", () => {
       ["New thread in jcode"],
     ]);
     expect(search("new thread", false).map(([label]) => label)).not.toContain("Suggestions");
-    expect(search("t3", true)).toEqual([["Projects", ["jcode"]]]);
+    expect(search("jcode", true)).toEqual([["Projects", ["jcode"]]]);
     expect(search("add project", true)).toEqual([["Actions", ["Add project"]]]);
   });
 

@@ -1,4 +1,4 @@
-import { parseNewThreadLink } from "@t3tools/shared/promptLinks";
+import { parseNewThreadLink } from "@lnsflive/shared/promptLinks";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
@@ -30,7 +30,7 @@ describe("promptLinkSearchFromParams", () => {
 });
 
 describe("stepPendingPromptLink", () => {
-  const waiting = "repo=t3tools%2Fjcode";
+  const waiting = "repo=lnsflive%2Fjcode";
 
   it("drops a link whose screen is missing from the first state after it was parsed", () => {
     expect(stepPendingPromptLink(waiting, { screenOnStack: false, ready: true })).toEqual({

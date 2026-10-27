@@ -6,7 +6,7 @@ import {
   type EnvironmentCloudLinkStateResult,
   type EnvironmentCloudPreferencesRequest,
   type EnvironmentCloudRelayConfigResult,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import {
   RelayCloudEnvironmentHealthProofPayload,
   type RelayCloudEnvironmentHealthRequest,
@@ -28,8 +28,8 @@ import {
   RelayManagedEndpointRecoveryResponse,
   type RelayManagedEndpointRuntimeConfig,
   RelayOkResponse,
-} from "@t3tools/contracts/relay";
-import { withRelayClientTracing } from "@t3tools/shared/relayTracing";
+} from "@lnsflive/contracts/relay";
+import { withRelayClientTracing } from "@lnsflive/shared/relayTracing";
 import {
   normalizeRelayIssuer,
   RELAY_HEALTH_REQUEST_TYP,
@@ -40,8 +40,8 @@ import {
   RELAY_MINT_RESPONSE_TYP,
   signRelayJwt,
   verifyRelayJwt,
-} from "@t3tools/shared/relayJwt";
-import { isSecureRelayUrl } from "@t3tools/shared/relayUrl";
+} from "@lnsflive/shared/relayJwt";
+import { isSecureRelayUrl } from "@lnsflive/shared/relayUrl";
 import * as Context from "effect/Context";
 import * as Crypto from "effect/Crypto";
 import * as DateTime from "effect/DateTime";
@@ -523,7 +523,7 @@ export class CloudLink extends Context.Service<
       | HttpClientError.HttpClientError
     >;
   }
->()("t3/cloud/CloudLink") {}
+>()("jcode/cloud/CloudLink") {}
 
 const make = Effect.gen(function* () {
   const secrets = yield* ServerSecretStore.ServerSecretStore;
@@ -607,7 +607,7 @@ const make = Effect.gen(function* () {
     const nowSeconds = Math.floor(now.epochMilliseconds / 1_000);
     const descriptor = yield* environment.getDescriptor;
     const payload = {
-      iss: `t3-env:${descriptor.environmentId}`,
+      iss: `jcode-env:${descriptor.environmentId}`,
       aud: normalizeRelayIssuer(request.relayIssuer),
       sub: descriptor.environmentId,
       jti: yield* crypto.randomUUIDv4(),
@@ -944,7 +944,7 @@ const make = Effect.gen(function* () {
     const now = yield* DateTime.now;
     const issuedAt = Math.floor(now.epochMilliseconds / 1_000);
     const claims = {
-      iss: `t3-env:${input.environmentId}`,
+      iss: `jcode-env:${input.environmentId}`,
       aud: normalizeRelayIssuer(
         Option.isSome(configuredIssuer) ? bytesToString(configuredIssuer.value) : input.relayUrl,
       ),
@@ -1462,7 +1462,7 @@ const make = Effect.gen(function* () {
         token: request.proof,
         typ: RELAY_HEALTH_REQUEST_TYP,
         issuer: normalizeRelayIssuer(relayIssuer),
-        audience: `t3-env:${environmentId}`,
+        audience: `jcode-env:${environmentId}`,
         nowEpochSeconds: nowSeconds,
       }).pipe(Effect.flatMap(decodeCloudHealthProof), Effect.option);
       if (
@@ -1491,7 +1491,7 @@ const make = Effect.gen(function* () {
       const descriptor = yield* environment.getDescriptor;
       const responseExpiresAt = DateTime.add(now, { minutes: 5 });
       const responsePayload = {
-        iss: `t3-env:${environmentId}`,
+        iss: `jcode-env:${environmentId}`,
         aud: normalizeRelayIssuer(relayIssuer),
         sub: environmentId,
         jti: yield* crypto.randomUUIDv4(),
@@ -1566,7 +1566,7 @@ const make = Effect.gen(function* () {
         token: request.proof,
         typ: RELAY_MINT_REQUEST_TYP,
         issuer: normalizeRelayIssuer(relayIssuer),
-        audience: `t3-env:${environmentId}`,
+        audience: `jcode-env:${environmentId}`,
         nowEpochSeconds: nowSeconds,
       }).pipe(Effect.flatMap(decodeCloudMintProof), Effect.option);
       if (
@@ -1601,7 +1601,7 @@ const make = Effect.gen(function* () {
         proofKeyThumbprint: proof.clientProofKeyThumbprint,
       });
       const responsePayload = {
-        iss: `t3-env:${environmentId}`,
+        iss: `jcode-env:${environmentId}`,
         aud: normalizeRelayIssuer(relayIssuer),
         sub: environmentId,
         jti: yield* crypto.randomUUIDv4(),

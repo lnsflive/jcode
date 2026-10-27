@@ -33,7 +33,7 @@ describe("CDP relay", () => {
       {
         method: "Target.attachedToTarget",
         params: expect.objectContaining({
-          sessionId: "t3-preview-page",
+          sessionId: "jcode-preview-page",
           targetInfo: expect.objectContaining({ targetId: "GUEST-TARGET", type: "page" }),
         }),
       },
@@ -55,7 +55,7 @@ describe("CDP relay", () => {
       written.push(JSON.parse(raw)),
     );
     relay.receive(
-      JSON.stringify({ id: 5, method: "Page.captureScreenshot", sessionId: "t3-preview-page" }),
+      JSON.stringify({ id: 5, method: "Page.captureScreenshot", sessionId: "jcode-preview-page" }),
     );
     relay.receive(JSON.stringify({ id: 6, method: "DOM.enable", sessionId: "iframe-session" }));
     pending[1]!();
@@ -70,7 +70,7 @@ describe("CDP relay", () => {
     expect(written.at(-1)).toEqual({
       id: 5,
       result: { method: "Page.captureScreenshot" },
-      sessionId: "t3-preview-page",
+      sessionId: "jcode-preview-page",
     });
   });
 
@@ -81,7 +81,7 @@ describe("CDP relay", () => {
       JSON.stringify({
         id: 1,
         method: "Runtime.runIfWaitingForDebugger",
-        sessionId: "t3-preview-page",
+        sessionId: "jcode-preview-page",
       }),
     );
     relay.receive(
@@ -110,11 +110,11 @@ describe("CDP relay", () => {
         id: 1,
         method: "Emulation.setFocusEmulationEnabled",
         params: { enabled: true },
-        sessionId: "t3-preview-page",
+        sessionId: "jcode-preview-page",
       }),
     );
     await settle();
-    expect(written).toEqual([{ id: 1, result: {}, sessionId: "t3-preview-page" }]);
+    expect(written).toEqual([{ id: 1, result: {}, sessionId: "jcode-preview-page" }]);
     expect(send).not.toHaveBeenCalled();
   });
 
@@ -130,7 +130,7 @@ describe("CDP relay", () => {
     relay.event("Page.loadEventFired", { timestamp: 1 }, "");
     relay.event("Runtime.consoleAPICalled", {}, "iframe-session");
     expect(written.slice(-2)).toEqual([
-      { method: "Page.loadEventFired", params: { timestamp: 1 }, sessionId: "t3-preview-page" },
+      { method: "Page.loadEventFired", params: { timestamp: 1 }, sessionId: "jcode-preview-page" },
       { method: "Runtime.consoleAPICalled", params: {}, sessionId: "iframe-session" },
     ]);
   });
@@ -173,7 +173,7 @@ describe("CDP relay extra sessions", () => {
     expect(send).toHaveBeenLastCalledWith("Page.startScreencast", {}, undefined, extra);
     written.length = 0;
     relay.event("Page.screencastFrame", { data: "x" }, undefined);
-    expect(written.map((m) => m["sessionId"])).toEqual(["t3-preview-page", extra]);
+    expect(written.map((m) => m["sessionId"])).toEqual(["jcode-preview-page", extra]);
   });
 });
 
@@ -193,7 +193,7 @@ describe("CDP relay downloads", () => {
         method: "Browser.setDownloadBehavior",
         params: {
           behavior: "allowAndName",
-          browserContextId: "t3-preview",
+          browserContextId: "jcode-preview",
           downloadPath: "/srv/artifacts",
           eventsEnabled: true,
         },

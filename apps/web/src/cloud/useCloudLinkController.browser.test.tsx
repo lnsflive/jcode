@@ -3,8 +3,8 @@ import {
   AuthRelayWriteScope,
   EnvironmentId,
   type EnvironmentCloudLinkStateResult,
-} from "@t3tools/contracts";
-import type { RelayManagedEndpointProviderKind } from "@t3tools/contracts/relay";
+} from "@lnsflive/contracts";
+import type { RelayManagedEndpointProviderKind } from "@lnsflive/contracts/relay";
 import { AsyncResult } from "effect/reactivity";
 import { useLayoutEffect } from "react";
 import { describe, expect, it, vi } from "vite-plus/test";

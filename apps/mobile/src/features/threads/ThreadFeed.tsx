@@ -28,16 +28,16 @@ import {
 import * as Haptics from "expo-haptics";
 import { KeyboardAwareLegendList } from "@legendapp/list/keyboard";
 import { useViewabilityAmount, type LegendListRef } from "@legendapp/list/react-native";
-import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import type { HandoffEndpoints } from "@t3tools/client-runtime/handoff";
+import { scopeThreadRef } from "@lnsflive/client-runtime/environment";
+import type { HandoffEndpoints } from "@lnsflive/client-runtime/handoff";
 import {
   IDLE_COMPACTING_LABELS,
   resolveUserMessagePresentation,
-} from "@t3tools/client-runtime/user-message";
-import { canForkProjectedAssistantItem } from "@t3tools/client-runtime/state/thread-workflows";
-import type { ThreadCheckpointSummary } from "@t3tools/client-runtime/state/thread-checkpoints";
-import { formatDiffCount } from "@t3tools/client-runtime/diff-count";
-import type { WorkflowOpening } from "@t3tools/client-runtime/state/subagentRuntime";
+} from "@lnsflive/client-runtime/user-message";
+import { canForkProjectedAssistantItem } from "@lnsflive/client-runtime/state/thread-workflows";
+import type { ThreadCheckpointSummary } from "@lnsflive/client-runtime/state/thread-checkpoints";
+import { formatDiffCount } from "@lnsflive/client-runtime/diff-count";
+import type { WorkflowOpening } from "@lnsflive/client-runtime/state/subagentRuntime";
 import {
   AuthFilesystemReadScope,
   idleCompactionOf,
@@ -52,42 +52,45 @@ import {
   type RunId,
   type ScheduledTaskId,
   type ScopedThreadRef,
-} from "@t3tools/contracts";
-import { renderAssistantCitationsAsText } from "@t3tools/shared/assistantCitations";
-import { encodeComposerContextFragment } from "@t3tools/shared/composerContextClipboard";
-import { parseThreadLinkHref, resolveThreadLinkRef } from "@t3tools/shared/threadLinks";
-import { PROMPT_LINK_MAX_PROMPT_LENGTH } from "@t3tools/shared/promptLinks";
+} from "@lnsflive/contracts";
+import { renderAssistantCitationsAsText } from "@lnsflive/shared/assistantCitations";
+import { encodeComposerContextFragment } from "@lnsflive/shared/composerContextClipboard";
+import { parseThreadLinkHref, resolveThreadLinkRef } from "@lnsflive/shared/threadLinks";
+import { PROMPT_LINK_MAX_PROMPT_LENGTH } from "@lnsflive/shared/promptLinks";
 import {
   parseComposerContextHref,
   collectComposerContextReferences,
   replaceComposerContextReferences,
   formatComposerContextReference,
-} from "@t3tools/shared/composerContextReferences";
+} from "@lnsflive/shared/composerContextReferences";
 import { ComposerContextSheet } from "../../components/ComposerContextSheet";
 import { writeComposerContextClipboard } from "../../lib/composerContextClipboard";
 import {
   codexArtifactTemplatePresentationLabel,
   type CodexArtifactTemplate,
-} from "@t3tools/shared/codexArtifactTemplates";
-import { resolveAssetUrl } from "@t3tools/client-runtime/state/assets";
-import { formatAttachmentSize } from "@t3tools/client-runtime/state/attachments";
+} from "@lnsflive/shared/codexArtifactTemplates";
+import { resolveAssetUrl } from "@lnsflive/client-runtime/state/assets";
+import { formatAttachmentSize } from "@lnsflive/client-runtime/state/attachments";
 import {
   executeAtomQuery,
   settlePromise,
   squashAtomCommandFailure,
-} from "@t3tools/client-runtime/state/runtime";
+} from "@lnsflive/client-runtime/state/runtime";
 import {
   classifyMarkdownImageSource,
   markdownImageSourceFragment,
-} from "@t3tools/client-runtime/markdown-images";
-import { resolveViewedImageAsset } from "@t3tools/client-runtime/work-log/presentation";
+} from "@lnsflive/client-runtime/markdown-images";
+import { resolveViewedImageAsset } from "@lnsflive/client-runtime/work-log/presentation";
 import {
   renderCodexInlineDirectivesAsMarkdown,
   splitCodexArtifactTemplateMarkdown,
-} from "@t3tools/shared/codexMarkdownDirectives";
-import { CHAT_LIST_ANCHOR_OFFSET, resolveChatListAnchoredEndSpace } from "@t3tools/shared/chatList";
-import { imageMimeType } from "@t3tools/shared/image";
-import { videoMimeType } from "@t3tools/shared/video";
+} from "@lnsflive/shared/codexMarkdownDirectives";
+import {
+  CHAT_LIST_ANCHOR_OFFSET,
+  resolveChatListAnchoredEndSpace,
+} from "@lnsflive/shared/chatList";
+import { imageMimeType } from "@lnsflive/shared/image";
+import { videoMimeType } from "@lnsflive/shared/video";
 import { SymbolView, type AppSymbolName } from "../../components/ui/AppSymbol";
 import { HeaderHeightContext } from "@react-navigation/elements";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -224,7 +227,7 @@ import {
 } from "./pending-thread-feed";
 import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
 import { resolveThreadFeedFixedItemSize } from "./thread-feed-item-size";
-import { htmlRenderFrameHeight } from "@t3tools/shared/htmlRender";
+import { htmlRenderFrameHeight } from "@lnsflive/shared/htmlRender";
 import { htmlRenderRowHeight, ThreadHtmlRender } from "./HtmlRenderWebView";
 import { ThreadMcpApp } from "./McpAppWebView";
 import { assetEnvironment, useAssetUrl, useRefreshAssetUrl } from "../../state/assets";
@@ -235,7 +238,7 @@ import {
   needsWorkspaceBasenameLookup,
   pickWorkspaceBasenameMatch,
   WORKSPACE_BASENAME_LOOKUP_LIMIT,
-} from "@t3tools/client-runtime/workspace-basename-lookup";
+} from "@lnsflive/client-runtime/workspace-basename-lookup";
 import {
   useLiveThreadLinkLabels,
   useQuietThreadShell,
@@ -738,7 +741,7 @@ function MessageAttachmentFile(props: {
             )}
           </View>
           <View className="min-w-0 flex-1 gap-1">
-            <Text className="font-t3-medium text-sm text-foreground" numberOfLines={2}>
+            <Text className="font-jcode-medium text-sm text-foreground" numberOfLines={2}>
               {attachment.name}
             </Text>
             <Text className="text-xs text-foreground-muted" numberOfLines={1}>
@@ -879,7 +882,7 @@ function ArtifactTemplateCard(props: {
         </View>
       </View>
       <View className="min-w-0 flex-1">
-        <Text className="font-t3-bold text-sm text-foreground" numberOfLines={1}>
+        <Text className="font-jcode-bold text-sm text-foreground" numberOfLines={1}>
           {props.template.displayName}
         </Text>
         <Text className="text-xs text-foreground-muted">
@@ -1073,7 +1076,7 @@ function AgentMessageFoldHeader(props: {
       />
       <Text
         numberOfLines={1}
-        className="max-w-[50%] shrink-0 font-t3-medium text-sm text-user-bubble-foreground-muted"
+        className="max-w-[50%] shrink-0 font-jcode-medium text-sm text-user-bubble-foreground-muted"
       >
         {label}
       </Text>
@@ -1106,7 +1109,7 @@ function OpenSenderThreadButton(props: {
         })
       }
     >
-      <Text className="font-t3-medium text-xs text-foreground-secondary">Open thread</Text>
+      <Text className="font-jcode-medium text-xs text-foreground-secondary">Open thread</Text>
     </Pressable>
   );
 }
@@ -1168,7 +1171,7 @@ function ThreadAutomationMessageRow(props: {
             tintColorClassName="accent-user-bubble-foreground-muted"
             type="monochrome"
           />
-          <Text className="font-t3-medium text-sm text-user-bubble-foreground-muted">
+          <Text className="font-jcode-medium text-sm text-user-bubble-foreground-muted">
             Automation
           </Text>
           <Text numberOfLines={1} className="min-w-0 shrink text-sm text-user-bubble-foreground">
@@ -1206,12 +1209,12 @@ function ThreadAutomationMessageRow(props: {
               hitSlop={6}
               onPress={() => openSettings(navigation, "SettingsScheduledTasks")}
             >
-              <Text className="font-t3-medium text-xs text-foreground-secondary">
+              <Text className="font-jcode-medium text-xs text-foreground-secondary">
                 Open automation
               </Text>
             </Pressable>
           ) : null}
-          <Text className="font-t3-medium text-xs tabular-nums text-foreground-secondary">
+          <Text className="font-jcode-medium text-xs tabular-nums text-foreground-secondary">
             {props.timestampLabel}
           </Text>
           <UserMessageCopyButton
@@ -1316,7 +1319,7 @@ function renderFeedEntry(
           <Text
             key={props.workRowSizing.textSizeKey}
             numberOfLines={1}
-            className="shrink font-t3-medium text-sm tabular-nums text-foreground-muted"
+            className="shrink font-jcode-medium text-sm tabular-nums text-foreground-muted"
           >
             {entry.label}
           </Text>
@@ -1545,7 +1548,7 @@ function renderFeedEntry(
           {...(enterAnimated ? { entering: FadeInUp.duration(220) } : {})}
         >
           {presentation.attribution === "jcode" ? (
-            <Text className="mb-1 pr-1 font-t3-medium text-2xs text-foreground-muted opacity-60">
+            <Text className="mb-1 pr-1 font-jcode-medium text-2xs text-foreground-muted opacity-60">
               Sent by JCode
             </Text>
           ) : null}
@@ -1684,7 +1687,7 @@ function renderFeedEntry(
                   className="flex-row items-center gap-1"
                 >
                   <SymbolView name="arrow.uturn.forward" size={12} tintColor={iconSubtleColor} />
-                  <Text className="font-t3-medium text-xs text-foreground-secondary">
+                  <Text className="font-jcode-medium text-xs text-foreground-secondary">
                     {intentBadge.label}
                   </Text>
                 </View>
@@ -1694,12 +1697,12 @@ function renderFeedEntry(
                   accessible={false}
                   accessibilityElementsHidden
                   importantForAccessibility="no"
-                  className="font-t3-medium text-xs text-foreground-secondary"
+                  className="font-jcode-medium text-xs text-foreground-secondary"
                 >
                   ·
                 </Text>
               ) : null}
-              <Text className="font-t3-medium text-xs tabular-nums text-foreground-secondary">
+              <Text className="font-jcode-medium text-xs tabular-nums text-foreground-secondary">
                 {entry.pendingMessage && !entry.acknowledged ? "Pending" : timestampLabel}
               </Text>
               {props.onEditPendingMessage !== null &&
@@ -1800,7 +1803,7 @@ function renderFeedEntry(
                 sourceTitle={props.threadTitle}
               />
             ) : null}
-            <Text className="font-t3-medium text-xs tabular-nums text-foreground-secondary">
+            <Text className="font-jcode-medium text-xs tabular-nums text-foreground-secondary">
               {timestampLabel}
             </Text>
           </View>
@@ -1848,10 +1851,10 @@ function TurnDiffStat(props: {
       onPress={() => props.onOpenTurnDiff(props.checkpoint)}
       className="min-h-11 shrink-0 flex-row items-center gap-2 px-2 active:bg-subtle"
     >
-      <Text className="font-t3-medium text-xs tabular-nums text-adaptive-emerald-700-300">
+      <Text className="font-jcode-medium text-xs tabular-nums text-adaptive-emerald-700-300">
         +{formatDiffCount(additions)}
       </Text>
-      <Text className="font-t3-medium text-xs tabular-nums text-adaptive-rose-700-300">
+      <Text className="font-jcode-medium text-xs tabular-nums text-adaptive-rose-700-300">
         −{formatDiffCount(deletions)}
       </Text>
       <SymbolView name="chevron.right" size={12} tintColorClassName="accent-foreground-muted" />
@@ -1879,7 +1882,7 @@ function UserMessageContent(props: UserMessageContentProps) {
   const threadIcons = useThreadChipIcons(props.environmentId, liveText, props.context?.records);
   const text = replaceComposerContextReferences(liveText, (ref) => {
     const available = props.context?.records.some((record) => record.contextId === ref.contextId);
-    return `[${ref.label}${available ? "" : " (unavailable)"}](t3-context://v1/${ref.kind}/${ref.contextId})`;
+    return `[${ref.label}${available ? "" : " (unavailable)"}](jcode-context://v1/${ref.kind}/${ref.contextId})`;
   });
   const onLinkPress = (href: string) => {
     const reference = parseComposerContextHref(href);
@@ -2060,7 +2063,7 @@ function ThreadFeedPlaceholder(props: {
       }}
     >
       <View className="max-w-[320px] items-center gap-2">
-        <Text className="text-center font-t3-bold text-lg text-foreground">{props.title}</Text>
+        <Text className="text-center font-jcode-bold text-lg text-foreground">{props.title}</Text>
         <Text className="text-center text-sm leading-normal text-foreground-secondary">
           {props.detail}
         </Text>

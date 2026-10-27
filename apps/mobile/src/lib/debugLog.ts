@@ -33,9 +33,9 @@ export function createDebugLogger(
       return;
     }
     if (data === undefined) {
-      console.log(`[t3-${namespace}] ${event}`);
+      console.log(`[jcode-${namespace}] ${event}`);
     } else {
-      console.log(`[t3-${namespace}] ${event}`, data);
+      console.log(`[jcode-${namespace}] ${event}`, data);
     }
   };
   return { isEnabled, log };

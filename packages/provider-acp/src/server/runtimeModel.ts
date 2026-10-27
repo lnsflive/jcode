@@ -9,13 +9,13 @@ import * as EffectAcpSchemaV1 from "effect-acp/schema-v1";
 import {
   deriveToolActivityPresentation,
   mergeToolActivityData,
-} from "@t3tools/shared/toolActivity";
-import { J_MCP_TOOL_NAMES } from "@t3tools/shared/jMcpToolPresentation";
+} from "@lnsflive/shared/toolActivity";
+import { J_MCP_TOOL_NAMES } from "@lnsflive/shared/jMcpToolPresentation";
 import type {
   OrchestrationV2ProviderThreadNativeMetadata,
   ThreadTokenUsageSnapshot,
   ToolLifecycleItemType,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -350,7 +350,7 @@ export function acpContentBlockDisplayText(
       const mimeType = boundedContentMetadata(content.mimeType, 256) || "unknown type";
       return `[ACP audio (${mimeType})]`;
     }
-    case "_t3_unknown":
+    case "_jcode_unknown":
       return `[Unsupported ACP content: ${boundedContentMetadata(content.originalType, 128) || "unknown"}]`;
   }
 }
@@ -384,9 +384,9 @@ function sanitizeAcpToolCallContent(
         };
       case "terminal":
         return { type: "terminal", terminalId: entry.terminalId };
-      case "_t3_unknown":
+      case "_jcode_unknown":
         return {
-          type: "_t3_unknown",
+          type: "_jcode_unknown",
           originalType: boundedContentMetadata(entry.originalType, 128) || "unknown",
           raw: null,
         };
@@ -1068,10 +1068,10 @@ function acpMcpFallbackInput(value: string | undefined): Record<string, unknown>
 
 // Known JCode inventory gates matches, so server-name separators can stay loose.
 const J_MCP_TITLE_CALL =
-  /^(?:mcp[-_]{1,2})?(?:t3[-_ ]?code|jcode)[-_.:/ ]{1,3}(?<tool>[A-Za-z0-9][A-Za-z0-9_.-]*)(?::.*)?$/i;
+  /^(?:mcp[-_]{1,2})?(?:jcode[-_ ]?code|jcode)[-_.:/ ]{1,3}(?<tool>[A-Za-z0-9][A-Za-z0-9_.-]*)(?::.*)?$/i;
 
 const J_MCP_TITLE_SUFFIX_CALL =
-  /^(?<tool>[A-Za-z0-9][A-Za-z0-9_.-]*?)(?: \((?:t3[-_ ]?code|jcode) MCP Server\)(?::|$)|[-_.](?:t3[-_ ]?code|jcode)$)/i;
+  /^(?<tool>[A-Za-z0-9][A-Za-z0-9_.-]*?)(?: \((?:jcode[-_ ]?code|jcode) MCP Server\)(?::|$)|[-_.](?:jcode[-_ ]?code|jcode)$)/i;
 
 /**
  * glm and Kimi use bare names; Antigravity uses "Running <tool>". Kimi appends
@@ -1102,7 +1102,7 @@ export function extractMcpToolCallIdentity(
     : undefined;
   const metaServerId = typeof meta?.serverId === "string" ? meta.serverId.trim() : "";
   const metaToolName = typeof meta?.toolName === "string" ? meta.toolName.trim() : "";
-  if (/^(?:t3[-_ ]?code|jcode)$/i.test(metaServerId) && metaToolName.length > 0) {
+  if (/^(?:jcode[-_ ]?code|jcode)$/i.test(metaServerId) && metaToolName.length > 0) {
     for (const knownTool of J_MCP_TOOL_NAMES) {
       const boundary = metaToolName.length - knownTool.length - 1;
       if (
@@ -1118,8 +1118,8 @@ export function extractMcpToolCallIdentity(
   const gooseExtension =
     typeof gooseToolCall?.extensionName === "string" ? gooseToolCall.extensionName.trim() : "";
   const assertsForeignOrigin =
-    (metaServerId.length > 0 && !/^(?:t3[-_ ]?code|jcode)$/i.test(metaServerId)) ||
-    (gooseExtension.length > 0 && !/^(?:t3[-_ ]?code|jcode)$/i.test(gooseExtension));
+    (metaServerId.length > 0 && !/^(?:jcode[-_ ]?code|jcode)$/i.test(metaServerId)) ||
+    (gooseExtension.length > 0 && !/^(?:jcode[-_ ]?code|jcode)$/i.test(gooseExtension));
   // goose metadata also tags built-ins; retain their command/file projections instead of classifying as MCP.
   if (assertsForeignOrigin) {
     if (metaServerId.length === 0 || metaToolName.length === 0) return undefined;
@@ -1138,7 +1138,7 @@ export function extractMcpToolCallIdentity(
   for (const candidate of candidates) {
     const trimmed = candidate.trim();
     const qualified = /^mcp__(.+?)__(.+)$/i.exec(trimmed);
-    if (qualified?.[1] && qualified[2] && !/^(?:t3[-_ ]?code|jcode)$/i.test(qualified[1]))
+    if (qualified?.[1] && qualified[2] && !/^(?:jcode[-_ ]?code|jcode)$/i.test(qualified[1]))
       return { server: qualified[1], tool: qualified[2] };
     const match =
       J_MCP_TITLE_CALL.exec(trimmed) ??
@@ -1296,7 +1296,7 @@ export function syntheticLoadSessionResponseFromInitialize(
   return {
     ...(modes ? { modes } : {}),
     _meta: {
-      t3SessionLoadReady: "replay_idle",
+      jcodeSessionLoadReady: "replay_idle",
     },
   };
 }
@@ -1580,7 +1580,7 @@ export function parseSessionUpdateEvent(params: EffectAcpSchema.SessionNotificat
       });
       break;
     }
-    case "_t3_unknown": {
+    case "_jcode_unknown": {
       events.push({
         _tag: "UnknownUpdate",
         updateType: boundedContentMetadata(upd.originalSessionUpdate, 128) || "unknown",

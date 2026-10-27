@@ -1,9 +1,9 @@
 // @effect-diagnostics nodeBuiltinImport:off globalFetchInEffect:off - Hosted handoff test uses a real localhost listener without an OpenAI account.
 import * as NodeHttp from "node:http";
 import * as NodePath from "@effect/platform-node/NodePath";
-import { codexAuthHandoffUrl, readCodexAuthDelivery } from "@t3tools/shared/codexAuthHandoff";
-import { EnvironmentId, ProviderInstanceId } from "@t3tools/contracts";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import { codexAuthHandoffUrl, readCodexAuthDelivery } from "@lnsflive/shared/codexAuthHandoff";
+import { EnvironmentId, ProviderInstanceId } from "@lnsflive/contracts";
+import * as HostProcess from "@lnsflive/shared/HostProcess";
 import { assert, describe, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -58,7 +58,7 @@ const layerDesktopClerk = (
   listeners = new Map<string, (...args: unknown[]) => void>(),
 ) => {
   const environment = DesktopEnvironment.DesktopEnvironment.of({
-    stateDir: "/tmp/t3-state",
+    stateDir: "/tmp/jcode-state",
     isDevelopment,
     appDataDirectory: "/tmp/app-data",
     platform,
@@ -184,11 +184,11 @@ describe("DesktopClerk", () => {
 
       return Effect.gen(function* () {
         const clerk = yield* DesktopClerk.DesktopClerk;
-        if (entry === "before configure") listeners.get("second-instance")?.({}, ["t3"]);
+        if (entry === "before configure") listeners.get("second-instance")?.({}, ["jcode"]);
         yield* clerk.configure;
 
         assert.equal(quit.mock.calls.length, 0);
-        if (entry === "after configure") listeners.get("second-instance")!({}, ["t3"]);
+        if (entry === "after configure") listeners.get("second-instance")!({}, ["jcode"]);
         assert.strictEqual(yield* Effect.promise(() => revealed.promise), window);
       }).pipe(
         Effect.scoped,
@@ -218,12 +218,12 @@ describe("DesktopClerk", () => {
 
     return Effect.gen(function* () {
       const clerk = yield* DesktopClerk.DesktopClerk;
-      listeners.get("second-instance")?.({}, ["t3", first]);
-      listeners.get("second-instance")?.({}, ["t3", second]);
+      listeners.get("second-instance")?.({}, ["jcode", first]);
+      listeners.get("second-instance")?.({}, ["jcode", second]);
       assert.deepEqual(received, []);
 
       yield* clerk.configure;
-      listeners.get("second-instance")!({}, ["t3", later]);
+      listeners.get("second-instance")!({}, ["jcode", later]);
       yield* Effect.promise(() => delivered.promise);
 
       assert.deepEqual(received, [first, second, later]);
@@ -307,7 +307,7 @@ it.effect(
       assert.equal(loadURL.mock.calls.length, 0);
       assert.equal(event.preventDefault.mock.calls.length, 0);
       listeners.get("second-instance")!({}, [
-        "t3",
+        "jcode",
         "jcode-dev://app/settings/providers?instanceId=work&code=never-forward",
       ]);
       yield* Effect.promise(() => revealed.promise);
@@ -386,7 +386,7 @@ it.effect.each(["startup", "open-url", "early-second-instance"] as const)(
       yield* Effect.gen(function* () {
         const clerk = yield* DesktopClerk.DesktopClerk;
         if (entry === "early-second-instance") {
-          listeners.get("second-instance")?.({}, ["t3", link]);
+          listeners.get("second-instance")?.({}, ["jcode", link]);
         }
         yield* clerk.configure;
         if (entry === "open-url") {
@@ -401,7 +401,10 @@ it.effect.each(["startup", "open-url", "early-second-instance"] as const)(
         assert.strictEqual(delivery?.returnUrl, request.returnUrl);
       }).pipe(
         Effect.provide(layerDesktopClerk(true, [], "darwin", undefined, shell, listeners)),
-        Effect.provideService(HostProcess.Arguments, entry === "startup" ? ["t3", link] : ["t3"]),
+        Effect.provideService(
+          HostProcess.Arguments,
+          entry === "startup" ? ["jcode", link] : ["jcode"],
+        ),
         Effect.provideService(ElectronApp.ElectronApp, electronApp),
         Effect.provideService(
           ElectronWindow.ElectronWindow,
@@ -448,7 +451,7 @@ it.effect("hands web and app links to the renderer and leaves other links alone"
       ]);
     }).pipe(
       Effect.provide(layerDesktopClerk(true, [], "darwin", undefined, undefined, listeners)),
-      Effect.provideService(HostProcess.Arguments, ["t3"]),
+      Effect.provideService(HostProcess.Arguments, ["jcode"]),
       Effect.provideService(ElectronApp.ElectronApp, electronApp),
       Effect.provideService(
         ElectronWindow.ElectronWindow,

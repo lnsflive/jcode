@@ -58,7 +58,7 @@ class JNativeControlsModule : Module() {
     Function("getShowcaseScene") {
       val storedScene = appContext.reactContext
         ?.filesDir
-        ?.resolve("t3-showcase-scene")
+        ?.resolve("jcode-showcase-scene")
         ?.takeIf { it.isFile }
         ?.readText()
         ?.trim()
@@ -79,7 +79,7 @@ class JNativeControlsModule : Module() {
     Function("markShowcaseReady") { scene: String ->
       appContext.reactContext
         ?.filesDir
-        ?.resolve("t3-showcase-ready")
+        ?.resolve("jcode-showcase-ready")
         ?.writeText(scene)
     }
   }

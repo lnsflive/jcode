@@ -1,5 +1,5 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
-import type { VcsStatusRemoteResult, VcsStatusResult } from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@lnsflive/contracts";
+import type { VcsStatusRemoteResult, VcsStatusResult } from "@lnsflive/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
@@ -17,23 +17,23 @@ import {
 
 describe("normalizeGitRemoteUrl", () => {
   it("canonicalizes equivalent GitHub remotes across protocol variants", () => {
-    expect(normalizeGitRemoteUrl("git@github.com:T3Tools/JCode.git")).toBe(
-      "github.com/t3tools/jcode",
+    expect(normalizeGitRemoteUrl("git@github.com:JCodeTools/JCode.git")).toBe(
+      "github.com/lnsflive/jcode",
     );
-    expect(normalizeGitRemoteUrl("https://github.com/T3Tools/JCode.git")).toBe(
-      "github.com/t3tools/jcode",
+    expect(normalizeGitRemoteUrl("https://github.com/JCodeTools/JCode.git")).toBe(
+      "github.com/lnsflive/jcode",
     );
-    expect(normalizeGitRemoteUrl("ssh://git@github.com/T3Tools/JCode")).toBe(
-      "github.com/t3tools/jcode",
+    expect(normalizeGitRemoteUrl("ssh://git@github.com/JCodeTools/JCode")).toBe(
+      "github.com/lnsflive/jcode",
     );
   });
 
   it("preserves nested group paths for providers like GitLab", () => {
-    expect(normalizeGitRemoteUrl("git@gitlab.com:T3Tools/platform/JCode.git")).toBe(
-      "gitlab.com/t3tools/platform/jcode",
+    expect(normalizeGitRemoteUrl("git@gitlab.com:JCodeTools/platform/JCode.git")).toBe(
+      "gitlab.com/lnsflive/platform/jcode",
     );
-    expect(normalizeGitRemoteUrl("https://gitlab.com/T3Tools/platform/JCode.git")).toBe(
-      "gitlab.com/t3tools/platform/jcode",
+    expect(normalizeGitRemoteUrl("https://gitlab.com/JCodeTools/platform/JCode.git")).toBe(
+      "gitlab.com/lnsflive/platform/jcode",
     );
   });
 
@@ -151,7 +151,7 @@ describe("isTemporaryWorktreeBranch", () => {
     expect(isTemporaryWorktreeBranch("jcode/f4ae4e0e-f971-4d48-c4f2-9cf0aa54ab12")).toBe(false);
   });
 
-  it("matches the flat fallback used when a plain t3 branch exists", () => {
+  it("matches the flat fallback used when a plain jcode branch exists", () => {
     const flat = flattenTemporaryWorktreeBranchName(`${WORKTREE_BRANCH_PREFIX}/deadbeef`);
     expect(flat).toBe(`${WORKTREE_BRANCH_PREFIX}-deadbeef`);
     expect(isTemporaryWorktreeBranch(flat)).toBe(true);

@@ -1,5 +1,5 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import type { ProviderReplayEntry, ProviderReplayTranscript } from "@t3tools/contracts";
+import type { ProviderReplayEntry, ProviderReplayTranscript } from "@lnsflive/contracts";
 import * as Console from "effect/Console";
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
@@ -18,8 +18,8 @@ import {
   PiOrchestratorReplayHarness,
 } from "../src/orchestration-v2/Adapters/PiAdapterV2.testkit.ts";
 import * as PiAdapterV2Testkit from "../src/orchestration-v2/Adapters/PiAdapterV2.testkit.ts";
-import { PI_PROVIDER } from "@t3tools/provider-pi/server";
-import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+import { PI_PROVIDER } from "@lnsflive/provider-pi/server";
+import * as IdAllocator from "@lnsflive/provider-core/server/IdAllocator";
 import { provideDeterministicTestRuntime } from "../src/orchestration-v2/testkit/DeterministicRuntime.ts";
 import { ORCHESTRATOR_REPLAY_FIXTURES } from "../src/orchestration-v2/testkit/fixtures/index.ts";
 import { materializeFixtureInput } from "../src/orchestration-v2/testkit/fixtures/shared.ts";
@@ -27,7 +27,7 @@ import { runOrchestratorV2ProviderReplayScenario } from "../src/orchestration-v2
 import {
   checkpointWorkspace,
   makeCheckpointWorkspace,
-} from "@t3tools/provider-testing/replayWorkspace";
+} from "@lnsflive/provider-testing/replayWorkspace";
 
 // Exclude user context; --approve lets the throwaway workspace's `.pi/settings.json` load.
 const HERMETIC_LAUNCH_ARGS =
@@ -51,7 +51,7 @@ if (fixture === undefined || variant === undefined) {
   throw new Error(`Pass --scenario with a fixture that registers Pi: ${names.join(", ")}`);
 }
 
-const piBinary = process.env.T3_PI_BIN ?? "pi";
+const piBinary = process.env.JCODE_PI_BIN ?? "pi";
 const [modelProvider, ...modelId] = variant.modelSelection.model.split("/");
 const launchArgs = `--provider ${modelProvider} --model ${modelId.join("/")} ${HERMETIC_LAUNCH_ARGS}`;
 const home = process.env.HOME ?? "";
@@ -200,7 +200,7 @@ const record = Effect.gen(function* () {
     path.join(workspace, ".pi", "settings.json"),
     encodeJson(WORKSPACE_PI_SETTINGS),
   );
-  const sessionDir = yield* fs.makeTempDirectory({ prefix: `t3-pi-record-sessions-` });
+  const sessionDir = yield* fs.makeTempDirectory({ prefix: `jcode-pi-record-sessions-` });
   yield* Effect.addFinalizer(() =>
     Effect.all([
       fs.remove(workspace, { recursive: true, force: true }),

@@ -1,5 +1,5 @@
-import type { EnvironmentId } from "@t3tools/contracts";
-import { buildProjectGroups } from "@t3tools/client-runtime/state/project-grouping";
+import type { EnvironmentId } from "@lnsflive/contracts";
+import { buildProjectGroups } from "@lnsflive/client-runtime/state/project-grouping";
 import {
   createContext,
   useCallback,

@@ -20,7 +20,7 @@ describe("electron development launcher", () => {
     const environmentScript = makeDevelopmentEnvironmentScript({
       VITE_DEV_SERVER_URL: "http://127.0.0.1:8526",
       JCODE_PORT: "16566",
-      JCODE_HOME: "/tmp/t3",
+      JCODE_HOME: "/tmp/jcode",
       JCODE_OTLP_PROTOCOL: "http/protobuf",
     });
 
@@ -104,7 +104,7 @@ describe("electron development launcher", () => {
   });
 
   it("restores execute permissions on an unchanged launcher", () => {
-    const directory = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-launcher-"));
+    const directory = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "jcode-launcher-"));
     const launcherPath = NodePath.join(directory, "launcher");
     try {
       writeDevelopmentLauncherScript(launcherPath, "/runtime/Electron");
@@ -155,8 +155,8 @@ it
   // oxlint-disable-next-line jcode/no-global-process-runtime -- Native pgrep is unavailable on Windows.
   .skipIf(NodeOS.platform() === "win32")
   .each([
-    "/tmp/t3-feature.one/apps/desktop",
-    "/tmp/t3-feature.one [two](three)+?^${four}|back\\slash*/apps/desktop",
+    "/tmp/jcode-feature.one/apps/desktop",
+    "/tmp/jcode-feature.one [two](three)+?^${four}|back\\slash*/apps/desktop",
   ])("dev cleanup matches only the literal root argument: %s", async (desktopDir) => {
   const pattern = await startupCleanupPattern(desktopDir);
   const flag = `--jcode-dev-root=${desktopDir}`;

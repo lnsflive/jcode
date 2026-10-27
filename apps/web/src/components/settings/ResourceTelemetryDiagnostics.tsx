@@ -1,5 +1,5 @@
 import { ProcessSignalActions } from "./ProcessSignalActions";
-import { AuthEnvironmentMaintainScope } from "@t3tools/contracts";
+import { AuthEnvironmentMaintainScope } from "@lnsflive/contracts";
 import { RefreshIcon } from "~/components/ui/refresh-icon";
 import {
   ActivityIcon,
@@ -25,7 +25,7 @@ import type {
   ResourceTelemetrySourceHealth,
   ResourceTelemetrySourceStatus,
   ServerProcessSignal,
-} from "@t3tools/contracts";
+} from "@lnsflive/contracts";
 import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 import { RegistryContext } from "@effect/atom-react";
@@ -33,7 +33,7 @@ import { useContext, useRef, useState, type ReactNode } from "react";
 import {
   isAtomCommandInterrupted,
   squashAtomCommandFailure,
-} from "@t3tools/client-runtime/state/runtime";
+} from "@lnsflive/client-runtime/state/runtime";
 
 import {
   useResourceTelemetry,
@@ -128,7 +128,7 @@ function categoryLabel(category: ResourceTelemetryProcessCategory): string {
       return "Electron utility";
     case "resource-monitor":
       return "Monitor";
-    case "unknown-t3":
+    case "unknown-jcode":
       return "JCode process";
   }
 }
@@ -842,7 +842,7 @@ function ResourceTelemetryDiagnosticsBody({
   const signalingKeysRef = useRef<ReadonlySet<string>>(new Set());
   const [isRetrying, setIsRetrying] = useState(false);
   const snapshot = telemetry.data;
-  const allT3 = snapshot?.groups.allT3;
+  const allJCode = snapshot?.groups.allJCode;
 
   const signalProcess = async (process: ResourceTelemetryProcess, signal: ServerProcessSignal) => {
     const targetEnvironmentId = environmentId;
@@ -1019,40 +1019,46 @@ function ResourceTelemetryDiagnosticsBody({
             <IconStat
               icon={<CpuIcon className="size-3.5" />}
               label="Current CPU"
-              value={allT3 ? `${allT3.currentCpuPercent.toFixed(1)}%` : "..."}
-              detail={allT3 ? `${formatCpuTime(allT3.cpuTimeMs)} observed CPU time` : undefined}
+              value={allJCode ? `${allJCode.currentCpuPercent.toFixed(1)}%` : "..."}
+              detail={
+                allJCode ? `${formatCpuTime(allJCode.cpuTimeMs)} observed CPU time` : undefined
+              }
             />
             <IconStat
               icon={<MemoryStickIcon className="size-3.5" />}
               label="Resident memory"
-              value={allT3 ? formatBytes(allT3.currentRssBytes) : "..."}
+              value={allJCode ? formatBytes(allJCode.currentRssBytes) : "..."}
               detail={
-                allT3 ? `${formatBytes(allT3.peakRssBytes)} combined process peaks` : undefined
+                allJCode
+                  ? `${formatBytes(allJCode.peakRssBytes)} combined process peaks`
+                  : undefined
               }
             />
             <IconStat
               icon={<ActivityIcon className="size-3.5" />}
               label="Process count"
-              value={allT3 ? String(allT3.processCount) : "..."}
+              value={allJCode ? String(allJCode.processCount) : "..."}
               detail={
-                allT3 ? `${allT3.processStarts} starts · ${allT3.processExits} exits` : undefined
+                allJCode
+                  ? `${allJCode.processStarts} starts · ${allJCode.processExits} exits`
+                  : undefined
               }
             />
             <IconStat
               icon={<HardDriveIcon className="size-3.5" />}
               label="Read throughput"
-              value={allT3 ? formatRate(allT3.ioReadBytesPerSecond) : "..."}
-              detail={allT3 ? `${formatBytes(allT3.ioReadBytes)} observed` : undefined}
+              value={allJCode ? formatRate(allJCode.ioReadBytesPerSecond) : "..."}
+              detail={allJCode ? `${formatBytes(allJCode.ioReadBytes)} observed` : undefined}
             />
             <IconStat
               icon={<DatabaseIcon className="size-3.5" />}
               label="Write throughput"
-              value={allT3 ? formatRate(allT3.ioWriteBytesPerSecond) : "..."}
-              detail={allT3 ? `${formatBytes(allT3.ioWriteBytes)} observed` : undefined}
+              value={allJCode ? formatRate(allJCode.ioWriteBytesPerSecond) : "..."}
+              detail={allJCode ? `${formatBytes(allJCode.ioWriteBytes)} observed` : undefined}
               tone={
-                allT3 && allT3.ioWriteBytesPerSecond >= 10 * 1_024 * 1_024
+                allJCode && allJCode.ioWriteBytesPerSecond >= 10 * 1_024 * 1_024
                   ? "danger"
-                  : allT3 && allT3.ioWriteBytesPerSecond >= 1_024 * 1_024
+                  : allJCode && allJCode.ioWriteBytesPerSecond >= 1_024 * 1_024
                     ? "warning"
                     : "default"
               }

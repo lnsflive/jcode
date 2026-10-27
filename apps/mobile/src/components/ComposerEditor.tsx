@@ -1,12 +1,12 @@
 import * as Dialog from "./ui/Dialog";
-import { ComposerContextId } from "@t3tools/contracts";
+import { ComposerContextId } from "@lnsflive/contracts";
 import { useAtomValue } from "@effect/atom-react";
 import { AsyncResult } from "effect/reactivity";
-import { settlePromise, squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
+import { settlePromise, squashAtomCommandFailure } from "@lnsflive/client-runtime/state/runtime";
 import { useEffect, useState } from "react";
-import type { EnvironmentId } from "@t3tools/contracts";
-import { encodeComposerContextFragment } from "@t3tools/shared/composerContextClipboard";
-import { collectComposerContextReferences } from "@t3tools/shared/composerContextReferences";
+import type { EnvironmentId } from "@lnsflive/contracts";
+import { encodeComposerContextFragment } from "@lnsflive/shared/composerContextClipboard";
+import { collectComposerContextReferences } from "@lnsflive/shared/composerContextReferences";
 import { ComposerEditor as NativeComposerEditor } from "../native/JComposerEditor";
 import type { ComposerEditorProps as NativeComposerEditorProps } from "../native/JComposerEditor";
 import {

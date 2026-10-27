@@ -1,12 +1,12 @@
-import * as NetService from "@t3tools/shared/Net";
+import * as NetService from "@lnsflive/shared/Net";
 import {
   OtlpHeadersFromString,
   OtlpProtocol,
   type SignalExport,
-} from "@t3tools/shared/observability";
-import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
-import { parsePersistedServerObservabilitySettings } from "@t3tools/shared/serverSettings";
-import { DesktopBackendBootstrap, PortSchema } from "@t3tools/contracts";
+} from "@lnsflive/shared/observability";
+import * as OtelEnvironment from "@lnsflive/shared/otelEnvironment";
+import { parsePersistedServerObservabilitySettings } from "@lnsflive/shared/serverSettings";
+import { DesktopBackendBootstrap, PortSchema } from "@lnsflive/contracts";
 import * as Config from "effect/Config";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -127,7 +127,7 @@ const EnvServerConfig = Config.all({
   ),
   port: Config.Port("JCODE_PORT").pipe(Config.option, Config.map(Option.getOrUndefined)),
   host: Config.String("JCODE_HOST").pipe(Config.option, Config.map(Option.getOrUndefined)),
-  t3Home: Config.String("JCODE_HOME").pipe(Config.option, Config.map(Option.getOrUndefined)),
+  jcodeHome: Config.String("JCODE_HOME").pipe(Config.option, Config.map(Option.getOrUndefined)),
   devUrl: Config.URL("VITE_DEV_SERVER_URL").pipe(Config.option, Config.map(Option.getOrUndefined)),
   devAllowedOrigins: Config.String("JCODE_DEV_ALLOWED_ORIGINS").pipe(
     Config.withDefault(""),
@@ -315,11 +315,11 @@ export const resolveServerConfig = Effect.fn("config.resolveServerConfig")(funct
     mode === "web" && devUrl !== undefined ? yield* DevAuthTokenConfig : undefined;
   const explicitBaseDir = resolveOptionPrecedence(
     normalizedFlags.baseDir,
-    Option.fromUndefinedOr(env.t3Home),
+    Option.fromUndefinedOr(env.jcodeHome),
   ).pipe(Option.filter((value) => value.trim().length > 0));
   const baseDir = yield* resolveBaseDir(
     Option.getOrUndefined(
-      resolveOptionPrecedence(explicitBaseDir, Option.fromUndefinedOr(bootstrap?.t3Home)),
+      resolveOptionPrecedence(explicitBaseDir, Option.fromUndefinedOr(bootstrap?.jcodeHome)),
     ),
   );
   const rawCwd = Option.getOrElse(normalizedFlags.cwd, () => process.cwd());

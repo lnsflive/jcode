@@ -1,4 +1,4 @@
-import { normalizeSearchQuery, scoreQueryMatch } from "@t3tools/shared/searchRanking";
+import { normalizeSearchQuery, scoreQueryMatch } from "@lnsflive/shared/searchRanking";
 
 type ModelPickerSearchableModel = {
   driverKind: string;
