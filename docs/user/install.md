@@ -41,9 +41,6 @@ If `jcode` or `jcode start` reports an already running server, connect to that s
 instead. Stop it before starting a replacement, or use a different `--base-dir`
 for an independent server.
 
-To try JCode once without installing it, run `npx @lnsflive/jcode@latest` instead (needs
-Node.js for `npx`).
-
 ### Intel Macs
 
 There is no standalone JCode CLI release for Intel Macs (the desktop app is available). To

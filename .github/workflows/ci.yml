@@ -85,6 +85,9 @@ jobs:
             exit 1
           fi
 
+      - name: Check JCode branding
+        run: node scripts/check-branding.mjs
+
       - name: Setup Vite+
         uses: ./.github/actions/setup-ci-deps
         with:

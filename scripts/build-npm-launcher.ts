@@ -42,6 +42,7 @@ export function npmLauncherPackageManifest(version: string) {
     bin: { jcode: "./bin/jcode.mjs" },
     files: ["bin", "dist"],
     engines: { node: ">=20.11" },
+    publishConfig: { access: "public", registry: "https://registry.npmjs.org" },
   };
 }
 
@@ -69,10 +70,9 @@ export const buildNpmLauncher = Effect.fn("buildNpmLauncher")(function* (input: 
   yield* fs.copyFile(path.join(sourceDir, "jcode.mjs"), path.join(stageDir, "bin/jcode.mjs"));
   yield* fs.chmod(path.join(stageDir, "bin/jcode.mjs"), 0o755);
   yield* fs.copyFile(path.join(sourceDir, "bin.mjs"), path.join(stageDir, "dist/bin.mjs"));
-  const readme = yield* path.fromFileUrl(new URL("../apps/server/README.md", import.meta.url));
-  if (yield* fs.exists(readme)) {
-    yield* fs.copyFile(readme, path.join(stageDir, "README.md"));
-  }
+  yield* fs.copyFile(path.join(sourceDir, "README.md"), path.join(stageDir, "README.md"));
+  const license = yield* path.fromFileUrl(new URL("../LICENSE", import.meta.url));
+  yield* fs.copyFile(license, path.join(stageDir, "LICENSE"));
 
   const packageDir = path.join(input.outputDir, NPM_LAUNCHER_PACKAGE_NAME);
   const tarball = path.join(input.outputDir, "jcode.tgz");

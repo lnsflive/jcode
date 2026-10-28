@@ -52,7 +52,7 @@ the version.
   - stable releases publish npm dist-tag `latest`
   - nightly releases publish npm dist-tag `nightly`
   - preview releases publish npm dist-tag `preview`, which nothing resolves unless asked for by name
-  - one-time setup: package `jcode` needs a trusted publisher registered for this workflow file (see below).
+  - one-time setup: package `@lnsflive/jcode` needs a trusted publisher registered for this workflow file (see below).
 - Builds the hosted web app on Vercel while the desktop jobs run, and makes it live only after a release is published:
   - stable releases are aliased to the `latest` hosted app channel
   - nightly releases are aliased to the `nightly` hosted app channel
@@ -415,20 +415,20 @@ One-time Vercel dashboard setup:
   - `make_latest` is always `false`
 - Uses the next stable patch version as the nightly base. For example, `0.0.17` produces nightlies on `0.0.18-nightly.*`.
 - Publishes Electron auto-update metadata to the dedicated `nightly` updater channel, so desktop users can opt into that track independently from stable.
-- Publishes the `jcode` npm launcher to the `nightly` npm dist-tag using the same nightly version.
+- Publishes the `@lnsflive/jcode` npm launcher to the `nightly` npm dist-tag using the same nightly version.
 - Does not commit version bumps back to `main`.
 
 ## Server self-update release invariant
 
 Connected servers update to the client's exact version, not to an npm dist-tag. Servers that update
 themselves download that version's CLI archive from the GitHub Release; servers run through npm are
-handed a `jcode@<version>` command to run. Every released client version must therefore have its
+handed a `@lnsflive/jcode@<version>` command to run. Every released client version must therefore have its
 release archives, and then its npm launcher, available before users can receive that client.
 
 The workflow enforces this ordering:
 
 1. `release` publishes the GitHub Release with the CLI archives and `SHA256SUMS`.
-2. `publish_cli` publishes the `jcode@<version>` launcher, which downloads from that release, on every
+2. `publish_cli` publishes the `@lnsflive/jcode@<version>` launcher, which downloads from that release, on every
    channel.
 3. `deploy_web` depends on both before moving the hosted channel to the new client.
    `build_web` builds that client earlier with `vercel deploy --prod --skip-domain`, which
@@ -437,13 +437,13 @@ The workflow enforces this ordering:
    custom domains.
 
 Desktop auto-update reads the GitHub Release directly, so a desktop client can see the new version
-a few minutes before `jcode@<version>` is on npm. Only the copied manual command for npm-run servers
+a few minutes before `@lnsflive/jcode@<version>` is on npm. Only the copied manual command for npm-run servers
 depends on npm, and it works once `publish_cli` finishes.
 
 Preserve these dependencies when changing the release graph. Publishing a client first would leave
 the **Update server** action targeting a package version that does not exist yet.
 
-For a release smoke test, confirm `npm view jcode@<version> version` returns the expected version, then
+For a release smoke test, confirm `npm view @lnsflive/jcode@<version> version` returns the expected version, then
 connect the new client to a server on the previous version and verify that the update action
 reconnects to the matching server. When the release adds database migrations, verify that the
 remote update applies them and reconnects. A failed trial must restore the database snapshot and
@@ -527,8 +527,8 @@ After the GitHub Release is published, the workflow runs `node scripts/build-npm
 
 Checklist:
 
-1. Confirm the npm org owns package `jcode`.
-2. For `jcode`, configure a Trusted Publisher in the npm package settings:
+1. For the first publication, log in with `npm login --registry=https://registry.npmjs.org` using an account that can publish under `@lnsflive`. Build the launcher for an existing GitHub Release, then run `npm publish npm-packages/jcode.tgz --access public --registry=https://registry.npmjs.org`. The package must exist before its trusted publisher can be configured.
+2. For `@lnsflive/jcode`, configure a Trusted Publisher in the npm package settings:
    - Provider: GitHub Actions
    - Repository: this repo
    - Workflow file: `.github/workflows/release.yml`
@@ -541,7 +541,7 @@ Checklist:
 ## 1) Release validation and unsigned builds
 
 There is no dry-run tag path. Pushing any accepted non-nightly tag, including
-`v0.0.0-test.1`, classifies the run as the stable channel. It publishes `jcode` with npm dist-tag
+`v0.0.0-test.1`, classifies the run as the stable channel. It publishes `@lnsflive/jcode` with npm dist-tag
 `latest`, creates a real GitHub Release, aliases the hosted app to `latest.app.jaimegonzalezjr.com` and
 `app.jaimegonzalezjr.com`, and can commit a version bump to `main` in the finalize job. Do not push a test tag
 to validate the workflow.

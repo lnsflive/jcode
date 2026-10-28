@@ -118,6 +118,10 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
         assert.deepStrictEqual(manifest.bin, { jcode: "./bin/jcode.mjs" });
         assert.isUndefined(manifest.dependencies);
         assert.isUndefined(manifest.optionalDependencies);
+        assert.deepStrictEqual(manifest.publishConfig, {
+          access: "public",
+          registry: "https://registry.npmjs.org",
+        });
 
         const installed = path.join(root, "installed");
         yield* fs.makeDirectory(installed);
@@ -127,6 +131,11 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
         });
         assert.equal(unpack.exitCode, 0, unpack.stderr);
         const packageDir = path.join(installed, "package");
+        assert.include(
+          yield* fs.readFileString(path.join(packageDir, "README.md")),
+          "npm install -g @lnsflive/jcode",
+        );
+        assert.include(yield* fs.readFileString(path.join(packageDir, "LICENSE")), "MIT License");
 
         const release = yield* serveFakeRelease(root);
         const home = path.join(root, "home");
@@ -136,10 +145,19 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
           JCODE_RELEASE_BASE_URL: release.baseUrl,
         };
         const launcher = path.join(packageDir, "bin/jcode.mjs");
-        const first = yield* run(process.execPath, [launcher, "serve", "a b"], {
-          cwd: root,
-          env,
-        });
+        const first = yield* run(
+          process.execPath,
+          [
+            "--import",
+            "data:text/javascript,Object.defineProperty(process.stderr,'isTTY',{value:true})",
+            launcher,
+            "serve",
+            "a b",
+          ],
+          { cwd: root, env },
+        );
+        assert.include(first.stderr, "jcode: downloading JCode");
+        assert.notInclude(first.stderr, "t3:");
         assert.equal(first.stdout.trim(), `stub serve a b launcher=${launcher}`, first.stderr);
         assert.equal(first.exitCode, 7);
         const versionDir = path.join(home, "runtime/versions", VERSION);

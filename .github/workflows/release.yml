@@ -248,6 +248,9 @@ jobs:
             !/.repos/
           sparse-checkout-cone-mode: false
 
+      - name: Check JCode branding
+        run: node scripts/check-branding.mjs
+
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
@@ -967,7 +970,7 @@ jobs:
           fail_on_unmatched_files: true
           token: ${{ github.token }}
 
-  # The `jcode` npm package is a launcher that downloads this version's CLI
+  # The `@lnsflive/jcode` npm package is a launcher that downloads this version's CLI
   # archive from the GitHub Release, so it publishes only once that release
   # exists. Preview publishes too, under the `preview` dist-tag, which
   # nothing resolves unless asked for by name.
@@ -1006,7 +1009,7 @@ jobs:
       - name: Publish the npm launcher
         run: |
           if ! node apps/server/scripts/cli.ts publish --packages-dir npm-packages --tag "${{ needs.preflight.outputs.cli_dist_tag }}" --provenance --verbose; then
-            echo "::error::npm publish failed. Make sure package jcode has a trusted publisher registered for .github/workflows/release.yml (see docs/operations/release.md)." >&2
+            echo "::error::npm publish failed. Make sure package @lnsflive/jcode has a trusted publisher registered for .github/workflows/release.yml (see docs/operations/release.md)." >&2
             exit 1
           fi
 

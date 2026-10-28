@@ -64,8 +64,8 @@ it.layer(NodeServices.layer)("root CLI commands", (it) => {
       yield* fs.makeDirectory(path.dirname(shim), { recursive: true });
       yield* fs.writeFileString(shim, "#!/bin/sh\n", { mode: 0o755 });
       const desktop = {
-        node: "/tmp/.mount_T3abc/jcode",
-        entry: "/tmp/.mount_T3abc/resources/app.asar/apps/server/dist/bin.mjs",
+        node: "/tmp/.mount_JCodeabc/jcode",
+        entry: "/tmp/.mount_JCodeabc/resources/app.asar/apps/server/dist/bin.mjs",
         env: { JCODE_CLI_PATH: shim },
       };
 

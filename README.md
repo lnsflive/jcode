@@ -36,8 +36,6 @@ irm https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.ps1 | 
 
 Then run `jcode` to start the server and open the local web app. `jcode service install` keeps it running in the background, and `jcode update` moves to a newer release.
 
-To try it once without installing, run `npx @lnsflive/jcode@latest` instead.
-
 ### Desktop app
 
 Install the latest version of the desktop app from [GitHub Releases](https://github.com/lnsflive/jcode/releases), or from your favorite package registry:

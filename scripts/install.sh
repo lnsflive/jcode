@@ -213,7 +213,7 @@ else
   elif [ "$fetch_status" -ne 0 ]; then
     fail "could not download the release checksums"
   fi
-  # Early releases used the upstream t3 archive and executable names.
+  # Early releases used different archive and executable names.
   # Select only assets present in the release's checksum manifest.
   expected="$(awk -v name="$archive" '$2 == name || $2 == "*" name { print $1 }' "${staging}/SHA256SUMS")"
   legacy_archive=false
