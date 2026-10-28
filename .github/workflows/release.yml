@@ -1029,7 +1029,7 @@ jobs:
   build_web:
     name: Build hosted web app
     needs: [preflight, relay_public_config]
-    if: ${{ !cancelled() && needs.preflight.result == 'success' && needs.relay_public_config.result == 'success' && needs.preflight.outputs.release_channel != 'preview' }}
+    if: ${{ vars.JCODE_PUBLISH_HOSTED_WEB == 'true' && !cancelled() && needs.preflight.result == 'success' && needs.relay_public_config.result == 'success' && needs.preflight.outputs.release_channel != 'preview' }}
     # runs-on: blacksmith-8vcpu-ubuntu-2404
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -1213,7 +1213,7 @@ jobs:
   build_marketing:
     name: Build marketing site
     needs: [preflight]
-    if: ${{ !cancelled() && needs.preflight.result == 'success' && needs.preflight.outputs.release_channel == 'nightly' }}
+    if: ${{ vars.JCODE_PUBLISH_MARKETING == 'true' && !cancelled() && needs.preflight.result == 'success' && needs.preflight.outputs.release_channel == 'nightly' }}
     # runs-on: blacksmith-8vcpu-ubuntu-2404
     runs-on: ubuntu-24.04
     timeout-minutes: 10
