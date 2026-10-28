@@ -25,13 +25,13 @@ We wanted something performant, remote-ready, and truly open. If we ever go the 
 ### Command line
 
 ```bash
-curl -fsSL https://jaimegonzalezjr.com/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.sh | sh
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://jaimegonzalezjr.com/install.ps1 | iex
+irm https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.ps1 | iex
 ```
 
 Then run `jcode` to start the server and open the local web app. `jcode service install` keeps it running in the background, and `jcode update` moves to a newer release.

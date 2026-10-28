@@ -1,7 +1,7 @@
 # Installs the JCode CLI from a GitHub Release archive on Windows. Needs
 # only PowerShell 5.1+; no Node, npm, or compiler.
 #
-#   irm https://jaimegonzalezjr.com/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.ps1 | iex
 #
 # Environment:
 #   JCODE_CHANNEL           release train to follow: stable, nightly, or preview

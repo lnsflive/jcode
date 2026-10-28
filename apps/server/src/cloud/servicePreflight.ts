@@ -27,7 +27,7 @@ export function runServicePreflight(input: {
       // reinstall itself and report success, so name the exact install and the path check.
       reason: [
         `The installed service launcher speaks protocol ${input.launcherProtocol}, but JCode ${version} requires protocol ${SERVICE_LAUNCHER_PROTOCOL}.`,
-        `On the server machine, install this exact CLI: \`curl -fsSL https://jaimegonzalezjr.com/install.sh | JCODE_VERSION=${version} sh\`.`,
+        `On the server machine, install this exact CLI: \`curl -fsSL https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.sh | JCODE_VERSION=${version} sh\`.`,
         `Check that \`jcode --version\` prints ${version} and that \`which -a jcode\` finds the expected install, then run \`~/.local/bin/jcode service install\`.`,
         "Updating the desktop app does not update this CLI, and `jcode service update` only repairs the service with whichever CLI runs it.",
       ].join(" "),

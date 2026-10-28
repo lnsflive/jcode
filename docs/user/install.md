@@ -11,13 +11,13 @@ launch JCode and configure providers afterwards.
 ## Command line
 
 ```bash
-curl -fsSL https://jaimegonzalezjr.com/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.sh | sh
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://jaimegonzalezjr.com/install.ps1 | iex
+irm https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.ps1 | iex
 ```
 
 This installs the `jcode` command to `~/.local/bin`. If your shell reports `command not found` afterwards, that directory is not on your `PATH` yet; the installer prints the

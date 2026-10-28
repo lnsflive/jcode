@@ -16,7 +16,7 @@ it.each([1])("blocks legacy launcher protocol %i with exact recovery steps", (la
   expect(reason).toMatch(new RegExp(`\\b${launcherProtocol}\\b`));
   expect(reason).toMatch(new RegExp(`\\b${SERVICE_LAUNCHER_PROTOCOL}\\b`));
   expect(reason).toContain(
-    "curl -fsSL https://jaimegonzalezjr.com/install.sh | JCODE_VERSION=9.8.7 sh",
+    "curl -fsSL https://raw.githubusercontent.com/lnsflive/jcode/main/scripts/install.sh | JCODE_VERSION=9.8.7 sh",
   );
   expect(reason).toContain("~/.local/bin/jcode service install");
   expect(reason).toContain("jcode --version");
