@@ -29,6 +29,7 @@ function runStep(stdout, exitCode = 0) {
         env: {
           PATH: process.env.PATH,
           RUNNER_TEMP: runnerTemp,
+          GITHUB_OUTPUT: join(runnerTemp, "github-output"),
           FIXTURE_STDOUT: stdout,
           FIXTURE_EXIT: String(exitCode),
         },
