@@ -1,6 +1,7 @@
 // @effect-diagnostics nodeBuiltinImport:off - Drives the real shell installer against a local GitHub fixture.
 import * as HostProcess from "@lnsflive/shared/HostProcess";
 import * as NodeChildProcess from "node:child_process";
+import * as NodeCrypto from "node:crypto";
 import * as NodeFSP from "node:fs/promises";
 import * as NodeHttp from "node:http";
 import * as NodeOS from "node:os";
@@ -13,6 +14,86 @@ const nightlies = Array.from({ length: 100 }, (_, index) => ({
 
 // regression: #22490
 describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer channel lookup", () => {
+  it.each([
+    ["jcode", false],
+    ["t3", false],
+    ["t3", true],
+  ])("verifies and installs %s release archives, corrupt=%s", async (brand, corrupt) => {
+    const root = await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "jcode-install-archive-"));
+    const stem = `${brand}-1.2.3-linux-${HostProcess.Architecture.defaultValue()}`;
+    const archive = `${stem}.tar.gz`;
+    const server = NodeHttp.createServer(async (request, response) => {
+      const name = request.url?.split("/").at(-1);
+      if (name !== archive && name !== "SHA256SUMS") {
+        response.writeHead(404).end();
+        return;
+      }
+      response.end(await NodeFSP.readFile(NodePath.join(root, name)));
+    });
+    try {
+      const source = NodePath.join(root, stem);
+      await NodeFSP.mkdir(source);
+      await NodeFSP.writeFile(NodePath.join(source, brand), '#!/bin/sh\necho "jcode v1.2.3"\n', {
+        mode: 0o755,
+      });
+      const packed = NodeChildProcess.spawnSync("tar", ["-czf", archive, stem], {
+        cwd: root,
+        encoding: "utf8",
+      });
+      expect(packed.status, packed.stderr).toBe(0);
+      const checksum = NodeCrypto.createHash("sha256")
+        .update(await NodeFSP.readFile(NodePath.join(root, archive)))
+        .digest("hex");
+      await NodeFSP.writeFile(NodePath.join(root, "SHA256SUMS"), `${checksum}  ${archive}\n`);
+      if (corrupt) await NodeFSP.appendFile(NodePath.join(root, archive), "corrupted");
+      await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("Expected a TCP listener");
+      const bin = NodePath.join(root, "bin");
+      const result = await new Promise<{ code: number | null; output: string }>(
+        (resolve, reject) => {
+          const child = NodeChildProcess.spawn(
+            "sh",
+            [NodePath.join(import.meta.dirname, "install.sh")],
+            {
+              env: {
+                ...process.env,
+                JCODE_VERSION: "1.2.3",
+                JCODE_HOME: NodePath.join(root, "home"),
+                JCODE_INSTALL_BIN_DIR: bin,
+                JCODE_RELEASE_BASE_URL: `http://127.0.0.1:${address.port}`,
+              },
+              stdio: ["ignore", "pipe", "pipe"],
+            },
+          );
+          let output = "";
+          child.stdout.on("data", (chunk: Buffer) => (output += chunk.toString()));
+          child.stderr.on("data", (chunk: Buffer) => (output += chunk.toString()));
+          child.once("error", reject);
+          child.once("close", (code) => resolve({ code, output }));
+        },
+      );
+      if (corrupt) {
+        expect(result.code).not.toBe(0);
+        expect(result.output).toContain("checksum mismatch");
+        await expect(NodeFSP.lstat(NodePath.join(bin, "jcode"))).rejects.toMatchObject({
+          code: "ENOENT",
+        });
+      } else {
+        expect(result.code, result.output).toBe(0);
+        const installed = NodeChildProcess.spawnSync(NodePath.join(bin, "jcode"), ["--version"], {
+          encoding: "utf8",
+        });
+        expect(installed.status, installed.stderr).toBe(0);
+        expect(installed.stdout.trim()).toBe("jcode v1.2.3");
+      }
+    } finally {
+      server.closeAllConnections();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+      await NodeFSP.rm(root, { recursive: true, force: true });
+    }
+  });
+
   it.each([
     ["stable", "1.2.3"],
     ["preview", "1.2.4-preview.20261019.50"],

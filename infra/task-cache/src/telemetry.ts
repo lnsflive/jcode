@@ -185,7 +185,6 @@ async function drainTelemetry(
 ) {
   const lock = NodePath.join(queue, "flush.lock");
   try {
-    NodeFS.mkdirSync(queue, { recursive: true, mode: 0o700 });
     try {
       if (Date.now() - NodeFS.statSync(lock).mtimeMs > 60_000) NodeFS.rmdirSync(lock);
     } catch {

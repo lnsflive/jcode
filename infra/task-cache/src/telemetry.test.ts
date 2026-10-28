@@ -18,6 +18,17 @@ const task = (result: unknown) => ({
   result,
 });
 
+it("does not recreate a removed home when a detached flusher starts late", async () => {
+  const home = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "cache-removed-home-"));
+  NodeFS.rmSync(home, { recursive: true });
+  try {
+    await flushTelemetry(home, {});
+    expect(NodeFS.existsSync(home)).toBe(false);
+  } finally {
+    NodeFS.rmSync(home, { recursive: true, force: true });
+  }
+});
+
 it("counts only confirmed hits, preserves their tier, and never transmits command text", () => {
   expect(
     summarize({

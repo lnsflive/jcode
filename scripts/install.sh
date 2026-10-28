@@ -213,17 +213,28 @@ else
   elif [ "$fetch_status" -ne 0 ]; then
     fail "could not download the release checksums"
   fi
+  # Early releases used the upstream t3 archive and executable names.
+  # Select only assets present in the release's checksum manifest.
+  expected="$(awk -v name="$archive" '$2 == name || $2 == "*" name { print $1 }' "${staging}/SHA256SUMS")"
+  legacy_archive=false
+  if [ -z "$expected" ]; then
+    archive="t3-${version}-${platform}-${arch}.tar.gz"
+    expected="$(awk -v name="$archive" '$2 == name || $2 == "*" name { print $1 }' "${staging}/SHA256SUMS")"
+    legacy_archive=true
+  fi
+  [ -n "$expected" ] || fail "${archive} is not listed in SHA256SUMS"
   download "${base_url}/v${version}/${archive}" "${staging}/${archive}"
 
   step "Verifying the download..."
-  expected="$(grep " \*\{0,1\}${archive}\$" "${staging}/SHA256SUMS" | cut -d' ' -f1)"
-  [ -n "$expected" ] || fail "${archive} is not listed in SHA256SUMS"
   actual="$(checksum "${staging}/${archive}")"
   [ "$actual" = "$expected" ] || fail "checksum mismatch for ${archive}"
 
   step "Extracting JCode..."
   tar -xzf "${staging}/${archive}" -C "$staging" --strip-components=1
   rm -f "${staging}/${archive}" "${staging}/SHA256SUMS"
+  if "$legacy_archive" && [ ! -e "${staging}/jcode" ] && [ -x "${staging}/t3" ]; then
+    ln -s t3 "${staging}/jcode"
+  fi
   "${staging}/jcode" --version >/dev/null || fail "the downloaded executable does not run"
   printf '%s\n' "$version" > "${staging}/.install-complete"
 
