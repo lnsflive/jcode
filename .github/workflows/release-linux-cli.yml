@@ -48,7 +48,15 @@ jobs:
           run-install: false
 
       - name: Install dependencies
-        run: vp install --filter=jcode... --filter=@lnsflive/web... --filter=@lnsflive/scripts...
+        run: vp install --filter=jcode... --filter=@lnsflive/web... --filter=@lnsflive/scripts... --filter=@lnsflive/task-cache...
+
+      - name: Test release installer
+        working-directory: scripts
+        run: vp test run --config ../vite.config.ts --dir . install.test.ts
+
+      - name: Test task cache lifecycle
+        working-directory: infra/task-cache
+        run: vp test run --config ../../vite.config.ts --dir . src/telemetry.test.ts src/runHook.test.ts
 
       - name: Build web client and server
         run: |
