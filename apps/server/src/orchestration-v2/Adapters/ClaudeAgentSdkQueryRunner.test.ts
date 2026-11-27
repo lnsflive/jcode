@@ -9,6 +9,7 @@ import * as NodeStream from "node:stream";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, describe, it } from "@effect/vitest";
 import { ProviderSessionId, ThreadId } from "@lnsflive/contracts";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Deferred from "effect/Deferred";
@@ -16,6 +17,7 @@ import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
+import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { vi } from "vite-plus/test";
 
@@ -450,6 +452,32 @@ describe.skipIf(HostProcess.Platform.defaultValue() === "win32")("Claude CLI pro
       yield* session.close;
       yield* Effect.promise(() => leftoverStopped);
       assert.strictEqual(yield* Deferred.await(stopped), "jcode-claude-test.scope");
+    }),
+  );
+
+  // Claude refuses some launches (for example root with bypassPermissions) with
+  // one stderr line and exit 1; the turn must say why instead of a bare failure.
+  it.effect("reports what the CLI printed when it exits during startup", () =>
+    Effect.gen(function* () {
+      const cli = fakeClaudeCli(
+        [
+          "echo '--dangerously-skip-permissions cannot be used with root/sudo privileges for security reasons' >&2",
+          "exit 1",
+        ].join("\n"),
+      );
+      yield* Effect.addFinalizer(() =>
+        Effect.sync(() => NodeFS.rmSync(NodePath.dirname(cli), { recursive: true, force: true })),
+      );
+      const session = yield* openFakeCli(cli).pipe(Effect.provide(realQueryRunner));
+      const result = yield* session.messages.pipe(Stream.runDrain, Effect.exit);
+
+      assert.isTrue(Exit.isFailure(result));
+      if (!Exit.isFailure(result)) return;
+      assert.strictEqual(
+        makeProviderFailure({ cause: Cause.squash(result.cause), class: "transport_error" })
+          .message,
+        "Claude Code exited before it could run the turn: --dangerously-skip-permissions cannot be used with root/sudo privileges for security reasons",
+      );
     }),
   );
 
