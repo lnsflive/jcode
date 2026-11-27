@@ -328,6 +328,7 @@ const CLAUDE_GROUP_WATCH_SCRIPT = [
 export function spawnClaudeProcessGroup(
   options: ClaudeSpawnOptions,
   onExit?: () => void,
+  onStderr?: (chunk: string) => void,
 ): ClaudeSpawnedProcess {
   const child = NodeChildProcess.spawn(
     "/bin/sh",
@@ -336,10 +337,11 @@ export function spawnClaudeProcessGroup(
       cwd: options.cwd,
       env: options.env,
       signal: options.signal,
-      stdio: ["pipe", "pipe", "ignore", "pipe"],
+      stdio: ["pipe", "pipe", onStderr === undefined ? "ignore" : "pipe", "pipe"],
       detached: true,
     },
   );
+  child.stderr?.setEncoding("utf8").on("data", (chunk: string) => onStderr?.(chunk));
   child.once("exit", () => {
     try {
       signalProcessGroup(child.pid ?? 0, "SIGKILL");
@@ -541,6 +543,34 @@ class ClaudeMcpRegistrationTimeoutError extends Schema.TaggedError<ClaudeMcpRegi
   override get message(): string {
     return "Claude timed out while registering its MCP tools. Retry the turn; if it keeps failing, check Claude and the server logs.";
   }
+}
+
+// Claude prints startup refusals (bad flags, root with bypassPermissions) only to stderr.
+export class ClaudeProcessExitError extends Schema.TaggedError<ClaudeProcessExitError>()(
+  "ClaudeProcessExitError",
+  {
+    stderr: Schema.String,
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {
+  override get message(): string {
+    return `Claude Code exited before it could run the turn: ${this.stderr}`;
+  }
+}
+
+const CLAUDE_STDERR_TAIL_CHARS = 2_048;
+
+function appendClaudeStderrTail(tail: string, chunk: string): string {
+  const next = tail + chunk;
+  return next.length <= CLAUDE_STDERR_TAIL_CHARS ? next : next.slice(-CLAUDE_STDERR_TAIL_CHARS);
+}
+
+/** Attach the CLI's own words to an SDK "process exited" error so the turn failure can show them. */
+export function withClaudeStderr(cause: unknown, stderrTail: string): unknown {
+  const stderr = stderrTail.trim();
+  if (stderr.length === 0 || !(cause instanceof Error)) return cause;
+  if (!/Claude Code process exited with code/u.test(cause.message)) return cause;
+  return new ClaudeProcessExitError({ stderr, cause });
 }
 
 export class ClaudeBackgroundWorkBlocksQueryReplacementError extends Schema.TaggedError<ClaudeBackgroundWorkBlocksQueryReplacementError>()(
@@ -961,10 +991,17 @@ export const layerQueryRunner: Layer.Layer<
           const unit = launch?.unit;
           const stopScope =
             unit === undefined ? undefined : () => void runFork(agentScope.stop(unit));
+          let stderrTail = "";
+          const onStderr = (chunk: string) => {
+            stderrTail = appendClaudeStderrTail(stderrTail, chunk);
+            options.stderr?.(chunk);
+          };
           const spawnProcess =
             options.spawnClaudeCodeProcess ??
             ((spawnOptions: ClaudeSpawnOptions) => {
-              if (platform !== "win32") return spawnClaudeProcessGroup(spawnOptions, stopScope);
+              if (platform !== "win32") {
+                return spawnClaudeProcessGroup(spawnOptions, stopScope, onStderr);
+              }
               const child = NodeChildProcess.spawn(spawnOptions.command, spawnOptions.args, {
                 cwd: spawnOptions.cwd,
                 env: spawnOptions.env,
@@ -972,17 +1009,25 @@ export const layerQueryRunner: Layer.Layer<
                 windowsHide: true,
                 stdio: ["pipe", "pipe", "pipe"],
               });
-              child.stderr
-                .setEncoding("utf8")
-                .on("data", (chunk: string) => options.stderr?.(chunk));
+              child.stderr.setEncoding("utf8").on("data", onStderr);
               return child;
             });
           let spawnedProcess: ClaudeSpawnedProcess | undefined;
           let processExited = false;
           let processExit: Promise<void> | undefined;
+          // The SDK reports the exit before the last stderr chunk may have been read.
+          let stderrClosed: Promise<void> = Promise.resolve();
           const spawnClaudeCodeProcess = (spawnOptions: ClaudeSpawnOptions) => {
             const child = spawnProcess(spawnOptions);
             spawnedProcess = child;
+            const stderr = (child as { readonly stderr?: NodeJS.ReadableStream | null }).stderr;
+            if (stderr != null) {
+              stderrClosed = new Promise<void>((resolve) => {
+                stderr.once("end", resolve);
+                stderr.once("close", resolve);
+                stderr.once("error", () => resolve());
+              });
+            }
             processExited = child.exitCode !== null || child.signalCode != null;
             processExit = new Promise<void>((resolve) => {
               if (processExited) resolve();
@@ -1083,6 +1128,25 @@ export const layerQueryRunner: Layer.Layer<
             messages: Stream.fromAsyncIterable(claudeQueryMessages(queryRuntime), (cause) =>
               queryRunnerError(cause, "fromAsyncIterable"),
             ).pipe(
+              Stream.catchCause((cause) =>
+                Stream.unwrap(
+                  Effect.promise(() => stderrClosed).pipe(
+                    Effect.timeoutOption("1 second"),
+                    Effect.map(() =>
+                      Stream.failCause(
+                        Cause.map(cause, (error) =>
+                          error.method === "fromAsyncIterable"
+                            ? new ClaudeAgentSdkQueryRunnerError({
+                                method: error.method,
+                                cause: withClaudeStderr(error.cause, stderrTail),
+                              })
+                            : error,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Stream.tap((message) =>
                 logProtocolEvent({
                   direction: "incoming",
@@ -4493,6 +4557,7 @@ export const makeClaudeAdapterV2 = Effect.fn("makeClaudeAdapterV2")(function* (
           );
         });
         const openedNativeThreads = yield* Ref.make(new Set<string>());
+        const unstartedNativeThreads = yield* Ref.make(new Set<string>());
         const pdfBudgets = new Map<string, ReturnType<typeof makeClaudeAttachmentBudget>>();
         const latestPlanByKind = yield* Ref.make(new Map<string, OrchestrationV2PlanArtifact>());
         // Claude 5 task tools edit one list per native session, across turns.
@@ -9724,8 +9789,11 @@ export const makeClaudeAdapterV2 = Effect.fn("makeClaudeAdapterV2")(function* (
           // Idle release loses openedNativeThreads; persisted turns still require resume to avoid "already in use".
           const hasPersistedProviderTurn =
             turnInput.nativeThreadHasTurns ?? turnInput.providerTurnOrdinal > 1;
+          // A CLI that exited before init never wrote the session, so resuming it can only fail.
+          const neverStarted = (yield* Ref.get(unstartedNativeThreads)).has(nativeThreadId);
           const shouldResume =
-            resumeSessionAt !== undefined || openedWithResume || hasPersistedProviderTurn;
+            resumeSessionAt !== undefined ||
+            (!neverStarted && (openedWithResume || hasPersistedProviderTurn));
           const toolSearchOverride = yield* resolveToolSearchOverride(turnInput.runtimePolicy.cwd);
           const queryOptions = makeClaudeQueryOptions({
             modelSelection: turnInput.modelSelection,
@@ -9846,6 +9914,23 @@ export const makeClaudeAdapterV2 = Effect.fn("makeClaudeAdapterV2")(function* (
                   heldContext.heldRootFrames.length > 0
                 ) {
                   yield* releaseHeldRootFrames(heldContext);
+                }
+                const exitedBeforeInit =
+                  exit._tag === "Failure" && !context.receivedInit && !shouldResume;
+                yield* Ref.update(unstartedNativeThreads, (current) => {
+                  if (exitedBeforeInit === current.has(nativeThreadId)) return current;
+                  const updated = new Set(current);
+                  if (exitedBeforeInit) updated.add(nativeThreadId);
+                  else updated.delete(nativeThreadId);
+                  return updated;
+                });
+                if (exitedBeforeInit) {
+                  yield* Ref.update(openedNativeThreads, (current) => {
+                    if (!current.has(nativeThreadId)) return current;
+                    const updated = new Set(current);
+                    updated.delete(nativeThreadId);
+                    return updated;
+                  });
                 }
                 const ownsLiveQuery = yield* Ref.modify(queryContext, (current) =>
                   current?.query === querySession ? [true, null] : [false, current],

@@ -92,6 +92,7 @@ function curatedCauseMessages(cause: unknown): {
         case "ClaudeAppendSystemPromptFileError":
         case "ClaudeAppendSystemPromptMissingValueError":
         case "ClaudeMcpRegistrationTimeoutError":
+        case "ClaudeProcessExitError":
         case "CursorModelUnavailableError":
           return { known: stringField(cause, "message"), category: categoryMessage() };
         case "ContextHandoffDeliveryUncertainError":
